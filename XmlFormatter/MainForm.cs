@@ -5,13 +5,24 @@ using System.Xml.Linq;
 
 namespace XmlFormatter
 {
+    /// <summary>
+    /// This class is representing the main form of the application
+    /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// This method will allow you to select the xml file you want to convert
+        /// </summary>
+        /// <param name="sender">Which control did call this method</param>
+        /// <param name="e">The event args given by the control</param>
         private void B_Select_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -26,6 +37,11 @@ namespace XmlFormatter
             TB_SelectedXml.Text = dialog.FileName;
         }
 
+        /// <summary>
+        /// This method will load the xml mentioned in the textbox and save it to a given location
+        /// </summary>
+        /// <param name="sender">Which control did call this method</param>
+        /// <param name="e">The event args given by the control</param>
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (TB_SelectedXml.Text == String.Empty)
