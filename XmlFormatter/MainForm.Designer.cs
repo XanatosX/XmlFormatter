@@ -32,6 +32,7 @@
             this.TB_SelectedXml = new System.Windows.Forms.TextBox();
             this.B_Save = new System.Windows.Forms.Button();
             this.L_SelectedPath = new System.Windows.Forms.Label();
+            this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // B_Select
@@ -70,11 +71,24 @@
             this.L_SelectedPath.TabIndex = 3;
             this.L_SelectedPath.Text = "Selected XML-file path";
             // 
+            // CB_Mode
+            // 
+            this.CB_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Mode.FormattingEnabled = true;
+            this.CB_Mode.Items.AddRange(new object[] {
+            "Formatted",
+            "Flat"});
+            this.CB_Mode.Location = new System.Drawing.Point(586, 53);
+            this.CB_Mode.Name = "CB_Mode";
+            this.CB_Mode.Size = new System.Drawing.Size(121, 21);
+            this.CB_Mode.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 93);
+            this.ClientSize = new System.Drawing.Size(800, 82);
+            this.Controls.Add(this.CB_Mode);
             this.Controls.Add(this.L_SelectedPath);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TB_SelectedXml);
@@ -82,6 +96,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "MainForm";
             this.Text = "XML Formatter";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,6 +108,7 @@
         private System.Windows.Forms.TextBox TB_SelectedXml;
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Label L_SelectedPath;
+        private System.Windows.Forms.ComboBox CB_Mode;
     }
 }
 

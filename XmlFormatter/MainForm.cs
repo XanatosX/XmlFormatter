@@ -72,5 +72,10 @@ namespace XmlFormatter
             XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
             fileToConvert.Save(saveFile.FileName, SaveOptions.None);
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            CB_Mode.SelectedIndex = 0;
+        }
     }
 }
