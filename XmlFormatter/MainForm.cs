@@ -82,23 +82,41 @@ namespace XmlFormatter
 
         }
 
+        /// <summary>
+        /// This method will save the file mentioned in the text box to the given output path as well formatted
+        /// </summary>
+        /// <param name="outputPath">The path to save the output file in</param>
         private void SaveFormatted(string outputPath)
         {
             XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
             fileToConvert.Save(outputPath, SaveOptions.None);
         }
 
+        /// <summary>
+        /// This method will save the file mentioned in the text box to the given output path as flat formatted
+        /// </summary>
+        /// <param name="outputPath">The path to save the output file in</param>
         private void SaveFlat(string outputPath)
         {
             XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
             fileToConvert.Save(outputPath, SaveOptions.DisableFormatting);
         }
 
+        /// <summary>
+        /// Loading the form event
+        /// </summary>
+        /// <param name="sender">The control triggering the method</param>
+        /// <param name="e">The event arguments</param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             CB_Mode.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// This method is the click event for the help menu
+        /// </summary>
+        /// <param name="sender">The control sending the click event</param>
+        /// <param name="e">The event arguments</param>
         private void MI_Help_Click(object sender, EventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
