@@ -102,12 +102,11 @@ namespace XmlFormatter
         private void MI_Help_Click(object sender, EventArgs e)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            string[] test = assembly.GetManifestResourceNames();
             using (Stream stream = assembly.GetManifestResourceStream("XmlFormatter.Version.txt"))
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    MessageBox.Show(, "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(reader.ReadToEnd(), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
