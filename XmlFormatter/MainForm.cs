@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Reflection;
 
 namespace XmlFormatter
 {
@@ -61,6 +62,9 @@ namespace XmlFormatter
             }
 
             SaveFileDialog saveFile = new SaveFileDialog();
+            FileInfo fi = new FileInfo(TB_SelectedXml.Text);
+            string name = fi.Name.Replace(fi.Extension, "");
+            saveFile.FileName = name + "_" + CB_Mode.SelectedItem.ToString() + fi.Extension;
             saveFile.Filter = "XML files (*.xml)|*.xml";
             DialogResult result = saveFile.ShowDialog();
 
@@ -69,8 +73,60 @@ namespace XmlFormatter
                 return;
             }
 
+            if (CB_Mode.SelectedIndex == 0)
+            {
+                SaveFormatted(saveFile.FileName);
+                return;
+            }
+            SaveFlat(saveFile.FileName);
+
+        }
+
+        /// <summary>
+        /// This method will save the file mentioned in the text box to the given output path as well formatted
+        /// </summary>
+        /// <param name="outputPath">The path to save the output file in</param>
+        private void SaveFormatted(string outputPath)
+        {
             XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
-            fileToConvert.Save(saveFile.FileName, SaveOptions.None);
+            fileToConvert.Save(outputPath, SaveOptions.None);
+        }
+
+        /// <summary>
+        /// This method will save the file mentioned in the text box to the given output path as flat formatted
+        /// </summary>
+        /// <param name="outputPath">The path to save the output file in</param>
+        private void SaveFlat(string outputPath)
+        {
+            XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
+            fileToConvert.Save(outputPath, SaveOptions.DisableFormatting);
+        }
+
+        /// <summary>
+        /// Loading the form event
+        /// </summary>
+        /// <param name="sender">The control triggering the method</param>
+        /// <param name="e">The event arguments</param>
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            CB_Mode.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// This method is the click event for the help menu
+        /// </summary>
+        /// <param name="sender">The control sending the click event</param>
+        /// <param name="e">The event arguments</param>
+        private void MI_Help_Click(object sender, EventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream("XmlFormatter.Version.txt"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    MessageBox.Show(reader.ReadToEnd(), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }
