@@ -19,6 +19,18 @@ namespace XmlFormatter
             InitializeComponent();
         }
 
+
+        /// <summary>
+        /// Loading the form event
+        /// </summary>
+        /// <param name="sender">The control triggering the method</param>
+        /// <param name="e">The event arguments</param>
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            CB_Mode.SelectedIndex = 0;
+            AllowDrop = true;
+        }
+
         /// <summary>
         /// This method will allow you to select the xml file you want to convert
         /// </summary>
@@ -103,16 +115,6 @@ namespace XmlFormatter
         }
 
         /// <summary>
-        /// Loading the form event
-        /// </summary>
-        /// <param name="sender">The control triggering the method</param>
-        /// <param name="e">The event arguments</param>
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            CB_Mode.SelectedIndex = 0;
-        }
-
-        /// <summary>
         /// This method is the click event for the help menu
         /// </summary>
         /// <param name="sender">The control sending the click event</param>
@@ -127,6 +129,41 @@ namespace XmlFormatter
                     MessageBox.Show(reader.ReadToEnd(), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        /// <summary>
+        /// This method is the drag enter event
+        /// </summary>
+        /// <param name="sender">The control sending the drag enter event</param>
+        /// <param name="e">The event arguments</param>
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length != 1)
+            {
+                return;
+            }
+            string fileName = files[0];
+            FileInfo fi = new FileInfo(fileName);
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) && fi.Extension.ToLower() == ".xml")
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender">The control sending the drag and drop event</param>
+        /// <param name="e">The event arguments</param>
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length != 1)
+            {
+                return;
+            }
+            TB_SelectedXml.Text = files[0];
         }
     }
 }
