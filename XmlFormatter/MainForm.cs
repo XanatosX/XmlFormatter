@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Reflection;
 
 namespace XmlFormatter
 {
@@ -96,6 +97,19 @@ namespace XmlFormatter
         private void MainForm_Load(object sender, EventArgs e)
         {
             CB_Mode.SelectedIndex = 0;
+        }
+
+        private void MI_Help_Click(object sender, EventArgs e)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string[] test = assembly.GetManifestResourceNames();
+            using (Stream stream = assembly.GetManifestResourceStream("XmlFormatter.Version.txt"))
+            {
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    MessageBox.Show(, "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }
