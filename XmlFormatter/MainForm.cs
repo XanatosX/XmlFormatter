@@ -61,6 +61,9 @@ namespace XmlFormatter
             }
 
             SaveFileDialog saveFile = new SaveFileDialog();
+            FileInfo fi = new FileInfo(TB_SelectedXml.Text);
+            string name = fi.Name.Replace(fi.Extension, "");
+            saveFile.FileName = name + "_" + CB_Mode.SelectedItem.ToString() + fi.Extension;
             saveFile.Filter = "XML files (*.xml)|*.xml";
             DialogResult result = saveFile.ShowDialog();
 
@@ -69,8 +72,25 @@ namespace XmlFormatter
                 return;
             }
 
+            if (CB_Mode.SelectedIndex == 0)
+            {
+                SaveFormatted(saveFile.FileName);
+                return;
+            }
+            SaveFlat(saveFile.FileName);
+
+        }
+
+        private void SaveFormatted(string outputPath)
+        {
             XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
-            fileToConvert.Save(saveFile.FileName, SaveOptions.None);
+            fileToConvert.Save(outputPath, SaveOptions.None);
+        }
+
+        private void SaveFlat(string outputPath)
+        {
+            XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
+            fileToConvert.Save(outputPath, SaveOptions.DisableFormatting);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
