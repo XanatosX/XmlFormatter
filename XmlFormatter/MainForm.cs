@@ -32,6 +32,7 @@ namespace XmlFormatter
         {
             CB_Mode.SelectedIndex = 0;
             AllowDrop = true;
+            MaximizeBox = false;
         }
 
         /// <summary>
