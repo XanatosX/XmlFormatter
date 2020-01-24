@@ -35,6 +35,8 @@
             this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MI_Help = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,10 +100,26 @@
             // 
             // MI_Help
             // 
+            this.MI_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_CheckForUpdate,
+            this.MI_About});
             this.MI_Help.Name = "MI_Help";
             this.MI_Help.Size = new System.Drawing.Size(44, 20);
             this.MI_Help.Text = "Help";
-            this.MI_Help.Click += new System.EventHandler(this.MI_Help_Click);
+            // 
+            // MI_CheckForUpdate
+            // 
+            this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
+            this.MI_CheckForUpdate.Text = "Check for update";
+            this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
+            // 
+            // MI_About
+            // 
+            this.MI_About.Name = "MI_About";
+            this.MI_About.Size = new System.Drawing.Size(180, 22);
+            this.MI_About.Text = "About";
+            this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
             // 
             // MainForm
             // 
@@ -137,6 +155,8 @@
         private System.Windows.Forms.ComboBox CB_Mode;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem MI_Help;
+        private System.Windows.Forms.ToolStripMenuItem MI_CheckForUpdate;
+        private System.Windows.Forms.ToolStripMenuItem MI_About;
     }
 }
 
