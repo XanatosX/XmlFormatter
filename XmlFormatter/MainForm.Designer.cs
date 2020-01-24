@@ -42,7 +42,7 @@
             // 
             // B_Select
             // 
-            this.B_Select.Location = new System.Drawing.Point(15, 66);
+            this.B_Select.Location = new System.Drawing.Point(15, 67);
             this.B_Select.Name = "B_Select";
             this.B_Select.Size = new System.Drawing.Size(75, 23);
             this.B_Select.TabIndex = 0;
@@ -52,14 +52,14 @@
             // 
             // TB_SelectedXml
             // 
-            this.TB_SelectedXml.Location = new System.Drawing.Point(15, 40);
+            this.TB_SelectedXml.Location = new System.Drawing.Point(15, 41);
             this.TB_SelectedXml.Name = "TB_SelectedXml";
             this.TB_SelectedXml.Size = new System.Drawing.Size(773, 20);
             this.TB_SelectedXml.TabIndex = 1;
             // 
             // B_Save
             // 
-            this.B_Save.Location = new System.Drawing.Point(713, 64);
+            this.B_Save.Location = new System.Drawing.Point(713, 66);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 2;
@@ -74,7 +74,7 @@
             this.L_SelectedPath.Name = "L_SelectedPath";
             this.L_SelectedPath.Size = new System.Drawing.Size(114, 13);
             this.L_SelectedPath.TabIndex = 3;
-            this.L_SelectedPath.Text = "Selected XML-file path";
+            this.L_SelectedPath.Text = "Selected XML file path";
             // 
             // CB_Mode
             // 
@@ -83,7 +83,7 @@
             this.CB_Mode.Items.AddRange(new object[] {
             "Formatted",
             "Flat"});
-            this.CB_Mode.Location = new System.Drawing.Point(586, 66);
+            this.CB_Mode.Location = new System.Drawing.Point(586, 67);
             this.CB_Mode.Name = "CB_Mode";
             this.CB_Mode.Size = new System.Drawing.Size(121, 21);
             this.CB_Mode.TabIndex = 4;
@@ -125,7 +125,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 93);
+            this.ClientSize = new System.Drawing.Size(800, 99);
             this.Controls.Add(this.CB_Mode);
             this.Controls.Add(this.L_SelectedPath);
             this.Controls.Add(this.B_Save);
