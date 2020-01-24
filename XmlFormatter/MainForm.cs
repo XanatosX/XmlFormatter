@@ -254,5 +254,10 @@ namespace XmlFormatter
                 Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + latestRelease.TagName);
             }
         }
+
+        private void MI_ReportIssue_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/XanatosX/XmlFormatter/issues");
+        }
     }
 }

@@ -37,6 +37,7 @@
             this.MI_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,6 +102,7 @@
             // MI_Help
             // 
             this.MI_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_ReportIssue,
             this.MI_CheckForUpdate,
             this.MI_About});
             this.MI_Help.Name = "MI_Help";
@@ -120,6 +122,13 @@
             this.MI_About.Size = new System.Drawing.Size(180, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
+            // 
+            // MI_ReportIssue
+            // 
+            this.MI_ReportIssue.Name = "MI_ReportIssue";
+            this.MI_ReportIssue.Size = new System.Drawing.Size(180, 22);
+            this.MI_ReportIssue.Text = "Report Issue";
+            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
             // 
             // MainForm
             // 
@@ -157,6 +166,7 @@
         private System.Windows.Forms.ToolStripMenuItem MI_Help;
         private System.Windows.Forms.ToolStripMenuItem MI_CheckForUpdate;
         private System.Windows.Forms.ToolStripMenuItem MI_About;
+        private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
     }
 }
 
