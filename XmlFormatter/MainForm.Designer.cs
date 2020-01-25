@@ -35,9 +35,10 @@
             this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.MI_Help = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
+            this.L_Status = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,32 +110,42 @@
             this.MI_Help.Size = new System.Drawing.Size(44, 20);
             this.MI_Help.Text = "Help";
             // 
+            // MI_ReportIssue
+            // 
+            this.MI_ReportIssue.Name = "MI_ReportIssue";
+            this.MI_ReportIssue.Size = new System.Drawing.Size(165, 22);
+            this.MI_ReportIssue.Text = "Report Issue";
+            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
+            // 
             // MI_CheckForUpdate
             // 
             this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
-            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(165, 22);
             this.MI_CheckForUpdate.Text = "Check for update";
             this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
             // 
             // MI_About
             // 
             this.MI_About.Name = "MI_About";
-            this.MI_About.Size = new System.Drawing.Size(180, 22);
+            this.MI_About.Size = new System.Drawing.Size(165, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
             // 
-            // MI_ReportIssue
+            // L_Status
             // 
-            this.MI_ReportIssue.Name = "MI_ReportIssue";
-            this.MI_ReportIssue.Size = new System.Drawing.Size(180, 22);
-            this.MI_ReportIssue.Text = "Report Issue";
-            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
+            this.L_Status.AutoSize = true;
+            this.L_Status.Location = new System.Drawing.Point(92, 72);
+            this.L_Status.Name = "L_Status";
+            this.L_Status.Size = new System.Drawing.Size(49, 13);
+            this.L_Status.TabIndex = 7;
+            this.L_Status.Text = "L_Status";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 99);
+            this.Controls.Add(this.L_Status);
             this.Controls.Add(this.CB_Mode);
             this.Controls.Add(this.L_SelectedPath);
             this.Controls.Add(this.B_Save);
@@ -167,6 +178,7 @@
         private System.Windows.Forms.ToolStripMenuItem MI_CheckForUpdate;
         private System.Windows.Forms.ToolStripMenuItem MI_About;
         private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
+        private System.Windows.Forms.Label L_Status;
     }
 }
 
