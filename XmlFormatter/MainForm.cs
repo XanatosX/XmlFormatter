@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Octokit;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace XmlFormatter
 {
@@ -14,12 +15,18 @@ namespace XmlFormatter
     /// </summary>
     public partial class MainForm : Form
     {
+        readonly string defaultStatus;
+
+        private delegate void SetControlEnableStatus(Control control);
+        private delegate void SetControlText(Control control);
+
         /// <summary>
         /// Constructor
         /// </summary>
         public MainForm()
         {
             InitializeComponent();
+            defaultStatus = "Status: ";
         }
 
 
@@ -33,6 +40,7 @@ namespace XmlFormatter
             CB_Mode.SelectedIndex = 0;
             AllowDrop = true;
             MaximizeBox = false;
+            L_Status.Text = defaultStatus;
         }
 
         /// <summary>
@@ -89,33 +97,56 @@ namespace XmlFormatter
                 return;
             }
 
-            if (CB_Mode.SelectedIndex == 0)
+
+            SwitchFormMode(false);
+            string inputFile = TB_SelectedXml.Text;
+            bool formattedMode = CB_Mode.SelectedIndex == 0;
+            SaveFormattedFile(inputFile, saveFile.FileName, formattedMode);
+            
+            return;
+        }
+
+        /// <summary>
+        /// This method will async save the file given input file to the given output file
+        /// </summary>
+        /// <param name="inputFilePath">The path to the input file</param>
+        /// <param name="outputFilePath">The path to the output file</param>
+        /// <param name="formatted">Should be formatted (true) or flat (false)</param>
+        /// <returns></returns>
+        private async Task<bool> SaveFormattedFile(string inputFilePath, string outputFilePath, bool formatted)
+        {
+            SaveOptions options = SaveOptions.DisableFormatting;
+            if (formatted)
             {
-                SaveFormatted(saveFile.FileName);
-                return;
+                options = SaveOptions.None;
             }
-            SaveFlat(saveFile.FileName);
+            L_Status.Text = defaultStatus + "Loading ...";
 
+            XElement fileToConvert = await Task<XElement>.Run(() =>
+            {
+                return XElement.Load(inputFilePath);
+            });
+
+            L_Status.Text = defaultStatus + "Saving ...";
+            await Task.Run(() => fileToConvert.Save(outputFilePath, options));
+
+            L_Status.Text = defaultStatus + "Saving done!";
+
+            SwitchFormMode(true);
+
+            return true;
         }
 
         /// <summary>
-        /// This method will save the file mentioned in the text box to the given output path as well formatted
+        /// This method will switch the form to a different state
         /// </summary>
-        /// <param name="outputPath">The path to save the output file in</param>
-        private void SaveFormatted(string outputPath)
+        /// <param name="enabled">The state is either true for useable or false for blocked</param>
+        private void SwitchFormMode(bool enabled)
         {
-            XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
-            fileToConvert.Save(outputPath, SaveOptions.None);
-        }
-
-        /// <summary>
-        /// This method will save the file mentioned in the text box to the given output path as flat formatted
-        /// </summary>
-        /// <param name="outputPath">The path to save the output file in</param>
-        private void SaveFlat(string outputPath)
-        {
-            XElement fileToConvert = XElement.Load(TB_SelectedXml.Text);
-            fileToConvert.Save(outputPath, SaveOptions.DisableFormatting);
+            B_Save.Enabled = enabled;
+            TB_SelectedXml.Enabled = enabled;
+            B_Select.Enabled = enabled;
+            AllowDrop = enabled;
         }
 
         /// <summary>
