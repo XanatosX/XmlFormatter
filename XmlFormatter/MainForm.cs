@@ -207,7 +207,7 @@ namespace XmlFormatter
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    versionString = reader.ReadToEnd();
+                    versionString = reader.ReadLine();
                 }
             }
 
@@ -222,7 +222,7 @@ namespace XmlFormatter
         private Version ConvertInnerFormatToProperVersion(string stringVersion)
         {
             stringVersion += ".0";
-            Regex regex = new Regex(@"[0-9]{1,}.[0-9]{1,}.[0-9]{1,}.[0-9]{1,}");
+            Regex regex = new Regex(@"[0-9]{1,}.[0-9]{1,}.[0-9]{1,}");
             if (!regex.IsMatch(stringVersion))
             {
                 stringVersion = "0.0.0.0";
