@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.B_Select = new System.Windows.Forms.Button();
             this.TB_SelectedXml = new System.Windows.Forms.TextBox();
             this.B_Save = new System.Windows.Forms.Button();
@@ -153,6 +154,7 @@
             this.Controls.Add(this.B_Select);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "XML Formatter";
