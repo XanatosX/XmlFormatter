@@ -50,7 +50,7 @@ The lat option is to simple drag and drop the file into the window, please keep 
 
 This will automaticly fill the textbox with the correct filepath.
 
-## Select the formatting mode
+### Select the formatting mode
 
 There are two differend modes to format one to flat out the file and one for proper formatting. You can select the mode on the dropdown near the save button.
 
@@ -62,7 +62,7 @@ There are two differend modes to format one to flat out the file and one for pro
 
 * Flat => Flat the file so it will need less space on your disk
 
-## Save the file
+### Save the file
 
 To finally save the file just click on the `Save` button. This will load the file into your ram convert it and write it back to the disk. While this action is in progress the window will be locked for other interactions.
 
