@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.B_Select = new System.Windows.Forms.Button();
             this.TB_SelectedXml = new System.Windows.Forms.TextBox();
@@ -40,6 +41,9 @@
             this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Status = new System.Windows.Forms.Label();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NI_Notification = new System.Windows.Forms.NotifyIcon(this.components);
+            this.MI_HideToTray = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,6 +98,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
             this.MI_Help});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -114,21 +119,21 @@
             // MI_ReportIssue
             // 
             this.MI_ReportIssue.Name = "MI_ReportIssue";
-            this.MI_ReportIssue.Size = new System.Drawing.Size(165, 22);
+            this.MI_ReportIssue.Size = new System.Drawing.Size(180, 22);
             this.MI_ReportIssue.Text = "Report Issue";
             this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
             // 
             // MI_CheckForUpdate
             // 
             this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
-            this.MI_CheckForUpdate.Size = new System.Drawing.Size(165, 22);
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
             this.MI_CheckForUpdate.Text = "Check for update";
             this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
             // 
             // MI_About
             // 
             this.MI_About.Name = "MI_About";
-            this.MI_About.Size = new System.Drawing.Size(165, 22);
+            this.MI_About.Size = new System.Drawing.Size(180, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
             // 
@@ -140,6 +145,27 @@
             this.L_Status.Size = new System.Drawing.Size(49, 13);
             this.L_Status.TabIndex = 7;
             this.L_Status.Text = "L_Status";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MI_HideToTray});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // NI_Notification
+            // 
+            this.NI_Notification.Icon = ((System.Drawing.Icon)(resources.GetObject("NI_Notification.Icon")));
+            this.NI_Notification.Text = "notifyIcon1";
+            this.NI_Notification.Click += new System.EventHandler(this.NI_Notification_Click);
+            // 
+            // MI_HideToTray
+            // 
+            this.MI_HideToTray.Name = "MI_HideToTray";
+            this.MI_HideToTray.Size = new System.Drawing.Size(180, 22);
+            this.MI_HideToTray.Text = "Hide to tray";
+            this.MI_HideToTray.Click += new System.EventHandler(this.MI_HideToTray_Click);
             // 
             // MainForm
             // 
@@ -158,9 +184,11 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "XML Formatter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -181,6 +209,9 @@
         private System.Windows.Forms.ToolStripMenuItem MI_About;
         private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
         private System.Windows.Forms.Label L_Status;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon NI_Notification;
+        private System.Windows.Forms.ToolStripMenuItem MI_HideToTray;
     }
 }
 

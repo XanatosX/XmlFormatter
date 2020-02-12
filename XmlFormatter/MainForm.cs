@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using Octokit;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using XmlFormatter.src.Manager;
+using XmlFormatter.src.DataContainer;
 
 namespace XmlFormatter
 {
@@ -191,57 +193,10 @@ namespace XmlFormatter
         /// <param name="e">The event arguments</param>
         private void MI_About_Click(object sender, EventArgs e)
         {
-            Version version = GetApplicationVersion();
-            MessageBox.Show(GetStringVersion(version), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            VersionManager manager = new VersionManager();
+            Version version = manager.GetApplicationVersion();
+            MessageBox.Show(manager.GetStringVersion(version), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-
-        /// <summary>
-        /// This method will return you the current version of the application
-        /// </summary>
-        /// <returns>The current version of the application</returns>
-        private Version GetApplicationVersion()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            string versionString = "0.0.0";
-            using (Stream stream = assembly.GetManifestResourceStream("XmlFormatter.Version.txt"))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    versionString = reader.ReadLine();
-                }
-            }
-
-            return ConvertInnerFormatToProperVersion(versionString);
-        }
-
-        /// <summary>
-        /// This method will convert a inner string version to a proper version instance
-        /// </summary>
-        /// <param name="stringVersion">The string version to use for converting</param>
-        /// <returns>A proper version class</returns>
-        private Version ConvertInnerFormatToProperVersion(string stringVersion)
-        {
-            stringVersion += ".0";
-            Regex regex = new Regex(@"[0-9]{1,}.[0-9]{1,}.[0-9]{1,}");
-            if (!regex.IsMatch(stringVersion))
-            {
-                stringVersion = "0.0.0.0";
-            }
-            Version version = new Version(stringVersion);
-
-            return version;
-        }
-
-        /// <summary>
-        /// This method will return you the string of a given version
-        /// </summary>
-        /// <param name="version">The version to get the string for</param>
-        /// <returns>A string representatiion of the given version</returns>
-        private string GetStringVersion(Version version)
-        {
-            return version.Major + "." + version.Minor + "." + version.Build;
-        }
-
 
         /// <summary>
         /// This method will check if there is newer version for download
@@ -250,30 +205,17 @@ namespace XmlFormatter
         /// <param name="e">The event data</param>
         private async void MI_CheckForUpdate_Click(object sender, EventArgs e)
         {
-            GitHubClient client = new GitHubClient(new ProductHeaderValue("XanatosX"));
-            var releases = await client.Repository.Release.GetAll("XanatosX", "XmlFormatter");
-            if (releases.Count == 0)
-            {
-                MessageBox.Show("Could't not find a version onn GitHub", "No version found");
-            }
-            Release latestRelease = releases[0];
-            string latest = latestRelease.Name;
-            Regex regex = new Regex(@"([0-9]{1,}.[0-9]{1,}.[0-9]{1,})");
-            Version gitHubVersion = null;
-            foreach (Match match in regex.Matches(latest))
-            {
-                gitHubVersion = ConvertInnerFormatToProperVersion(match.Value);
-            }
-
-            int compareResult = GetApplicationVersion().CompareTo(gitHubVersion);
+            VersionManager manager = new VersionManager();
+            manager.Error += Manager_Error;
+            VersionCompare versionCompare = await manager.GitHubVersionIsNewer();
             string text = "Your version is up to date";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
-            if (compareResult < 0)
-            {
+            if (versionCompare.GitHubIsNewer)
+            {;
                 text = "There is a newer version available";
 
-                text += "\n\nYour version: " + GetStringVersion(GetApplicationVersion());
-                text += "\nGitHub version: " + GetStringVersion(gitHubVersion);
+                text += "\n\nYour version: " + manager.GetStringVersion(versionCompare.LocalVersion);
+                text += "\nGitHub version: " + manager.GetStringVersion(versionCompare.GitHubVersion);
 
                 text += "\n\nDo you want to upgrade now?";
                 buttons = MessageBoxButtons.YesNo;
@@ -282,13 +224,108 @@ namespace XmlFormatter
             DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
             if (result == DialogResult.Yes)
             {
-                Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + latestRelease.TagName);
+                Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
             }
+
+            return;
         }
 
+        private void Manager_Error(object sender, src.EventMessages.BaseEventArgs e)
+        {
+            MessageBox.Show(e.Message, e.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Click on the report bug button
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments from the sender</param>
         private void MI_ReportIssue_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/XanatosX/XmlFormatter/issues");
+        }
+
+        /// <summary>
+        /// The close event of the form
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments from the sender</param>
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Properties.Settings.Default.AskBeforeClosing)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Do you really want to close this application?",
+                    "Close the application",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result != DialogResult.Yes)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Hide the application if the setting to minimize it is set
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments from the sender</param>
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized && Properties.Settings.Default.MinimizeToTray)
+            {
+                HideToTray();
+            }
+        }
+
+        /// <summary>
+        /// Hide the application to the tray icon
+        /// </summary>
+        private void HideToTray()
+        {
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+            NI_Notification.Visible = true;
+            if (Properties.Settings.Default.FirstTimeTray)
+            {
+                NI_Notification.ShowBalloonTip(
+                    5000,
+                    "Application in tray",
+                    "The application got minimized to the an tray icon, click it to reopen",
+                    ToolTipIcon.Info
+                );
+
+                Properties.Settings.Default.FirstTimeTray = false;
+                Properties.Settings.Default.Save();
+            }
+            TopMost = true;
+        }
+
+        /// <summary>
+        /// Clicking the notification Icon
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments sendet by the event caller</param>
+        private void NI_Notification_Click(object sender, EventArgs e)
+        {
+            ShowInTaskbar = true;
+            NI_Notification.Visible = false;
+            WindowState = FormWindowState.Normal;
+        }
+
+        /// <summary>
+        /// The click on the hide button
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
+        private void MI_HideToTray_Click(object sender, EventArgs e)
+        {
+            HideToTray();
         }
     }
 }
