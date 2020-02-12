@@ -2,9 +2,6 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
-using Octokit;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
@@ -172,7 +169,7 @@ namespace XmlFormatter.src.Windows
         }
 
         /// <summary>
-        /// 
+        /// This event will allow you to drag and drop a file
         /// </summary>
         /// <param name="sender">The control sending the drag and drop event</param>
         /// <param name="e">The event arguments</param>
@@ -230,6 +227,11 @@ namespace XmlFormatter.src.Windows
             return;
         }
 
+        /// <summary>
+        /// Manage the error throwen by the version manager
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
         private void Manager_Error(object sender, src.EventMessages.BaseEventArgs e)
         {
             MessageBox.Show(e.Message, e.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -328,6 +330,11 @@ namespace XmlFormatter.src.Windows
             HideToTray();
         }
 
+        /// <summary>
+        /// Event for clicking the settings button
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
         private void MI_Settings_Click(object sender, EventArgs e)
         {
             Settings settings = new Settings();
