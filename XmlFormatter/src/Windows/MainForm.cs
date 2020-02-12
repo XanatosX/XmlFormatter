@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.DataContainer;
 
-namespace XmlFormatter
+namespace XmlFormatter.src.Windows
 {
     /// <summary>
     /// This class is representing the main form of the application
@@ -326,6 +326,12 @@ namespace XmlFormatter
         private void MI_HideToTray_Click(object sender, EventArgs e)
         {
             HideToTray();
+        }
+
+        private void MI_Settings_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
     }
 }
