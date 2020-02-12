@@ -13,6 +13,9 @@ namespace XmlFormatter.src.Windows
 {
     public partial class Settings : Form
     {
+        /// <summary>
+        /// Create a new settings window
+        /// </summary>
         public Settings()
         {
             InitializeComponent();
@@ -21,11 +24,6 @@ namespace XmlFormatter.src.Windows
             SetupToolTip(CB_AskBeforeClose);
 
             SetupControls();
-
-        }
-
-        private void Settings_Load(object sender, EventArgs e)
-        {
 
         }
 
