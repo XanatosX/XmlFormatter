@@ -16,7 +16,7 @@ To "open" an xml file use the `Select XML`
 
 
 
-![SelectButton.png](\.github\Screenshots\SelectButton.png)
+![SelectButton.png](/.github/Screenshots/SelectButton.png)
 
 
 
@@ -26,7 +26,7 @@ This will open up an file selector where you can choose the file for converting
 
 
 
-![FileSelector.png](\.github\Screenshots\FileSelector.png)
+![FileSelector.png](/.github/Screenshots/FileSelector.png)
 
 
 
@@ -36,7 +36,7 @@ You can write the path to the file into the textbox to select it for the formatt
 
 
 
-![AddPathToFile.png](\.github\Screenshots\AddPathToFile.png)
+![AddPathToFile.png](/.github/Screenshots/AddPathToFile.png)
 
 
 
@@ -54,7 +54,7 @@ This will automaticly fill the textbox with the correct filepath.
 
 There are two differend modes to format one to flat out the file and one for proper formatting. You can select the mode on the dropdown near the save button.
 
-![ModeSelection.png](\.github\Screenshots\ModeSelection.png)
+![ModeSelection.png](/.github/Screenshots/ModeSelection.png)
 
 
 
