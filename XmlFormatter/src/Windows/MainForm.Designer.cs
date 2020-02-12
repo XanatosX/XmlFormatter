@@ -39,12 +39,12 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_HideToTray = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Help = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Status = new System.Windows.Forms.Label();
             this.NI_Notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.MI_Settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -100,7 +100,8 @@
             // 
             this.MI_MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.MI_Help});
+            this.MI_Help,
+            this.MI_ReportIssue});
             this.MI_MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MI_MainMenu.Name = "MI_MainMenu";
             this.MI_MainMenu.Size = new System.Drawing.Size(800, 24);
@@ -126,31 +127,23 @@
             // MI_Help
             // 
             this.MI_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MI_ReportIssue,
             this.MI_CheckForUpdate,
             this.MI_About});
             this.MI_Help.Name = "MI_Help";
             this.MI_Help.Size = new System.Drawing.Size(44, 20);
             this.MI_Help.Text = "Help";
             // 
-            // MI_ReportIssue
-            // 
-            this.MI_ReportIssue.Name = "MI_ReportIssue";
-            this.MI_ReportIssue.Size = new System.Drawing.Size(165, 22);
-            this.MI_ReportIssue.Text = "Report Issue";
-            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
-            // 
             // MI_CheckForUpdate
             // 
             this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
-            this.MI_CheckForUpdate.Size = new System.Drawing.Size(165, 22);
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
             this.MI_CheckForUpdate.Text = "Check for update";
             this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
             // 
             // MI_About
             // 
             this.MI_About.Name = "MI_About";
-            this.MI_About.Size = new System.Drawing.Size(165, 22);
+            this.MI_About.Size = new System.Drawing.Size(180, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
             // 
@@ -175,6 +168,13 @@
             this.MI_Settings.Size = new System.Drawing.Size(180, 22);
             this.MI_Settings.Text = "Settings";
             this.MI_Settings.Click += new System.EventHandler(this.MI_Settings_Click);
+            // 
+            // MI_ReportIssue
+            // 
+            this.MI_ReportIssue.Name = "MI_ReportIssue";
+            this.MI_ReportIssue.Size = new System.Drawing.Size(83, 20);
+            this.MI_ReportIssue.Text = "Report Issue";
+            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
             // 
             // MainForm
             // 
@@ -216,12 +216,12 @@
         private System.Windows.Forms.ToolStripMenuItem MI_Help;
         private System.Windows.Forms.ToolStripMenuItem MI_CheckForUpdate;
         private System.Windows.Forms.ToolStripMenuItem MI_About;
-        private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
         private System.Windows.Forms.Label L_Status;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.NotifyIcon NI_Notification;
         private System.Windows.Forms.ToolStripMenuItem MI_HideToTray;
         private System.Windows.Forms.ToolStripMenuItem MI_Settings;
+        private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
     }
 }
 
