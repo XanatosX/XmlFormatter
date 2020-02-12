@@ -117,17 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Settings_CB_AskBeforeClose_Message" xml:space="preserve">
-    <value>If this option is active the application will ask you before closing.</value>
-  </data>
-  <data name="Settings_CB_AskBeforeClose_Title" xml:space="preserve">
-    <value>Ask before closing</value>
-  </data>
-  <data name="Settings_CB_MinimizeToTray_Message" xml:space="preserve">
-    <value>This option will change the minimize behavior of the main window
-If this is set the application will be minimized to an tray icon instead of the task bar.</value>
-  </data>
-  <data name="Settings_CB_MinimizeToTray_Title" xml:space="preserve">
-    <value>Minimize to tray</value>
-  </data>
+  <metadata name="TT_Components.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>
