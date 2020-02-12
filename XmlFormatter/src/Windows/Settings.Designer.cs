@@ -29,9 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CB_MinimizeToTray = new System.Windows.Forms.CheckBox();
             this.CB_AskBeforeClose = new System.Windows.Forms.CheckBox();
+            this.CB_MinimizeToTray = new System.Windows.Forms.CheckBox();
             this.B_SaveAndClose = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.TT_Components = new System.Windows.Forms.ToolTip(this.components);
@@ -49,16 +50,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application settings";
             // 
-            // CB_MinimizeToTray
-            // 
-            this.CB_MinimizeToTray.AutoSize = true;
-            this.CB_MinimizeToTray.Location = new System.Drawing.Point(6, 19);
-            this.CB_MinimizeToTray.Name = "CB_MinimizeToTray";
-            this.CB_MinimizeToTray.Size = new System.Drawing.Size(98, 17);
-            this.CB_MinimizeToTray.TabIndex = 0;
-            this.CB_MinimizeToTray.Text = "Minimize to tray";
-            this.CB_MinimizeToTray.UseVisualStyleBackColor = true;
-            // 
             // CB_AskBeforeClose
             // 
             this.CB_AskBeforeClose.AutoSize = true;
@@ -68,6 +59,16 @@
             this.CB_AskBeforeClose.TabIndex = 1;
             this.CB_AskBeforeClose.Text = "Ask before closing";
             this.CB_AskBeforeClose.UseVisualStyleBackColor = true;
+            // 
+            // CB_MinimizeToTray
+            // 
+            this.CB_MinimizeToTray.AutoSize = true;
+            this.CB_MinimizeToTray.Location = new System.Drawing.Point(6, 19);
+            this.CB_MinimizeToTray.Name = "CB_MinimizeToTray";
+            this.CB_MinimizeToTray.Size = new System.Drawing.Size(98, 17);
+            this.CB_MinimizeToTray.TabIndex = 0;
+            this.CB_MinimizeToTray.Text = "Minimize to tray";
+            this.CB_MinimizeToTray.UseVisualStyleBackColor = true;
             // 
             // B_SaveAndClose
             // 
@@ -98,6 +99,7 @@
             this.Controls.Add(this.B_SaveAndClose);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Settings";
