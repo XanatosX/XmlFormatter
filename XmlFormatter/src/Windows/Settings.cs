@@ -8,6 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using System.Xml.XPath;
+using XmlFormatter.src.Manager;
 
 namespace XmlFormatter.src.Windows
 {
@@ -71,12 +74,16 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments of the sendfer</param>
         private void B_SaveAndClose_Click(object sender, EventArgs e)
         {
+            WriteSettings();
+            B_Cancel.PerformClick();
+        }
+
+        private void WriteSettings()
+        {
             Properties.Settings.Default.MinimizeToTray = CB_MinimizeToTray.Checked;
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
-
             Properties.Settings.Default.Save();
-            B_Cancel.PerformClick();
         }
 
         /// <summary>
@@ -88,6 +95,85 @@ namespace XmlFormatter.src.Windows
         {
             Properties.Settings.Default.Reload();
             this.Close();
+        }
+
+        /// <summary>
+        /// This method will export the settings of the application so you can use it on another computer
+        /// </summary>
+        /// <param name="sender">The sender wo called the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
+        private void exportSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML files(*.xml)| *.xml";
+            saveFileDialog.FileName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            saveFileDialog.FileName += "_";
+            saveFileDialog.FileName += Application.ProductName;
+            saveFileDialog.FileName += "Settings";
+            saveFileDialog.FileName += "_V";
+            saveFileDialog.FileName += Properties.Settings.Default.ApplicationVersion;
+
+            DialogResult result = saveFileDialog.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            WriteSettings();
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            configuration.SaveAs(saveFileDialog.FileName);
+        }
+
+        /// <summary>
+        /// This method will allow you to import the exported settings back into the application
+        /// </summary>
+        /// <param name="sender">The sender wo called the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
+        private void importSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "XML files(*.xml)| *.xml";
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                XDocument settingsDocument = XDocument.Load(openFileDialog.FileName);
+                XNode versionNode = settingsDocument.XPathSelectElement("//userSettings//setting[@name='ApplicationVersion']//value");
+                XElement Version = XElement.Parse(versionNode.ToString());
+                string loadedVersion = Version.Value;
+                VersionManager versionManager = new VersionManager();
+                Version importFileVersion = versionManager.ConvertInnerFormatToProperVersion(loadedVersion);
+                if (importFileVersion != versionManager.GetApplicationVersion())
+                {
+                    string message = "Application version is not matching settings version";
+                    message += "\r\n\r\nApplication Version: " + versionManager.GetApplicationVersion();
+                    message += "\r\nSettings Version: " + importFileVersion;
+                    MessageBox.Show(message, "Version not matching", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                var elements = settingsDocument.XPathSelectElements("//userSettings//setting");
+                
+                foreach (var setting in elements)
+                {
+                    string name = setting.Attribute("name").Value.ToString();
+                    string value = setting.XPathSelectElement("value").FirstNode.ToString();
+                    Type currentType = Properties.Settings.Default[name].GetType();
+                    var realValue = Convert.ChangeType(value, currentType);
+                    Properties.Settings.Default[name] = realValue;
+                }
+                SetupControls();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Import went wrong!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
     }
 }
