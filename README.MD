@@ -19,7 +19,7 @@ To "open" an xml file use the `Select XML`
 
 
 
-This will open up an file selector where you can choose the file for converting
+This will open up a file selector where you can choose the file for converting
 
 
 
@@ -45,13 +45,13 @@ Please make sure that the file is a valid xml file and is located at the path yo
 
 #### 3. Drag the file onto the window
 
-The lat option is to simple drag and drop the file into the window, please keep in mind that you can only drag one file for converting.
+The last option is to simple drag and drop the file into the window, please keep in mind that you can only drag one file for converting.
 
-This will automaticly fill the textbox with the correct filepath.
+This will automatically fill the textbox with the correct file path.
 
 ### Select the formatting mode
 
-There are two differend modes to format one to flat out the file and one for proper formatting. You can select the mode on the dropdown near the save button.
+There are two different modes to format one to flat out the file and one for proper formatting. You can select the mode on the dropdown near the save button.
 
 ![ModeSelection.png](/.github/Screenshots/ModeSelection.png)
 
@@ -73,18 +73,18 @@ To get started with the project you should check the following requirements
 
 ## Getting a working build
 
-You should fullfill the pre-requirements for this steps first.
+You should fulfill the pre-requirements for these steps first.
 
 1. Clone this project `git clone git@github.com:XanatosX/XmlFormatter.git`
-2. Download the nuget dependencies before compiling. If you IDE is not doing this on loading the project file use `nuget restore` in the root folder
+2. Download the NuGet dependencies before compiling. If you IDE is not doing this on loading the project file use `nuget restore` in the root folder
 3. Start the build in your IDE
 
 
 ## Contributions
 
-If you have found a bug or an feature idea feel free to create an issue [here](https://github.com/XanatosX/XmlFormatter/issues). Before you open up a new issue, please search to see if it was already reported. In your issue try to be as detailed as possible.
+If you have found a bug or a feature idea feel free to create an issue [here](https://github.com/XanatosX/XmlFormatter/issues). Before you open up a new issue, please search to see if it was already reported. In your issue try to be as detailed as possible.
 
-If you want to contribute fixes or features to the this project, please read our [contributors guide](CONTRIBUTING.MD) first.
+If you want to contribute fixes or features to this project, please read our [contributors guide](CONTRIBUTING.MD) first.
 
 
 ## Using the Source Code
