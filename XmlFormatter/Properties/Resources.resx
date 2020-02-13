@@ -123,6 +123,12 @@
   <data name="Settings_CB_AskBeforeClose_Title" xml:space="preserve">
     <value>Ask before closing</value>
   </data>
+  <data name="Settings_CB_CheckUpdatesOnStartup_Message" xml:space="preserve">
+    <value>If you activate this option the application will search for updates on startup</value>
+  </data>
+  <data name="Settings_CB_CheckUpdatesOnStartup_Title" xml:space="preserve">
+    <value>Search for updates on startup</value>
+  </data>
   <data name="Settings_CB_MinimizeToTray_Message" xml:space="preserve">
     <value>This option will change the minimize behavior of the main window
 If this is set the application will be minimized to an tray icon instead of the task bar.</value>

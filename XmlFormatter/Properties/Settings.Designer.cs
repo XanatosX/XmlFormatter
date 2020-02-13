@@ -58,5 +58,17 @@ namespace XmlFormatter.Properties {
                 this["FirstTimeTray"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SearchUpdateOnStartup {
+            get {
+                return ((bool)(this["SearchUpdateOnStartup"]));
+            }
+            set {
+                this["SearchUpdateOnStartup"] = value;
+            }
+        }
     }
 }

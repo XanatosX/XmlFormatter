@@ -22,6 +22,7 @@ namespace XmlFormatter.src.Windows
 
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
+            SetupToolTip(CB_CheckUpdatesOnStartup);
 
             SetupControls();
 
@@ -60,6 +61,7 @@ namespace XmlFormatter.src.Windows
         {
             CB_MinimizeToTray.Checked = Properties.Settings.Default.MinimizeToTray;
             CB_AskBeforeClose.Checked = Properties.Settings.Default.AskBeforeClosing;
+            CB_CheckUpdatesOnStartup.Checked = Properties.Settings.Default.SearchUpdateOnStartup;
         }
 
         /// <summary>
@@ -71,6 +73,7 @@ namespace XmlFormatter.src.Windows
         {
             Properties.Settings.Default.MinimizeToTray = CB_MinimizeToTray.Checked;
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
+            Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
 
             Properties.Settings.Default.Save();
             B_Cancel.PerformClick();
