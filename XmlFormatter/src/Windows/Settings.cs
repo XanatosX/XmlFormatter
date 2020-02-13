@@ -89,5 +89,32 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.Reload();
             this.Close();
         }
+
+        /// <summary>
+        /// This method will export the settings of the application so you can use it on another computer
+        /// </summary>
+        /// <param name="sender">The sender wo called the event</param>
+        /// <param name="e">The arguments provided by the sender</param>
+        private void exportSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML files(*.xml)| *.xml";
+            saveFileDialog.FileName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            saveFileDialog.FileName += "_";
+            saveFileDialog.FileName += Application.ProductName;
+            saveFileDialog.FileName += "Settings";
+            saveFileDialog.FileName += "_V";
+            saveFileDialog.FileName += Properties.Settings.Default.ApplicationVersion;
+
+            DialogResult result = saveFileDialog.ShowDialog();
+
+            if (result != DialogResult.OK)
+            {
+                return;
+            }
+
+            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            configuration.SaveAs(saveFileDialog.FileName);
+        }
     }
 }
