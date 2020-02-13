@@ -23,6 +23,10 @@ namespace XmlFormatter.src.Windows
         {
             InitializeComponent();
             defaultStatus = "Status: ";
+            VersionManager versionManager = new VersionManager();
+            string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
+            Properties.Settings.Default.ApplicationVersion = currentVersion;
+            Properties.Settings.Default.Save();
         }
 
 
