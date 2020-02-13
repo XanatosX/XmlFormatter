@@ -16,9 +16,6 @@ namespace XmlFormatter.src.Windows
     {
         readonly string defaultStatus;
 
-        private delegate void SetControlEnableStatus(Control control);
-        private delegate void SetControlText(Control control);
-
         /// <summary>
         /// Constructor
         /// </summary>
