@@ -16,7 +16,7 @@ You should learn or be familiar [how to use git](https://help.github.com/en/gith
 
 * **NEVER** commit code you did not write on your own
 * **Please** keep your Pull Requests focused to a single feature or bug, keep them reasonable sized so it can be reviewed quicker. 
-* **Please** write always a commit message which is simple and descripitive.
+* **Please** write always a commit message which is simple and descriptive.
 * **Do not** create a new big feature without discussing this in an [Feature Request](https://github.com/D-Generation-S/Tank/issues) first
 * **Please** be friendly to any contributor you write to in an issue or by reviewing his code.
 
