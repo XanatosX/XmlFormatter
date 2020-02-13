@@ -98,8 +98,6 @@ namespace XmlFormatter.src.Windows
             string inputFile = TB_SelectedXml.Text;
             bool formattedMode = CB_Mode.SelectedIndex == 0;
             SaveFormattedFile(inputFile, saveFile.FileName, formattedMode);
-            
-            return;
         }
 
         /// <summary>
