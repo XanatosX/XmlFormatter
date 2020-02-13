@@ -16,11 +16,6 @@ namespace XmlFormatter.src.Manager
     {
         public event EventHandler<BaseEventArgs> Error;
 
-        public VersionManager()
-        {
-
-        }
-
         /// <summary>
         /// This method will return you the current version of the application
         /// </summary>
