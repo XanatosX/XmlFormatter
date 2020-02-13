@@ -264,9 +264,7 @@ namespace XmlFormatter.src.Windows
                 if (result != DialogResult.Yes)
                 {
                     e.Cancel = true;
-                    return;
                 }
-
             }
         }
 
