@@ -19,7 +19,7 @@ namespace XmlFormatter.src.DataContainer
         public Version GitHubVersion => gitHubVersion;
 
         private readonly Release lastestRelease;
-        public Release LatestRelease => LatestRelease;
+        public Release LatestRelease => lastestRelease;
 
         /// <summary>
         /// Create an new instance of this class
