@@ -79,6 +79,24 @@ namespace XmlFormatter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you activate this option the application will search for updates on startup.
+        /// </summary>
+        internal static string Settings_CB_CheckUpdatesOnStartup_Message {
+            get {
+                return ResourceManager.GetString("Settings_CB_CheckUpdatesOnStartup_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search for updates on startup.
+        /// </summary>
+        internal static string Settings_CB_CheckUpdatesOnStartup_Title {
+            get {
+                return ResourceManager.GetString("Settings_CB_CheckUpdatesOnStartup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This option will change the minimize behavior of the main window
         ///If this is set the application will be minimized to an tray icon instead of the task bar..
         /// </summary>
