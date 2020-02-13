@@ -208,7 +208,7 @@ namespace XmlFormatter.src.Windows
             string text = "Your version is up to date";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
             if (versionCompare.GitHubIsNewer)
-            {;
+            {
                 text = "There is a newer version available";
 
                 text += "\n\nYour version: " + manager.GetStringVersion(versionCompare.LocalVersion);
@@ -223,8 +223,6 @@ namespace XmlFormatter.src.Windows
             {
                 Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
             }
-
-            return;
         }
 
         /// <summary>
