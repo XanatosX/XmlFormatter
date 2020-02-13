@@ -38,13 +38,13 @@
             this.MI_MainMenu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_HideToTray = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_CheckForUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Status = new System.Windows.Forms.Label();
             this.NI_Notification = new System.Windows.Forms.NotifyIcon(this.components);
-            this.MI_Settings = new System.Windows.Forms.ToolStripMenuItem();
-            this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.MI_MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,9 +120,16 @@
             // MI_HideToTray
             // 
             this.MI_HideToTray.Name = "MI_HideToTray";
-            this.MI_HideToTray.Size = new System.Drawing.Size(180, 22);
+            this.MI_HideToTray.Size = new System.Drawing.Size(136, 22);
             this.MI_HideToTray.Text = "Hide to tray";
             this.MI_HideToTray.Click += new System.EventHandler(this.MI_HideToTray_Click);
+            // 
+            // MI_Settings
+            // 
+            this.MI_Settings.Name = "MI_Settings";
+            this.MI_Settings.Size = new System.Drawing.Size(136, 22);
+            this.MI_Settings.Text = "Settings";
+            this.MI_Settings.Click += new System.EventHandler(this.MI_Settings_Click);
             // 
             // MI_Help
             // 
@@ -136,16 +143,23 @@
             // MI_CheckForUpdate
             // 
             this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
-            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(165, 22);
             this.MI_CheckForUpdate.Text = "Check for update";
             this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
             // 
             // MI_About
             // 
             this.MI_About.Name = "MI_About";
-            this.MI_About.Size = new System.Drawing.Size(180, 22);
+            this.MI_About.Size = new System.Drawing.Size(165, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
+            // 
+            // MI_ReportIssue
+            // 
+            this.MI_ReportIssue.Name = "MI_ReportIssue";
+            this.MI_ReportIssue.Size = new System.Drawing.Size(83, 20);
+            this.MI_ReportIssue.Text = "Report Issue";
+            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
             // 
             // L_Status
             // 
@@ -161,20 +175,6 @@
             this.NI_Notification.Icon = ((System.Drawing.Icon)(resources.GetObject("NI_Notification.Icon")));
             this.NI_Notification.Text = "notifyIcon1";
             this.NI_Notification.Click += new System.EventHandler(this.NI_Notification_Click);
-            // 
-            // MI_Settings
-            // 
-            this.MI_Settings.Name = "MI_Settings";
-            this.MI_Settings.Size = new System.Drawing.Size(180, 22);
-            this.MI_Settings.Text = "Settings";
-            this.MI_Settings.Click += new System.EventHandler(this.MI_Settings_Click);
-            // 
-            // MI_ReportIssue
-            // 
-            this.MI_ReportIssue.Name = "MI_ReportIssue";
-            this.MI_ReportIssue.Size = new System.Drawing.Size(83, 20);
-            this.MI_ReportIssue.Text = "Report Issue";
-            this.MI_ReportIssue.Click += new System.EventHandler(this.MI_ReportIssue_Click);
             // 
             // MainForm
             // 
