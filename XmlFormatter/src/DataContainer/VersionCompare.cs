@@ -19,7 +19,7 @@ namespace XmlFormatter.src.DataContainer
         public Version GitHubVersion => gitHubVersion;
 
         private readonly Release lastestRelease;
-        public Release LatestRelease;
+        public Release LatestRelease => LatestRelease;
 
         /// <summary>
         /// Create an new instance of this class
@@ -33,7 +33,7 @@ namespace XmlFormatter.src.DataContainer
             this.gitHubIsNewer = gitHubIsNewer;
             this.localVersion = localVersion;
             this.gitHubVersion = gitHubVersion;
-            this.LatestRelease = latestRelease;
+            this.lastestRelease = latestRelease;
         }
 
     }
