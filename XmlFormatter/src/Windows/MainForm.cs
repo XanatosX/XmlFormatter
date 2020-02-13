@@ -37,6 +37,11 @@ namespace XmlFormatter.src.Windows
             AllowDrop = true;
             MaximizeBox = false;
             L_Status.Text = defaultStatus;
+
+            if (Properties.Settings.Default.SearchUpdateOnStartup)
+            {
+                CheckForUpdatedVersion(true);
+            }
         }
 
         /// <summary>
@@ -195,11 +200,31 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The control triggering the event</param>
         /// <param name="e">The event data</param>
-        private async void MI_CheckForUpdate_Click(object sender, EventArgs e)
+        private void MI_CheckForUpdate_Click(object sender, EventArgs e)
+        {
+            CheckForUpdatedVersion();
+        }
+
+        /// <summary>
+        /// This method will check if there is an updated version available and show an text box if there is something new.
+        /// </summary>
+        private async void CheckForUpdatedVersion()
+        {
+            CheckForUpdatedVersion(false);
+        }
+
+        /// <summary>
+        /// This method will check if there is an updated version available and shouw you the information as text box
+        /// </summary>
+        /// <param name="onlyShowNewBox">If this is active there will be no text box if the version is up to date</param>
+        private async void CheckForUpdatedVersion(bool onlyShowNewBox)
         {
             VersionManager manager = new VersionManager();
             manager.Error += Manager_Error;
             VersionCompare versionCompare = await manager.GitHubVersionIsNewer();
+
+            bool forceShow = false;
+
             string text = "Your version is up to date";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
             if (versionCompare.GitHubIsNewer)
@@ -211,12 +236,16 @@ namespace XmlFormatter.src.Windows
 
                 text += "\n\nDo you want to upgrade now?";
                 buttons = MessageBoxButtons.YesNo;
+                forceShow = true;
             }
 
-            DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
-            if (result == DialogResult.Yes)
+            if (forceShow || !onlyShowNewBox)
             {
-                Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
+                DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
+                if (result == DialogResult.Yes)
+                {
+                    Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
+                }
             }
         }
 
