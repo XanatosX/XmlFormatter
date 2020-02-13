@@ -326,6 +326,7 @@ namespace XmlFormatter.src.Windows
                 Properties.Settings.Default.Save();
             }
             TopMost = true;
+            TopMost = false;
         }
 
         /// <summary>
