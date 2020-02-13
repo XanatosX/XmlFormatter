@@ -151,8 +151,8 @@ namespace XmlFormatter.src.Windows
                 if (importFileVersion != versionManager.GetApplicationVersion())
                 {
                     string message = "Application version is not matching settings version";
-                    message += "\r\n\r\nApplication Version: " + versionManager.GetApplicationVersion().ToString();
-                    message += "\r\nSettings Version: " + importFileVersion.ToString();
+                    message += "\r\n\r\nApplication Version: " + versionManager.GetApplicationVersion();
+                    message += "\r\nSettings Version: " + importFileVersion;
                     MessageBox.Show(message, "Version not matching", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
