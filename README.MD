@@ -6,6 +6,17 @@
 
 This project is a lightweight tool to convert xml files from a flat to a formatted format or the other way round.
 
+## How to "install" this application
+
+### Pre-Requirements
+
+You will need the .NET Framework 4.7 or newer installed on your machine. This is installed on default on Windows 10.
+
+### Installation
+
+1. Download the newest zip file from the [Release](https://github.com/XanatosX/XmlFormatter/releases) tab.
+2. Unzip the content of the file somewhere on your computer
+	* You do not need the `LICENSE` file.
 
 ## How to use this application
 
