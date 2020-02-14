@@ -1,4 +1,8 @@
 # XML Formatter
+[![Build status](https://ci.appveyor.com/api/projects/status/od60o55s004tdjnn/branch/master?svg=true)](https://ci.appveyor.com/project/XanatosX/xmlformatter/branch/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d82f0208f13547ff890deff9207bb4c4)](https://www.codacy.com/manual/simonaberle/XmlFormatter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=XanatosX/XmlFormatter&amp;utm_campaign=Badge_Grade)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_shield)
+
 
 This project is a lightweight tool to convert xml files from a flat to a formatted format or the other way round.
 
@@ -90,5 +94,13 @@ If you want to contribute fixes or features to this project, please read our [co
 ## Using the Source Code
 
 The full source code and all the required assets are available here on GitHub.
+
+## License
+
+This project is using the [MIT License](LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_large)
+
+
 
 
