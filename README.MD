@@ -15,8 +15,13 @@ You will need the .NET Framework 4.7 or newer installed on your machine. This is
 ### Installation
 
 1. Download the newest zip file from the [Release](https://github.com/XanatosX/XmlFormatter/releases) tab.
+	1. Click on the topmost entry in the list
+	2. Click on the zip file in the `Assets` area
 2. Unzip the content of the file somewhere on your computer
 	* You do not need the `LICENSE` file.
+3. Start the unzipped `XmlFormatter.exe` file.
+
+This application is portable, just copy the zip content to a portable disk.
 
 ## How to use this application
 
