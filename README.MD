@@ -1,7 +1,27 @@
 # XML Formatter
+[![Build status](https://ci.appveyor.com/api/projects/status/od60o55s004tdjnn/branch/master?svg=true)](https://ci.appveyor.com/project/XanatosX/xmlformatter/branch/master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d82f0208f13547ff890deff9207bb4c4)](https://www.codacy.com/manual/simonaberle/XmlFormatter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=XanatosX/XmlFormatter&amp;utm_campaign=Badge_Grade)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_shield)
+
 
 This project is a lightweight tool to convert xml files from a flat to a formatted format or the other way round.
 
+## How to "install" this application
+
+### Pre-Requirements
+
+You will need the .NET Framework 4.7 or newer installed on your machine. This is installed on default on Windows 10.
+
+### Installation
+
+1. Download the newest zip file from the [Release](https://github.com/XanatosX/XmlFormatter/releases) tab.
+	1. Click on the topmost entry in the list
+	2. Click on the zip file in the `Assets` area
+2. Unzip the content of the file somewhere on your computer
+	* You do not need the `LICENSE` file.
+3. Start the unzipped `XmlFormatter.exe` file.
+
+This application is portable, just copy the zip content to a portable disk.
 
 ## How to use this application
 
@@ -90,5 +110,13 @@ If you want to contribute fixes or features to this project, please read our [co
 ## Using the Source Code
 
 The full source code and all the required assets are available here on GitHub.
+
+## License
+
+This project is using the [MIT License](LICENSE).
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_large)
+
+
 
 
