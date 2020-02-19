@@ -27,6 +27,7 @@ namespace XmlFormatter.src.Windows
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
             Properties.Settings.Default.Save();
+            NI_Notification.Text = this.Text;
         }
 
 
