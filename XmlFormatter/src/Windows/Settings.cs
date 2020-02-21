@@ -10,18 +10,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Manager;
 
 namespace XmlFormatter.src.Windows
 {
     public partial class Settings : Form
     {
+        private readonly ISettingsManager settingManager;
+        private readonly string settingFile;
+
         /// <summary>
         /// Create a new settings window
         /// </summary>
-        public Settings()
+        public Settings(ISettingsManager settingManager, string settingFile)
         {
             InitializeComponent();
+
+            this.settingManager = settingManager;
+            this.settingFile = settingFile;
 
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
@@ -75,15 +83,18 @@ namespace XmlFormatter.src.Windows
         private void B_SaveAndClose_Click(object sender, EventArgs e)
         {
             WriteSettings();
+            settingManager.Save(settingFile);
             B_Cancel.PerformClick();
         }
 
+        /// <summary>
+        /// Write the settings into the property container
+        /// </summary>
         private void WriteSettings()
         {
             Properties.Settings.Default.MinimizeToTray = CB_MinimizeToTray.Checked;
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
-            Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -93,7 +104,6 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments of the sendfer</param>
         private void B_Cancel_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Reload();
             this.Close();
         }
 
@@ -121,8 +131,7 @@ namespace XmlFormatter.src.Windows
             }
 
             WriteSettings();
-            Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-            configuration.SaveAs(saveFileDialog.FileName);
+            settingManager.Save(saveFileDialog.FileName);
         }
 
         /// <summary>
@@ -140,40 +149,41 @@ namespace XmlFormatter.src.Windows
                 return;
             }
 
-            try
+            settingManager.Load(openFileDialog.FileName);
+            ISettingScope scope = settingManager.GetScope("Default");
+            if (scope == null)
             {
-                XDocument settingsDocument = XDocument.Load(openFileDialog.FileName);
-                XNode versionNode = settingsDocument.XPathSelectElement("//userSettings//setting[@name='ApplicationVersion']//value");
-                XElement Version = XElement.Parse(versionNode.ToString());
-                string loadedVersion = Version.Value;
-                VersionManager versionManager = new VersionManager();
-                Version importFileVersion = versionManager.ConvertInnerFormatToProperVersion(loadedVersion);
-                if (importFileVersion != versionManager.GetApplicationVersion())
-                {
-                    string message = "Application version is not matching settings version";
-                    message += "\r\n\r\nApplication Version: " + versionManager.GetApplicationVersion();
-                    message += "\r\nSettings Version: " + importFileVersion;
-                    MessageBox.Show(message, "Version not matching", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                
-                var elements = settingsDocument.XPathSelectElements("//userSettings//setting");
-                
-                foreach (var setting in elements)
-                {
-                    string name = setting.Attribute("name").Value.ToString();
-                    string value = setting.XPathSelectElement("value").FirstNode.ToString();
-                    Type currentType = Properties.Settings.Default[name].GetType();
-                    var realValue = Convert.ChangeType(value, currentType);
-                    Properties.Settings.Default[name] = realValue;
-                }
-                SetupControls();
+                return;
             }
-            catch (Exception ex)
+
+            string storedVersion = scope.GetSetting("ApplicationVersion").GetValue<string>();
+            VersionManager versionManager = new VersionManager();
+
+            string lowestVersion = Properties.Settings.Default.LowestSupportedVersion;
+
+            Version settingVersion = versionManager.ConvertInnerFormatToProperVersion(storedVersion);
+            Version lowVersion = versionManager.ConvertInnerFormatToProperVersion(lowestVersion);
+            Version highVersion = versionManager.GetApplicationVersion();
+
+            if (settingVersion < lowVersion || settingVersion > highVersion)
             {
-                MessageBox.Show(ex.Message, "Import went wrong!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string message = "Import failed because setting file is not supported in this version";
+                message += "\r\n\r\nLowest supported version: " + lowVersion.ToString();
+                message += "\r\nApplication version: " + highVersion.ToString();
+                message += "\r\nSetting version: " + settingVersion.ToString();
+                MessageBox.Show(
+                    message,
+                    "Not supported import",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                 );
+
+                settingManager.Load(settingFile);
+                return;
             }
-            
+
+            settingManager.Save(settingFile);
+            SetupControls();
         }
     }
 }

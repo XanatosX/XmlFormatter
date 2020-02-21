@@ -82,5 +82,32 @@ namespace XmlFormatter.Properties {
                 this["ApplicationVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Test")]
+        public string Test {
+            get {
+                return ((string)(this["Test"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.0.6")]
+        public string LowestSupportedVersion {
+            get {
+                return ((string)(this["LowestSupportedVersion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.0.6")]
+        public string HighestSupportedVersion {
+            get {
+                return ((string)(this["HighestSupportedVersion"]));
+            }
+        }
     }
 }

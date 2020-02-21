@@ -6,6 +6,13 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Settings;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Settings.Provider.Factories;
+using System.Reflection;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
 
 namespace XmlFormatter.src.Windows
 {
@@ -14,7 +21,15 @@ namespace XmlFormatter.src.Windows
     /// </summary>
     public partial class MainForm : Form
     {
-        readonly string defaultStatus;
+        private readonly string defaultStatus;
+
+        private readonly string settingPath;
+
+        private readonly string settingFile;
+
+        private readonly ISettingsManager settingManager;
+
+       
 
         /// <summary>
         /// Constructor
@@ -26,8 +41,41 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
-            Properties.Settings.Default.Save();
-            NI_Notification.Text = this.Text;
+            //Properties.Settings.Default.Save();
+
+            settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
+            settingFile = settingPath + "settings.set";
+
+            settingManager = new SettingsManager();
+            settingManager.SetPersistendFactory(new XmlProviderFactory());
+            settingManager.Load(settingFile);
+
+            ISettingScope resourceScope = settingManager.GetScope("Default");
+            if (resourceScope == null)
+            {
+                resourceScope = new PropertyAdapter();
+                settingManager.AddScope(resourceScope);
+            }
+
+            foreach (SettingPair settingPair in resourceScope.GetSettings())
+            {
+                Properties.Settings.Default[settingPair.Name] = settingPair.Value;
+            }
+
+            ISettingScope myScope = new SettingScope("Hotfolder");
+            ISettingScope hotfolder1 = new SettingScope("Hotfolder1");
+            ISettingPair active = new SettingPair("Active");
+            active.SetValue(false);
+            hotfolder1.AddSetting(active);
+
+            ISettingPair firstConfig = new SettingPair("Hotfolder_config_1");
+            firstConfig.SetValue("Hotfolder_config_1_path");
+            hotfolder1.AddSetting(firstConfig);
+            myScope.AddSubScope(hotfolder1);
+
+            settingManager.AddScope(myScope);
+
+            settingManager.Save(settingFile);
         }
 
 
@@ -328,7 +376,6 @@ namespace XmlFormatter.src.Windows
                 );
 
                 Properties.Settings.Default.FirstTimeTray = false;
-                Properties.Settings.Default.Save();
             }
             TopMost = true;
             TopMost = false;
@@ -363,7 +410,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments provided by the sender</param>
         private void MI_Settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
         }
     }
