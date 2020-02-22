@@ -53,9 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Formatter\XmlFormatterProvider.cs" />
+    <Compile Include="src\Interfaces\Formatter\IFormatter.cs" />
+    <Compile Include="src\Interfaces\Hotfolder\IHotfolder.cs" />
+    <Compile Include="src\Interfaces\Hotfolder\IHotfolderManager.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\IPersistentFactory.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingLoadProvider.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingSaveProvider.cs" />
+    <Compile Include="src\Enum\ModesEnum.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingPair.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingScope.cs" />
