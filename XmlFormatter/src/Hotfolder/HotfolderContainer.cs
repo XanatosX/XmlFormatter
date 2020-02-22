@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XmlFormatter.src.Enum;
+using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 

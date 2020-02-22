@@ -12,11 +12,12 @@ using XmlFormatter.src.Settings.Provider.Factories;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Formatter;
-using XmlFormatter.src.Enum;
+using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
+using XmlFormatter.src.Settings.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
@@ -83,11 +84,8 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
-
-
-            hotfolderManager = new HotfolderManager();
+            
         }
-
 
         /// <summary>
         /// Loading the form event
@@ -107,13 +105,32 @@ namespace XmlFormatter.src.Windows
             }
 
             SetFormatter(new XmlFormatterProvider());
+            SetupHotFolder();
+        }
 
-            HotfolderContainer container = new HotfolderContainer(new XmlFormatterProvider(), @"C:\Users\Xanatos\Downloads")
+        private void SetupHotFolder()
+        {
+            if (!Properties.Settings.Default.HotfolderActive)
             {
-                Mode = ModesEnum.Flat,
-                OnRename = true
-            };
-            hotfolderManager.AddHotfolder(container);
+                if (hotfolderManager != null)
+                {
+                    hotfolderManager.ResetManager();
+                    hotfolderManager = null;
+                }
+                
+                return;
+            }
+            if (hotfolderManager == null)
+            {
+                hotfolderManager = new HotfolderManager();
+            }
+            hotfolderManager.ResetManager();
+
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
+            { 
+                hotfolderManager.AddHotfolder(hotfolder);
+            }
         }
 
         /// <summary>
@@ -441,6 +458,7 @@ namespace XmlFormatter.src.Windows
         {
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
+            SetupHotFolder();
         }
     }
 }

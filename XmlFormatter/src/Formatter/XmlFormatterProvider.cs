@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using XmlFormatter.src.Enum;
+using XmlFormatter.src.Enums;
 using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Interfaces.Formatter;
 

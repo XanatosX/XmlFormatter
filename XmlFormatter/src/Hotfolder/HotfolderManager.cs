@@ -30,6 +30,7 @@ namespace XmlFormatter.src.Hotfolder
         public HotfolderManager()
         {
             hotfolders = new List<IHotfolder>();
+            fileSystemWatcher = new List<FileSystemWatcher>();
         }
 
 
@@ -56,6 +57,7 @@ namespace XmlFormatter.src.Hotfolder
                 watcher.Renamed += Watcher_Changed;
             }
             hotfolders.Add(newHotfolder);
+            fileSystemWatcher.Add(watcher);
             return true;
         }
 
@@ -64,7 +66,6 @@ namespace XmlFormatter.src.Hotfolder
             return hotfolders.Find((currentFolder) =>
             {
                 return currentFolder.WatchedFolder == watchedFolder;
-
             });
         }
 

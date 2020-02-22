@@ -1,5 +1,5 @@
 ﻿using System;
-using XmlFormatter.src.Enum;
+using XmlFormatter.src.Enums;
 using XmlFormatter.src.EventMessages;
 
 namespace XmlFormatter.src.Interfaces.Formatter
@@ -7,7 +7,7 @@ namespace XmlFormatter.src.Interfaces.Formatter
     /// <summary>
     /// This interface defines a formatter
     /// </summary>
-    interface IFormatter
+    public interface IFormatter
     {
         /// <summary>
         /// Event if the status of the conversion has been changed

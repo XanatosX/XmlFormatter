@@ -1,4 +1,4 @@
-﻿using XmlFormatter.src.Enum;
+﻿using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Formatter;
 
 namespace XmlFormatter.src.Interfaces.Hotfolder
@@ -6,7 +6,7 @@ namespace XmlFormatter.src.Interfaces.Hotfolder
     /// <summary>
     /// This interface will define a single hotfolder
     /// </summary>
-    interface IHotfolder
+    public interface IHotfolder
     {
         /// <summary>
         /// The mode to use for this hotfolder

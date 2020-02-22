@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Manager;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
@@ -34,9 +37,11 @@ namespace XmlFormatter.src.Windows
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
             SetupToolTip(CB_CheckUpdatesOnStartup);
+            B_EditHotfolder.Enabled = false;
+            B_RemoveHotfolder.Enabled = false;
+            LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             SetupControls();
-
         }
 
         /// <summary>
@@ -75,6 +80,13 @@ namespace XmlFormatter.src.Windows
             CB_CheckUpdatesOnStartup.Checked = Properties.Settings.Default.SearchUpdateOnStartup;
             CB_Hotfolder.Checked = Properties.Settings.Default.HotfolderActive;
             GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
+
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
+            {
+                ListViewItem item = HotfolderToListView(hotfolder);
+                LV_Hotfolders.Items.Add(item);
+            }
         }
 
         /// <summary>
@@ -167,6 +179,10 @@ namespace XmlFormatter.src.Windows
             Version settingVersion = versionManager.ConvertInnerFormatToProperVersion(storedVersion);
             Version lowVersion = versionManager.ConvertInnerFormatToProperVersion(lowestVersion);
             Version highVersion = versionManager.GetApplicationVersion();
+            if (highVersion < lowVersion)
+            {
+                highVersion = lowVersion;
+            }
 
             if (settingVersion < lowVersion || settingVersion > highVersion)
             {
@@ -192,6 +208,112 @@ namespace XmlFormatter.src.Windows
         private void CB_Hotfolder_Click(object sender, EventArgs e)
         {
             GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
+        }
+
+        private void LV_Hotfolders_ItemActivate(object sender, EventArgs e)
+        {
+            B_EditHotfolder.Enabled = true;
+            B_RemoveHotfolder.Enabled = true;
+        }
+
+        private void B_AddHotfolder_Click(object sender, EventArgs e)
+        {
+            HotfolderEditor hotfolderEditor = new HotfolderEditor(null);
+            hotfolderEditor.ShowDialog();
+            if (hotfolderEditor.Saved)
+            {
+                ISettingScope hotfolderScope = settingManager.GetScope("Hotfolder");
+                if (hotfolderScope == null)
+                {
+                    hotfolderScope = new SettingScope("Hotfolder");
+                    settingManager.AddScope(hotfolderScope);
+                }
+                IHotfolder hotfolder = hotfolderEditor.Hotfolder;
+
+
+                ISettingScope hotfolderConfig = CreateHotfolderScope(
+                    "Hotfolder_" + hotfolderScope.GetSubScopes().Count + 1,
+                    hotfolder
+                );
+                hotfolderScope.AddSubScope(hotfolderConfig);
+
+                LV_Hotfolders.Items.Add(HotfolderToListView(hotfolder));
+            }
+        }
+
+        private ListViewItem HotfolderToListView(IHotfolder hotfolder)
+        {
+            ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString());
+            listViewItem.Tag = hotfolder;
+            listViewItem.SubItems.Add(hotfolder.Mode.ToString());
+            listViewItem.SubItems.Add(hotfolder.WatchedFolder);
+            listViewItem.SubItems.Add(hotfolder.Filter);
+            listViewItem.SubItems.Add(hotfolder.OutputFolder);
+            listViewItem.SubItems.Add(hotfolder.OutputFileScheme);
+            listViewItem.SubItems.Add(hotfolder.OnRename.ToString());
+            listViewItem.SubItems.Add(hotfolder.RemoveOld.ToString());
+            return listViewItem;
+        }
+
+        private ISettingScope CreateHotfolderScope(string name, IHotfolder hotfolder)
+        {
+            ISettingScope hotfolderConfig = new SettingScope(name);
+
+            SettingPair typeSetting = new SettingPair("Type");
+            typeSetting.SetValue(hotfolder.FormatterToUse.ToString());
+
+            SettingPair modeSetting = new SettingPair("Mode");
+            modeSetting.SetValue(hotfolder.Mode.ToString());
+
+            SettingPair watchedFolder = new SettingPair("WatchedFolder");
+            watchedFolder.SetValue(hotfolder.WatchedFolder);
+
+            SettingPair filter = new SettingPair("Filter");
+            filter.SetValue(hotfolder.Filter);
+
+            SettingPair outputFolder = new SettingPair("OutputFolder");
+            outputFolder.SetValue(hotfolder.OutputFolder);
+
+            SettingPair scheme = new SettingPair("Scheme");
+            scheme.SetValue(hotfolder.OutputFileScheme);
+
+            SettingPair rename = new SettingPair("Rename");
+            rename.SetValue(hotfolder.OnRename);
+
+            SettingPair remove = new SettingPair("Remove");
+            remove.SetValue(hotfolder.RemoveOld);
+
+            hotfolderConfig.AddSetting(typeSetting);
+            hotfolderConfig.AddSetting(modeSetting);
+            hotfolderConfig.AddSetting(watchedFolder);
+            hotfolderConfig.AddSetting(filter);
+            hotfolderConfig.AddSetting(outputFolder);
+            hotfolderConfig.AddSetting(scheme);
+            hotfolderConfig.AddSetting(rename);
+            hotfolderConfig.AddSetting(remove);
+
+            return hotfolderConfig;
+        }
+
+        private void LV_Hotfolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool enabled = LV_Hotfolders.SelectedItems.Count > 0;
+            B_EditHotfolder.Enabled = enabled;
+            B_RemoveHotfolder.Enabled = enabled;
+        }
+
+        private void B_RemoveHotfolder_Click(object sender, EventArgs e)
+        {
+            ListViewItem itemToRemove = LV_Hotfolders.SelectedItems[0];
+            LV_Hotfolders.Items.Remove(itemToRemove);
+
+            ISettingScope hotfolderScope = settingManager.GetScope("Hotfolder");
+            if (hotfolderScope == null)
+            {
+                hotfolderScope = new SettingScope("Hotfolder");
+                settingManager.AddScope(hotfolderScope);
+            }
+            //hotfolderScope.
         }
     }
 }

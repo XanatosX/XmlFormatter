@@ -62,13 +62,14 @@
     <Compile Include="src\Interfaces\Settings\LoadingProvider\IPersistentFactory.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingLoadProvider.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingSaveProvider.cs" />
-    <Compile Include="src\Enum\ModesEnum.cs" />
+    <Compile Include="src\Enums\ModesEnum.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingPair.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingScope.cs" />
     <Compile Include="src\Settings\DataStructure\SettingPair.cs" />
     <Compile Include="src\Settings\DataStructure\SettingScope.cs" />
     <Compile Include="src\Interfaces\Settings\ISettingsManager.cs" />
+    <Compile Include="src\Settings\Hotfolder\HotfolderExtension.cs" />
     <Compile Include="src\Settings\Provider\DataStructure\SerializableScope.cs" />
     <Compile Include="src\Settings\Provider\DataStructure\SerializableSetting.cs" />
     <Compile Include="src\Settings\Provider\DataStructure\SerializableSettingContainer.cs" />
@@ -76,6 +77,12 @@
     <Compile Include="src\Settings\Provider\XmlLoaderProvider.cs" />
     <Compile Include="src\Settings\Provider\XmlSaverProvider.cs" />
     <Compile Include="src\Settings\SettingsManager.cs" />
+    <Compile Include="src\Windows\HotfolderEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Windows\HotfolderEditor.Designer.cs">
+      <DependentUpon>HotfolderEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Windows\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +100,9 @@
     <Compile Include="src\Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="src\Windows\HotfolderEditor.resx">
+      <DependentUpon>HotfolderEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Windows\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
