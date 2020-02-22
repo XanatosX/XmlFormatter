@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
@@ -12,8 +8,12 @@ using XmlFormatter.src.Settings.Provider.DataStructure;
 
 namespace XmlFormatter.src.Settings.Provider
 {
+    /// <summary>
+    /// Xml saver provider
+    /// </summary>
     class XmlSaverProvider : ISettingSaveProvider
     {
+        /// <inheritdoc/>
         public bool SaveSettings(ISettingsManager settingsManager, string filePath)
         {
             FileInfo info = new FileInfo(filePath);
@@ -38,6 +38,11 @@ namespace XmlFormatter.src.Settings.Provider
             return true;
         }
 
+        /// <summary>
+        /// Create the SerializableScope from a ISettingScope
+        /// </summary>
+        /// <param name="scope">The scope to convert</param>
+        /// <returns>A valid SerializableScope instance</returns>
         private SerializableScope ConvertToSaveableScope(ISettingScope scope)
         {
             List<SerializableSetting> settings = new List<SerializableSetting>();

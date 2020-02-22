@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
-using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Interfaces.Settings.LoadingProvider;
 using XmlFormatter.src.Settings.DataStructure;
@@ -13,8 +9,12 @@ using XmlFormatter.src.Settings.Provider.DataStructure;
 
 namespace XmlFormatter.src.Settings.Provider
 {
+    /// <summary>
+    /// Xml loader provider
+    /// </summary>
     class XmlLoaderProvider : ISettingLoadProvider
     {
+        /// <inheritdoc/>
         public List<ISettingScope> LoadSettings(string filePath)
         {
             List<ISettingScope> settings = new List<ISettingScope>();
@@ -47,6 +47,11 @@ namespace XmlFormatter.src.Settings.Provider
             return settings;
         }
 
+        /// <summary>
+        /// Create the ISettingScope from a SerializableScope
+        /// </summary>
+        /// <param name="scope">The scope to convert</param>
+        /// <returns>A valid ISettingScope instance</returns>
         private ISettingScope CreateSettingScope(SerializableScope scope)
         {
             Type scopeType = Type.GetType(scope.ClassType);
