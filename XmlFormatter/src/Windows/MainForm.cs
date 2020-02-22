@@ -70,19 +70,6 @@ namespace XmlFormatter.src.Windows
                 Properties.Settings.Default[settingPair.Name] = settingPair.Value;
             }
 
-            ISettingScope myScope = new SettingScope("Hotfolder");
-            ISettingScope hotfolder1 = new SettingScope("Hotfolder1");
-            ISettingPair active = new SettingPair("Active");
-            active.SetValue(false);
-            hotfolder1.AddSetting(active);
-
-            ISettingPair firstConfig = new SettingPair("Hotfolder_config_1");
-            firstConfig.SetValue("Hotfolder_config_1_path");
-            hotfolder1.AddSetting(firstConfig);
-            myScope.AddSubScope(hotfolder1);
-
-            settingManager.AddScope(myScope);
-
             settingManager.Save(settingFile);
         }
 
