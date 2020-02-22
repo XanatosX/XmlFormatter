@@ -8,68 +8,32 @@ namespace XmlFormatter.src.Settings.Provider.DataStructure
     public class SerializableScope
     {
         /// <summary>
-        /// Name of the scope
-        /// </summary>
-        private string name;
-
-        /// <summary>
         /// Public access to the scope name
         /// </summary>
-        public string Name
-        {
-            get => name;
-            set => name = value;
-        }
-
-        /// <summary>
-        /// Namespace of the class this container was created from
-        /// </summary>
-        private string classType;
+        public string Name;
 
         /// <summary>
         /// Public access to the namespace of the class this container was created from
         /// </summary>
-        public string ClassType
-        {
-            get => classType;
-            set => classType = value;
-        }
-
-        /// <summary>
-        /// All the sub scopes in this container
-        /// </summary>
-        private List<SerializableScope> subScopes;
+        public string ClassType;
 
         /// <summary>
         /// Public access to the sub scopes
         /// </summary>
-        public List<SerializableScope> SubScopes
-        {
-            get => subScopes;
-            set => subScopes = value;
-        }
-
-        /// <summary>
-        /// All the settings in this scope
-        /// </summary>
-        private List<SerializableSetting> settings;
+        public List<SerializableScope> SubScopes;
 
         /// <summary>
         /// Public access to all the settings in this scope
         /// </summary>
-        public List<SerializableSetting> Settings
-        {
-            get => settings;
-            set => settings = value;
-        }
+        public List<SerializableSetting> Settings;
 
         /// <summary>
         /// Create a new instance of this scope
         /// </summary>
         public SerializableScope()
         {
-            settings = new List<SerializableSetting>();
-            subScopes = new List<SerializableScope>();
+            Settings = new List<SerializableSetting>();
+            SubScopes = new List<SerializableScope>();
         }
     }
 }

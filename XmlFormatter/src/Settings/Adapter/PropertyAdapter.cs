@@ -48,7 +48,6 @@ namespace XmlFormatter.src.Settings.Adapter
             try
             {
                 Type type = Properties.Settings.Default[setting.Name].GetType();
-                var test = Properties.Settings.Default[setting.Name];
                 if (type == setting.Type)
                 {
                     Properties.Settings.Default[setting.Name] = setting.Value;
@@ -70,9 +69,9 @@ namespace XmlFormatter.src.Settings.Adapter
             ISettingPair returnValue = null;
             try
             {
-                var test = Properties.Settings.Default[name];
+                var propertyValue = Properties.Settings.Default[name];
                 returnValue = new SettingPair(name);
-                returnValue.SetValue(test);
+                returnValue.SetValue(propertyValue);
             }
             catch (Exception)
             {
@@ -107,7 +106,6 @@ namespace XmlFormatter.src.Settings.Adapter
         /// <param name="scope">The scope to add</param>
         public void AddSubScope(ISettingScope scope)
         {
-            return;
         }
 
         /// <summary>

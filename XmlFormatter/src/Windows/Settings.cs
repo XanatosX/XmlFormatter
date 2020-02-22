@@ -168,9 +168,9 @@ namespace XmlFormatter.src.Windows
             if (settingVersion < lowVersion || settingVersion > highVersion)
             {
                 string message = "Import failed because setting file is not supported in this version";
-                message += "\r\n\r\nLowest supported version: " + lowVersion.ToString();
-                message += "\r\nApplication version: " + highVersion.ToString();
-                message += "\r\nSetting version: " + settingVersion.ToString();
+                message += "\r\n\r\nLowest supported version: " + lowVersion;
+                message += "\r\nApplication version: " + highVersion;
+                message += "\r\nSetting version: " + settingVersion;
                 MessageBox.Show(
                     message,
                     "Not supported import",

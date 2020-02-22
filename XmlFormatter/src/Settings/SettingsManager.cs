@@ -78,10 +78,7 @@ namespace XmlFormatter.src.Settings
             {
                 return false;
             }
-            if (loadProvider == null)
-            {
-                loadProvider = persistentFactory.CreateLoader();
-            }
+            loadProvider = loadProvider ?? persistentFactory.CreateLoader();
             List<ISettingScope> newScopes = loadProvider.LoadSettings(filePath);
             scopes.Clear();
             foreach (ISettingScope scopeToAdd in newScopes)
@@ -98,10 +95,7 @@ namespace XmlFormatter.src.Settings
             {
                 return false;
             }
-            if (saveProvider == null)
-            {
-                saveProvider = persistentFactory.CreateSaver();
-            }
+            saveProvider = saveProvider ?? persistentFactory.CreateSaver();
             return saveProvider.SaveSettings(this, filePath);
         }
     }
