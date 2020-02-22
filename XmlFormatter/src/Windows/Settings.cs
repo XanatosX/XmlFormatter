@@ -73,6 +73,8 @@ namespace XmlFormatter.src.Windows
             CB_MinimizeToTray.Checked = Properties.Settings.Default.MinimizeToTray;
             CB_AskBeforeClose.Checked = Properties.Settings.Default.AskBeforeClosing;
             CB_CheckUpdatesOnStartup.Checked = Properties.Settings.Default.SearchUpdateOnStartup;
+            CB_Hotfolder.Checked = Properties.Settings.Default.HotfolderActive;
+            GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
         }
 
         /// <summary>
@@ -95,6 +97,7 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.MinimizeToTray = CB_MinimizeToTray.Checked;
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
+            Properties.Settings.Default.HotfolderActive = CB_Hotfolder.Checked;
         }
 
         /// <summary>
@@ -184,6 +187,11 @@ namespace XmlFormatter.src.Windows
 
             settingManager.Save(settingFile);
             SetupControls();
+        }
+
+        private void CB_Hotfolder_Click(object sender, EventArgs e)
+        {
+            GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
         }
     }
 }
