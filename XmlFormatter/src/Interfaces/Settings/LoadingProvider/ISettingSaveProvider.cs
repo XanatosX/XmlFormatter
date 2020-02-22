@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlFormatter.src.Settings;
-
-namespace XmlFormatter.src.Interfaces.Settings.LoadingProvider
+﻿namespace XmlFormatter.src.Interfaces.Settings.LoadingProvider
 {
     /// <summary>
     /// This interface is representing a save provider for the settings manager

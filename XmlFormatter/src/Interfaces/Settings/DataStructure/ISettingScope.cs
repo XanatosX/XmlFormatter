@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using XmlFormatter.src.Interfaces.Settings.LoadingProvider;
 
 namespace XmlFormatter.src.Interfaces.Settings.DataStructure
 {

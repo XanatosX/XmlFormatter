@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Interfaces.Settings.LoadingProvider;
-using XmlFormatter.src.Settings.DataStructure;
 
 namespace XmlFormatter.src.Interfaces.Settings
 {
