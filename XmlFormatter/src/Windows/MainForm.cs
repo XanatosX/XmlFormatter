@@ -6,6 +6,12 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Settings;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Settings.Provider.Factories;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
 
 namespace XmlFormatter.src.Windows
 {
@@ -14,7 +20,25 @@ namespace XmlFormatter.src.Windows
     /// </summary>
     public partial class MainForm : Form
     {
-        readonly string defaultStatus;
+        /// <summary>
+        /// The default status to display at the end of the main window
+        /// </summary>
+        private readonly string defaultStatus;
+
+        /// <summary>
+        /// Path to the folder to save settings in
+        /// </summary>
+        private readonly string settingPath;
+
+        /// <summary>
+        /// Path to the default settings file
+        /// </summary>
+        private readonly string settingFile;
+
+        /// <summary>
+        /// Instance for managing the settings
+        /// </summary>
+        private readonly ISettingsManager settingManager;
 
         /// <summary>
         /// Constructor
@@ -26,8 +50,27 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
-            Properties.Settings.Default.Save();
-            NI_Notification.Text = this.Text;
+
+            settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
+            settingFile = settingPath + "settings.set";
+
+            settingManager = new SettingsManager();
+            settingManager.SetPersistendFactory(new XmlProviderFactory());
+            settingManager.Load(settingFile);
+
+            ISettingScope resourceScope = settingManager.GetScope("Default");
+            if (resourceScope == null)
+            {
+                resourceScope = new PropertyAdapter();
+                settingManager.AddScope(resourceScope);
+            }
+
+            foreach (SettingPair settingPair in resourceScope.GetSettings())
+            {
+                Properties.Settings.Default[settingPair.Name] = settingPair.Value;
+            }
+
+            settingManager.Save(settingFile);
         }
 
 
@@ -328,7 +371,6 @@ namespace XmlFormatter.src.Windows
                 );
 
                 Properties.Settings.Default.FirstTimeTray = false;
-                Properties.Settings.Default.Save();
             }
             TopMost = true;
             TopMost = false;
@@ -363,7 +405,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments provided by the sender</param>
         private void MI_Settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
         }
     }

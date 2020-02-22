@@ -2,12 +2,29 @@
 
 namespace XmlFormatter.src.EventMessages
 {
+    /// <summary>
+    /// This class is a simple event data container
+    /// </summary>
     class BaseEventArgs : EventArgs
     {
+        /// <summary>
+        /// The title of the event
+        /// </summary>
         private readonly string title;
+
+        /// <summary>
+        /// Readonly access to the event title
+        /// </summary>
         public string Title => title;
 
+        /// <summary>
+        /// The message of the event
+        /// </summary>
         private readonly string message;
+
+        /// <summary>
+        /// Readonly access to the event message
+        /// </summary>
         public string Message => message;
 
         /// <summary>
