@@ -91,14 +91,5 @@ namespace XmlFormatter.Properties {
                 return ((string)(this["LowestSupportedVersion"]));
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0.0.6")]
-        public string HighestSupportedVersion {
-            get {
-                return ((string)(this["HighestSupportedVersion"]));
-            }
-        }
     }
 }

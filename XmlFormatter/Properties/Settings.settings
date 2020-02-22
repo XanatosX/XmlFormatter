@@ -20,8 +20,5 @@
     <Setting Name="LowestSupportedVersion" Type="System.String" Scope="Application">
       <Value Profile="(Default)">0.0.6</Value>
     </Setting>
-    <Setting Name="HighestSupportedVersion" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">0.0.6</Value>
-    </Setting>
   </Settings>
 </SettingsFile>
