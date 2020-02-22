@@ -10,7 +10,6 @@ using XmlFormatter.src.Settings;
 using XmlFormatter.src.Settings.DataStructure;
 using XmlFormatter.src.Settings.Adapter;
 using XmlFormatter.src.Settings.Provider.Factories;
-using System.Reflection;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
 
@@ -21,15 +20,25 @@ namespace XmlFormatter.src.Windows
     /// </summary>
     public partial class MainForm : Form
     {
+        /// <summary>
+        /// The default status to display at the end of the main window
+        /// </summary>
         private readonly string defaultStatus;
 
+        /// <summary>
+        /// Path to the folder to save settings in
+        /// </summary>
         private readonly string settingPath;
 
+        /// <summary>
+        /// Path to the default settings file
+        /// </summary>
         private readonly string settingFile;
 
+        /// <summary>
+        /// Instance for managing the settings
+        /// </summary>
         private readonly ISettingsManager settingManager;
-
-       
 
         /// <summary>
         /// Constructor
@@ -41,7 +50,6 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
-            //Properties.Settings.Default.Save();
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
             settingFile = settingPath + "settings.set";
