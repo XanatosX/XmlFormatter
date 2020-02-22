@@ -24,13 +24,13 @@ namespace XmlFormatter.src.Settings.Provider
                 return settings;
             }
 
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SettingContainer));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SerializableSettingContainer));
             using (TextReader reader = new StreamReader(filePath))
             {
                 try
                 {
-                    SettingContainer result = (SettingContainer)xmlSerializer.Deserialize(reader);
-                    foreach (Scope scope in result.Scopes)
+                    SerializableSettingContainer result = (SerializableSettingContainer)xmlSerializer.Deserialize(reader);
+                    foreach (SerializableScope scope in result.Scopes)
                     {
                         ISettingScope settingScope = CreateSettingScope(scope);
 
@@ -47,13 +47,13 @@ namespace XmlFormatter.src.Settings.Provider
             return settings;
         }
 
-        private ISettingScope CreateSettingScope(Scope scope)
+        private ISettingScope CreateSettingScope(SerializableScope scope)
         {
             Type scopeType = Type.GetType(scope.ClassType);
             ISettingScope settingScope = (ISettingScope)Activator.CreateInstance(scopeType);
             settingScope.SetName(scope.Name);
 
-            foreach (Setting setting in scope.Settings)
+            foreach (SerializableSetting setting in scope.Settings)
             {
                 SettingPair settingPair = new SettingPair(setting.Name);
                 Type type = Type.GetType(setting.Type);
@@ -64,7 +64,7 @@ namespace XmlFormatter.src.Settings.Provider
                 settingScope.AddSetting(settingPair);
             }
 
-            foreach (Scope subScope in scope.SubScopes)
+            foreach (SerializableScope subScope in scope.SubScopes)
             {
                 settingScope.AddSubScope(CreateSettingScope(subScope));
             }

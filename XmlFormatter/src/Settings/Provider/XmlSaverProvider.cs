@@ -22,13 +22,13 @@ namespace XmlFormatter.src.Settings.Provider
             {
                 Directory.CreateDirectory(directory);
             }
-            SettingContainer container = new SettingContainer();
+            SerializableSettingContainer container = new SerializableSettingContainer();
             foreach (ISettingScope scope in settingsManager.GetScopes())
             {
                 container.Scopes.Add(ConvertToSaveableScope(scope));
             }
 
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SettingContainer));
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(SerializableSettingContainer));
             using (TextWriter writer = new StreamWriter(filePath))
             {
                 xmlSerializer.Serialize(writer, container);
@@ -38,19 +38,19 @@ namespace XmlFormatter.src.Settings.Provider
             return true;
         }
 
-        private Scope ConvertToSaveableScope(ISettingScope scope)
+        private SerializableScope ConvertToSaveableScope(ISettingScope scope)
         {
-            List<Setting> settings = new List<Setting>();
+            List<SerializableSetting> settings = new List<SerializableSetting>();
             foreach (ISettingPair settingPair in scope.GetSettings())
             {
-                settings.Add(new Setting()
+                settings.Add(new SerializableSetting()
                 {
                     Name = settingPair.Name,
                     Type = settingPair.Type.ToString(),
                     Value = settingPair.Value.ToString(),
                 });
             }
-            Scope returnScope = new Scope()
+            SerializableScope returnScope = new SerializableScope()
             {
                 Name = scope.Name,
                 Settings = settings,

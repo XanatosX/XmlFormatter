@@ -62,9 +62,9 @@
     <Compile Include="src\Settings\DataStructure\SettingPair.cs" />
     <Compile Include="src\Settings\DataStructure\SettingScope.cs" />
     <Compile Include="src\Interfaces\Settings\ISettingsManager.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\Scope.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\Setting.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\SettingContainer.cs" />
+    <Compile Include="src\Settings\Provider\DataStructure\SerializableScope.cs" />
+    <Compile Include="src\Settings\Provider\DataStructure\SerializableSetting.cs" />
+    <Compile Include="src\Settings\Provider\DataStructure\SerializableSettingContainer.cs" />
     <Compile Include="src\Settings\Provider\Factories\XmlProviderFactory.cs" />
     <Compile Include="src\Settings\Provider\XmlLoaderProvider.cs" />
     <Compile Include="src\Settings\Provider\XmlSaverProvider.cs" />
