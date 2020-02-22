@@ -11,7 +11,7 @@ namespace XmlFormatter.src.Interfaces.Hotfolder
         /// <summary>
         /// The mode to use for this hotfolder
         /// </summary>
-        ModesEnum Mode { get; }
+        ModesEnum Mode { get; set; }
 
         /// <summary>
         /// The formatter to use
@@ -21,21 +21,31 @@ namespace XmlFormatter.src.Interfaces.Hotfolder
         /// <summary>
         /// The folder to watch
         /// </summary>
-        string WatchedFolder { get;  }
+        string WatchedFolder { get; set; }
+
+        /// <summary>
+        /// The filter to use for the input files
+        /// </summary>
+        string Filter { get; set;}
 
         /// <summary>
         /// The folder to write the output to
         /// </summary>
-        string OutputFolder { get; }
+        string OutputFolder { get; set; }
 
         /// <summary>
         /// The scheme of the output file name
         /// </summary>
-        string OutputFileScheme { get; }
+        string OutputFileScheme { get; set; }
 
         /// <summary>
-        /// Should be triggerd on change as well
+        /// Should be triggerd on rename as well
         /// </summary>
-        bool OnChange { get;  }
+        bool OnRename { get; set; }
+
+        /// <summary>
+        /// Should we keep the input file
+        /// </summary>
+        bool RemoveOld { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using XmlFormatter.src.Enum;
@@ -24,11 +25,20 @@ namespace XmlFormatter.src.Formatter
         public string Name => name;
 
         /// <summary>
+        /// The extension supported by this formatter
+        /// </summary>
+        private readonly string extension;
+
+        /// <inheritdoc/>
+        public string Extension => extension;
+
+        /// <summary>
         /// Create a new instance of this class
         /// </summary>
         public XmlFormatterProvider()
         {
             name = "XmlFormatter";
+            extension = "xml";
         }
 
         /// <inheritdoc/>

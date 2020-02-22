@@ -15,6 +15,8 @@ using XmlFormatter.src.Formatter;
 using XmlFormatter.src.Enum;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.EventMessages;
+using XmlFormatter.src.Hotfolder;
+using XmlFormatter.src.Interfaces.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
@@ -48,6 +50,8 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         private IFormatter formatterToUse;
 
+        private IHotfolderManager hotfolderManager;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -79,6 +83,9 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
+
+
+            hotfolderManager = new HotfolderManager();
         }
 
 
@@ -100,6 +107,13 @@ namespace XmlFormatter.src.Windows
             }
 
             SetFormatter(new XmlFormatterProvider());
+
+            HotfolderContainer container = new HotfolderContainer(new XmlFormatterProvider(), @"C:\Users\Xanatos\Downloads")
+            {
+                Mode = ModesEnum.Flat,
+                OnRename = true
+            };
+            hotfolderManager.AddHotfolder(container);
         }
 
         /// <summary>

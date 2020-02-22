@@ -20,6 +20,11 @@ namespace XmlFormatter.src.Interfaces.Formatter
         string Name { get;  }
 
         /// <summary>
+        /// The Extension to use
+        /// </summary>
+        string Extension { get;  }
+
+        /// <summary>
         /// Convert the given file to the defined format
         /// </summary>
         /// <param name="filePath">The path to the file to convert</param>

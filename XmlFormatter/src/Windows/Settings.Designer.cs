@@ -51,7 +51,7 @@
             this.groupBox1.Controls.Add(this.CB_MinimizeToTray);
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(239, 91);
+            this.groupBox1.Size = new System.Drawing.Size(239, 93);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application settings";
@@ -88,7 +88,7 @@
             // 
             // B_SaveAndClose
             // 
-            this.B_SaveAndClose.Location = new System.Drawing.Point(12, 124);
+            this.B_SaveAndClose.Location = new System.Drawing.Point(12, 126);
             this.B_SaveAndClose.Name = "B_SaveAndClose";
             this.B_SaveAndClose.Size = new System.Drawing.Size(104, 23);
             this.B_SaveAndClose.TabIndex = 1;
@@ -98,7 +98,7 @@
             // 
             // B_Cancel
             // 
-            this.B_Cancel.Location = new System.Drawing.Point(176, 124);
+            this.B_Cancel.Location = new System.Drawing.Point(176, 126);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 2;
@@ -135,7 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 159);
+            this.ClientSize = new System.Drawing.Size(263, 158);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_SaveAndClose);
             this.Controls.Add(this.groupBox1);

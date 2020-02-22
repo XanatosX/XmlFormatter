@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Formatter\XmlFormatterProvider.cs" />
+    <Compile Include="src\Hotfolder\HotfolderContainer.cs" />
+    <Compile Include="src\Hotfolder\HotfolderManager.cs" />
     <Compile Include="src\Interfaces\Formatter\IFormatter.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolder.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolderManager.cs" />
