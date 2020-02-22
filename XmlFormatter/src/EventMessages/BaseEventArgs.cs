@@ -2,6 +2,9 @@
 
 namespace XmlFormatter.src.EventMessages
 {
+    /// <summary>
+    /// This class is a simple event data container
+    /// </summary>
     class BaseEventArgs : EventArgs
     {
         /// <summary>
