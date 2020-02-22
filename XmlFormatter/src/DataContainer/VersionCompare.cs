@@ -7,18 +7,50 @@ using System.Threading.Tasks;
 
 namespace XmlFormatter.src.DataContainer
 {
+    /// <summary>
+    /// This data container class which will combine different informations.
+    /// This class will tell you which version is newer and what versions are present
+    /// </summary>
     class VersionCompare
     {
+        /// <summary>
+        /// Is the GitHub version newer
+        /// </summary>
         private readonly bool gitHubIsNewer;
+
+        /// <summary>
+        /// Readonly acces if the GitHub version is newer
+        /// </summary>
         public bool GitHubIsNewer => gitHubIsNewer;
 
-        private readonly Version localVersion;
-        public Version LocalVersion => localVersion;
+        /// <summary>
+        /// The version of the current client application 
+        /// </summary>
+        private readonly Version clientVersion;
 
+        /// <summary>
+        /// Readonly access to the current client version of this application
+        /// </summary>
+        public Version LocalVersion => clientVersion;
+
+        /// <summary>
+        /// The version on GitHub
+        /// </summary>
         private readonly Version gitHubVersion;
+
+        /// <summary>
+        /// Readonly access to the GitHub version
+        /// </summary>
         public Version GitHubVersion => gitHubVersion;
 
+        /// <summary>
+        /// The newest release which can be found on GitHub
+        /// </summary>
         private readonly Release lastestRelease;
+
+        /// <summary>
+        /// Readonly access to the newest release on GitHub
+        /// </summary>
         public Release LatestRelease => lastestRelease;
 
         /// <summary>
@@ -31,7 +63,7 @@ namespace XmlFormatter.src.DataContainer
         public VersionCompare(bool gitHubIsNewer, Version localVersion, Version gitHubVersion, Release latestRelease)
         {
             this.gitHubIsNewer = gitHubIsNewer;
-            this.localVersion = localVersion;
+            this.clientVersion = localVersion;
             this.gitHubVersion = gitHubVersion;
             this.lastestRelease = latestRelease;
         }
