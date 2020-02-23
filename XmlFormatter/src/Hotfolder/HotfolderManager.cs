@@ -44,7 +44,7 @@ namespace XmlFormatter.src.Hotfolder
         {
             hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
             lastCreatedFile = "";
-            readAttempts = 10;
+            readAttempts = 25;
             sleepTime = 200;
         }
 
@@ -112,6 +112,11 @@ namespace XmlFormatter.src.Hotfolder
             ConvertFile(hotfolder, e.FullPath);
         }
 
+        /// <summary>
+        /// Convert the file to the hotfolder config
+        /// </summary>
+        /// <param name="hotfolderConfig">The hotfolder configuration to use</param>
+        /// <param name="inputFile">The file used as input</param>
         private void ConvertFile(IHotfolder hotfolderConfig, string inputFile)
         {
             bool success = false;
@@ -135,7 +140,7 @@ namespace XmlFormatter.src.Hotfolder
                 return;
             }
             FileInfo fileInfo = new FileInfo(inputFile);
-            string outputFile = GetOutputFileName(hotfolderConfig, fileInfo);
+            string outputFile = GetOutputFilePath(hotfolderConfig, fileInfo);
             lastCreatedFile = outputFile;
             bool result = hotfolderConfig.FormatterToUse.ConvertToFormat(inputFile, outputFile, hotfolderConfig.Mode);
             if (result && hotfolderConfig.RemoveOld)
@@ -145,7 +150,13 @@ namespace XmlFormatter.src.Hotfolder
 
         }
 
-        private string GetOutputFileName(IHotfolder hotfolderConfig, FileInfo inputFileInfo)
+        /// <summary>
+        /// Get the name of the output file
+        /// </summary>
+        /// <param name="hotfolderConfig">The hotfolder configuration to use</param>
+        /// <param name="inputFileInfo">The name of the input file</param>
+        /// <returns>The output path of the file /returns>
+        private string GetOutputFilePath(IHotfolder hotfolderConfig, FileInfo inputFileInfo)
         {
             string returnString = hotfolderConfig.OutputFileScheme;
             string fileName = inputFileInfo.Name.Replace(inputFileInfo.Extension, "");

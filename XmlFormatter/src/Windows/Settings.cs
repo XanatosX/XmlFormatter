@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using System.Xml.XPath;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
@@ -224,17 +214,22 @@ namespace XmlFormatter.src.Windows
             SetupControls();
         }
 
+        /// <summary>
+        /// Event that the hotfolders where activated or disabled
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Event arguments</param>
         private void CB_Hotfolder_Click(object sender, EventArgs e)
         {
             GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
         }
 
-        private void LV_Hotfolders_ItemActivate(object sender, EventArgs e)
-        {
-            B_EditHotfolder.Enabled = true;
-            B_RemoveHotfolder.Enabled = true;
-        }
-
+        /// <summary>
+        /// Someone did select or deselect an item in the list view
+        /// Will change the enable state of the edit and remove button
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Event arguments</param>
         private void LV_Hotfolders_SelectedIndexChanged(object sender, EventArgs e)
         {
             bool enabled = LV_Hotfolders.SelectedItems.Count > 0;
@@ -242,6 +237,11 @@ namespace XmlFormatter.src.Windows
             B_RemoveHotfolder.Enabled = enabled;
         }
 
+        /// <summary>
+        /// Create a new hotfolder configuration
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Event arguments</param>
         private void B_AddHotfolder_Click(object sender, EventArgs e)
         {
             HotfolderEditor hotfolderEditor = new HotfolderEditor(null);
@@ -259,7 +259,11 @@ namespace XmlFormatter.src.Windows
                 LV_Hotfolders.Items.Add(HotfolderToListView(hotfolder));
             }
         }
-
+        /// <summary>
+        /// Convert a hotfolder to a valid ListViewItem
+        /// </summary>
+        /// <param name="hotfolder">The hotfolder to convert</param>
+        /// <returns>A valid ListViewItem</returns>
         private ListViewItem HotfolderToListView(IHotfolder hotfolder)
         {
             ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString());
@@ -274,6 +278,12 @@ namespace XmlFormatter.src.Windows
             return listViewItem;
         }
 
+        /// <summary>
+        /// Create hotfolder scope from name and hotfolder
+        /// </summary>
+        /// <param name="name">The name of the new hotfolder configuration</param>
+        /// <param name="hotfolder">The hotfolder to convert</param>
+        /// <returns>A valid scope for the setting manager</returns>
         private ISettingScope CreateHotfolderScope(string name, IHotfolder hotfolder)
         {
             ISettingScope hotfolderConfig = new SettingScope(name);
@@ -314,12 +324,22 @@ namespace XmlFormatter.src.Windows
             return hotfolderConfig;
         }
 
+        /// <summary>
+        /// Event to remove a hotfolder configuration
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Event arguments</param>
         private void B_RemoveHotfolder_Click(object sender, EventArgs e)
         {
             ListViewItem itemToRemove = LV_Hotfolders.SelectedItems[0];
             LV_Hotfolders.Items.Remove(itemToRemove);
         }
 
+        /// <summary>
+        /// Event to change a hotfolder configuration
+        /// </summary>
+        /// <param name="sender">The event sender</param>
+        /// <param name="e">Event arguments</param>
         private void B_EditHotfolder_Click(object sender, EventArgs e)
         {
             if (LV_Hotfolders.SelectedItems[0] == null)
