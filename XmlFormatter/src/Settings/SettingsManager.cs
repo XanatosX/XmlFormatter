@@ -98,5 +98,20 @@ namespace XmlFormatter.src.Settings
             saveProvider = saveProvider ?? persistentFactory.CreateSaver();
             return saveProvider.SaveSettings(this, filePath);
         }
+
+        /// <inheritdoc/>
+        public bool RemoveScope(string name)
+        {
+            int removed = scopes.RemoveAll(scope =>
+            {
+                return scope.Name == name;
+            });
+        }
+
+        /// <inheritdoc/>
+        public void RemoveScopes()
+        {
+            scopes.Clear();
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace XmlFormatter.src.Interfaces.Settings.DataStructure
         void SetName(string name);
 
         /// <summary>
-        /// Add a new setting pair to this scope
+        /// Add or change a new setting pair to this scope
         /// </summary>
         /// <param name="setting">The new setting to add to this scope</param>
         void AddSetting(ISettingPair setting);
@@ -38,10 +38,22 @@ namespace XmlFormatter.src.Interfaces.Settings.DataStructure
         ISettingScope GetSubScope(string name);
 
         /// <summary>
+        /// Remove a specific sub scope by name
+        /// </summary>
+        /// <param name="name">The name of the sub scope to remove</param>
+        /// <returns>True if removing was successful</returns>
+        bool RemoveSubScope(string name);
+
+        /// <summary>
         /// Get all the sub scopes in this scope
         /// </summary>
         /// <returns>A list with all sub scopes</returns>
         List<ISettingScope> GetSubScopes();
+
+        /// <summary>
+        /// Remove all the sub scopes from this scope
+        /// </summary>
+        void ClearSubScopes();
 
         /// <summary>
         /// Get a single setting by there key/name
@@ -51,9 +63,21 @@ namespace XmlFormatter.src.Interfaces.Settings.DataStructure
         ISettingPair GetSetting(string name);
 
         /// <summary>
+        /// Remove a seeting from this scope
+        /// </summary>
+        /// <param name="name">The name of the setting to remove</param>
+        /// <returns>True if removing was successful</returns>
+        bool RemoveSetting(string name);
+
+        /// <summary>
         /// Get all the settings from this scope container
         /// </summary>
         /// <returns></returns>
         List<ISettingPair> GetSettings();
+
+        /// <summary>
+        /// Remove all the settings in this scope
+        /// </summary>
+        void RemoveSettings();
     }
 }

@@ -22,6 +22,13 @@ namespace XmlFormatter.src.Interfaces.Settings
         void AddScope(ISettingScope newScope);
 
         /// <summary>
+        /// Remove a scope from the manager
+        /// </summary>
+        /// <param name="name">The name of the scope tp remove</param>
+        /// <returns>True if removing was successful</returns>
+        bool RemoveScope(string name);
+
+        /// <summary>
         /// Get a scope by there name/key
         /// </summary>
         /// <param name="name">They key/name of the scope to get</param>
@@ -33,6 +40,11 @@ namespace XmlFormatter.src.Interfaces.Settings
         /// </summary>
         /// <returns>A List with all the scopes in this manager</returns>
         List<ISettingScope> GetScopes();
+
+        /// <summary>
+        /// Remove all the scopes from this manager
+        /// </summary>
+        void RemoveScopes();
 
         /// <summary>
         /// Save every scope in this manager to a file
