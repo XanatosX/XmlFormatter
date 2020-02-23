@@ -103,5 +103,39 @@ namespace XmlFormatter.src.Settings.DataStructure
         {
             return subScopes;
         }
+
+        /// <inheritdoc/>
+        public bool RemoveSubScope(string name)
+        {
+            int removed = subScopes.RemoveAll((scope) =>
+            {
+                return scope.Name == name;
+            });
+
+            return removed > 0;
+        }
+
+        /// <inheritdoc/>
+        public void ClearSubScopes()
+        {
+            subScopes.Clear();
+        }
+
+        /// <inheritdoc/>
+        public bool RemoveSetting(string name)
+        {
+            int removed = settings.RemoveAll((setting) =>
+            {
+                return setting.Name == name;
+            });
+
+            return removed > 0;
+        }
+
+        /// <inheritdoc/>
+        public void RemoveSettings()
+        {
+            settings.Clear();
+        }
     }
 }

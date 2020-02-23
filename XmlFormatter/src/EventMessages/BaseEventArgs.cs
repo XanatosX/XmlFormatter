@@ -5,7 +5,7 @@ namespace XmlFormatter.src.EventMessages
     /// <summary>
     /// This class is a simple event data container
     /// </summary>
-    class BaseEventArgs : EventArgs
+    public class BaseEventArgs : EventArgs
     {
         /// <summary>
         /// The title of the event

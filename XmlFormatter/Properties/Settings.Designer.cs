@@ -91,5 +91,17 @@ namespace XmlFormatter.Properties {
                 return ((string)(this["LowestSupportedVersion"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HotfolderActive {
+            get {
+                return ((bool)(this["HotfolderActive"]));
+            }
+            set {
+                this["HotfolderActive"] = value;
+            }
+        }
     }
 }

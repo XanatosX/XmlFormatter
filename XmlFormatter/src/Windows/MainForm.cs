@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
@@ -12,6 +11,13 @@ using XmlFormatter.src.Settings.Adapter;
 using XmlFormatter.src.Settings.Provider.Factories;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using XmlFormatter.src.Formatter;
+using XmlFormatter.src.Enums;
+using XmlFormatter.src.Interfaces.Formatter;
+using XmlFormatter.src.EventMessages;
+using XmlFormatter.src.Hotfolder;
+using XmlFormatter.src.Interfaces.Hotfolder;
+using XmlFormatter.src.Settings.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
@@ -39,6 +45,13 @@ namespace XmlFormatter.src.Windows
         /// Instance for managing the settings
         /// </summary>
         private readonly ISettingsManager settingManager;
+
+        /// <summary>
+        /// The formatter to use
+        /// </summary>
+        private IFormatter formatterToUse;
+
+        private IHotfolderManager hotfolderManager;
 
         /// <summary>
         /// Constructor
@@ -71,8 +84,8 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
+            
         }
-
 
         /// <summary>
         /// Loading the form event
@@ -90,6 +103,55 @@ namespace XmlFormatter.src.Windows
             {
                 CheckForUpdatedVersion(true);
             }
+
+            SetFormatter(new XmlFormatterProvider());
+            SetupHotFolder();
+        }
+
+        private void SetupHotFolder()
+        {
+            if (!Properties.Settings.Default.HotfolderActive)
+            {
+                if (hotfolderManager != null)
+                {
+                    hotfolderManager.ResetManager();
+                    hotfolderManager = null;
+                }
+                
+                return;
+            }
+            hotfolderManager = hotfolderManager ?? new HotfolderManager();
+            hotfolderManager.ResetManager();
+
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
+            { 
+                hotfolderManager.AddHotfolder(hotfolder);
+            }
+        }
+
+        /// <summary>
+        /// Set the formatter for the main application
+        /// </summary>
+        /// <param name="formatter">The new formatter to use</param>
+        private void SetFormatter(IFormatter formatter)
+        {
+            if (formatterToUse != null)
+            {
+                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;    
+            }
+            formatterToUse = formatter;
+            formatterToUse.StatusChanged += FormatterToUse_StatusChanged;
+        }
+
+        /// <summary>
+        /// Status of the formatting did change
+        /// </summary>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="e">The new status</param>
+        private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
+        {
+            L_Status.Text = defaultStatus + e.Message;
         }
 
         /// <summary>
@@ -162,26 +224,12 @@ namespace XmlFormatter.src.Windows
         /// <returns></returns>
         private async Task<bool> SaveFormattedFile(string inputFilePath, string outputFilePath, bool formatted)
         {
-            SaveOptions options = SaveOptions.DisableFormatting;
-            if (formatted)
-            {
-                options = SaveOptions.None;
-            }
-            L_Status.Text = defaultStatus + "Loading ...";
+            ModesEnum currentEnum = formatted ? ModesEnum.Formatted : ModesEnum.Flat;
 
-            XElement fileToConvert = await Task<XElement>.Run(() =>
-            {
-                return XElement.Load(inputFilePath);
-            });
-
-            L_Status.Text = defaultStatus + "Saving ...";
-            await Task.Run(() => fileToConvert.Save(outputFilePath, options));
-
-            L_Status.Text = defaultStatus + "Saving done!";
-
+            bool success = formatterToUse.ConvertToFormat(inputFilePath, outputFilePath, currentEnum);
+             
             SwitchFormMode(true);
-
-            return true;
+            return success;
         }
 
         /// <summary>
@@ -407,6 +455,7 @@ namespace XmlFormatter.src.Windows
         {
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
+            SetupHotFolder();
         }
     }
 }

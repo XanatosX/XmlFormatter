@@ -126,5 +126,39 @@ namespace XmlFormatter.src.Settings.Adapter
         {
             return null;
         }
+
+        /// <summary>
+        /// This method is not supported by this adapter
+        /// </summary>
+        /// <param name="name">The name of the scope to remove</param>
+        /// <returns>Always true</returns>
+        public bool RemoveSubScope(string name)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Method is not supported by the adapter
+        /// </summary>
+        public void ClearSubScopes()
+        {
+        }
+
+        /// <summary>
+        /// This method is not supported by this adapter
+        /// </summary>
+        /// <param name="name">The name of the setting to remove</param>
+        /// <returns>Always true</returns>
+        public bool RemoveSetting(string name)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Method is not supported by the adapter
+        /// </summary>
+        public void RemoveSettings()
+        {
+        }
     }
 }
