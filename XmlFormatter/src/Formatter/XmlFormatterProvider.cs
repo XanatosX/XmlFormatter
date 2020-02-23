@@ -78,21 +78,18 @@ namespace XmlFormatter.src.Formatter
         /// <param name="options">The save options to use</param>
         private async void FormatFile(string inputFilePath, string outputName, SaveOptions options)
         {
-            FireEvent("Loading", "Loading ...");
-            XElement fileToConvert = await Task<XElement>.Run(() =>
-            {
-                return XElement.Load(inputFilePath);
-            });
-
             try
             {
                 using (FileStream fileStream = File.Open(inputFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
                 {
                     fileStream.Close();
                 }
-                using (FileStream fileStream = File.Open(outputName,FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                if (File.Exists(outputName))
                 {
-                    fileStream.Close();
+                    using (FileStream fileStream = File.Open(outputName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                    {
+                        fileStream.Close();
+                    }
                 }
             }
             catch (Exception)
@@ -100,6 +97,13 @@ namespace XmlFormatter.src.Formatter
                 FireEvent("Saving failed", "Files where locked!");
                 return;
             }
+
+            FireEvent("Loading", "Loading ...");
+            XElement fileToConvert = await Task<XElement>.Run(() =>
+            {
+                return XElement.Load(inputFilePath);
+            });
+
             FireEvent("Saving", "Saving ...");
             await Task.Run(() => fileToConvert.Save(outputName, options));           
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
@@ -26,12 +27,25 @@ namespace XmlFormatter.src.Hotfolder
         private string lastCreatedFile;
 
         /// <summary>
+        /// How often should we try to read the file
+        /// </summary>
+        private readonly int readAttempts;
+
+
+        /// <summary>
+        /// The time to sleet between the attempts
+        /// </summary>
+        private readonly int sleepTime;
+
+        /// <summary>
         /// Create a new instance of this manager class
         /// </summary>
         public HotfolderManager()
         {
             hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
             lastCreatedFile = "";
+            readAttempts = 10;
+            sleepTime = 200;
         }
 
 
@@ -100,6 +114,26 @@ namespace XmlFormatter.src.Hotfolder
 
         private void ConvertFile(IHotfolder hotfolderConfig, string inputFile)
         {
+            bool success = false;
+            for (int i = 0; i < readAttempts; i++)
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(inputFile))
+                    {
+                        success = true;
+                        break;
+                    }
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(sleepTime);
+                }
+            }
+            if (!success)
+            {
+                return;
+            }
             FileInfo fileInfo = new FileInfo(inputFile);
             string outputFile = GetOutputFileName(hotfolderConfig, fileInfo);
             lastCreatedFile = outputFile;
