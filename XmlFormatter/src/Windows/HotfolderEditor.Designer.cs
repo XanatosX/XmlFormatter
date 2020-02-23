@@ -272,7 +272,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HotfolderEditor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "HotfolderEditor";
+            this.Text = "Hotfolder Editor";
             this.Load += new System.EventHandler(this.HotfolderEditor_Load);
             this.GB_General.ResumeLayout(false);
             this.GB_General.PerformLayout();
