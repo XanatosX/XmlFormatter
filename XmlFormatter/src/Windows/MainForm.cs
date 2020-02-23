@@ -414,11 +414,12 @@ namespace XmlFormatter.src.Windows
                 NI_Notification.ShowBalloonTip(
                     5000,
                     "Application in tray",
-                    "The application got minimized to the an tray icon, click it to reopen",
+                    "The application got minimized to the tray icon, click on it to reopen",
                     ToolTipIcon.Info
                 );
 
                 Properties.Settings.Default.FirstTimeTray = false;
+                settingManager.Save(settingFile);
             }
             TopMost = true;
             TopMost = false;
