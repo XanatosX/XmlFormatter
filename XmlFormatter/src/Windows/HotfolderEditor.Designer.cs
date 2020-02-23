@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HotfolderEditor));
             this.GB_General = new System.Windows.Forms.GroupBox();
             this.CB_Mode = new System.Windows.Forms.ComboBox();
             this.L_Mode = new System.Windows.Forms.Label();
@@ -268,6 +269,7 @@
             this.Controls.Add(this.GB_Folders);
             this.Controls.Add(this.GB_General);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HotfolderEditor";
             this.Text = "HotfolderEditor";
             this.Load += new System.EventHandler(this.HotfolderEditor_Load);
