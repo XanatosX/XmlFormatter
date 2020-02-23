@@ -1,11 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Settings;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Settings.Provider.Factories;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using XmlFormatter.src.Formatter;
+using XmlFormatter.src.Enums;
+using XmlFormatter.src.Interfaces.Formatter;
+using XmlFormatter.src.EventMessages;
+using XmlFormatter.src.Hotfolder;
+using XmlFormatter.src.Interfaces.Hotfolder;
+using XmlFormatter.src.Settings.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
@@ -14,7 +26,32 @@ namespace XmlFormatter.src.Windows
     /// </summary>
     public partial class MainForm : Form
     {
-        readonly string defaultStatus;
+        /// <summary>
+        /// The default status to display at the end of the main window
+        /// </summary>
+        private readonly string defaultStatus;
+
+        /// <summary>
+        /// Path to the folder to save settings in
+        /// </summary>
+        private readonly string settingPath;
+
+        /// <summary>
+        /// Path to the default settings file
+        /// </summary>
+        private readonly string settingFile;
+
+        /// <summary>
+        /// Instance for managing the settings
+        /// </summary>
+        private readonly ISettingsManager settingManager;
+
+        /// <summary>
+        /// The formatter to use
+        /// </summary>
+        private IFormatter formatterToUse;
+
+        private IHotfolderManager hotfolderManager;
 
         /// <summary>
         /// Constructor
@@ -26,9 +63,29 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
-            Properties.Settings.Default.Save();
-        }
 
+            settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
+            settingFile = settingPath + "settings.set";
+
+            settingManager = new SettingsManager();
+            settingManager.SetPersistendFactory(new XmlProviderFactory());
+            settingManager.Load(settingFile);
+
+            ISettingScope resourceScope = settingManager.GetScope("Default");
+            if (resourceScope == null)
+            {
+                resourceScope = new PropertyAdapter();
+                settingManager.AddScope(resourceScope);
+            }
+
+            foreach (SettingPair settingPair in resourceScope.GetSettings())
+            {
+                Properties.Settings.Default[settingPair.Name] = settingPair.Value;
+            }
+
+            settingManager.Save(settingFile);
+            
+        }
 
         /// <summary>
         /// Loading the form event
@@ -46,6 +103,55 @@ namespace XmlFormatter.src.Windows
             {
                 CheckForUpdatedVersion(true);
             }
+
+            SetFormatter(new XmlFormatterProvider());
+            SetupHotFolder();
+        }
+
+        private void SetupHotFolder()
+        {
+            if (!Properties.Settings.Default.HotfolderActive)
+            {
+                if (hotfolderManager != null)
+                {
+                    hotfolderManager.ResetManager();
+                    hotfolderManager = null;
+                }
+                
+                return;
+            }
+            hotfolderManager = hotfolderManager ?? new HotfolderManager();
+            hotfolderManager.ResetManager();
+
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
+            { 
+                hotfolderManager.AddHotfolder(hotfolder);
+            }
+        }
+
+        /// <summary>
+        /// Set the formatter for the main application
+        /// </summary>
+        /// <param name="formatter">The new formatter to use</param>
+        private void SetFormatter(IFormatter formatter)
+        {
+            if (formatterToUse != null)
+            {
+                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;    
+            }
+            formatterToUse = formatter;
+            formatterToUse.StatusChanged += FormatterToUse_StatusChanged;
+        }
+
+        /// <summary>
+        /// Status of the formatting did change
+        /// </summary>
+        /// <param name="sender">The sender of the message</param>
+        /// <param name="e">The new status</param>
+        private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
+        {
+            L_Status.Text = defaultStatus + e.Message;
         }
 
         /// <summary>
@@ -118,26 +224,12 @@ namespace XmlFormatter.src.Windows
         /// <returns></returns>
         private async Task<bool> SaveFormattedFile(string inputFilePath, string outputFilePath, bool formatted)
         {
-            SaveOptions options = SaveOptions.DisableFormatting;
-            if (formatted)
-            {
-                options = SaveOptions.None;
-            }
-            L_Status.Text = defaultStatus + "Loading ...";
+            ModesEnum currentEnum = formatted ? ModesEnum.Formatted : ModesEnum.Flat;
 
-            XElement fileToConvert = await Task<XElement>.Run(() =>
-            {
-                return XElement.Load(inputFilePath);
-            });
-
-            L_Status.Text = defaultStatus + "Saving ...";
-            await Task.Run(() => fileToConvert.Save(outputFilePath, options));
-
-            L_Status.Text = defaultStatus + "Saving done!";
-
+            bool success = formatterToUse.ConvertToFormat(inputFilePath, outputFilePath, currentEnum);
+             
             SwitchFormMode(true);
-
-            return true;
+            return success;
         }
 
         /// <summary>
@@ -322,12 +414,12 @@ namespace XmlFormatter.src.Windows
                 NI_Notification.ShowBalloonTip(
                     5000,
                     "Application in tray",
-                    "The application got minimized to the an tray icon, click it to reopen",
+                    "The application got minimized to the tray icon, click on it to reopen",
                     ToolTipIcon.Info
                 );
 
                 Properties.Settings.Default.FirstTimeTray = false;
-                Properties.Settings.Default.Save();
+                settingManager.Save(settingFile);
             }
             TopMost = true;
             TopMost = false;
@@ -362,8 +454,9 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments provided by the sender</param>
         private void MI_Settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
+            SetupHotFolder();
         }
     }
 }

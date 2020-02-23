@@ -12,8 +12,14 @@ using XmlFormatter.src.EventMessages;
 
 namespace XmlFormatter.src.Manager
 {
+    /// <summary>
+    /// This class will provide you methods to check different application versions
+    /// </summary>
     class VersionManager
     {
+        /// <summary>
+        /// A event if something went wrong by checking the versions
+        /// </summary>
         public event EventHandler<BaseEventArgs> Error;
 
         /// <summary>
