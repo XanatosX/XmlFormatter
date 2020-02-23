@@ -2,26 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using XmlFormatter.src.Enums;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Settings.DataStructure;
 
 namespace XmlFormatter.src.Settings.Hotfolder
 {
+    /// <summary>
+    /// This class is a helper to load the hotfolder configuration
+    /// </summary>
     class HotfolderExtension
     {
+        /// <summary>
+        /// The settings manager to use
+        /// </summary>
         private readonly ISettingsManager settingsManager;
 
+        /// <summary>
+        /// Create a new instance of this extension class
+        /// </summary>
+        /// <param name="settingsManager">The settings manager to use</param>
         public HotfolderExtension(ISettingsManager settingsManager)
         {
             this.settingsManager = settingsManager;
         }
 
+        /// <summary>
+        /// Get the hot folders from the settings
+        /// </summary>
+        /// <returns>A list with all the hot folders</returns>
         public List<IHotfolder> GetHotFoldersFromSettings()
         {
             List<IHotfolder> hotfoldersToReturn = new List<IHotfolder>();

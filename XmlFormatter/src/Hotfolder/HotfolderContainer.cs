@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlFormatter.src.Enums;
+﻿using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 
 namespace XmlFormatter.src.Hotfolder
 {
+    /// <summary>
+    /// This class is a default hotfolder configuration
+    /// </summary>
     class HotfolderContainer : IHotfolder
     {
         /// <summary>

@@ -80,14 +80,22 @@ namespace XmlFormatter.src.Formatter
         {
             try
             {
-                using (FileStream fileStream = File.Open(inputFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-                {
+                using (FileStream fileStream = File.Open(
+                    inputFilePath,
+                    FileMode.Open,
+                    FileAccess.ReadWrite,
+                    FileShare.None
+                )) {
                     fileStream.Close();
                 }
                 if (File.Exists(outputName))
                 {
-                    using (FileStream fileStream = File.Open(outputName, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
-                    {
+                    using (FileStream fileStream = File.Open(
+                        outputName,
+                        FileMode.Open,
+                        FileAccess.ReadWrite,
+                        FileShare.None
+                    )) {
                         fileStream.Close();
                     }
                 }
