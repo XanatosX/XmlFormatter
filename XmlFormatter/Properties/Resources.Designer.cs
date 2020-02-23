@@ -97,6 +97,25 @@ namespace XmlFormatter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This setting will only be activated after saving and closing the setting window.
+        ///Any changes to the configuration will take place after saving and closing the settings window..
+        /// </summary>
+        internal static string Settings_CB_Hotfolder_Message {
+            get {
+                return ResourceManager.GetString("Settings_CB_Hotfolder_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotfolder is active.
+        /// </summary>
+        internal static string Settings_CB_Hotfolder_Title {
+            get {
+                return ResourceManager.GetString("Settings_CB_Hotfolder_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This option will change the minimize behavior of the main window
         ///If this is set the application will be minimized to an tray icon instead of the task bar..
         /// </summary>

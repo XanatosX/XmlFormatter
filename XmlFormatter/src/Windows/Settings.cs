@@ -37,6 +37,7 @@ namespace XmlFormatter.src.Windows
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
             SetupToolTip(CB_CheckUpdatesOnStartup);
+            SetupToolTip(CB_Hotfolder);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -234,6 +235,13 @@ namespace XmlFormatter.src.Windows
             B_RemoveHotfolder.Enabled = true;
         }
 
+        private void LV_Hotfolders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool enabled = LV_Hotfolders.SelectedItems.Count > 0;
+            B_EditHotfolder.Enabled = enabled;
+            B_RemoveHotfolder.Enabled = enabled;
+        }
+
         private void B_AddHotfolder_Click(object sender, EventArgs e)
         {
             HotfolderEditor hotfolderEditor = new HotfolderEditor(null);
@@ -306,13 +314,6 @@ namespace XmlFormatter.src.Windows
             return hotfolderConfig;
         }
 
-        private void LV_Hotfolders_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            bool enabled = LV_Hotfolders.SelectedItems.Count > 0;
-            B_EditHotfolder.Enabled = enabled;
-            B_RemoveHotfolder.Enabled = enabled;
-        }
-
         private void B_RemoveHotfolder_Click(object sender, EventArgs e)
         {
             ListViewItem itemToRemove = LV_Hotfolders.SelectedItems[0];
@@ -321,7 +322,24 @@ namespace XmlFormatter.src.Windows
 
         private void B_EditHotfolder_Click(object sender, EventArgs e)
         {
-
+            if (LV_Hotfolders.SelectedItems[0] == null)
+            {
+                return;
+            }
+            ListViewItem selectedItem = LV_Hotfolders.SelectedItems[0];
+            if (selectedItem.Tag is IHotfolder)
+            {
+                HotfolderEditor hotfolderEditor = new HotfolderEditor((IHotfolder)selectedItem.Tag);
+                hotfolderEditor.ShowDialog();
+                if (hotfolderEditor.Saved)
+                {
+                    int position = LV_Hotfolders.SelectedItems[0].Index;
+                    LV_Hotfolders.Items.Remove(selectedItem);
+                    ListViewItem itemToAdd = HotfolderToListView(hotfolderEditor.Hotfolder);
+                    LV_Hotfolders.Items.Insert(position, itemToAdd);
+                    LV_Hotfolders.Items[position].Selected = true;
+                }
+            }
         }
     }
 }

@@ -231,10 +231,10 @@
             // LV_Hotfolders
             // 
             this.LV_Hotfolders.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.CH_watchedFolder,
-            this.CH_filter,
             this.CH_Formatter,
             this.CH_Mode,
+            this.CH_watchedFolder,
+            this.CH_filter,
             this.CH_OutputFolder,
             this.CH_OutputFileScheme,
             this.CH_OnRename,

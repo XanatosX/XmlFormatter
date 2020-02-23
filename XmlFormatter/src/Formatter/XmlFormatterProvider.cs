@@ -84,8 +84,24 @@ namespace XmlFormatter.src.Formatter
                 return XElement.Load(inputFilePath);
             });
 
+            try
+            {
+                using (FileStream fileStream = File.Open(inputFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                {
+                    fileStream.Close();
+                }
+                using (FileStream fileStream = File.Open(outputName,FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+                {
+                    fileStream.Close();
+                }
+            }
+            catch (Exception)
+            {
+                FireEvent("Saving failed", "Files where locked!");
+                return;
+            }
             FireEvent("Saving", "Saving ...");
-            await Task.Run(() => fileToConvert.Save(outputName, options));
+            await Task.Run(() => fileToConvert.Save(outputName, options));           
 
             FireEvent("Done", "Saving done!");
         }

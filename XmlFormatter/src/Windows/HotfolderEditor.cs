@@ -36,8 +36,6 @@ namespace XmlFormatter.src.Windows
             InitializeComponent();
 
             CB_Formatter.Enabled = !editMode;
-            TB_Filter.Text = "*.*";
-            TB_OutputFileScheme.Text = "{inputfile}_{format}.{extension}";
             this.hotfolder = hotfolder;
         }
 
@@ -60,8 +58,50 @@ namespace XmlFormatter.src.Windows
                 CB_Mode.Items.Add(mode.ToString());
             }
 
+            FillSettingWindow();
+
+        }
+
+        /// <summary>
+        /// Fill in the data of the hotfolder configuration
+        /// </summary>
+        private void FillSettingWindow()
+        {
+            TB_Filter.Text = "*.*";
+            TB_OutputFileScheme.Text = "{inputfile}_{format}.{extension}";
+
             CB_Formatter.SelectedIndex = 0;
             CB_Mode.SelectedIndex = 0;
+            if (editMode)
+            {
+                for (int i = 0; i < CB_Formatter.Items.Count; i++)
+                {
+                    string item = CB_Formatter.Items[i].ToString();
+                    if (item == hotfolder.FormatterToUse.GetType().Name)
+                    {
+                        CB_Formatter.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < CB_Mode.Items.Count; i++)
+                {
+                    string item = CB_Mode.Items[i].ToString();
+                    if (item == hotfolder.Mode.ToString())
+                    {
+                        CB_Mode.SelectedIndex = i;
+                        break;
+                    }
+                }
+
+                TB_WatchedFolder.Text = hotfolder.WatchedFolder;
+                TB_Filter.Text = hotfolder.Filter;
+                TB_OutputFolder.Text = hotfolder.OutputFolder;
+                TB_OutputFileScheme.Text = hotfolder.OutputFileScheme;
+
+                CB_OnRename.Checked = hotfolder.OnRename;
+                CB_RemoveOld.Checked = hotfolder.RemoveOld;
+                }
         }
 
         private void B_OpenWatchFolder_Click(object sender, EventArgs e)
@@ -104,9 +144,19 @@ namespace XmlFormatter.src.Windows
             {
                 return;
             }
+            if (TB_WatchedFolder.Text == TB_OutputFolder.Text)
+            {
+                MessageBox.Show(
+                    "Watched folder and output folder must differ!",
+                    "Same folder selected",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+                return;
+            }
             Type formatterType = formatters[CB_Formatter.SelectedItem.ToString()];
             IFormatter formatter = (IFormatter)Activator.CreateInstance(formatterType);
-            hotfolder = hotfolder ?? new HotfolderContainer(formatter, TB_WatchedFolder.Text);
+            hotfolder = new HotfolderContainer(formatter, TB_WatchedFolder.Text);
             hotfolder.Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString());
             hotfolder.Filter = TB_Filter.Text;
             hotfolder.OutputFolder = TB_OutputFolder.Text;
