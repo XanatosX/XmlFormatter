@@ -142,7 +142,6 @@ namespace XmlFormatter.src.Settings.Adapter
         /// </summary>
         public void ClearSubScopes()
         {
-            return;
         }
 
         /// <summary>
@@ -160,7 +159,6 @@ namespace XmlFormatter.src.Settings.Adapter
         /// </summary>
         public void RemoveSettings()
         {
-            return;
         }
     }
 }

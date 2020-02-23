@@ -120,10 +120,7 @@ namespace XmlFormatter.src.Windows
                 
                 return;
             }
-            if (hotfolderManager == null)
-            {
-                hotfolderManager = new HotfolderManager();
-            }
+            hotfolderManager = hotfolderManager ?? new HotfolderManager();
             hotfolderManager.ResetManager();
 
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);

@@ -50,8 +50,6 @@ namespace XmlFormatter.src.Formatter
                     return ConvertToFormatted(filePath, outputName);
                 case ModesEnum.Flat:
                     return ConvertToFlat(filePath, outputName);
-                default:
-                    break;
             }
             return false;
         }

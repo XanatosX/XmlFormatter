@@ -24,7 +24,7 @@ namespace XmlFormatter.src.Hotfolder
         /// <summary>
         /// The formatter to use
         /// </summary>
-        private IFormatter formatterToUse;
+        private readonly IFormatter formatterToUse;
 
         /// <inheritdoc/>
         public IFormatter FormatterToUse => formatterToUse;

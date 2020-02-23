@@ -233,9 +233,9 @@
             this.CB_OnRename.AutoSize = true;
             this.CB_OnRename.Location = new System.Drawing.Point(6, 19);
             this.CB_OnRename.Name = "CB_OnRename";
-            this.CB_OnRename.Size = new System.Drawing.Size(96, 17);
+            this.CB_OnRename.Size = new System.Drawing.Size(72, 17);
             this.CB_OnRename.TabIndex = 0;
-            this.CB_OnRename.Text = "Fire on rename";
+            this.CB_OnRename.Text = "Renamed";
             this.CB_OnRename.UseVisualStyleBackColor = true;
             // 
             // B_Save

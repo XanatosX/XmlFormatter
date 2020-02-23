@@ -35,7 +35,7 @@ namespace XmlFormatter.src.Windows
         /// <summary>
         /// A lookup for the formatters
         /// </summary>
-        private Dictionary<string, Type> formatters;
+        private readonly Dictionary<string, Type> formatters;
 
         /// <summary>
         /// The current hotfolder configuration
@@ -53,7 +53,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="hotfolder">The hotfolder configuration to use for editing</param>
         public HotfolderEditor(IHotfolder hotfolder)
         {
-            editMode = hotfolder == null ? false : true;
+            editMode = hotfolder == null;
             formatters = new Dictionary<string, Type>();
            
             InitializeComponent();
@@ -71,7 +71,6 @@ namespace XmlFormatter.src.Windows
         private void HotfolderEditor_Load(object sender, EventArgs e)
         {
             Type type = typeof(IFormatter);
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
             var formatterTypes = types.Where(currentType => currentType.GetInterfaces().Contains(type));
 
