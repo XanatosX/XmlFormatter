@@ -216,6 +216,7 @@
             this.B_EditHotfolder.TabIndex = 2;
             this.B_EditHotfolder.Text = "Edit";
             this.B_EditHotfolder.UseVisualStyleBackColor = true;
+            this.B_EditHotfolder.Click += new System.EventHandler(this.B_EditHotfolder_Click);
             // 
             // B_AddHotfolder
             // 

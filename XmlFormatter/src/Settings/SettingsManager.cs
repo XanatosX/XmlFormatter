@@ -106,6 +106,8 @@ namespace XmlFormatter.src.Settings
             {
                 return scope.Name == name;
             });
+
+            return removed > 0;
         }
 
         /// <inheritdoc/>
