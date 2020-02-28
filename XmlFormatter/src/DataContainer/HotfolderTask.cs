@@ -28,7 +28,7 @@ namespace XmlFormatter.src.DataContainer
         private readonly IHotfolder configuration;
 
         /// <summary>
-        /// THe configuration to use for converting
+        /// The configuration to use for converting
         /// </summary>
         public IHotfolder Configuration => configuration;
 
