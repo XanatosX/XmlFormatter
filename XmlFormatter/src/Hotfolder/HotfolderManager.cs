@@ -23,15 +23,9 @@ namespace XmlFormatter.src.Hotfolder
         private readonly Dictionary<IHotfolder, FileSystemWatcher> hotfolders;
 
         /// <summary>
-        /// The last file we did create
-        /// </summary>
-        private string lastCreatedFile;
-
-        /// <summary>
         /// How often should we try to read the file
         /// </summary>
         private readonly int readAttempts;
-
 
         /// <summary>
         /// The time to sleet between the attempts
@@ -43,6 +37,9 @@ namespace XmlFormatter.src.Hotfolder
         /// </summary>
         private readonly List<HotfolderTask> tasks;
 
+        /// <summary>
+        /// Is the conversion currently locked
+        /// </summary>
         private bool locked;
 
         /// <summary>
@@ -52,7 +49,6 @@ namespace XmlFormatter.src.Hotfolder
         {
             hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
             tasks = new List<HotfolderTask>();
-            lastCreatedFile = "";
             readAttempts = 25;
             sleepTime = 200;
         }
@@ -108,10 +104,6 @@ namespace XmlFormatter.src.Hotfolder
                 return;
             }
 
-            if (e.FullPath == lastCreatedFile)
-            {
-                return;
-            }
             FileInfo fileInfo = new FileInfo(e.FullPath);
             IHotfolder hotfolder = GetHotfolderByWatchedFolder(fileInfo.DirectoryName);
             if (hotfolder == null)
@@ -188,7 +180,6 @@ namespace XmlFormatter.src.Hotfolder
 
             FileInfo fileInfo = new FileInfo(inputFile);
             string outputFile = GetOutputFilePath(hotfolderConfig, fileInfo);
-            lastCreatedFile = outputFile;
             bool result = hotfolderConfig.FormatterToUse.ConvertToFormat(inputFile, outputFile, hotfolderConfig.Mode);
             if (result && hotfolderConfig.RemoveOld)
             {
