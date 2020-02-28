@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CB_CheckUpdatesOnStartup = new System.Windows.Forms.CheckBox();
             this.CB_AskBeforeClose = new System.Windows.Forms.CheckBox();
             this.CB_MinimizeToTray = new System.Windows.Forms.CheckBox();
+            this.CB_CheckUpdatesOnStartup = new System.Windows.Forms.CheckBox();
             this.B_SaveAndClose = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.MI_SettingsMenu = new System.Windows.Forms.MenuStrip();
@@ -42,16 +42,19 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TC_SettingTabs = new System.Windows.Forms.TabControl();
             this.TP_Application = new System.Windows.Forms.TabPage();
+            this.GB_Update = new System.Windows.Forms.GroupBox();
+            this.L_UpdateStrategy = new System.Windows.Forms.Label();
+            this.CB_UpdateStrategy = new System.Windows.Forms.ComboBox();
             this.TP_Hotfolder = new System.Windows.Forms.TabPage();
             this.GB_Hotfolder = new System.Windows.Forms.GroupBox();
             this.B_RemoveHotfolder = new System.Windows.Forms.Button();
             this.B_EditHotfolder = new System.Windows.Forms.Button();
             this.B_AddHotfolder = new System.Windows.Forms.Button();
             this.LV_Hotfolders = new System.Windows.Forms.ListView();
-            this.CH_watchedFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CH_filter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_Formatter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_Mode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CH_watchedFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CH_filter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OutputFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OutputFileScheme = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OnRename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,31 +64,21 @@
             this.MI_SettingsMenu.SuspendLayout();
             this.TC_SettingTabs.SuspendLayout();
             this.TP_Application.SuspendLayout();
+            this.GB_Update.SuspendLayout();
             this.TP_Hotfolder.SuspendLayout();
             this.GB_Hotfolder.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.CB_CheckUpdatesOnStartup);
             this.groupBox1.Controls.Add(this.CB_AskBeforeClose);
             this.groupBox1.Controls.Add(this.CB_MinimizeToTray);
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(700, 207);
+            this.groupBox1.Size = new System.Drawing.Size(700, 68);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application settings";
-            // 
-            // CB_CheckUpdatesOnStartup
-            // 
-            this.CB_CheckUpdatesOnStartup.AutoSize = true;
-            this.CB_CheckUpdatesOnStartup.Location = new System.Drawing.Point(6, 65);
-            this.CB_CheckUpdatesOnStartup.Name = "CB_CheckUpdatesOnStartup";
-            this.CB_CheckUpdatesOnStartup.Size = new System.Drawing.Size(163, 17);
-            this.CB_CheckUpdatesOnStartup.TabIndex = 2;
-            this.CB_CheckUpdatesOnStartup.Text = "Check for updates on startup";
-            this.CB_CheckUpdatesOnStartup.UseVisualStyleBackColor = true;
             // 
             // CB_AskBeforeClose
             // 
@@ -106,6 +99,16 @@
             this.CB_MinimizeToTray.TabIndex = 0;
             this.CB_MinimizeToTray.Text = "Minimize to tray";
             this.CB_MinimizeToTray.UseVisualStyleBackColor = true;
+            // 
+            // CB_CheckUpdatesOnStartup
+            // 
+            this.CB_CheckUpdatesOnStartup.AutoSize = true;
+            this.CB_CheckUpdatesOnStartup.Location = new System.Drawing.Point(6, 14);
+            this.CB_CheckUpdatesOnStartup.Name = "CB_CheckUpdatesOnStartup";
+            this.CB_CheckUpdatesOnStartup.Size = new System.Drawing.Size(163, 17);
+            this.CB_CheckUpdatesOnStartup.TabIndex = 2;
+            this.CB_CheckUpdatesOnStartup.Text = "Check for updates on startup";
+            this.CB_CheckUpdatesOnStartup.UseVisualStyleBackColor = true;
             // 
             // B_SaveAndClose
             // 
@@ -164,6 +167,7 @@
             // 
             // TP_Application
             // 
+            this.TP_Application.Controls.Add(this.GB_Update);
             this.TP_Application.Controls.Add(this.groupBox1);
             this.TP_Application.Location = new System.Drawing.Point(4, 22);
             this.TP_Application.Name = "TP_Application";
@@ -172,6 +176,36 @@
             this.TP_Application.TabIndex = 0;
             this.TP_Application.Text = "Application";
             this.TP_Application.UseVisualStyleBackColor = true;
+            // 
+            // GB_Update
+            // 
+            this.GB_Update.Controls.Add(this.CB_CheckUpdatesOnStartup);
+            this.GB_Update.Controls.Add(this.L_UpdateStrategy);
+            this.GB_Update.Controls.Add(this.CB_UpdateStrategy);
+            this.GB_Update.Location = new System.Drawing.Point(8, 80);
+            this.GB_Update.Name = "GB_Update";
+            this.GB_Update.Size = new System.Drawing.Size(700, 122);
+            this.GB_Update.TabIndex = 1;
+            this.GB_Update.TabStop = false;
+            this.GB_Update.Text = "Updating";
+            // 
+            // L_UpdateStrategy
+            // 
+            this.L_UpdateStrategy.AutoSize = true;
+            this.L_UpdateStrategy.Location = new System.Drawing.Point(3, 34);
+            this.L_UpdateStrategy.Name = "L_UpdateStrategy";
+            this.L_UpdateStrategy.Size = new System.Drawing.Size(82, 13);
+            this.L_UpdateStrategy.TabIndex = 4;
+            this.L_UpdateStrategy.Text = "Update strategy";
+            // 
+            // CB_UpdateStrategy
+            // 
+            this.CB_UpdateStrategy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_UpdateStrategy.FormattingEnabled = true;
+            this.CB_UpdateStrategy.Location = new System.Drawing.Point(6, 50);
+            this.CB_UpdateStrategy.Name = "CB_UpdateStrategy";
+            this.CB_UpdateStrategy.Size = new System.Drawing.Size(163, 21);
+            this.CB_UpdateStrategy.TabIndex = 3;
             // 
             // TP_Hotfolder
             // 
@@ -251,14 +285,6 @@
             this.LV_Hotfolders.View = System.Windows.Forms.View.Details;
             this.LV_Hotfolders.SelectedIndexChanged += new System.EventHandler(this.LV_Hotfolders_SelectedIndexChanged);
             // 
-            // CH_watchedFolder
-            // 
-            this.CH_watchedFolder.Text = "Watched folder";
-            // 
-            // CH_filter
-            // 
-            this.CH_filter.Text = "File filter";
-            // 
             // CH_Formatter
             // 
             this.CH_Formatter.Text = "Formatter";
@@ -266,6 +292,14 @@
             // CH_Mode
             // 
             this.CH_Mode.Text = "Mode";
+            // 
+            // CH_watchedFolder
+            // 
+            this.CH_watchedFolder.Text = "Watched folder";
+            // 
+            // CH_filter
+            // 
+            this.CH_filter.Text = "File filter";
             // 
             // CH_OutputFolder
             // 
@@ -317,6 +351,8 @@
             this.MI_SettingsMenu.PerformLayout();
             this.TC_SettingTabs.ResumeLayout(false);
             this.TP_Application.ResumeLayout(false);
+            this.GB_Update.ResumeLayout(false);
+            this.GB_Update.PerformLayout();
             this.TP_Hotfolder.ResumeLayout(false);
             this.TP_Hotfolder.PerformLayout();
             this.GB_Hotfolder.ResumeLayout(false);
@@ -354,5 +390,8 @@
         private System.Windows.Forms.Button B_EditHotfolder;
         private System.Windows.Forms.Button B_AddHotfolder;
         private System.Windows.Forms.ColumnHeader CH_Mode;
+        private System.Windows.Forms.GroupBox GB_Update;
+        private System.Windows.Forms.Label L_UpdateStrategy;
+        private System.Windows.Forms.ComboBox CB_UpdateStrategy;
     }
 }

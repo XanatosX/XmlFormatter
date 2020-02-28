@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using XmlFormatter.src.Interfaces.Updates;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.Settings.DataStructure;
 using XmlFormatter.src.Settings.Hotfolder;
@@ -14,6 +18,8 @@ namespace XmlFormatter.src.Windows
         private readonly ISettingsManager settingManager;
         private readonly string settingFile;
 
+        private readonly Dictionary<string, IUpdateStrategy> updateStrategies;
+
         /// <summary>
         /// Create a new settings window
         /// </summary>
@@ -23,11 +29,13 @@ namespace XmlFormatter.src.Windows
 
             this.settingManager = settingManager;
             this.settingFile = settingFile;
+            updateStrategies = new Dictionary<string, IUpdateStrategy>();
 
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
             SetupToolTip(CB_CheckUpdatesOnStartup);
             SetupToolTip(CB_Hotfolder);
+            SetupToolTip(L_UpdateStrategy);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -79,6 +87,30 @@ namespace XmlFormatter.src.Windows
                 ListViewItem item = HotfolderToListView(hotfolder);
                 LV_Hotfolders.Items.Add(item);
             }
+
+            Type type = typeof(IUpdateStrategy);
+            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            var possibleStrategies = types.Where(currentType => currentType.GetInterfaces().Contains(type));
+
+            foreach (Type currentStrategy in possibleStrategies)
+            {
+                try
+                {
+                    IUpdateStrategy updateStrategy = (IUpdateStrategy)Activator.CreateInstance(currentStrategy);
+                    updateStrategies.Add(updateStrategy.DisplayName, updateStrategy);
+                    CB_UpdateStrategy.Items.Add(updateStrategy.DisplayName);
+                    var test = currentStrategy.ToString();
+                    var test2 = Properties.Settings.Default.UpdateStrategy;
+                    if (currentStrategy.ToString() == Properties.Settings.Default.UpdateStrategy)
+                    {
+                        CB_UpdateStrategy.SelectedIndex = CB_UpdateStrategy.Items.Count - 1;
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
         }
 
         /// <summary>
@@ -102,6 +134,12 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
             Properties.Settings.Default.HotfolderActive = CB_Hotfolder.Checked;
+            string strategyName = CB_UpdateStrategy.SelectedItem.ToString();
+            if (updateStrategies.ContainsKey(strategyName))
+            {
+                IUpdateStrategy updateStrategy = updateStrategies[strategyName];
+                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().ToString();
+            }
 
             ISettingScope hotfolderScope = settingManager.GetScope("Hotfolder");
             if (hotfolderScope == null)

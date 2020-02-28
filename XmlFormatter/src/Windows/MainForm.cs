@@ -18,6 +18,9 @@ using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Settings.Hotfolder;
+using XmlFormatter.src.Update;
+using XmlFormatter.src.Interfaces.Updates;
+using XmlFormatter.src.Update.Strategies;
 
 namespace XmlFormatter.src.Windows
 {
@@ -45,6 +48,11 @@ namespace XmlFormatter.src.Windows
         /// Instance for managing the settings
         /// </summary>
         private readonly ISettingsManager settingManager;
+
+        /// <summary>
+        /// Instance of the update manager
+        /// </summary>
+        private readonly IUpdater updateManager;
 
         /// <summary>
         /// The formatter to use
@@ -84,7 +92,24 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
-            
+            updateManager = new UpdateManager();
+            SetUpdateStrategy();
+        }
+
+        private void SetUpdateStrategy()
+        {
+            IUpdateStrategy updateStrategy = null;
+            try
+            {
+                Type type = Type.GetType(Properties.Settings.Default.UpdateStrategy);
+                updateStrategy = (IUpdateStrategy)Activator.CreateInstance(type);
+            }
+            catch (Exception)
+            {
+                updateStrategy = new OpenGitHubReleasesStrategy();
+                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().FullName;
+            }
+            updateManager.SetStrategy(updateStrategy);
         }
 
         /// <summary>
@@ -340,7 +365,10 @@ namespace XmlFormatter.src.Windows
                 DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
+                    if (!updateManager.UpdateApplication(versionCompare))
+                    {
+                        //@TODO: Show some kind of error message
+                    }
                 }
             }
         }
@@ -457,6 +485,7 @@ namespace XmlFormatter.src.Windows
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
             SetupHotFolder();
+            SetUpdateStrategy();
         }
     }
 }
