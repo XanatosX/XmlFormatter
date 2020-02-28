@@ -107,13 +107,42 @@ namespace XmlFormatter.src.Formatter
             FireEvent("Loading", "Loading ...");
             XElement fileToConvert = await Task<XElement>.Run(() =>
             {
-                return XElement.Load(inputFilePath);
+                XElement returnElement;
+                try
+                {
+                    returnElement = XElement.Load(inputFilePath);
+                }
+                catch (Exception)
+                {
+                    FireEvent("Input file not valid", "The input file was not valid!");
+                    returnElement = null;
+                }
+                return returnElement;
             });
 
-            FireEvent("Saving", "Saving ...");
-            await Task.Run(() => fileToConvert.Save(outputName, options));           
+            if (fileToConvert == null)
+            {
+                return;
+            }
 
-            FireEvent("Done", "Saving done!");
+            FireEvent("Saving", "Saving ...");
+            bool saveSuccess = await Task<bool>.Run(() => {
+                    try
+                    {
+                        fileToConvert.Save(outputName, options);
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        FireEvent("Saving did fail", "Saving went wrong, maybe the file was used?");
+                        return false;
+                    }
+                });           
+
+            if (saveSuccess)
+            {   
+                FireEvent("Done", "Saving done!");
+            }
         }
 
         /// <summary>

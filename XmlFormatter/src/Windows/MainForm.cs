@@ -54,6 +54,16 @@ namespace XmlFormatter.src.Windows
         private IHotfolderManager hotfolderManager;
 
         /// <summary>
+        /// New delegate to set a label text from another thread
+        /// </summary>
+        /// <param name="label">The label to change</param>
+        /// <param name="newText">The new text to use</param>
+        private delegate void UpdateThreadSafeConvertStatus(
+            Label label,
+            string newText
+        );
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public MainForm()
@@ -151,8 +161,26 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The new status</param>
         private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
         {
-            L_Status.Text = defaultStatus + e.Message;
+            UpdateLabelTextThreadSafe(L_Status, e.Message);
         }
+
+        /// <summary>
+        /// Update the text of a given label thread safe
+        /// </summary>
+        /// <param name="label">The label to update</param>
+        /// <param name="newText">The text to set the label text to</param>
+        public void UpdateLabelTextThreadSafe(Label label, string newText)
+        {
+            string textToUse = defaultStatus + newText;
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new UpdateThreadSafeConvertStatus(UpdateLabelTextThreadSafe), new object[] { label, textToUse });
+                return;
+            }
+
+            label.Text = textToUse;
+        }
+
 
         /// <summary>
         /// This method will allow you to select the xml file you want to convert
