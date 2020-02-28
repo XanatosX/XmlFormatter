@@ -15,9 +15,19 @@ namespace XmlFormatter.src.Windows
 {
     public partial class Settings : Form
     {
+        /// <summary>
+        /// The setting manager to user
+        /// </summary>
         private readonly ISettingsManager settingManager;
+
+        /// <summary>
+        /// The setting file to load
+        /// </summary>
         private readonly string settingFile;
 
+        /// <summary>
+        /// A dictionary with all the update strategies
+        /// </summary>
         private readonly Dictionary<string, IUpdateStrategy> updateStrategies;
 
         /// <summary>
@@ -31,27 +41,27 @@ namespace XmlFormatter.src.Windows
             this.settingFile = settingFile;
             updateStrategies = new Dictionary<string, IUpdateStrategy>();
 
-            SetupToolTip(CB_MinimizeToTray);
-            SetupToolTip(CB_AskBeforeClose);
-            SetupToolTip(CB_CheckUpdatesOnStartup);
-            SetupToolTip(CB_Hotfolder);
-            SetupToolTip(L_UpdateStrategy);
+            setupToolTip(CB_MinimizeToTray);
+            setupToolTip(CB_AskBeforeClose);
+            setupToolTip(CB_CheckUpdatesOnStartup);
+            setupToolTip(CB_Hotfolder);
+            setupToolTip(L_UpdateStrategy);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
-            SetupControls();
+            setupControls();
         }
 
         /// <summary>
         /// This method will set the matching tool tip for the control
         /// </summary>
         /// <param name="control">The control to set the tip to</param>
-        private void SetupToolTip(Control control)
+        private void setupToolTip(Control control)
         {
             ToolTip toolTip = new ToolTip();
             this.components.Add(toolTip);
-            SetupToolTip(toolTip, control);
+            setupToolTip(toolTip, control);
         }
 
         /// <summary>
@@ -59,7 +69,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="toolTip">The tool tip provider to use</param>
         /// <param name="control">The control to set the tip to</param>
-        private void SetupToolTip(ToolTip toolTip, Control control)
+        private void setupToolTip(ToolTip toolTip, Control control)
         {
             string baseName = this.Name + "_" + control.Name;
             toolTip.ToolTipTitle = Properties.Resources.ResourceManager.GetString(baseName + "_Title");
@@ -72,7 +82,7 @@ namespace XmlFormatter.src.Windows
         /// <summary>
         /// This method will setup the controls
         /// </summary>
-        private void SetupControls()
+        private void setupControls()
         {
             CB_MinimizeToTray.Checked = Properties.Settings.Default.MinimizeToTray;
             CB_AskBeforeClose.Checked = Properties.Settings.Default.AskBeforeClosing;
@@ -84,7 +94,7 @@ namespace XmlFormatter.src.Windows
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
             foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
             {
-                ListViewItem item = HotfolderToListView(hotfolder);
+                ListViewItem item = hotfolderToListView(hotfolder);
                 LV_Hotfolders.Items.Add(item);
             }
 
@@ -120,7 +130,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments of the sendfer</param>
         private void B_SaveAndClose_Click(object sender, EventArgs e)
         {
-            WriteSettings();
+            writeSettings();
             settingManager.Save(settingFile);
             B_Cancel.PerformClick();
         }
@@ -128,7 +138,7 @@ namespace XmlFormatter.src.Windows
         /// <summary>
         /// Write the settings into the property container
         /// </summary>
-        private void WriteSettings()
+        private void writeSettings()
         {
             Properties.Settings.Default.MinimizeToTray = CB_MinimizeToTray.Checked;
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
@@ -153,7 +163,7 @@ namespace XmlFormatter.src.Windows
                 if (item.Tag is IHotfolder)
                 {
                     string hotfolderName = "Hotfolder_" + hotfolderScope.GetSubScopes().Count + 1;
-                    ISettingScope hotfolderSubScope = CreateHotfolderScope(hotfolderName, (IHotfolder)item.Tag);
+                    ISettingScope hotfolderSubScope = createHotfolderScope(hotfolderName, (IHotfolder)item.Tag);
                     hotfolderScope.AddSubScope(hotfolderSubScope);
                 }
             }
@@ -192,7 +202,7 @@ namespace XmlFormatter.src.Windows
                 return;
             }
 
-            WriteSettings();
+            writeSettings();
             settingManager.Save(saveFileDialog.FileName);
         }
 
@@ -249,7 +259,7 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
-            SetupControls();
+            setupControls();
         }
 
         /// <summary>
@@ -294,7 +304,7 @@ namespace XmlFormatter.src.Windows
                 }
                 IHotfolder hotfolder = hotfolderEditor.Hotfolder;
 
-                LV_Hotfolders.Items.Add(HotfolderToListView(hotfolder));
+                LV_Hotfolders.Items.Add(hotfolderToListView(hotfolder));
             }
         }
         /// <summary>
@@ -302,7 +312,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="hotfolder">The hotfolder to convert</param>
         /// <returns>A valid ListViewItem</returns>
-        private ListViewItem HotfolderToListView(IHotfolder hotfolder)
+        private ListViewItem hotfolderToListView(IHotfolder hotfolder)
         {
             ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString());
             listViewItem.Tag = hotfolder;
@@ -322,7 +332,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="name">The name of the new hotfolder configuration</param>
         /// <param name="hotfolder">The hotfolder to convert</param>
         /// <returns>A valid scope for the setting manager</returns>
-        private ISettingScope CreateHotfolderScope(string name, IHotfolder hotfolder)
+        private ISettingScope createHotfolderScope(string name, IHotfolder hotfolder)
         {
             ISettingScope hotfolderConfig = new SettingScope(name);
 
@@ -393,7 +403,7 @@ namespace XmlFormatter.src.Windows
                 {
                     int position = LV_Hotfolders.SelectedItems[0].Index;
                     LV_Hotfolders.Items.Remove(selectedItem);
-                    ListViewItem itemToAdd = HotfolderToListView(hotfolderEditor.Hotfolder);
+                    ListViewItem itemToAdd = hotfolderToListView(hotfolderEditor.Hotfolder);
                     LV_Hotfolders.Items.Insert(position, itemToAdd);
                     LV_Hotfolders.Items[position].Selected = true;
                 }
