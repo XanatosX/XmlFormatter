@@ -146,14 +146,14 @@
             this.exportSettingsToolStripMenuItem.Name = "exportSettingsToolStripMenuItem";
             this.exportSettingsToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
             this.exportSettingsToolStripMenuItem.Text = "Export settings";
-            this.exportSettingsToolStripMenuItem.Click += new System.EventHandler(this.exportSettingsToolStripMenuItem_Click);
+            this.exportSettingsToolStripMenuItem.Click += new System.EventHandler(this.ExportSettingsToolStripMenuItem_Click);
             // 
             // importSettingsToolStripMenuItem
             // 
             this.importSettingsToolStripMenuItem.Name = "importSettingsToolStripMenuItem";
             this.importSettingsToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
             this.importSettingsToolStripMenuItem.Text = "Import settings";
-            this.importSettingsToolStripMenuItem.Click += new System.EventHandler(this.importSettingsToolStripMenuItem_Click);
+            this.importSettingsToolStripMenuItem.Click += new System.EventHandler(this.ImportSettingsToolStripMenuItem_Click);
             // 
             // TC_SettingTabs
             // 

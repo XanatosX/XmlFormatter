@@ -104,7 +104,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         private void SetUpdateStrategy()
         {
-            IUpdateStrategy updateStrategy = null;
+            IUpdateStrategy updateStrategy;
             try
             {
                 Type type = Type.GetType(Properties.Settings.Default.UpdateStrategy);
@@ -192,8 +192,10 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The event args given by the control</param>
         private void B_Select_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "XML files (*.xml)|*.xml";
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml"
+            };
             DialogResult result = dialog.ShowDialog();
 
             if (result != DialogResult.OK || !File.Exists(dialog.FileName))
