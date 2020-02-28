@@ -9,16 +9,30 @@ using XmlFormatter.src.Interfaces.Updates;
 
 namespace XmlFormatter.src.Update.Strategies
 {
+    /// <summary>
+    /// This class descripes the download from GitHub strategy
+    /// </summary>
     class DownloadGitHubReleaseStrategy : IUpdateStrategy
     {
+        /// <summary>
+        /// The readonly name to show in the dropdown
+        /// </summary>
         private readonly string displayName;
+
+        /// <summary>
+        /// The displayname to show in the dropdown
+        /// </summary>
         public string DisplayName => displayName;
 
+        /// <summary>
+        /// Create a new instance of this strategy
+        /// </summary>
         public DownloadGitHubReleaseStrategy()
         {
             displayName = "Download GitHub releases";
         }
 
+        /// <inheritdoc/>
         public bool Update(VersionCompare versionInformation)
         {
             bool returnValue = true;
@@ -32,7 +46,6 @@ namespace XmlFormatter.src.Update.Strategies
                     localFile += splittet.Last();
                     if (File.Exists(localFile))
                     {
-
                         try
                         {
                             using (FileStream fileStream = new FileStream(localFile, System.IO.FileMode.Open))
@@ -49,7 +62,6 @@ namespace XmlFormatter.src.Update.Strategies
                             returnValue &= false;
                             continue;
                         }
-
                     }
                     client.DownloadFile(release.BrowserDownloadUrl, localFile);
                     Process.Start(localFile);
@@ -61,7 +73,6 @@ namespace XmlFormatter.src.Update.Strategies
                 Process.Start(Environment.CurrentDirectory);
             }
             
-
             return returnValue;
         }
     }

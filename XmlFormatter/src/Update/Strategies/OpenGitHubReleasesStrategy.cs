@@ -9,9 +9,19 @@ namespace XmlFormatter.src.Update.Strategies
     /// </summary>
     class OpenGitHubReleasesStrategy : IUpdateStrategy
     {
+        /// <summary>
+        /// The readonly name to show in the dropdown
+        /// </summary>
         private readonly string displayName;
+
+        /// <summary>
+        /// The displayname to show in the dropdown
+        /// </summary>
         public string DisplayName => displayName;
 
+        /// <summary>
+        /// Create a new instance of this strategy
+        /// </summary>
         public OpenGitHubReleasesStrategy()
         {
             displayName = "Open GitHub releases";

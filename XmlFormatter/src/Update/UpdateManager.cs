@@ -1,5 +1,4 @@
-﻿using System;
-using XmlFormatter.src.DataContainer;
+﻿using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Interfaces.Updates;
 
 namespace XmlFormatter.src.Update

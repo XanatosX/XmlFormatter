@@ -59,6 +59,9 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         private IFormatter formatterToUse;
 
+        /// <summary>
+        /// Instance of the hotfolder manager
+        /// </summary>
         private IHotfolderManager hotfolderManager;
 
         /// <summary>
@@ -96,6 +99,9 @@ namespace XmlFormatter.src.Windows
             SetUpdateStrategy();
         }
 
+        /// <summary>
+        /// Set the strategy to use for updating
+        /// </summary>
         private void SetUpdateStrategy()
         {
             IUpdateStrategy updateStrategy = null;
