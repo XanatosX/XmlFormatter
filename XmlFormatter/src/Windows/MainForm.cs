@@ -96,7 +96,7 @@ namespace XmlFormatter.src.Windows
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
             settingFile = settingPath + "settings.set";
-            Properties.Settings.Default.LoggingFolder = settingPath + "\\logs\\";
+            Properties.Settings.Default.LoggingFolder = settingPath + "logs\\";
             if (!Directory.Exists(Properties.Settings.Default.LoggingFolder))
             {
                 Directory.CreateDirectory(Properties.Settings.Default.LoggingFolder);
