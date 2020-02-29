@@ -21,7 +21,13 @@ namespace XmlFormatter.src.Logging.Strategies
 
         public SimpleFileLogStrategy(string fileToWrite, bool append)
         {
-            streamWriter = new StreamWriter(fileToWrite, append);
+            FileMode mode = FileMode.OpenOrCreate;
+            if (append)
+            {
+                mode = FileMode.Append;
+            }
+            FileStream stream = new FileStream(fileToWrite, mode, FileAccess.Write, FileShare.Read);
+            streamWriter = new StreamWriter(stream);
             streamWriter.AutoFlush = true;
         }
 

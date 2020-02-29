@@ -21,6 +21,10 @@ using XmlFormatter.src.Settings.Hotfolder;
 using XmlFormatter.src.Update;
 using XmlFormatter.src.Interfaces.Updates;
 using XmlFormatter.src.Update.Strategies;
+using XmlFormatter.src.Logging;
+using XmlFormatter.src.Interfaces.Logging;
+using XmlFormatter.src.Logging.Strategies;
+using XmlFormatter.src.Logging.FormatStrategies;
 
 namespace XmlFormatter.src.Windows
 {
@@ -65,6 +69,11 @@ namespace XmlFormatter.src.Windows
         private IHotfolderManager hotfolderManager;
 
         /// <summary>
+        /// Instance of the logging manager to use
+        /// </summary>
+        private ILoggingManager loggingManager;
+
+        /// <summary>
         /// New delegate to set a label text from another thread
         /// </summary>
         /// <param name="label">The label to change</param>
@@ -87,10 +96,17 @@ namespace XmlFormatter.src.Windows
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
             settingFile = settingPath + "settings.set";
+            Properties.Settings.Default.LoggingFolder = settingPath + "\\logs\\";
+            if (!Directory.Exists(Properties.Settings.Default.LoggingFolder))
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.LoggingFolder);
+            }
 
             settingManager = new SettingsManager();
             settingManager.SetPersistendFactory(new XmlProviderFactory());
             settingManager.Load(settingFile);
+
+            SetupLogging();
 
             ISettingScope resourceScope = settingManager.GetScope("Default");
             if (resourceScope == null)
@@ -107,6 +123,27 @@ namespace XmlFormatter.src.Windows
             settingManager.Save(settingFile);
             updateManager = new UpdateManager();
             SetUpdateStrategy();
+        }
+
+        private void SetupLogging()
+        {
+            if (loggingManager != null && !Properties.Settings.Default.LoggingEnabled)
+            {
+                loggingManager = null;
+            }
+            if (Properties.Settings.Default.LoggingEnabled)
+            {
+                loggingManager = new LoggingManager();
+                string timeStamp = DateTime.Now.ToString("yyyyMMdd");
+                string logFile = Properties.Settings.Default.LoggingFolder + timeStamp + "_hotfolder.log";
+                ILogger hotfolderLogger = new Logger(
+                    new SimpleFileLogStrategy(logFile, true),
+                    new SimpleFileFormatStrategy(50)
+                );
+                hotfolderLogger.AddScope(LogScopesEnum.Hotfolder);
+                loggingManager.AddLogger(hotfolderLogger);
+            }
+
         }
 
         /// <summary>
@@ -147,6 +184,7 @@ namespace XmlFormatter.src.Windows
 
             SetFormatter(new XmlFormatterProvider());
             SetupHotFolder();
+            
         }
 
         private void SetupHotFolder()
@@ -162,6 +200,10 @@ namespace XmlFormatter.src.Windows
                 return;
             }
             hotfolderManager = hotfolderManager ?? new HotfolderManager();
+            if (hotfolderManager is ILoggable)
+            {
+                ((ILoggable)hotfolderManager).SetLoggingManager(loggingManager);
+            }
             hotfolderManager.ResetManager();
 
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
@@ -520,6 +562,7 @@ namespace XmlFormatter.src.Windows
         {
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
+            SetupLogging();
             SetupHotFolder();
             SetUpdateStrategy();
         }

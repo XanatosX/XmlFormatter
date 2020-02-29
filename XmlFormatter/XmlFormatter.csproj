@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\DataContainer\HotfolderTask.cs" />
+    <Compile Include="src\Interfaces\Logging\ILoggable.cs" />
     <Compile Include="src\Interfaces\Logging\ILoggingFormatStrategy.cs" />
     <Compile Include="src\Logging\FormatStrategies\SimpleFileFormatStrategy.cs" />
     <Compile Include="src\Logging\Logger.cs" />
