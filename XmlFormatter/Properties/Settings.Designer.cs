@@ -103,17 +103,5 @@ namespace XmlFormatter.Properties {
                 this["HotfolderActive"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("XmlFormatter.src.Update.Strategies.OpenGitHubReleasesStrategy")]
-        public string UpdateStrategy {
-            get {
-                return ((string)(this["UpdateStrategy"]));
-            }
-            set {
-                this["UpdateStrategy"] = value;
-            }
-        }
     }
 }
