@@ -454,6 +454,11 @@ namespace XmlFormatter.src.Windows
                 return;
             }
             string file = LV_logFiles.SelectedItems[0].Tag.ToString();
+            LoadLogFile(file);
+        }
+
+        private void LoadLogFile(string file)
+        {
             RTB_loggingText.Text = String.Empty;
             FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Write);
             using (StreamReader reader = new StreamReader(stream))
