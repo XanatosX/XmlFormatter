@@ -57,10 +57,8 @@ namespace XmlFormatter.src.Hotfolder
                 return false;
             }
 
-            FileSystemWatcher watcher = new FileSystemWatcher(newHotfolder.WatchedFolder, newHotfolder.Filter)
-            {
-                EnableRaisingEvents = true
-            };
+            FileSystemWatcher watcher = new FileSystemWatcher(newHotfolder.WatchedFolder, newHotfolder.Filter);
+            watcher.EnableRaisingEvents = true;
             watcher.Changed += Watcher_Changed;
 
             if (!Directory.Exists(newHotfolder.OutputFolder))

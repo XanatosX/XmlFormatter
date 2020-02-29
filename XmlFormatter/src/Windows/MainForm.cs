@@ -18,9 +18,6 @@ using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Settings.Hotfolder;
-using XmlFormatter.src.Update;
-using XmlFormatter.src.Interfaces.Updates;
-using XmlFormatter.src.Update.Strategies;
 
 namespace XmlFormatter.src.Windows
 {
@@ -50,18 +47,10 @@ namespace XmlFormatter.src.Windows
         private readonly ISettingsManager settingManager;
 
         /// <summary>
-        /// Instance of the update manager
-        /// </summary>
-        private readonly IUpdater updateManager;
-
-        /// <summary>
         /// The formatter to use
         /// </summary>
         private IFormatter formatterToUse;
 
-        /// <summary>
-        /// Instance of the hotfolder manager
-        /// </summary>
         private IHotfolderManager hotfolderManager;
 
         /// <summary>
@@ -95,27 +84,7 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
-            updateManager = new UpdateManager();
-            SetUpdateStrategy();
-        }
-
-        /// <summary>
-        /// Set the strategy to use for updating
-        /// </summary>
-        private void SetUpdateStrategy()
-        {
-            IUpdateStrategy updateStrategy;
-            try
-            {
-                Type type = Type.GetType(Properties.Settings.Default.UpdateStrategy);
-                updateStrategy = (IUpdateStrategy)Activator.CreateInstance(type);
-            }
-            catch (Exception)
-            {
-                updateStrategy = new OpenGitHubReleasesStrategy();
-                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().FullName;
-            }
-            updateManager.SetStrategy(updateStrategy);
+            
         }
 
         /// <summary>
@@ -192,10 +161,8 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The event args given by the control</param>
         private void B_Select_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog
-            {
-                Filter = "XML files (*.xml)|*.xml"
-            };
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "XML files (*.xml)|*.xml";
             DialogResult result = dialog.ShowDialog();
 
             if (result != DialogResult.OK || !File.Exists(dialog.FileName))
@@ -373,10 +340,7 @@ namespace XmlFormatter.src.Windows
                 DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    if (!updateManager.UpdateApplication(versionCompare))
-                    {
-                        //@TODO: Show some kind of error message
-                    }
+                    Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
                 }
             }
         }
@@ -493,7 +457,6 @@ namespace XmlFormatter.src.Windows
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
             SetupHotFolder();
-            SetUpdateStrategy();
         }
     }
 }
