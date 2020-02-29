@@ -46,6 +46,8 @@
             this.L_UpdateStrategy = new System.Windows.Forms.Label();
             this.CB_UpdateStrategy = new System.Windows.Forms.ComboBox();
             this.TP_Logging = new System.Windows.Forms.TabPage();
+            this.B_OpenFolder = new System.Windows.Forms.Button();
+            this.B_DeleteLog = new System.Windows.Forms.Button();
             this.LV_logFiles = new System.Windows.Forms.ListView();
             this.CH_logFiles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.RTB_loggingText = new System.Windows.Forms.RichTextBox();
@@ -65,8 +67,6 @@
             this.CH_OnRename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_RemoveOld = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CB_Hotfolder = new System.Windows.Forms.CheckBox();
-            this.B_DeleteLog = new System.Windows.Forms.Button();
-            this.B_OpenFolder = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.MI_SettingsMenu.SuspendLayout();
             this.TC_SettingTabs.SuspendLayout();
@@ -230,12 +230,32 @@
             this.TP_Logging.Text = "Logging";
             this.TP_Logging.UseVisualStyleBackColor = true;
             // 
+            // B_OpenFolder
+            // 
+            this.B_OpenFolder.Location = new System.Drawing.Point(65, 191);
+            this.B_OpenFolder.Name = "B_OpenFolder";
+            this.B_OpenFolder.Size = new System.Drawing.Size(92, 23);
+            this.B_OpenFolder.TabIndex = 6;
+            this.B_OpenFolder.Text = "Open folder";
+            this.B_OpenFolder.UseVisualStyleBackColor = true;
+            this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
+            // 
+            // B_DeleteLog
+            // 
+            this.B_DeleteLog.Location = new System.Drawing.Point(8, 191);
+            this.B_DeleteLog.Name = "B_DeleteLog";
+            this.B_DeleteLog.Size = new System.Drawing.Size(51, 23);
+            this.B_DeleteLog.TabIndex = 5;
+            this.B_DeleteLog.Text = "Delete";
+            this.B_DeleteLog.UseVisualStyleBackColor = true;
+            this.B_DeleteLog.Click += new System.EventHandler(this.B_DeleteLog_Click);
+            // 
             // LV_logFiles
             // 
             this.LV_logFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CH_logFiles});
             this.LV_logFiles.HideSelection = false;
-            this.LV_logFiles.Location = new System.Drawing.Point(8, 26);
+            this.LV_logFiles.Location = new System.Drawing.Point(3, 26);
             this.LV_logFiles.Name = "LV_logFiles";
             this.LV_logFiles.Size = new System.Drawing.Size(149, 159);
             this.LV_logFiles.TabIndex = 4;
@@ -249,10 +269,10 @@
             // 
             // RTB_loggingText
             // 
-            this.RTB_loggingText.Location = new System.Drawing.Point(163, 26);
+            this.RTB_loggingText.Location = new System.Drawing.Point(158, 26);
             this.RTB_loggingText.Name = "RTB_loggingText";
             this.RTB_loggingText.ReadOnly = true;
-            this.RTB_loggingText.Size = new System.Drawing.Size(545, 159);
+            this.RTB_loggingText.Size = new System.Drawing.Size(553, 159);
             this.RTB_loggingText.TabIndex = 3;
             this.RTB_loggingText.Text = "";
             // 
@@ -386,26 +406,6 @@
             this.CB_Hotfolder.Text = "Hotfolder active";
             this.CB_Hotfolder.UseVisualStyleBackColor = true;
             this.CB_Hotfolder.Click += new System.EventHandler(this.CB_Hotfolder_Click);
-            // 
-            // B_DeleteLog
-            // 
-            this.B_DeleteLog.Location = new System.Drawing.Point(8, 191);
-            this.B_DeleteLog.Name = "B_DeleteLog";
-            this.B_DeleteLog.Size = new System.Drawing.Size(51, 23);
-            this.B_DeleteLog.TabIndex = 5;
-            this.B_DeleteLog.Text = "Delete";
-            this.B_DeleteLog.UseVisualStyleBackColor = true;
-            this.B_DeleteLog.Click += new System.EventHandler(this.B_DeleteLog_Click);
-            // 
-            // B_OpenFolder
-            // 
-            this.B_OpenFolder.Location = new System.Drawing.Point(65, 191);
-            this.B_OpenFolder.Name = "B_OpenFolder";
-            this.B_OpenFolder.Size = new System.Drawing.Size(92, 23);
-            this.B_OpenFolder.TabIndex = 6;
-            this.B_OpenFolder.Text = "Open folder";
-            this.B_OpenFolder.UseVisualStyleBackColor = true;
-            this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
             // 
             // Settings
             // 
