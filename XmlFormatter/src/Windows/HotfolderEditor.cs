@@ -53,7 +53,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="hotfolder">The hotfolder configuration to use for editing</param>
         public HotfolderEditor(IHotfolder hotfolder)
         {
-            editMode = hotfolder == null;
+            editMode = hotfolder != null;
             formatters = new Dictionary<string, Type>();
            
             InitializeComponent();
