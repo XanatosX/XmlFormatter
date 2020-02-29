@@ -69,7 +69,6 @@ namespace XmlFormatter.src.Logging.Strategies
             catch (Exception)
             {
             }
-            
         }
     }
 }
