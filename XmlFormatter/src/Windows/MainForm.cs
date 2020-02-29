@@ -18,6 +18,13 @@ using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Settings.Hotfolder;
+using XmlFormatter.src.Update;
+using XmlFormatter.src.Interfaces.Updates;
+using XmlFormatter.src.Update.Strategies;
+using XmlFormatter.src.Logging;
+using XmlFormatter.src.Interfaces.Logging;
+using XmlFormatter.src.Logging.Strategies;
+using XmlFormatter.src.Logging.FormatStrategies;
 
 namespace XmlFormatter.src.Windows
 {
@@ -47,11 +54,34 @@ namespace XmlFormatter.src.Windows
         private readonly ISettingsManager settingManager;
 
         /// <summary>
+        /// Instance of the update manager
+        /// </summary>
+        private readonly IUpdater updateManager;
+
+        /// <summary>
         /// The formatter to use
         /// </summary>
         private IFormatter formatterToUse;
 
+        /// <summary>
+        /// Instance of the hotfolder manager
+        /// </summary>
         private IHotfolderManager hotfolderManager;
+
+        /// <summary>
+        /// Instance of the logging manager to use
+        /// </summary>
+        private ILoggingManager loggingManager;
+
+        /// <summary>
+        /// New delegate to set a label text from another thread
+        /// </summary>
+        /// <param name="label">The label to change</param>
+        /// <param name="newText">The new text to use</param>
+        private delegate void UpdateThreadSafeConvertStatus(
+            Label label,
+            string newText
+        );
 
         /// <summary>
         /// Constructor
@@ -63,13 +93,21 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
+            NI_Notification.Text = this.Text;
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
             settingFile = settingPath + "settings.set";
+            Properties.Settings.Default.LoggingFolder = settingPath + "logs\\";
+            if (!Directory.Exists(Properties.Settings.Default.LoggingFolder))
+            {
+                Directory.CreateDirectory(Properties.Settings.Default.LoggingFolder);
+            }
 
             settingManager = new SettingsManager();
             settingManager.SetPersistendFactory(new XmlProviderFactory());
             settingManager.Load(settingFile);
+
+            SetupLogging();
 
             ISettingScope resourceScope = settingManager.GetScope("Default");
             if (resourceScope == null)
@@ -84,7 +122,51 @@ namespace XmlFormatter.src.Windows
             }
 
             settingManager.Save(settingFile);
-            
+            updateManager = new UpdateManager();
+            SetUpdateStrategy();
+        }
+
+        /// <summary>
+        /// Setup the logging manager
+        /// </summary>
+        private void SetupLogging()
+        {
+            if (loggingManager != null && !Properties.Settings.Default.LoggingEnabled)
+            {
+                loggingManager.Dispose();
+                loggingManager = null;
+            }
+            if (loggingManager == null && Properties.Settings.Default.LoggingEnabled)
+            {
+                loggingManager = new LoggingManager();
+                string timeStamp = DateTime.Now.ToString("yyyyMMdd");
+                string logFile = Properties.Settings.Default.LoggingFolder + timeStamp + "_hotfolder.log";
+                ILogger hotfolderLogger = new Logger(
+                    new SimpleFileLogStrategy(logFile, true),
+                    new SimpleFileFormatStrategy(50)
+                );
+                hotfolderLogger.AddScope(LogScopesEnum.Hotfolder);
+                loggingManager.AddLogger(hotfolderLogger);
+            }
+        }
+
+        /// <summary>
+        /// Set the strategy to use for updating
+        /// </summary>
+        private void SetUpdateStrategy()
+        {
+            IUpdateStrategy updateStrategy;
+            try
+            {
+                Type type = Type.GetType(Properties.Settings.Default.UpdateStrategy);
+                updateStrategy = (IUpdateStrategy)Activator.CreateInstance(type);
+            }
+            catch (Exception)
+            {
+                updateStrategy = new OpenGitHubReleasesStrategy();
+                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().FullName;
+            }
+            updateManager.SetStrategy(updateStrategy);
         }
 
         /// <summary>
@@ -106,8 +188,12 @@ namespace XmlFormatter.src.Windows
 
             SetFormatter(new XmlFormatterProvider());
             SetupHotFolder();
+            
         }
 
+        /// <summary>
+        /// Setup the hot folder
+        /// </summary>
         private void SetupHotFolder()
         {
             if (!Properties.Settings.Default.HotfolderActive)
@@ -121,6 +207,10 @@ namespace XmlFormatter.src.Windows
                 return;
             }
             hotfolderManager = hotfolderManager ?? new HotfolderManager();
+            if (hotfolderManager is ILoggable)
+            {
+                ((ILoggable)hotfolderManager).SetLoggingManager(loggingManager);
+            }
             hotfolderManager.ResetManager();
 
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
@@ -151,8 +241,26 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The new status</param>
         private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
         {
-            L_Status.Text = defaultStatus + e.Message;
+            UpdateLabelTextThreadSafe(L_Status, e.Message);
         }
+
+        /// <summary>
+        /// Update the text of a given label thread safe
+        /// </summary>
+        /// <param name="label">The label to update</param>
+        /// <param name="newText">The text to set the label text to</param>
+        public void UpdateLabelTextThreadSafe(Label label, string newText)
+        {
+            string textToUse = defaultStatus + newText;
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new UpdateThreadSafeConvertStatus(UpdateLabelTextThreadSafe), new object[] { label, textToUse });
+                return;
+            }
+
+            label.Text = textToUse;
+        }
+
 
         /// <summary>
         /// This method will allow you to select the xml file you want to convert
@@ -161,8 +269,10 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The event args given by the control</param>
         private void B_Select_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "XML files (*.xml)|*.xml";
+            OpenFileDialog dialog = new OpenFileDialog
+            {
+                Filter = "XML files (*.xml)|*.xml"
+            };
             DialogResult result = dialog.ShowDialog();
 
             if (result != DialogResult.OK || !File.Exists(dialog.FileName))
@@ -340,7 +450,10 @@ namespace XmlFormatter.src.Windows
                 DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionCompare.LatestRelease.TagName);
+                    if (!updateManager.UpdateApplication(versionCompare))
+                    {
+                        //@TODO: Show some kind of error message
+                    }
                 }
             }
         }
@@ -456,7 +569,9 @@ namespace XmlFormatter.src.Windows
         {
             Settings settings = new Settings(settingManager, settingFile);
             settings.ShowDialog();
+            SetupLogging();
             SetupHotFolder();
+            SetUpdateStrategy();
         }
     }
 }

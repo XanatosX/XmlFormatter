@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CB_CheckUpdatesOnStartup = new System.Windows.Forms.CheckBox();
             this.CB_AskBeforeClose = new System.Windows.Forms.CheckBox();
             this.CB_MinimizeToTray = new System.Windows.Forms.CheckBox();
+            this.CB_CheckUpdatesOnStartup = new System.Windows.Forms.CheckBox();
             this.B_SaveAndClose = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.MI_SettingsMenu = new System.Windows.Forms.MenuStrip();
@@ -42,16 +42,26 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.TC_SettingTabs = new System.Windows.Forms.TabControl();
             this.TP_Application = new System.Windows.Forms.TabPage();
+            this.GB_Update = new System.Windows.Forms.GroupBox();
+            this.L_UpdateStrategy = new System.Windows.Forms.Label();
+            this.CB_UpdateStrategy = new System.Windows.Forms.ComboBox();
+            this.TP_Logging = new System.Windows.Forms.TabPage();
+            this.B_OpenFolder = new System.Windows.Forms.Button();
+            this.B_DeleteLog = new System.Windows.Forms.Button();
+            this.LV_logFiles = new System.Windows.Forms.ListView();
+            this.CH_logFiles = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.RTB_loggingText = new System.Windows.Forms.RichTextBox();
+            this.CB_LoggingActive = new System.Windows.Forms.CheckBox();
             this.TP_Hotfolder = new System.Windows.Forms.TabPage();
             this.GB_Hotfolder = new System.Windows.Forms.GroupBox();
             this.B_RemoveHotfolder = new System.Windows.Forms.Button();
             this.B_EditHotfolder = new System.Windows.Forms.Button();
             this.B_AddHotfolder = new System.Windows.Forms.Button();
             this.LV_Hotfolders = new System.Windows.Forms.ListView();
-            this.CH_watchedFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CH_filter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_Formatter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_Mode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CH_watchedFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CH_filter = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OutputFolder = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OutputFileScheme = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CH_OnRename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -61,31 +71,22 @@
             this.MI_SettingsMenu.SuspendLayout();
             this.TC_SettingTabs.SuspendLayout();
             this.TP_Application.SuspendLayout();
+            this.GB_Update.SuspendLayout();
+            this.TP_Logging.SuspendLayout();
             this.TP_Hotfolder.SuspendLayout();
             this.GB_Hotfolder.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.CB_CheckUpdatesOnStartup);
             this.groupBox1.Controls.Add(this.CB_AskBeforeClose);
             this.groupBox1.Controls.Add(this.CB_MinimizeToTray);
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(700, 207);
+            this.groupBox1.Size = new System.Drawing.Size(700, 68);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application settings";
-            // 
-            // CB_CheckUpdatesOnStartup
-            // 
-            this.CB_CheckUpdatesOnStartup.AutoSize = true;
-            this.CB_CheckUpdatesOnStartup.Location = new System.Drawing.Point(6, 65);
-            this.CB_CheckUpdatesOnStartup.Name = "CB_CheckUpdatesOnStartup";
-            this.CB_CheckUpdatesOnStartup.Size = new System.Drawing.Size(163, 17);
-            this.CB_CheckUpdatesOnStartup.TabIndex = 2;
-            this.CB_CheckUpdatesOnStartup.Text = "Check for updates on startup";
-            this.CB_CheckUpdatesOnStartup.UseVisualStyleBackColor = true;
             // 
             // CB_AskBeforeClose
             // 
@@ -106,6 +107,16 @@
             this.CB_MinimizeToTray.TabIndex = 0;
             this.CB_MinimizeToTray.Text = "Minimize to tray";
             this.CB_MinimizeToTray.UseVisualStyleBackColor = true;
+            // 
+            // CB_CheckUpdatesOnStartup
+            // 
+            this.CB_CheckUpdatesOnStartup.AutoSize = true;
+            this.CB_CheckUpdatesOnStartup.Location = new System.Drawing.Point(6, 14);
+            this.CB_CheckUpdatesOnStartup.Name = "CB_CheckUpdatesOnStartup";
+            this.CB_CheckUpdatesOnStartup.Size = new System.Drawing.Size(163, 17);
+            this.CB_CheckUpdatesOnStartup.TabIndex = 2;
+            this.CB_CheckUpdatesOnStartup.Text = "Check for updates on startup";
+            this.CB_CheckUpdatesOnStartup.UseVisualStyleBackColor = true;
             // 
             // B_SaveAndClose
             // 
@@ -143,18 +154,19 @@
             this.exportSettingsToolStripMenuItem.Name = "exportSettingsToolStripMenuItem";
             this.exportSettingsToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
             this.exportSettingsToolStripMenuItem.Text = "Export settings";
-            this.exportSettingsToolStripMenuItem.Click += new System.EventHandler(this.exportSettingsToolStripMenuItem_Click);
+            this.exportSettingsToolStripMenuItem.Click += new System.EventHandler(this.ExportSettingsToolStripMenuItem_Click);
             // 
             // importSettingsToolStripMenuItem
             // 
             this.importSettingsToolStripMenuItem.Name = "importSettingsToolStripMenuItem";
             this.importSettingsToolStripMenuItem.Size = new System.Drawing.Size(99, 20);
             this.importSettingsToolStripMenuItem.Text = "Import settings";
-            this.importSettingsToolStripMenuItem.Click += new System.EventHandler(this.importSettingsToolStripMenuItem_Click);
+            this.importSettingsToolStripMenuItem.Click += new System.EventHandler(this.ImportSettingsToolStripMenuItem_Click);
             // 
             // TC_SettingTabs
             // 
             this.TC_SettingTabs.Controls.Add(this.TP_Application);
+            this.TC_SettingTabs.Controls.Add(this.TP_Logging);
             this.TC_SettingTabs.Controls.Add(this.TP_Hotfolder);
             this.TC_SettingTabs.Location = new System.Drawing.Point(0, 27);
             this.TC_SettingTabs.Name = "TC_SettingTabs";
@@ -164,6 +176,7 @@
             // 
             // TP_Application
             // 
+            this.TP_Application.Controls.Add(this.GB_Update);
             this.TP_Application.Controls.Add(this.groupBox1);
             this.TP_Application.Location = new System.Drawing.Point(4, 22);
             this.TP_Application.Name = "TP_Application";
@@ -172,6 +185,106 @@
             this.TP_Application.TabIndex = 0;
             this.TP_Application.Text = "Application";
             this.TP_Application.UseVisualStyleBackColor = true;
+            // 
+            // GB_Update
+            // 
+            this.GB_Update.Controls.Add(this.CB_CheckUpdatesOnStartup);
+            this.GB_Update.Controls.Add(this.L_UpdateStrategy);
+            this.GB_Update.Controls.Add(this.CB_UpdateStrategy);
+            this.GB_Update.Location = new System.Drawing.Point(8, 80);
+            this.GB_Update.Name = "GB_Update";
+            this.GB_Update.Size = new System.Drawing.Size(700, 69);
+            this.GB_Update.TabIndex = 1;
+            this.GB_Update.TabStop = false;
+            this.GB_Update.Text = "Updating";
+            // 
+            // L_UpdateStrategy
+            // 
+            this.L_UpdateStrategy.AutoSize = true;
+            this.L_UpdateStrategy.Location = new System.Drawing.Point(3, 40);
+            this.L_UpdateStrategy.Name = "L_UpdateStrategy";
+            this.L_UpdateStrategy.Size = new System.Drawing.Size(82, 13);
+            this.L_UpdateStrategy.TabIndex = 4;
+            this.L_UpdateStrategy.Text = "Update strategy";
+            // 
+            // CB_UpdateStrategy
+            // 
+            this.CB_UpdateStrategy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_UpdateStrategy.FormattingEnabled = true;
+            this.CB_UpdateStrategy.Location = new System.Drawing.Point(91, 37);
+            this.CB_UpdateStrategy.Name = "CB_UpdateStrategy";
+            this.CB_UpdateStrategy.Size = new System.Drawing.Size(163, 21);
+            this.CB_UpdateStrategy.TabIndex = 3;
+            // 
+            // TP_Logging
+            // 
+            this.TP_Logging.Controls.Add(this.B_OpenFolder);
+            this.TP_Logging.Controls.Add(this.B_DeleteLog);
+            this.TP_Logging.Controls.Add(this.LV_logFiles);
+            this.TP_Logging.Controls.Add(this.RTB_loggingText);
+            this.TP_Logging.Controls.Add(this.CB_LoggingActive);
+            this.TP_Logging.Location = new System.Drawing.Point(4, 22);
+            this.TP_Logging.Name = "TP_Logging";
+            this.TP_Logging.Size = new System.Drawing.Size(714, 219);
+            this.TP_Logging.TabIndex = 2;
+            this.TP_Logging.Text = "Logging";
+            this.TP_Logging.UseVisualStyleBackColor = true;
+            // 
+            // B_OpenFolder
+            // 
+            this.B_OpenFolder.Location = new System.Drawing.Point(65, 191);
+            this.B_OpenFolder.Name = "B_OpenFolder";
+            this.B_OpenFolder.Size = new System.Drawing.Size(92, 23);
+            this.B_OpenFolder.TabIndex = 6;
+            this.B_OpenFolder.Text = "Open folder";
+            this.B_OpenFolder.UseVisualStyleBackColor = true;
+            this.B_OpenFolder.Click += new System.EventHandler(this.B_OpenFolder_Click);
+            // 
+            // B_DeleteLog
+            // 
+            this.B_DeleteLog.Location = new System.Drawing.Point(8, 191);
+            this.B_DeleteLog.Name = "B_DeleteLog";
+            this.B_DeleteLog.Size = new System.Drawing.Size(51, 23);
+            this.B_DeleteLog.TabIndex = 5;
+            this.B_DeleteLog.Text = "Delete";
+            this.B_DeleteLog.UseVisualStyleBackColor = true;
+            this.B_DeleteLog.Click += new System.EventHandler(this.B_DeleteLog_Click);
+            // 
+            // LV_logFiles
+            // 
+            this.LV_logFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.CH_logFiles});
+            this.LV_logFiles.HideSelection = false;
+            this.LV_logFiles.Location = new System.Drawing.Point(3, 26);
+            this.LV_logFiles.Name = "LV_logFiles";
+            this.LV_logFiles.Size = new System.Drawing.Size(149, 159);
+            this.LV_logFiles.TabIndex = 4;
+            this.LV_logFiles.UseCompatibleStateImageBehavior = false;
+            this.LV_logFiles.View = System.Windows.Forms.View.Details;
+            this.LV_logFiles.SelectedIndexChanged += new System.EventHandler(this.LV_logFiles_SelectedIndexChanged);
+            // 
+            // CH_logFiles
+            // 
+            this.CH_logFiles.Text = "Log files";
+            // 
+            // RTB_loggingText
+            // 
+            this.RTB_loggingText.Location = new System.Drawing.Point(158, 26);
+            this.RTB_loggingText.Name = "RTB_loggingText";
+            this.RTB_loggingText.ReadOnly = true;
+            this.RTB_loggingText.Size = new System.Drawing.Size(553, 159);
+            this.RTB_loggingText.TabIndex = 3;
+            this.RTB_loggingText.Text = "";
+            // 
+            // CB_LoggingActive
+            // 
+            this.CB_LoggingActive.AutoSize = true;
+            this.CB_LoggingActive.Location = new System.Drawing.Point(8, 3);
+            this.CB_LoggingActive.Name = "CB_LoggingActive";
+            this.CB_LoggingActive.Size = new System.Drawing.Size(96, 17);
+            this.CB_LoggingActive.TabIndex = 0;
+            this.CB_LoggingActive.Text = "Logging active";
+            this.CB_LoggingActive.UseVisualStyleBackColor = true;
             // 
             // TP_Hotfolder
             // 
@@ -251,14 +364,6 @@
             this.LV_Hotfolders.View = System.Windows.Forms.View.Details;
             this.LV_Hotfolders.SelectedIndexChanged += new System.EventHandler(this.LV_Hotfolders_SelectedIndexChanged);
             // 
-            // CH_watchedFolder
-            // 
-            this.CH_watchedFolder.Text = "Watched folder";
-            // 
-            // CH_filter
-            // 
-            this.CH_filter.Text = "File filter";
-            // 
             // CH_Formatter
             // 
             this.CH_Formatter.Text = "Formatter";
@@ -266,6 +371,14 @@
             // CH_Mode
             // 
             this.CH_Mode.Text = "Mode";
+            // 
+            // CH_watchedFolder
+            // 
+            this.CH_watchedFolder.Text = "Watched folder";
+            // 
+            // CH_filter
+            // 
+            this.CH_filter.Text = "File filter";
             // 
             // CH_OutputFolder
             // 
@@ -317,6 +430,10 @@
             this.MI_SettingsMenu.PerformLayout();
             this.TC_SettingTabs.ResumeLayout(false);
             this.TP_Application.ResumeLayout(false);
+            this.GB_Update.ResumeLayout(false);
+            this.GB_Update.PerformLayout();
+            this.TP_Logging.ResumeLayout(false);
+            this.TP_Logging.PerformLayout();
             this.TP_Hotfolder.ResumeLayout(false);
             this.TP_Hotfolder.PerformLayout();
             this.GB_Hotfolder.ResumeLayout(false);
@@ -354,5 +471,15 @@
         private System.Windows.Forms.Button B_EditHotfolder;
         private System.Windows.Forms.Button B_AddHotfolder;
         private System.Windows.Forms.ColumnHeader CH_Mode;
+        private System.Windows.Forms.GroupBox GB_Update;
+        private System.Windows.Forms.Label L_UpdateStrategy;
+        private System.Windows.Forms.ComboBox CB_UpdateStrategy;
+        private System.Windows.Forms.TabPage TP_Logging;
+        private System.Windows.Forms.RichTextBox RTB_loggingText;
+        private System.Windows.Forms.CheckBox CB_LoggingActive;
+        private System.Windows.Forms.ListView LV_logFiles;
+        private System.Windows.Forms.ColumnHeader CH_logFiles;
+        private System.Windows.Forms.Button B_OpenFolder;
+        private System.Windows.Forms.Button B_DeleteLog;
     }
 }

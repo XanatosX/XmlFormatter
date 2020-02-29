@@ -136,11 +136,24 @@ Any changes to the configuration will take place after saving and closing the se
   <data name="Settings_CB_Hotfolder_Title" xml:space="preserve">
     <value>Hotfolder is active</value>
   </data>
+  <data name="Settings_CB_LoggingActive_Message" xml:space="preserve">
+    <value>If you tick this box logging will be active after saving the settings.
+The logging can be used to track down errors with the hotfolder.</value>
+  </data>
+  <data name="Settings_CB_LoggingActive_Title" xml:space="preserve">
+    <value>Is logging active</value>
+  </data>
   <data name="Settings_CB_MinimizeToTray_Message" xml:space="preserve">
     <value>This option will change the minimize behavior of the main window
 If this is set the application will be minimized to an tray icon instead of the task bar.</value>
   </data>
   <data name="Settings_CB_MinimizeToTray_Title" xml:space="preserve">
     <value>Minimize to tray</value>
+  </data>
+  <data name="Settings_L_UpdateStrategy_Message" xml:space="preserve">
+    <value>You can choose a strategy for updating this application in the dropdown below.</value>
+  </data>
+  <data name="Settings_L_UpdateStrategy_Title" xml:space="preserve">
+    <value>The strategy to use for updating</value>
   </data>
 </root>

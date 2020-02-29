@@ -56,7 +56,7 @@ namespace XmlFormatter.src.Settings.DataStructure
             }
             catch (Exception)
             {
-
+                //The value is not set yet or something went wrong by setting it
             }
 
             return default(T);
