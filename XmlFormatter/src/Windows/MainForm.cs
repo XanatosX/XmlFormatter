@@ -125,6 +125,9 @@ namespace XmlFormatter.src.Windows
             SetUpdateStrategy();
         }
 
+        /// <summary>
+        /// Setup the logging manager
+        /// </summary>
         private void SetupLogging()
         {
             if (loggingManager != null && !Properties.Settings.Default.LoggingEnabled)
@@ -143,7 +146,6 @@ namespace XmlFormatter.src.Windows
                 hotfolderLogger.AddScope(LogScopesEnum.Hotfolder);
                 loggingManager.AddLogger(hotfolderLogger);
             }
-
         }
 
         /// <summary>
@@ -187,6 +189,9 @@ namespace XmlFormatter.src.Windows
             
         }
 
+        /// <summary>
+        /// Setup the hot folder
+        /// </summary>
         private void SetupHotFolder()
         {
             if (!Properties.Settings.Default.HotfolderActive)
