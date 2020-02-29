@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace XmlFormatter.src.Enums
+﻿namespace XmlFormatter.src.Enums
 {
+    /// <summary>
+    /// All the log scopes for this application
+    /// </summary>
     enum LogScopesEnum
     {
         None,
