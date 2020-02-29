@@ -115,5 +115,29 @@ namespace XmlFormatter.Properties {
                 this["UpdateStrategy"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LoggingFolder {
+            get {
+                return ((string)(this["LoggingFolder"]));
+            }
+            set {
+                this["LoggingFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool LoggingEnabled {
+            get {
+                return ((bool)(this["LoggingEnabled"]));
+            }
+            set {
+                this["LoggingEnabled"] = value;
+            }
+        }
     }
 }

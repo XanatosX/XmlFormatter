@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -46,8 +48,11 @@ namespace XmlFormatter.src.Windows
             SetupToolTip(CB_CheckUpdatesOnStartup);
             SetupToolTip(CB_Hotfolder);
             SetupToolTip(L_UpdateStrategy);
+            SetupToolTip(CB_LoggingActive);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
+            B_RemoveHotfolder.Enabled = false;
+
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
             SetupControls();
@@ -89,6 +94,7 @@ namespace XmlFormatter.src.Windows
             CB_CheckUpdatesOnStartup.Checked = Properties.Settings.Default.SearchUpdateOnStartup;
             CB_Hotfolder.Checked = Properties.Settings.Default.HotfolderActive;
             GB_Hotfolder.Enabled = CB_Hotfolder.Checked;
+            CB_LoggingActive.Checked = Properties.Settings.Default.LoggingEnabled;
 
             LV_Hotfolders.Items.Clear();
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
@@ -121,6 +127,28 @@ namespace XmlFormatter.src.Windows
                     continue;
                 }
             }
+
+            FillLogFolderView();
+            LV_logFiles.Columns[0].Width = LV_logFiles.Width;
+        }
+
+        /// <summary>
+        /// Fill in the list with all the log files
+        /// </summary>
+        private void FillLogFolderView()
+        {
+            LV_logFiles.Items.Clear();
+            foreach (string file in Directory.GetFiles(Properties.Settings.Default.LoggingFolder))
+            {
+                FileInfo fileInfo = new FileInfo(file);
+                if (fileInfo.Extension != ".log")
+                {
+                    continue;
+                }
+                ListViewItem listViewItem = new ListViewItem(fileInfo.Name);
+                listViewItem.Tag = file;
+                LV_logFiles.Items.Add(listViewItem);
+            }
         }
 
         /// <summary>
@@ -144,6 +172,8 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
             Properties.Settings.Default.HotfolderActive = CB_Hotfolder.Checked;
+            Properties.Settings.Default.LoggingEnabled = CB_LoggingActive.Checked;
+
             string strategyName = CB_UpdateStrategy.SelectedItem.ToString();
             if (updateStrategies.ContainsKey(strategyName))
             {
@@ -416,6 +446,71 @@ namespace XmlFormatter.src.Windows
                     LV_Hotfolders.Items[position].Selected = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Selected log file changed
+        /// </summary>
+        /// <param name="sender">The sender ov the event</param>
+        /// <param name="e">The arguments of the event</param>
+        private void LV_logFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (LV_logFiles.SelectedItems.Count == 0)
+            {
+                B_RemoveHotfolder.Enabled = false;
+                return;
+            }
+            string file = LV_logFiles.SelectedItems[0].Tag.ToString();
+            LoadLogFile(file);
+        }
+
+        /// <summary>
+        /// Load the given log file and put it into the rich box
+        /// </summary>
+        /// <param name="file">The file to load</param>
+        private void LoadLogFile(string file)
+        {
+            RTB_loggingText.Text = String.Empty;
+            FileStream stream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Write);
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                RTB_loggingText.Text = reader.ReadToEnd();
+            }
+            B_RemoveHotfolder.Enabled = true;
+        }
+
+        /// <summary>
+        /// Delete the selected log file
+        /// </summary>
+        /// <param name="sender">The sender ov the event</param>
+        /// <param name="e">The arguments of the event</param>
+        private void B_DeleteLog_Click(object sender, EventArgs e)
+        {
+            if (LV_logFiles.SelectedItems.Count == 0)
+            {
+                return;
+            }
+            try
+            {
+                File.Delete(LV_logFiles.SelectedItems[0].Tag.ToString());
+                FillLogFolderView();
+            }
+            catch (Exception ex)
+            {
+                string message = "Can't delete logfile " + LV_logFiles.SelectedItems[0].Tag.ToString();
+                message += "\n\r" + ex.Message;
+                MessageBox.Show(message, "Delete log error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Open the log folder
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments of the event</param>
+        private void B_OpenFolder_Click(object sender, EventArgs e)
+        {
+            Process.Start(Properties.Settings.Default.LoggingFolder);
         }
     }
 }

@@ -75,6 +75,7 @@ namespace XmlFormatter.src.Settings.Adapter
             }
             catch (Exception)
             {
+                //Not important since we can return an empty value
             }
             
             return returnValue;

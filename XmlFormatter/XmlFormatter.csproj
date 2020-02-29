@@ -54,16 +54,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\DataContainer\HotfolderTask.cs" />
+    <Compile Include="src\Interfaces\Logging\ILoggable.cs" />
+    <Compile Include="src\Interfaces\Logging\ILoggingFormatStrategy.cs" />
+    <Compile Include="src\Logging\FormatStrategies\SimpleFileFormatStrategy.cs" />
+    <Compile Include="src\Logging\Logger.cs" />
+    <Compile Include="src\DataContainer\Logging\LoggingMessage.cs" />
+    <Compile Include="src\Enums\LogScopesEnum.cs" />
     <Compile Include="src\Formatter\XmlFormatterProvider.cs" />
     <Compile Include="src\Hotfolder\HotfolderContainer.cs" />
     <Compile Include="src\Hotfolder\HotfolderManager.cs" />
     <Compile Include="src\Interfaces\Formatter\IFormatter.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolder.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolderManager.cs" />
+    <Compile Include="src\Interfaces\Logging\ILogger.cs" />
+    <Compile Include="src\Interfaces\Logging\ILoggingManager.cs" />
+    <Compile Include="src\Interfaces\Logging\ILoggingStrategy.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\IPersistentFactory.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingLoadProvider.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingSaveProvider.cs" />
     <Compile Include="src\Enums\ModesEnum.cs" />
+    <Compile Include="src\Logging\LoggingManager.cs" />
+    <Compile Include="src\Logging\Strategies\SimpleFileLogStrategy.cs" />
     <Compile Include="src\Interfaces\Updates\IUpdater.cs" />
     <Compile Include="src\Interfaces\Updates\IUpdateStrategy.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />

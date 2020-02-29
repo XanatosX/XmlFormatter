@@ -26,5 +26,11 @@
     <Setting Name="UpdateStrategy" Type="System.String" Scope="User">
       <Value Profile="(Default)">XmlFormatter.src.Update.Strategies.OpenGitHubReleasesStrategy</Value>
     </Setting>
+    <Setting Name="LoggingFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LoggingEnabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
