@@ -15,7 +15,7 @@ namespace XmlFormatter.src.Logging
         private readonly ILoggingFormatStrategy loggingFormatStrategy;
         private readonly List<LogScopesEnum> allowedScopes;
 
-        private bool completeLog;
+        private readonly bool completeLog;
 
         public Logger(ILoggingStrategy loggingStrategy, ILoggingFormatStrategy loggingFormatStrategy)
             : this(loggingStrategy, loggingFormatStrategy, false)

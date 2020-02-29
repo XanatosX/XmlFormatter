@@ -11,7 +11,7 @@ namespace XmlFormatter.src.Logging.Strategies
 {
     class SimpleFileLogStrategy : ILoggingStrategy
     {
-        StreamWriter streamWriter;
+        private readonly StreamWriter streamWriter;
 
         public SimpleFileLogStrategy(string fileToWrite)
             : this(fileToWrite, true)
