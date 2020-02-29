@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using XmlFormatter.src.DataContainer.Logging;
 using XmlFormatter.src.Interfaces.Logging;
 
@@ -7,7 +8,7 @@ namespace XmlFormatter.src.Logging
     /// <summary>
     /// This class is a simple logging manager
     /// </summary>
-    class LoggingManager : ILoggingManager
+    class LoggingManager : ILoggingManager, IDisposable
     {
         /// <summary>
         /// A list with all the loggers in the manager
@@ -38,6 +39,10 @@ namespace XmlFormatter.src.Logging
         /// <inheritdoc/>
         public void RemoveLoggers()
         {
+            foreach (ILogger logger in loggers)
+            {
+                logger.Dispose();
+            }
             loggers.Clear();
         }
 
@@ -51,6 +56,11 @@ namespace XmlFormatter.src.Logging
             }
 
             return status;
+        }
+
+        public void Dispose()
+        {
+            RemoveLoggers();
         }
     }
 }

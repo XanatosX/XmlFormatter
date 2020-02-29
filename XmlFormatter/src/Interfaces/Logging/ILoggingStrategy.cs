@@ -1,9 +1,11 @@
-﻿namespace XmlFormatter.src.Interfaces.Logging
+﻿using System;
+
+namespace XmlFormatter.src.Interfaces.Logging
 {
     /// <summary>
     /// This interfaces defines a strategy on how to log a message
     /// </summary>
-    interface ILoggingStrategy
+    interface ILoggingStrategy : IDisposable
     {
         /// <summary>
         /// Log the given message to the output channel

@@ -70,6 +70,11 @@ namespace XmlFormatter.src.Logging
             allowedScopes.Add(logScopeEnum);
         }
 
+        public void Dispose()
+        {
+            loggingStrategy.Dispose();
+        }
+
         /// <inheritdoc/>
         public bool LogMessage(LoggingMessage message)
         {
