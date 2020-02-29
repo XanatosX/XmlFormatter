@@ -62,20 +62,25 @@ namespace XmlFormatter.src.Hotfolder
             sleepTime = 200;
         }
 
-
+        /// <inheritdoc/>
         public void SetLoggingManager(ILoggingManager loggingManager)
         {
             this.loggingManager = loggingManager;
         }
 
-        private void LogMessage(LoggingMessage message)
+        /// <summary>
+        /// This method will allow you to log a message
+        /// </summary>
+        /// <param name="message">The message to log</param>
+        private void LogMessage(string message)
         {
             if (loggingManager == null)
             {
                 return;
             }
+            LoggingMessage loggingMessage = new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, message);
 
-            loggingManager.LogMessage(message);
+            loggingManager.LogMessage(loggingMessage);
         }
 
 
@@ -102,25 +107,11 @@ namespace XmlFormatter.src.Hotfolder
             {
                 watcher.Renamed += Watcher_Changed;
             }
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Adding new hotfolder ")
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Watched folder: " + newHotfolder.WatchedFolder)
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Output folder: " + newHotfolder.OutputFolder)
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Mode: " + newHotfolder.Mode)
-            );
-            LogMessage(
-                new LoggingMessage(
-                    Enums.LogScopesEnum.Hotfolder,
-                    this,
-                    "Formatter " + newHotfolder.FormatterToUse.ToString()
-                )
-            );
+            LogMessage("Adding new hotfolder ");
+            LogMessage("Watched folder: " + newHotfolder.WatchedFolder);
+            LogMessage("Output folder: " + newHotfolder.OutputFolder);
+            LogMessage("Mode: " + newHotfolder.Mode);
+            LogMessage("Formatter " + newHotfolder.FormatterToUse.ToString());
             newHotfolder.FormatterToUse.StatusChanged += FormatterToUse_StatusChanged;
             hotfolders.Add(newHotfolder, watcher);
             return true;
@@ -128,9 +119,7 @@ namespace XmlFormatter.src.Hotfolder
 
         private void FormatterToUse_StatusChanged(object sender, EventMessages.BaseEventArgs e)
         {
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Convert status: " + e.Message)
-            );
+            LogMessage("Convert status: " + e.Message);
         }
 
         /// <summary>
@@ -166,27 +155,32 @@ namespace XmlFormatter.src.Hotfolder
             }
             if (tasks.Find((data) => { return data.InputFile == e.FullPath; }) == null)
             {
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Adding new convert task")
-                );
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Input " + e.FullPath)
-                );
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Output folder " + hotfolder.OutputFolder)
-                );
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Mode " + hotfolder.Mode)
-                );
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Converter " + hotfolder.FormatterToUse.ToString())
-                );
+                LogMessage("Adding new convert task");
+                LogMessage("Input " + e.FullPath);
+                LogMessage("Output folder " + hotfolder.OutputFolder);
+                LogMessage("Mode " + hotfolder.Mode);
+                LogMessage("Converter " + hotfolder.FormatterToUse.ToString());
                 lastInput = e.FullPath;
                 tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Current task stack " + tasks.Count)
-                );
+                LogMessage("Current task stack " + tasks.Count);
             }
+            PerformeTasks();
+        }
+
+        /// <summary>
+        /// Performe all the stacked tasks
+        /// </summary>
+        private void PerformeTasks()
+        {
+            PerformeTasks(String.Empty);
+        }
+
+        /// <summary>
+        /// Performe all the stacked tasks
+        /// </summary>
+        /// <param name="currentFile">The current file triggering the function</param>
+        private void PerformeTasks(string currentFile)
+        {
             if (!locked)
             {
                 locked = true;
@@ -194,14 +188,22 @@ namespace XmlFormatter.src.Hotfolder
                 convertTask.ContinueWith((result) =>
                 {
                     locked = false;
-                    if (lastInput == e.FullPath)
+                    if (lastInput == currentFile)
                     {
                         lastInput = "";
+                    }
+                    if (tasks.Count > 0)
+                    {
+                        PerformeTasks();
                     }
                 });
             }
         }
 
+        /// <summary>
+        /// Convert files async
+        /// </summary>
+        /// <returns>A task with the completion status</returns>
         private async Task<bool> AsyncConvertFiles()
         {
             List<HotfolderTask> tasksToDo = new List<HotfolderTask>();
@@ -219,15 +221,11 @@ namespace XmlFormatter.src.Hotfolder
                 return true;
             }
 
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Working on " + tasksToDo.Count + " tasks")
-            );
+            LogMessage("Working on " + tasksToDo.Count + " tasks");
 
             foreach (HotfolderTask task in tasksToDo)
             {
-                LogMessage(
-                    new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Start task " + task.InputFile)
-                ); ;
+                LogMessage("Start task " + task.InputFile);
                 ConvertFile(task.Configuration, task.InputFile);
             }
             return await AsyncConvertFiles();
@@ -301,25 +299,11 @@ namespace XmlFormatter.src.Hotfolder
         /// <inheritdoc/>
         public bool RemoveHotfolder(IHotfolder hotfolderToRemove)
         {
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Removing hotfolder ")
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Watched folder: " + hotfolderToRemove.WatchedFolder)
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Output folder: " + hotfolderToRemove.OutputFolder)
-            );
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Mode: " + hotfolderToRemove.Mode)
-            );
-            LogMessage(
-                new LoggingMessage(
-                    Enums.LogScopesEnum.Hotfolder,
-                    this,
-                    "Formatter " + hotfolderToRemove.FormatterToUse.ToString()
-                )
-            );
+            LogMessage("Removing hotfolder ");
+            LogMessage("Watched folder: " + hotfolderToRemove.WatchedFolder);
+            LogMessage("Output folder: " + hotfolderToRemove.OutputFolder);
+            LogMessage("Mode: " + hotfolderToRemove.Mode);
+            LogMessage("Formatter " + hotfolderToRemove.FormatterToUse.ToString());
             if (!hotfolders.ContainsKey(hotfolderToRemove))
             {
                 return false;
@@ -336,9 +320,7 @@ namespace XmlFormatter.src.Hotfolder
         /// <inheritdoc/>
         public void ResetManager()
         {
-            LogMessage(
-                new LoggingMessage(Enums.LogScopesEnum.Hotfolder, this, "Clearing hotfolders")
-            );
+            LogMessage("Clearing hotfolders");
             hotfolders.Clear();
         }
     }
