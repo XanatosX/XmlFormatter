@@ -93,6 +93,7 @@ namespace XmlFormatter.src.Windows
             VersionManager versionManager = new VersionManager();
             string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
             Properties.Settings.Default.ApplicationVersion = currentVersion;
+            NI_Notification.Text = this.Text;
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
             settingFile = settingPath + "settings.set";
