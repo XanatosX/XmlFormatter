@@ -83,6 +83,21 @@ namespace XmlFormatter.src.Hotfolder
             loggingManager.LogMessage(loggingMessage);
         }
 
+        /// <summary>
+        /// This method will allow you to log a message
+        /// </summary>
+        /// <param name="message">The message to log</param>
+        private void LogMessage(object sender, string message)
+        {
+            if (loggingManager == null)
+            {
+                return;
+            }
+            LoggingMessage loggingMessage = new LoggingMessage(Enums.LogScopesEnum.Hotfolder, sender, message);
+
+            loggingManager.LogMessage(loggingMessage);
+        }
+
 
         /// <inheritdoc/>
         public bool AddHotfolder(IHotfolder newHotfolder)
@@ -117,9 +132,14 @@ namespace XmlFormatter.src.Hotfolder
             return true;
         }
 
+        /// <summary>
+        /// Status of the formatter did change
+        /// </summary>
+        /// <param name="sender">Sender of the message</param>
+        /// <param name="e">The data of the event</param>
         private void FormatterToUse_StatusChanged(object sender, EventMessages.BaseEventArgs e)
         {
-            LogMessage("Convert status: " + e.Message);
+            LogMessage(sender, "Convert status: " + e.Message);
         }
 
         /// <summary>
