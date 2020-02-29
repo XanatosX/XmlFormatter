@@ -68,6 +68,7 @@ namespace XmlFormatter.src.Logging.Strategies
             }
             catch (Exception)
             {
+                //Can be ignored because the writer is already closed if this exception is throwen
             }
         }
     }

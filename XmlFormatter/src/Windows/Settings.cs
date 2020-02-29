@@ -494,8 +494,11 @@ namespace XmlFormatter.src.Windows
                 File.Delete(LV_logFiles.SelectedItems[0].Tag.ToString());
                 FillLogFolderView();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                string message = "Can't delete logfile " + LV_logFiles.SelectedItems[0].Tag.ToString();
+                message += "\n\r" + ex.Message;
+                MessageBox.Show(message, "Delete log error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
