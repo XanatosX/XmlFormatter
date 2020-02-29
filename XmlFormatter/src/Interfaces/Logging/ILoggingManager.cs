@@ -1,11 +1,12 @@
-﻿using XmlFormatter.src.DataContainer.Logging;
+﻿using System;
+using XmlFormatter.src.DataContainer.Logging;
 
 namespace XmlFormatter.src.Interfaces.Logging
 {
     /// <summary>
     /// This interface defines a logging manager
     /// </summary>
-    interface ILoggingManager
+    interface ILoggingManager : IDisposable
     {
         /// <summary>
         /// Add a new logger to the manager

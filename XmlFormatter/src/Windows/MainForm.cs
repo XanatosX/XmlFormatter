@@ -132,9 +132,10 @@ namespace XmlFormatter.src.Windows
         {
             if (loggingManager != null && !Properties.Settings.Default.LoggingEnabled)
             {
+                loggingManager.Dispose();
                 loggingManager = null;
             }
-            if (Properties.Settings.Default.LoggingEnabled)
+            if (loggingManager == null && Properties.Settings.Default.LoggingEnabled)
             {
                 loggingManager = new LoggingManager();
                 string timeStamp = DateTime.Now.ToString("yyyyMMdd");

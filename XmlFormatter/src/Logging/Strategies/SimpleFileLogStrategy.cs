@@ -57,9 +57,9 @@ namespace XmlFormatter.src.Logging.Strategies
         }
 
         /// <summary>
-        /// Descturor of this class instance
+        /// Dispose this logger instance
         /// </summary>
-        ~SimpleFileLogStrategy()
+        public void Dispose()
         {
             try
             {

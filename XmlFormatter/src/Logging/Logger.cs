@@ -81,5 +81,13 @@ namespace XmlFormatter.src.Logging
 
             return false;
         }
+
+        /// <summary>
+        /// Dispose this logger
+        /// </summary>
+        public void Dispose()
+        {
+            loggingStrategy.Dispose();
+        }
     }
 }

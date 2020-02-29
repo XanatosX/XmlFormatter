@@ -1,4 +1,5 @@
-﻿using XmlFormatter.src.DataContainer.Logging;
+﻿using System;
+using XmlFormatter.src.DataContainer.Logging;
 using XmlFormatter.src.Enums;
 
 namespace XmlFormatter.src.Interfaces.Logging
@@ -6,7 +7,7 @@ namespace XmlFormatter.src.Interfaces.Logging
     /// <summary>
     /// A instance of a logger
     /// </summary>
-    interface ILogger
+    interface ILogger : IDisposable
     {
         /// <summary>
         /// Add a new scope the logger should log messages from
