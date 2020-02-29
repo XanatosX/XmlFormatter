@@ -58,6 +58,9 @@ namespace XmlFormatter.src.Logging
             return status;
         }
 
+        /// <summary>
+        /// Dispose the manager
+        /// </summary>
         public void Dispose()
         {
             RemoveLoggers();

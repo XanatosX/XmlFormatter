@@ -71,11 +71,5 @@ namespace XmlFormatter.src.Logging.Strategies
                 //Can be ignored because the writer is already closed if this exception is throwen
             }
         }
-
-
-        ~SimpleFileLogStrategy()
-        {
-
-        }
     }
 }
