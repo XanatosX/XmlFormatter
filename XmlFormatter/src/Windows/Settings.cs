@@ -133,6 +133,9 @@ namespace XmlFormatter.src.Windows
             LV_logFiles.Columns[0].Width = LV_logFiles.Width;
         }
 
+        /// <summary>
+        /// Fill in the list with all the log files
+        /// </summary>
         private void FillLogFolderView()
         {
             LV_logFiles.Items.Clear();
@@ -446,6 +449,11 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Selected log file changed
+        /// </summary>
+        /// <param name="sender">The sender ov the event</param>
+        /// <param name="e">The arguments of the event</param>
         private void LV_logFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (LV_logFiles.SelectedItems.Count == 0)
@@ -457,6 +465,10 @@ namespace XmlFormatter.src.Windows
             LoadLogFile(file);
         }
 
+        /// <summary>
+        /// Load the given log file and put it into the rich box
+        /// </summary>
+        /// <param name="file">The file to load</param>
         private void LoadLogFile(string file)
         {
             RTB_loggingText.Text = String.Empty;
@@ -468,6 +480,11 @@ namespace XmlFormatter.src.Windows
             B_RemoveHotfolder.Enabled = true;
         }
 
+        /// <summary>
+        /// Delete the selected log file
+        /// </summary>
+        /// <param name="sender">The sender ov the event</param>
+        /// <param name="e">The arguments of the event</param>
         private void B_DeleteLog_Click(object sender, EventArgs e)
         {
             if (LV_logFiles.SelectedItems.Count == 0)
@@ -484,6 +501,11 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Open the log folder
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments of the event</param>
         private void B_OpenFolder_Click(object sender, EventArgs e)
         {
             Process.Start(Properties.Settings.Default.LoggingFolder);
