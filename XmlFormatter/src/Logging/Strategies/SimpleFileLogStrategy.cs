@@ -1,24 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlFormatter.src.DataContainer.Logging;
 using XmlFormatter.src.Interfaces.Logging;
 
 namespace XmlFormatter.src.Logging.Strategies
 {
+    /// <summary>
+    /// This simple logger will write the data into a given file
+    /// </summary>
     class SimpleFileLogStrategy : ILoggingStrategy
     {
+        /// <summary>
+        /// The write stream to use
+        /// </summary>
         private readonly StreamWriter streamWriter;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="fileToWrite">The file to write to</param>
         public SimpleFileLogStrategy(string fileToWrite)
             : this(fileToWrite, true)
         {
 
         }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="fileToWrite">The file to write to</param>
+        /// <param name="append">Append the data or create a new file</param>
         public SimpleFileLogStrategy(string fileToWrite, bool append)
         {
             FileMode mode = FileMode.OpenOrCreate;
@@ -31,6 +41,7 @@ namespace XmlFormatter.src.Logging.Strategies
             streamWriter.AutoFlush = true;
         }
 
+        /// <inheritdoc/>
         public bool LogMessage(string message)
         {
             try
@@ -45,6 +56,9 @@ namespace XmlFormatter.src.Logging.Strategies
             return true;
         }
 
+        /// <summary>
+        /// Descturor of this class instance
+        /// </summary>
         ~SimpleFileLogStrategy()
         {
             try
