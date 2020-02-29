@@ -116,6 +116,25 @@ namespace XmlFormatter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you tick this box logging will be active after saving the settings.
+        ///The logging can be used to track down errors with the hotfolder..
+        /// </summary>
+        internal static string Settings_CB_LoggingActive_Message {
+            get {
+                return ResourceManager.GetString("Settings_CB_LoggingActive_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is logging active.
+        /// </summary>
+        internal static string Settings_CB_LoggingActive_Title {
+            get {
+                return ResourceManager.GetString("Settings_CB_LoggingActive_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This option will change the minimize behavior of the main window
         ///If this is set the application will be minimized to an tray icon instead of the task bar..
         /// </summary>
@@ -131,6 +150,24 @@ namespace XmlFormatter.Properties {
         internal static string Settings_CB_MinimizeToTray_Title {
             get {
                 return ResourceManager.GetString("Settings_CB_MinimizeToTray_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can choose a strategy for updating this application in the dropdown below..
+        /// </summary>
+        internal static string Settings_L_UpdateStrategy_Message {
+            get {
+                return ResourceManager.GetString("Settings_L_UpdateStrategy_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The strategy to use for updating.
+        /// </summary>
+        internal static string Settings_L_UpdateStrategy_Title {
+            get {
+                return ResourceManager.GetString("Settings_L_UpdateStrategy_Title", resourceCulture);
             }
         }
     }

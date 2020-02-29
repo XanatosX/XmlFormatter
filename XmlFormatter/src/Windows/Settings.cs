@@ -48,6 +48,7 @@ namespace XmlFormatter.src.Windows
             SetupToolTip(CB_CheckUpdatesOnStartup);
             SetupToolTip(CB_Hotfolder);
             SetupToolTip(L_UpdateStrategy);
+            SetupToolTip(CB_LoggingActive);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
