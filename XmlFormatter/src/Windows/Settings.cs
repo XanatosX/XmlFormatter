@@ -54,8 +54,6 @@ namespace XmlFormatter.src.Windows
 
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
-            
-
             SetupControls();
         }
 
