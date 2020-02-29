@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 
@@ -38,11 +39,19 @@ namespace XmlFormatter.src.Hotfolder
         private readonly int sleepTime;
 
         /// <summary>
+        /// All the tasks to work on
+        /// </summary>
+        private readonly List<HotfolderTask> tasks;
+
+        private bool locked;
+
+        /// <summary>
         /// Create a new instance of this manager class
         /// </summary>
         public HotfolderManager()
         {
             hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
+            tasks = new List<HotfolderTask>();
             lastCreatedFile = "";
             readAttempts = 25;
             sleepTime = 200;
@@ -111,7 +120,43 @@ namespace XmlFormatter.src.Hotfolder
             {
                 return;
             }
-            ConvertFile(hotfolder, e.FullPath);
+            if (tasks.Find((data) => { return data.InputFile == e.FullPath; }) == null)
+            {
+                tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
+            }
+            if (!locked)
+            {
+                locked = true;
+                Task<bool> convertTask = AsyncConvertFiles();
+                convertTask.ContinueWith((result) =>
+                {
+                    locked = false;
+                });
+            }
+        }
+
+        private async Task<bool> AsyncConvertFiles()
+        {
+            List<HotfolderTask> tasksToDo = new List<HotfolderTask>();
+            lock (tasks)
+            {
+                foreach (HotfolderTask task in tasks)
+                {
+                    tasksToDo.Add(task);
+                }
+                tasks.Clear();
+            }
+
+            if (tasksToDo.Count == 0)
+            {
+                return true;
+            }
+
+            foreach (HotfolderTask task in tasksToDo)
+            {
+                ConvertFile(task.Configuration, task.InputFile);
+            }
+            return await AsyncConvertFiles();
         }
 
         /// <summary>
@@ -137,10 +182,12 @@ namespace XmlFormatter.src.Hotfolder
                     Thread.Sleep(sleepTime);
                 }
             }
+
             if (!success)
             {
                 return;
             }
+
             FileInfo fileInfo = new FileInfo(inputFile);
             string outputFile = GetOutputFilePath(hotfolderConfig, fileInfo);
             lastCreatedFile = outputFile;
