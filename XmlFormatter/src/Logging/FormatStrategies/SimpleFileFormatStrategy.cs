@@ -1,33 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using XmlFormatter.src.DataContainer.Logging;
 using XmlFormatter.src.Interfaces.Logging;
 
 namespace XmlFormatter.src.Logging.FormatStrategies
 {
+    /// <summary>
+    /// Simple class to format log messages for file logging
+    /// </summary>
     class SimpleFileFormatStrategy : ILoggingFormatStrategy
     {
-        private readonly int callerLength;
+        /// <summary>
+        /// The lenght of the sender filed
+        /// </summary>
+        private readonly int senderLength;
 
+        /// <summary>
+        /// Create a new instace of this class
+        /// </summary>
         public SimpleFileFormatStrategy()
              : this(70)
         {
             
         }
 
-        public SimpleFileFormatStrategy(int callerLength)
+        /// <summary>
+        /// Create a new instace of this class
+        /// </summary>
+        /// <param name="senderLength">The length for the sender field</param>
+        public SimpleFileFormatStrategy(int senderLength)
         {
-            this.callerLength = callerLength;
+            this.senderLength = senderLength;
         }
 
+        /// <inheritdoc/>
         public string FormatMessage(LoggingMessage message)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(ExpandString(message.Sender, " ", callerLength));
+            stringBuilder.Append(ExpandString(message.Sender, " ", senderLength));
             stringBuilder.Append(" -> ");
             stringBuilder.Append(message.TimeStamp);
             stringBuilder.Append(": ");
@@ -41,6 +51,13 @@ namespace XmlFormatter.src.Logging.FormatStrategies
             return stringBuilder.ToString();
         }
 
+        /// <summary>
+        /// Extend a string so that it reaches a upper limit
+        /// </summary>
+        /// <param name="inputString">The string to extend</param>
+        /// <param name="fillChar">The character used for filling</param>
+        /// <param name="length">The target lenght of the string</param>
+        /// <returns></returns>
         private string ExpandString(string inputString, string fillChar, int length)
         {
             if (length <= inputString.Length)
