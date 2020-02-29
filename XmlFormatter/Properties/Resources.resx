@@ -150,4 +150,10 @@ If this is set the application will be minimized to an tray icon instead of the 
   <data name="Settings_CB_MinimizeToTray_Title" xml:space="preserve">
     <value>Minimize to tray</value>
   </data>
+  <data name="Settings_L_UpdateStrategy_Message" xml:space="preserve">
+    <value>You can choose a strategy for updating this application in the dropdown below.</value>
+  </data>
+  <data name="Settings_L_UpdateStrategy_Title" xml:space="preserve">
+    <value>The strategy to use for updating</value>
+  </data>
 </root>

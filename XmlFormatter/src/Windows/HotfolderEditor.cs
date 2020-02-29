@@ -202,12 +202,14 @@ namespace XmlFormatter.src.Windows
             }
             Type formatterType = formatters[CB_Formatter.SelectedItem.ToString()];
             IFormatter formatter = (IFormatter)Activator.CreateInstance(formatterType);
-            hotfolder = new HotfolderContainer(formatter, TB_WatchedFolder.Text);
-            hotfolder.Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString());
-            hotfolder.Filter = TB_Filter.Text;
-            hotfolder.OutputFolder = TB_OutputFolder.Text;
-            hotfolder.OnRename = CB_OnRename.Checked;
-            hotfolder.RemoveOld = CB_RemoveOld.Checked;
+            hotfolder = new HotfolderContainer(formatter, TB_WatchedFolder.Text)
+            {
+                Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString()),
+                Filter = TB_Filter.Text,
+                OutputFolder = TB_OutputFolder.Text,
+                OnRename = CB_OnRename.Checked,
+                RemoveOld = CB_RemoveOld.Checked
+            };
 
             saved = true;
             B_Cancel.PerformClick();
