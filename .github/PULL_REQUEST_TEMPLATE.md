@@ -6,6 +6,17 @@ What did you change.
 **What issue is this Pull-Request solving**
 As example type `closes #` or `fixing #`.
 
+** How hat this been tested? **
+Which tests did you run to verify your changes?
+
+* [x] Test A
+* [ ] Test B
+
+** Checklist **
+* [ ] **IMPORTANT** I have checked that this pull request is targeting the develop branch
+* [ ] I have reviewed my code
+* [ ] I have added all the required summary tests
+
 **Special information required for reviewing or testing**
 Write down any special information the reviewer could need for his or her review or any information to test this Pull-Request.
 
