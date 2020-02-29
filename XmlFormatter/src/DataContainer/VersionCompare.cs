@@ -1,5 +1,7 @@
 ﻿using Octokit;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace XmlFormatter.src.DataContainer
 {
@@ -50,6 +52,16 @@ namespace XmlFormatter.src.DataContainer
         public Release LatestRelease => lastestRelease;
 
         /// <summary>
+        /// A readonly list of all the assets in the release build
+        /// </summary>
+        private readonly List<ReleaseAsset> assets;
+
+        /// <summary>
+        /// Public access to the assets in the release build
+        /// </summary>
+        public List<ReleaseAsset> Assets => assets;
+
+        /// <summary>
         /// Create an new instance of this class
         /// </summary>
         /// <param name="gitHubIsNewer">Is the version on GitHub newer</param>
@@ -62,6 +74,7 @@ namespace XmlFormatter.src.DataContainer
             this.clientVersion = localVersion;
             this.gitHubVersion = gitHubVersion;
             this.lastestRelease = latestRelease;
+            this.assets = latestRelease.Assets.ToList();
         }
 
     }

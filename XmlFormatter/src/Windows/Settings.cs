@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using XmlFormatter.src.Interfaces.Updates;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.Settings.DataStructure;
 using XmlFormatter.src.Settings.Hotfolder;
@@ -11,8 +15,20 @@ namespace XmlFormatter.src.Windows
 {
     public partial class Settings : Form
     {
+        /// <summary>
+        /// The setting manager to user
+        /// </summary>
         private readonly ISettingsManager settingManager;
+
+        /// <summary>
+        /// The setting file to load
+        /// </summary>
         private readonly string settingFile;
+
+        /// <summary>
+        /// A dictionary with all the update strategies
+        /// </summary>
+        private readonly Dictionary<string, IUpdateStrategy> updateStrategies;
 
         /// <summary>
         /// Create a new settings window
@@ -23,11 +39,13 @@ namespace XmlFormatter.src.Windows
 
             this.settingManager = settingManager;
             this.settingFile = settingFile;
+            updateStrategies = new Dictionary<string, IUpdateStrategy>();
 
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
             SetupToolTip(CB_CheckUpdatesOnStartup);
             SetupToolTip(CB_Hotfolder);
+            SetupToolTip(L_UpdateStrategy);
             B_EditHotfolder.Enabled = false;
             B_RemoveHotfolder.Enabled = false;
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -79,6 +97,30 @@ namespace XmlFormatter.src.Windows
                 ListViewItem item = HotfolderToListView(hotfolder);
                 LV_Hotfolders.Items.Add(item);
             }
+
+            Type type = typeof(IUpdateStrategy);
+            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            var possibleStrategies = types.Where(currentType => currentType.GetInterfaces().Contains(type));
+
+            foreach (Type currentStrategy in possibleStrategies)
+            {
+                try
+                {
+                    IUpdateStrategy updateStrategy = (IUpdateStrategy)Activator.CreateInstance(currentStrategy);
+                    updateStrategies.Add(updateStrategy.DisplayName, updateStrategy);
+                    CB_UpdateStrategy.Items.Add(updateStrategy.DisplayName);
+                    var test = currentStrategy.ToString();
+                    var test2 = Properties.Settings.Default.UpdateStrategy;
+                    if (currentStrategy.ToString() == Properties.Settings.Default.UpdateStrategy)
+                    {
+                        CB_UpdateStrategy.SelectedIndex = CB_UpdateStrategy.Items.Count - 1;
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
         }
 
         /// <summary>
@@ -102,6 +144,12 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.AskBeforeClosing = CB_AskBeforeClose.Checked;
             Properties.Settings.Default.SearchUpdateOnStartup = CB_CheckUpdatesOnStartup.Checked;
             Properties.Settings.Default.HotfolderActive = CB_Hotfolder.Checked;
+            string strategyName = CB_UpdateStrategy.SelectedItem.ToString();
+            if (updateStrategies.ContainsKey(strategyName))
+            {
+                IUpdateStrategy updateStrategy = updateStrategies[strategyName];
+                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().ToString();
+            }
 
             ISettingScope hotfolderScope = settingManager.GetScope("Hotfolder");
             if (hotfolderScope == null)
@@ -136,16 +184,20 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The sender wo called the event</param>
         /// <param name="e">The arguments provided by the sender</param>
-        private void exportSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExportSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "XML files(*.xml)| *.xml";
-            saveFileDialog.FileName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            saveFileDialog.FileName += "_";
-            saveFileDialog.FileName += Application.ProductName;
-            saveFileDialog.FileName += "Settings";
-            saveFileDialog.FileName += "_V";
-            saveFileDialog.FileName += Properties.Settings.Default.ApplicationVersion;
+            string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            fileName += "_";
+            fileName += Application.ProductName;
+            fileName += "Settings";
+            fileName += "_V";
+            fileName += Properties.Settings.Default.ApplicationVersion;
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "XML files(*.xml)| *.xml",
+                FileName = fileName
+            };
+
 
             DialogResult result = saveFileDialog.ShowDialog();
 
@@ -163,10 +215,12 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The sender wo called the event</param>
         /// <param name="e">The arguments provided by the sender</param>
-        private void importSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ImportSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "XML files(*.xml)| *.xml";
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "XML files(*.xml)| *.xml"
+            };
             DialogResult result = openFileDialog.ShowDialog();
             if (result != DialogResult.OK)
             {
@@ -266,8 +320,10 @@ namespace XmlFormatter.src.Windows
         /// <returns>A valid ListViewItem</returns>
         private ListViewItem HotfolderToListView(IHotfolder hotfolder)
         {
-            ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString());
-            listViewItem.Tag = hotfolder;
+            ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString())
+            {
+                Tag = hotfolder
+            };
             listViewItem.SubItems.Add(hotfolder.Mode.ToString());
             listViewItem.SubItems.Add(hotfolder.WatchedFolder);
             listViewItem.SubItems.Add(hotfolder.Filter);
