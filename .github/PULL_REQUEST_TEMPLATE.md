@@ -13,6 +13,7 @@ Which tests did you run to verify your changes?
 * [ ] Test B
 
 ** Checklist **
+* [ ] **IMPORTANT** I have checked that this pull request is targeting the develop branch
 * [ ] I have reviewed my code
 * [ ] I have added all the required summary tests
 
