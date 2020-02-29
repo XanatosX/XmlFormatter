@@ -27,7 +27,7 @@ namespace XmlFormatter.src.Logging.FormatStrategies
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(ExpandString(message.Caller, " ", callerLength));
+            stringBuilder.Append(ExpandString(message.Sender, " ", callerLength));
             stringBuilder.Append(" -> ");
             stringBuilder.Append(message.TimeStamp);
             stringBuilder.Append(": ");
