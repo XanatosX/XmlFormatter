@@ -1,28 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using XmlFormatter.src.DataContainer.Logging;
 using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Logging;
 
 namespace XmlFormatter.src.Logging
 {
+    /// <summary>
+    /// Strategy based logger instance
+    /// </summary>
     class Logger : ILogger
     {
+        /// <summary>
+        /// The strategy to use for logging
+        /// </summary>
         private readonly ILoggingStrategy loggingStrategy;
+
+        /// <summary>
+        /// The strategy used for formating the message
+        /// </summary>
         private readonly ILoggingFormatStrategy loggingFormatStrategy;
+
+        /// <summary>
+        /// A list with all the allowed scopes
+        /// </summary>
         private readonly List<LogScopesEnum> allowedScopes;
 
+        /// <summary>
+        /// Is this a complete log which results in ignoring the scope list
+        /// </summary>
         private readonly bool completeLog;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="loggingStrategy">The strategy used for logging</param>
+        /// <param name="loggingFormatStrategy">The strategy used for formatting</param>
         public Logger(ILoggingStrategy loggingStrategy, ILoggingFormatStrategy loggingFormatStrategy)
             : this(loggingStrategy, loggingFormatStrategy, false)
         {
 
         }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="loggingStrategy">The strategy used for logging</param>
+        /// <param name="loggingFormatStrategy">The strategy used for formatting</param>
+        /// <param name="completeLog">Is this a complete log</param>
         public Logger(
             ILoggingStrategy loggingStrategy,
             ILoggingFormatStrategy loggingFormatStrategy,
@@ -36,6 +60,7 @@ namespace XmlFormatter.src.Logging
             allowedScopes.Add(LogScopesEnum.None);
         }
 
+        /// <inheritdoc/>
         public void AddScope(LogScopesEnum logScopeEnum)
         {
             if (allowedScopes.Contains(logScopeEnum))
@@ -45,6 +70,7 @@ namespace XmlFormatter.src.Logging
             allowedScopes.Add(logScopeEnum);
         }
 
+        /// <inheritdoc/>
         public bool LogMessage(LoggingMessage message)
         {
             if (completeLog || allowedScopes.Contains(message.Scope))
