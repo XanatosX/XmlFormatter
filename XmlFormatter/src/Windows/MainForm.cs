@@ -238,9 +238,9 @@ namespace XmlFormatter.src.Windows
                 return;
             }
             hotfolderManager = hotfolderManager ?? new HotfolderManager();
-            if (hotfolderManager is ILoggable)
+            if (hotfolderManager is ILoggable loggable)
             {
-                ((ILoggable)hotfolderManager).SetLoggingManager(loggingManager);
+                loggable.SetLoggingManager(loggingManager);
             }
             hotfolderManager.ResetManager();
 
