@@ -622,6 +622,7 @@ namespace XmlFormatter.src.Windows
                 {
                     IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(item.Id);
                     SetFormatter(formatter);
+                    TB_SelectedXml.Text = string.Empty;
                 }
             }
         }
