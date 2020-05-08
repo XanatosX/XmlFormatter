@@ -1,5 +1,5 @@
-﻿using XmlFormatter.src.Enums;
-using XmlFormatter.src.Interfaces.Formatter;
+﻿using PluginFramework.src.Enums;
+using PluginFramework.src.Interfaces.PluginTypes;
 
 namespace XmlFormatter.src.Interfaces.Hotfolder
 {

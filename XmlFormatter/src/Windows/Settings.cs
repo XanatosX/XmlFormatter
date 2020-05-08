@@ -1,20 +1,24 @@
-﻿using System;
+﻿using PluginFramework.src.DataContainer;
+using PluginFramework.src.Interfaces.Manager;
+using PluginFramework.src.Interfaces.PluginTypes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
+using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Interfaces.Updates;
 using XmlFormatter.src.Manager;
 using XmlFormatter.src.Settings.DataStructure;
 using XmlFormatter.src.Settings.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {
+    /// <summary>
+    /// Settings window
+    /// </summary>
     public partial class Settings : Form
     {
         /// <summary>
@@ -28,20 +32,20 @@ namespace XmlFormatter.src.Windows
         private readonly string settingFile;
 
         /// <summary>
-        /// A dictionary with all the update strategies
+        /// The plugin manager to use
         /// </summary>
-        private readonly Dictionary<string, IUpdateStrategy> updateStrategies;
+        private readonly IPluginManager pluginManager;
 
         /// <summary>
         /// Create a new settings window
         /// </summary>
-        public Settings(ISettingsManager settingManager, string settingFile)
+        public Settings(ISettingsManager settingManager, string settingFile, IPluginManager pluginManager)
         {
             InitializeComponent();
 
             this.settingManager = settingManager;
             this.settingFile = settingFile;
-            updateStrategies = new Dictionary<string, IUpdateStrategy>();
+            this.pluginManager = pluginManager;
 
             SetupToolTip(CB_MinimizeToTray);
             SetupToolTip(CB_AskBeforeClose);
@@ -54,6 +58,7 @@ namespace XmlFormatter.src.Windows
             B_RemoveHotfolder.Enabled = false;
 
             LV_Hotfolders.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            settingManager.Load(settingFile);
 
             SetupControls();
         }
@@ -97,27 +102,21 @@ namespace XmlFormatter.src.Windows
             CB_LoggingActive.Checked = Properties.Settings.Default.LoggingEnabled;
 
             LV_Hotfolders.Items.Clear();
-            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager, pluginManager);
             foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
             {
                 ListViewItem item = HotfolderToListView(hotfolder);
                 LV_Hotfolders.Items.Add(item);
             }
 
-            Type type = typeof(IUpdateStrategy);
-            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
-            var possibleStrategies = types.Where(currentType => currentType.GetInterfaces().Contains(type));
+            List<PluginMetaData> updatePlugins = pluginManager.ListPlugins<IUpdateStrategy>();
 
-            foreach (Type currentStrategy in possibleStrategies)
+            foreach (PluginMetaData metaData in updatePlugins)
             {
                 try
                 {
-                    IUpdateStrategy updateStrategy = (IUpdateStrategy)Activator.CreateInstance(currentStrategy);
-                    updateStrategies.Add(updateStrategy.DisplayName, updateStrategy);
-                    CB_UpdateStrategy.Items.Add(updateStrategy.DisplayName);
-                    var test = currentStrategy.ToString();
-                    var test2 = Properties.Settings.Default.UpdateStrategy;
-                    if (currentStrategy.ToString() == Properties.Settings.Default.UpdateStrategy)
+                    CB_UpdateStrategy.Items.Add(new ComboboxPluginItem(metaData));
+                    if (metaData.Type.ToString() == Properties.Settings.Default.UpdateStrategy)
                     {
                         CB_UpdateStrategy.SelectedIndex = CB_UpdateStrategy.Items.Count - 1;
                     }
@@ -130,6 +129,10 @@ namespace XmlFormatter.src.Windows
 
             FillLogFolderView();
             LV_logFiles.Columns[0].Width = LV_logFiles.Width;
+            if (CB_UpdateStrategy.SelectedIndex == -1 && CB_UpdateStrategy.Items.Count > 0)
+            {
+                CB_UpdateStrategy.SelectedIndex = 0;
+            }
         }
 
         /// <summary>
@@ -145,8 +148,10 @@ namespace XmlFormatter.src.Windows
                 {
                     continue;
                 }
-                ListViewItem listViewItem = new ListViewItem(fileInfo.Name);
-                listViewItem.Tag = file;
+                ListViewItem listViewItem = new ListViewItem(fileInfo.Name)
+                {
+                    Tag = file
+                };
                 LV_logFiles.Items.Add(listViewItem);
             }
         }
@@ -174,11 +179,9 @@ namespace XmlFormatter.src.Windows
             Properties.Settings.Default.HotfolderActive = CB_Hotfolder.Checked;
             Properties.Settings.Default.LoggingEnabled = CB_LoggingActive.Checked;
 
-            string strategyName = CB_UpdateStrategy.SelectedItem.ToString();
-            if (updateStrategies.ContainsKey(strategyName))
+            if (CB_UpdateStrategy.SelectedItem is ComboboxPluginItem updateItem)
             {
-                IUpdateStrategy updateStrategy = updateStrategies[strategyName];
-                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().ToString();
+                Properties.Settings.Default.UpdateStrategy = updateItem.Type.ToString();
             }
 
             ISettingScope hotfolderScope = settingManager.GetScope("Hotfolder");
@@ -328,7 +331,7 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">Event arguments</param>
         private void B_AddHotfolder_Click(object sender, EventArgs e)
         {
-            HotfolderEditor hotfolderEditor = new HotfolderEditor(null);
+            HotfolderEditor hotfolderEditor = new HotfolderEditor(pluginManager);
             hotfolderEditor.ShowDialog();
             if (hotfolderEditor.Saved)
             {
@@ -350,10 +353,15 @@ namespace XmlFormatter.src.Windows
         /// <returns>A valid ListViewItem</returns>
         private ListViewItem HotfolderToListView(IHotfolder hotfolder)
         {
-            ListViewItem listViewItem = new ListViewItem(hotfolder.FormatterToUse.ToString())
+            ListViewItem listViewItem = new ListViewItem("Plugin not found!");
+            if (hotfolder.FormatterToUse != null)
             {
-                Tag = hotfolder
-            };
+                listViewItem = new ListViewItem(hotfolder.FormatterToUse.Information.Name)
+                {
+                    Tag = hotfolder
+                };
+            }
+
             listViewItem.SubItems.Add(hotfolder.Mode.ToString());
             listViewItem.SubItems.Add(hotfolder.WatchedFolder);
             listViewItem.SubItems.Add(hotfolder.Filter);
@@ -435,7 +443,7 @@ namespace XmlFormatter.src.Windows
             ListViewItem selectedItem = LV_Hotfolders.SelectedItems[0];
             if (selectedItem.Tag is IHotfolder)
             {
-                HotfolderEditor hotfolderEditor = new HotfolderEditor((IHotfolder)selectedItem.Tag);
+                HotfolderEditor hotfolderEditor = new HotfolderEditor((IHotfolder)selectedItem.Tag, pluginManager);
                 hotfolderEditor.ShowDialog();
                 if (hotfolderEditor.Saved)
                 {
