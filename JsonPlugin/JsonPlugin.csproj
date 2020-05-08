@@ -46,19 +46,12 @@
   <ItemGroup>
     <Compile Include="src\JsonFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\src\DataContainer\PluginInformation.cs" />
-    <Compile Include="src\src\DataContainer\PluginMetaData.cs" />
-    <Compile Include="src\src\DataContainer\VersionCompare.cs" />
-    <Compile Include="src\src\Enums\ModesEnum.cs" />
-    <Compile Include="src\src\EventMessages\BaseEventArgs.cs" />
-    <Compile Include="src\src\Formatter\BaseFormatter.cs" />
-    <Compile Include="src\src\Interfaces\Manager\IPluginLoadStrategy.cs" />
-    <Compile Include="src\src\Interfaces\Manager\IPluginManager.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IFormatter.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IPluginOverhead.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IUpdateStrategy.cs" />
-    <Compile Include="src\src\LoadStrategies\PluginFolder.cs" />
-    <Compile Include="src\src\Manager\DefaultManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
+      <Project>{563ebe6c-bb53-4a33-b8bc-10e701d7cfc6}</Project>
+      <Name>PluginFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
