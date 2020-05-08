@@ -68,9 +68,15 @@ namespace PluginFramework.src.Formatter
             handle?.Invoke(this, dataMessage);
         }
 
+        /// <summary>
+        /// Check if the input file is readable and the output file is writeable
+        /// </summary>
+        /// <param name="inputFilePath">The input file</param>
+        /// <param name="outputName">The output file</param>
+        /// <returns>If it is readable</returns>
         protected bool IsFileReadableWriteable(string inputFilePath, string outputName)
         {
-            bool readable = false;
+            bool readable;
             try
             {
                 using (FileStream fileStream = File.Open(
