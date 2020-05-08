@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\Js
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorePlugin", "CorePlugin\CorePlugin.csproj", "{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{5A901E53-8CCE-42DD-8953-D181F176A331}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{9808F069-6DC1-4C26-A434-16630FC697E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A901E53-8CCE-42DD-8953-D181F176A331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A901E53-8CCE-42DD-8953-D181F176A331}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A901E53-8CCE-42DD-8953-D181F176A331}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A901E53-8CCE-42DD-8953-D181F176A331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9808F069-6DC1-4C26-A434-16630FC697E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9808F069-6DC1-4C26-A434-16630FC697E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9808F069-6DC1-4C26-A434-16630FC697E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9808F069-6DC1-4C26-A434-16630FC697E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
