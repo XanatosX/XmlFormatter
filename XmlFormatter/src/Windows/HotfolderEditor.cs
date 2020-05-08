@@ -23,25 +23,18 @@ namespace XmlFormatter.src.Windows
         private readonly bool editMode;
 
         /// <summary>
-        /// Was something saved
-        /// </summary>
-        private bool saved;
-
-        /// <summary>
         /// Readonly access if something was saved
         /// </summary>
-        public bool Saved => saved;
-
-        /// <summary>
-        /// The current hotfolder configuration
-        /// </summary>
-        private IHotfolder hotfolder;
+        public bool Saved { get; private set; }
 
         /// <summary>
         /// Readonly access to the hotfolder configuration
         /// </summary>
-        public IHotfolder Hotfolder => hotfolder;
+        public IHotfolder Hotfolder { get; private set; }
 
+        /// <summary>
+        /// The plugin manager to use
+        /// </summary>
         private readonly IPluginManager PluginManager;
 
         /// <summary>
@@ -64,7 +57,7 @@ namespace XmlFormatter.src.Windows
             InitializeComponent();
 
             CB_Formatter.Enabled = !editMode;
-            this.hotfolder = hotfolder;
+            Hotfolder = hotfolder;
             PluginManager = pluginManager;
         }
 
@@ -109,7 +102,7 @@ namespace XmlFormatter.src.Windows
                 {
                     if (CB_Formatter.Items[i] is ComboboxPluginItem item)
                     {
-                        if (item.Type.FullName == hotfolder.FormatterToUse.GetType().FullName)
+                        if (item.Type.FullName == Hotfolder.FormatterToUse.GetType().FullName)
                         {
                             CB_Formatter.SelectedIndex = i;
                             foundEntry = true;
@@ -122,26 +115,26 @@ namespace XmlFormatter.src.Windows
                 for (int i = 0; i < CB_Mode.Items.Count; i++)
                 {
                     string item = CB_Mode.Items[i].ToString();
-                    if (item == hotfolder.Mode.ToString())
+                    if (item == Hotfolder.Mode.ToString())
                     {
                         CB_Mode.SelectedIndex = i;
                         break;
                     }
                 }
 
-                TB_WatchedFolder.Text = hotfolder.WatchedFolder;
-                TB_Filter.Text = hotfolder.Filter;
-                TB_OutputFolder.Text = hotfolder.OutputFolder;
-                TB_OutputFileScheme.Text = hotfolder.OutputFileScheme;
+                TB_WatchedFolder.Text = Hotfolder.WatchedFolder;
+                TB_Filter.Text = Hotfolder.Filter;
+                TB_OutputFolder.Text = Hotfolder.OutputFolder;
+                TB_OutputFileScheme.Text = Hotfolder.OutputFileScheme;
 
-                CB_OnRename.Checked = hotfolder.OnRename;
-                CB_RemoveOld.Checked = hotfolder.RemoveOld;
+                CB_OnRename.Checked = Hotfolder.OnRename;
+                CB_RemoveOld.Checked = Hotfolder.RemoveOld;
 
                 if (!foundEntry)
                 {
                     CB_Formatter.Enabled = true;
                     MessageBox.Show(
-                        "Missing type " + hotfolder.FormatterToUse.GetType().FullName + " did you delete the plugin?",
+                        "Missing type " + Hotfolder.FormatterToUse.GetType().FullName + " did you delete the plugin?",
                         "Missing formatter",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
@@ -222,7 +215,7 @@ namespace XmlFormatter.src.Windows
             if (CB_Formatter.SelectedItem is ComboboxPluginItem selectedItem)
             {
                 IFormatter plugin = PluginManager.LoadPlugin<IFormatter>(selectedItem.Id);
-                hotfolder = new HotfolderContainer(plugin, TB_WatchedFolder.Text)
+                Hotfolder = new HotfolderContainer(plugin, TB_WatchedFolder.Text)
                 {
                     Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString()),
                     Filter = TB_Filter.Text,
@@ -232,7 +225,7 @@ namespace XmlFormatter.src.Windows
                 };
             }
 
-            saved = true;
+            Saved = true;
             B_Cancel.PerformClick();
         }
 

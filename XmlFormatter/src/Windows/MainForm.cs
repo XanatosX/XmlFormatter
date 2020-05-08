@@ -616,14 +616,11 @@ namespace XmlFormatter.src.Windows
         /// <param name="e"></param>
         private void CB_Formatter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (sender is ComboBox box)
+            if (sender is ComboBox box && box.SelectedItem is ComboboxPluginItem item)
             {
-                if (box.SelectedItem is ComboboxPluginItem item)
-                {
-                    IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(item.Id);
-                    SetFormatter(formatter);
-                    TB_SelectedXml.Text = string.Empty;
-                }
+                IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(item.Id);
+                SetFormatter(formatter);
+                TB_SelectedXml.Text = string.Empty;
             }
         }
     }
