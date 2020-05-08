@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XmlFormatter.src.EventMessages
+namespace PluginFramework.src.EventMessages
 {
     /// <summary>
     /// This class is a simple event data container

@@ -102,7 +102,7 @@ namespace XmlFormatter.src.Hotfolder
         /// <inheritdoc/>
         public bool AddHotfolder(IHotfolder newHotfolder)
         {
-            if (GetHotfolderByWatchedFolder(newHotfolder.WatchedFolder) != null)
+            if (IsSameWatcherRegisterd(newHotfolder))
             {
                 return false;
             }
@@ -126,10 +126,16 @@ namespace XmlFormatter.src.Hotfolder
             LogMessage("Watched folder: " + newHotfolder.WatchedFolder);
             LogMessage("Output folder: " + newHotfolder.OutputFolder);
             LogMessage("Mode: " + newHotfolder.Mode);
-            LogMessage("Formatter " + newHotfolder.FormatterToUse.ToString());
-            newHotfolder.FormatterToUse.StatusChanged += FormatterToUse_StatusChanged;
-            hotfolders.Add(newHotfolder, watcher);
-            return true;
+            if (newHotfolder.FormatterToUse != null)
+            {
+                LogMessage("Formatter " + newHotfolder.FormatterToUse.ToString());
+                newHotfolder.FormatterToUse.StatusChanged += FormatterToUse_StatusChanged;
+                hotfolders.Add(newHotfolder, watcher);
+                return true;
+            }
+
+            LogMessage("Formatter: Could not be found! Maybe the plugin was deleted?");
+            return false;
         }
 
         /// <summary>
@@ -137,7 +143,7 @@ namespace XmlFormatter.src.Hotfolder
         /// </summary>
         /// <param name="sender">Sender of the message</param>
         /// <param name="e">The data of the event</param>
-        private void FormatterToUse_StatusChanged(object sender, EventMessages.BaseEventArgs e)
+        private void FormatterToUse_StatusChanged(object sender, PluginFramework.src.EventMessages.BaseEventArgs e)
         {
             LogMessage(sender, "Convert status: " + e.Message);
         }
@@ -146,13 +152,37 @@ namespace XmlFormatter.src.Hotfolder
         /// Get the hotfolder by the watched folder
         /// </summary>
         /// <param name="watchedFolder">The watched folder to get the hotfolder for</param>
+        /// <param name="filter">The filter used by the watcher</param>
         /// <returns>The hotfolder</returns>
-        private IHotfolder GetHotfolderByWatchedFolder(string watchedFolder)
+        /// //
+        private IHotfolder GetHotfolderByWatchedFolder(string watchedFolder, string filter)
         {
             return hotfolders.Keys.ToList().Find((currentHotfolder) =>
             {
-                return currentHotfolder.WatchedFolder == watchedFolder;
+                return currentHotfolder.WatchedFolder == watchedFolder && currentHotfolder.Filter == filter;
             });
+        }
+
+        /// <summary>
+        /// Is there already an identical watcher registerec
+        /// </summary>
+        /// <param name="hotfolder">The new hotfolder config to check</param>
+        /// <returns>True if there is already an identical active configuration</returns>
+        private bool IsSameWatcherRegisterd(IHotfolder hotfolder)
+        {
+            return hotfolders.Keys.ToList().Find(currentHotfolder =>
+            {
+                bool isIdentical = false;
+                if (currentHotfolder.FormatterToUse.GetType() == hotfolder.FormatterToUse.GetType())
+                {
+                    if (currentHotfolder.Mode == hotfolder.Mode && currentHotfolder.WatchedFolder == hotfolder.WatchedFolder)
+                    {
+                        isIdentical = true;
+                    }
+                }
+
+                return isIdentical;
+            }) != null;
         }
 
         /// <summary>
@@ -167,24 +197,27 @@ namespace XmlFormatter.src.Hotfolder
                 return;
             }
 
-            FileInfo fileInfo = new FileInfo(e.FullPath);
-            IHotfolder hotfolder = GetHotfolderByWatchedFolder(fileInfo.DirectoryName);
-            if (hotfolder == null || lastInput == e.FullPath)
+            if (sender is FileSystemWatcher watcher)
             {
-                return;
+                FileInfo fileInfo = new FileInfo(e.FullPath);
+                IHotfolder hotfolder = GetHotfolderByWatchedFolder(fileInfo.DirectoryName, watcher.Filter);
+                if (hotfolder == null || lastInput == e.FullPath)
+                {
+                    return;
+                }
+                if (tasks.Find((data) => { return data.InputFile == e.FullPath; }) == null)
+                {
+                    LogMessage("Adding new convert task");
+                    LogMessage("Input " + e.FullPath);
+                    LogMessage("Output folder " + hotfolder.OutputFolder);
+                    LogMessage("Mode " + hotfolder.Mode);
+                    LogMessage("Converter " + hotfolder.FormatterToUse.ToString());
+                    lastInput = e.FullPath;
+                    tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
+                    LogMessage("Current task stack " + tasks.Count);
+                }
+                PerformeTasks();
             }
-            if (tasks.Find((data) => { return data.InputFile == e.FullPath; }) == null)
-            {
-                LogMessage("Adding new convert task");
-                LogMessage("Input " + e.FullPath);
-                LogMessage("Output folder " + hotfolder.OutputFolder);
-                LogMessage("Mode " + hotfolder.Mode);
-                LogMessage("Converter " + hotfolder.FormatterToUse.ToString());
-                lastInput = e.FullPath;
-                tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
-                LogMessage("Current task stack " + tasks.Count);
-            }
-            PerformeTasks();
         }
 
         /// <summary>

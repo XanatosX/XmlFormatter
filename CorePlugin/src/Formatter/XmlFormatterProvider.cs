@@ -1,12 +1,13 @@
-﻿using System;
+﻿using PluginFramework.src.DataContainer;
+using PluginFramework.src.Enums;
+using PluginFramework.src.EventMessages;
+using PluginFramework.src.Interfaces.PluginTypes;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using XmlFormatter.src.Enums;
-using XmlFormatter.src.EventMessages;
-using XmlFormatter.src.Interfaces.Formatter;
 
-namespace XmlFormatter.src.Formatter
+namespace CorePlugin.src.Formatter
 {
     /// <summary>
     /// A xml formatter class instance
@@ -16,13 +17,13 @@ namespace XmlFormatter.src.Formatter
         /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> StatusChanged;
 
-        /// <summary>
-        /// The readonly name of this formatter
-        /// </summary>
-        private readonly string name;
-
         /// <inheritdoc/>
-        public string Name => name;
+        public PluginInformation Information => information;
+
+        /// <summary>
+        /// The readonly plugin information
+        /// </summary>
+        private readonly PluginInformation information;
 
         /// <summary>
         /// The extension supported by this formatter
@@ -37,7 +38,7 @@ namespace XmlFormatter.src.Formatter
         /// </summary>
         public XmlFormatterProvider()
         {
-            name = "XmlFormatter";
+            information = new PluginInformation("XmlFormatter", "Convert xml files", "XanatosX", new Version(1, 0));
             extension = "xml";
         }
 

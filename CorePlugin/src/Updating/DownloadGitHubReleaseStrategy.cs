@@ -1,35 +1,33 @@
 ﻿using Octokit;
+using PluginFramework.src.DataContainer;
+using PluginFramework.src.Interfaces.PluginTypes;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Interfaces.Updates;
 
-namespace XmlFormatter.src.Update.Strategies
+namespace CorePlugin.src.Updating
 {
     /// <summary>
     /// This class descripes the download from GitHub strategy
     /// </summary>
     class DownloadGitHubReleaseStrategy : IUpdateStrategy
     {
-        /// <summary>
-        /// The readonly name to show in the dropdown
-        /// </summary>
-        private readonly string displayName;
+        /// <inheritdoc/>
+        public PluginInformation Information => information;
 
         /// <summary>
-        /// The displayname to show in the dropdown
+        /// Private readonly information about this plugin
         /// </summary>
-        public string DisplayName => displayName;
+        private readonly PluginInformation information;
 
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
         public DownloadGitHubReleaseStrategy()
         {
-            displayName = "Download GitHub releases";
+            information = new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 0));
         }
 
         /// <inheritdoc/>
