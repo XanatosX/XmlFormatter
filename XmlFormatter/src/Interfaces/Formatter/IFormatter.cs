@@ -1,18 +1,23 @@
-﻿using PluginFramework.src.Enums;
-using PluginFramework.src.EventMessages;
-using System;
+﻿using System;
+using XmlFormatter.src.Enums;
+using XmlFormatter.src.EventMessages;
 
-namespace PluginFramework.src.Interfaces.PluginTypes
+namespace XmlFormatter.src.Interfaces.Formatter
 {
     /// <summary>
     /// This interface defines a formatter
     /// </summary>
-    public interface IFormatter : IPluginOverhead
+    public interface IFormatter
     {
         /// <summary>
         /// Event if the status of the conversion has been changed
         /// </summary>
         event EventHandler<BaseEventArgs> StatusChanged;
+
+        /// <summary>
+        /// Name of the formatter
+        /// </summary>
+        string Name { get;  }
 
         /// <summary>
         /// The Extension to use

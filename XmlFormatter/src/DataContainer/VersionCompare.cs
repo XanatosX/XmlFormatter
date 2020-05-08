@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PluginFramework.src.DataContainer
+namespace XmlFormatter.src.DataContainer
 {
     /// <summary>
     /// This data container class which will combine different informations.
     /// This class will tell you which version is newer and what versions are present
     /// </summary>
-    public class VersionCompare
+    class VersionCompare
     {
         /// <summary>
         /// Is the GitHub version newer
