@@ -8,14 +8,34 @@ using System.Linq;
 
 namespace PluginFramework.src.Manager
 {
-
+    /// <summary>
+    /// Default plugin manager
+    /// </summary>
     public class DefaultManager : IPluginManager
     {
+        /// <summary>
+        /// A list with all the plugins
+        /// </summary>
         private readonly List<PluginMetaData> plugins;
+
+        /// <summary>
+        /// A list with all the plugin types which got loaded already
+        /// </summary>
         private readonly List<Type> loadedTypes;
+
+        /// <summary>
+        /// Default loading strategy to use
+        /// </summary>
         private IPluginLoadStrategy defaultStrategy;
+
+        /// <summary>
+        /// The next id of the plugin
+        /// </summary>
         private int nextId;
 
+        /// <summary>
+        /// Create a new instance of this plugin manager
+        /// </summary>
         public DefaultManager()
         {
             plugins = new List<PluginMetaData>();
