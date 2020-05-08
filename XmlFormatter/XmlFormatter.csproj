@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
-      <Project>{b7a39456-42ba-438b-ac59-fb093139b84a}</Project>
+      <Project>{5a901e53-8cce-42dd-8953-d181f176a331}</Project>
       <Name>PluginFramework</Name>
     </ProjectReference>
   </ItemGroup>

@@ -34,6 +34,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Octokit, Version=0.47.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.47.0\lib\net46\Octokit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,19 +49,12 @@
   <ItemGroup>
     <Compile Include="src\JsonFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\src\DataContainer\PluginInformation.cs" />
-    <Compile Include="src\src\DataContainer\PluginMetaData.cs" />
-    <Compile Include="src\src\DataContainer\VersionCompare.cs" />
-    <Compile Include="src\src\Enums\ModesEnum.cs" />
-    <Compile Include="src\src\EventMessages\BaseEventArgs.cs" />
-    <Compile Include="src\src\Formatter\BaseFormatter.cs" />
-    <Compile Include="src\src\Interfaces\Manager\IPluginLoadStrategy.cs" />
-    <Compile Include="src\src\Interfaces\Manager\IPluginManager.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IFormatter.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IPluginOverhead.cs" />
-    <Compile Include="src\src\Interfaces\PluginTypes\IUpdateStrategy.cs" />
-    <Compile Include="src\src\LoadStrategies\PluginFolder.cs" />
-    <Compile Include="src\src\Manager\DefaultManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
+      <Project>{5a901e53-8cce-42dd-8953-d181f176a331}</Project>
+      <Name>PluginFramework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
