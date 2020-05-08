@@ -30,14 +30,7 @@ namespace PluginFramework.src.Formatter
         /// <inheritdoc/>
         public bool ConvertToFormat(string filePath, string outputName, ModesEnum mode)
         {
-            switch (mode)
-            {
-                case ModesEnum.Formatted:
-                    return ConvertToFormatted(filePath, outputName);
-                case ModesEnum.Flat:
-                    return ConvertToFlat(filePath, outputName);
-            }
-            return false;
+            return mode == ModesEnum.Flat ? ConvertToFlat(filePath, outputName) : ConvertToFormatted(filePath, outputName);
         }
 
         /// <inheritdoc/>
