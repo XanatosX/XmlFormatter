@@ -7,32 +7,17 @@ namespace PluginFramework.src.DataContainer
         /// <summary>
         /// The plugin information provided by the author
         /// </summary>
-        public PluginInformation Information => information;
-
-        /// <summary>
-        /// Reafonly plugin information provided by author
-        /// </summary>
-        private readonly PluginInformation information;
+        public PluginInformation Information { get; }
 
         /// <summary>
         /// The unique id of the plugin
         /// </summary>
-        public int Id => id;
-
-        /// <summary>
-        /// Readonly id of the plugin
-        /// </summary>
-        private readonly int id;
+        public int Id { get; }
 
         /// <summary>
         /// The type of the plugin
         /// </summary>
-        public Type Type => type;
-
-        /// <summary>
-        /// Readonly type of the plugin
-        /// </summary>
-        private readonly Type type;
+        public Type Type { get; }
 
         /// <summary>
         /// Create a new instance of this meta dataset
@@ -42,9 +27,9 @@ namespace PluginFramework.src.DataContainer
         /// <param name="type">The plugin type</param>
         public PluginMetaData(int id, PluginInformation information, Type type)
         {
-            this.id = id;
-            this.information = information;
-            this.type = type;
+            this.Id = id;
+            this.Information = information;
+            this.Type = type;
         }
 
 

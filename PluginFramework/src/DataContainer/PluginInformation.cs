@@ -7,22 +7,22 @@ namespace PluginFramework.src.DataContainer
         /// <summary>
         /// The name of the plugin
         /// </summary>
-        public readonly string Name;
+        public string Name { get; }
 
         /// <summary>
         /// The description of the plugin
         /// </summary>
-        public readonly string Description;
+        public string Description { get; }
 
         /// <summary>
         /// The author name of the plugin
         /// </summary>
-        public readonly string Author;
+        public string Author { get; }
 
         /// <summary>
         /// The version of the plugin
         /// </summary>
-        public readonly Version Version;
+        public Version Version { get; }
 
         /// <summary>
         /// Create a new plugin information instance
@@ -34,8 +34,8 @@ namespace PluginFramework.src.DataContainer
         public PluginInformation(string name, string description, string author, Version version)
         {
             Name = name;
-            Author = author;
             Description = description;
+            Author = author;
             Version = version;
         }
     }

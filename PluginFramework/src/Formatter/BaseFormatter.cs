@@ -13,28 +13,18 @@ namespace PluginFramework.src.Formatter
     public abstract class BaseFormatter : IFormatter
     {
         /// <inheritdoc/>
-        public string Extension => extension;
-
-        /// <summary>
-        /// Instance for the extension
-        /// </summary>
-        private readonly string extension;
+        public string Extension { get; }
 
         /// <inheritdoc/>
-        public PluginInformation Information => information;
-
-        /// <summary>
-        /// Instance of the plugin information
-        /// </summary>
-        private readonly PluginInformation information;
+        public PluginInformation Information { get; }
 
         /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> StatusChanged;
 
-        public BaseFormatter(string fileExtension, PluginInformation pluginInformation)
+        protected BaseFormatter(string fileExtension, PluginInformation pluginInformation)
         {
-            extension = fileExtension;
-            information = pluginInformation;
+            Extension = fileExtension;
+            Information = pluginInformation;
         }
 
         /// <inheritdoc/>
