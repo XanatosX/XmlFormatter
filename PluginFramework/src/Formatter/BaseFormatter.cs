@@ -6,6 +6,9 @@ using System;
 
 namespace PluginFramework.src.Formatter
 {
+    /// <summary>
+    /// Base class for formatting
+    /// </summary>
     public abstract class BaseFormatter : IFormatter
     {
         /// <inheritdoc/>
