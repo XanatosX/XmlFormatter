@@ -1,10 +1,9 @@
-﻿using System;
+﻿using PluginFramework.src.Enums;
+using PluginFramework.src.Interfaces.Manager;
+using PluginFramework.src.Interfaces.PluginTypes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XmlFormatter.src.Enums;
 using XmlFormatter.src.Hotfolder;
-using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
@@ -22,12 +21,18 @@ namespace XmlFormatter.src.Settings.Hotfolder
         private readonly ISettingsManager settingsManager;
 
         /// <summary>
+        /// Plugin manager to use
+        /// </summary>
+        private readonly IPluginManager pluginManager;
+
+        /// <summary>
         /// Create a new instance of this extension class
         /// </summary>
         /// <param name="settingsManager">The settings manager to use</param>
-        public HotfolderExtension(ISettingsManager settingsManager)
+        public HotfolderExtension(ISettingsManager settingsManager, IPluginManager pluginManager)
         {
             this.settingsManager = settingsManager;
+            this.pluginManager = pluginManager;
         }
 
         /// <summary>
@@ -46,8 +51,7 @@ namespace XmlFormatter.src.Settings.Hotfolder
             {
                 string type = subSetting.GetSetting("Type").GetValue<string>();
                 string watchFolder = subSetting.GetSetting("WatchedFolder").GetValue<string>();
-                Type realType = Type.GetType(type);
-                IFormatter formatter = (IFormatter)Activator.CreateInstance(realType);
+                IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(type);
                 IHotfolder hotfolderToAdd = new HotfolderContainer(formatter, watchFolder);
                 string mode = subSetting.GetSetting("Mode").GetValue<string>();
                 hotfolderToAdd.Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), mode);
