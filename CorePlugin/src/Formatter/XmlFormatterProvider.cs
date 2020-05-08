@@ -18,7 +18,7 @@ namespace CorePlugin.src.Formatter
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        public XmlFormatterProvider() : base("xml", new PluginInformation("XmlFormatter", "Convert xml files", "XanatosX", new Version(1, 0)))
+        public XmlFormatterProvider() : base("xml", new PluginInformation("Xml Formatter", "Convert xml files", "XanatosX", new Version(1, 0)))
         {
         }
 
