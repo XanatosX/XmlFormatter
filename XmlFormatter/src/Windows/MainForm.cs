@@ -428,9 +428,8 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The event arguments</param>
         private void MI_About_Click(object sender, EventArgs e)
         {
-            VersionManager manager = new VersionManager();
-            Version version = manager.GetApplicationVersion();
-            MessageBox.Show(manager.GetStringVersion(version), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            VersionInformation versionInformation = new VersionInformation();
+            versionInformation.ShowDialog();
         }
 
         /// <summary>
