@@ -1,6 +1,7 @@
 ﻿using PluginFramework.src.DataContainer;
 using PluginFramework.src.Enums;
 using PluginFramework.src.EventMessages;
+using PluginFramework.src.Formatter;
 using PluginFramework.src.Interfaces.PluginTypes;
 using System;
 using System.IO;
@@ -12,58 +13,24 @@ namespace CorePlugin.src.Formatter
     /// <summary>
     /// A xml formatter class instance
     /// </summary>
-    class XmlFormatterProvider : IFormatter
+    class XmlFormatterProvider : BaseFormatter
     {
-        /// <inheritdoc/>
-        public event EventHandler<BaseEventArgs> StatusChanged;
-
-        /// <inheritdoc/>
-        public PluginInformation Information => information;
-
-        /// <summary>
-        /// The readonly plugin information
-        /// </summary>
-        private readonly PluginInformation information;
-
-        /// <summary>
-        /// The extension supported by this formatter
-        /// </summary>
-        private readonly string extension;
-
-        /// <inheritdoc/>
-        public string Extension => extension;
-
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        public XmlFormatterProvider()
+        public XmlFormatterProvider() : base("xml", new PluginInformation("XmlFormatter", "Convert xml files", "XanatosX", new Version(1, 0)))
         {
-            information = new PluginInformation("XmlFormatter", "Convert xml files", "XanatosX", new Version(1, 0));
-            extension = "xml";
         }
 
         /// <inheritdoc/>
-        public bool ConvertToFormat(string filePath, string outputName, ModesEnum mode)
-        {
-            switch (mode)
-            {
-                case ModesEnum.Formatted:
-                    return ConvertToFormatted(filePath, outputName);
-                case ModesEnum.Flat:
-                    return ConvertToFlat(filePath, outputName);
-            }
-            return false;
-        }
-
-        /// <inheritdoc/>
-        public bool ConvertToFlat(string filePath, string outputName)
+        public override bool ConvertToFlat(string filePath, string outputName)
         {
             FormatFile(filePath, outputName, SaveOptions.DisableFormatting);
             return true;
         }
 
         /// <inheritdoc/>
-        public bool ConvertToFormatted(string filePath, string outputName)
+        public override bool ConvertToFormatted(string filePath, string outputName)
         {
             FormatFile(filePath, outputName, SaveOptions.None);
             return true;
@@ -144,18 +111,6 @@ namespace CorePlugin.src.Formatter
             {   
                 FireEvent("Done", "Saving done!");
             }
-        }
-
-        /// <summary>
-        /// Fire a new event
-        /// </summary>
-        /// <param name="caption">The message bodyThe message caption</param>
-        /// <param name="message"></param>
-        private void FireEvent(string caption, string message)
-        {
-            EventHandler<BaseEventArgs> handle = StatusChanged;
-            BaseEventArgs dataMessage = new BaseEventArgs(caption, message);
-            handle?.Invoke(this, dataMessage);
         }
     }
 }
