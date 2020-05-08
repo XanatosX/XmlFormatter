@@ -342,8 +342,7 @@ namespace XmlFormatter.src.Windows
             FileInfo fi = new FileInfo(TB_SelectedXml.Text);
             string name = fi.Name.Replace(fi.Extension, "");
             saveFile.FileName = name + "_" + CB_Mode.SelectedItem.ToString() + fi.Extension;
-
-            saveFile.Filter = formatterToUse.Extension.ToUpper() + " files (*." + formatterToUse.Extension +")|*." + formatterToUse.Extension;
+            saveFile.Filter = "XML files (*.xml)|*.xml";
             DialogResult result = saveFile.ShowDialog();
 
             if (result != DialogResult.OK)
