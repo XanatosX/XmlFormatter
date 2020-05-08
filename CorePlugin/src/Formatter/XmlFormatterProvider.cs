@@ -44,29 +44,7 @@ namespace CorePlugin.src.Formatter
         /// <param name="options">The save options to use</param>
         private async void FormatFile(string inputFilePath, string outputName, SaveOptions options)
         {
-            try
-            {
-                using (FileStream fileStream = File.Open(
-                    inputFilePath,
-                    FileMode.Open,
-                    FileAccess.ReadWrite,
-                    FileShare.None
-                )) {
-                    fileStream.Close();
-                }
-                if (File.Exists(outputName))
-                {
-                    using (FileStream fileStream = File.Open(
-                        outputName,
-                        FileMode.Open,
-                        FileAccess.ReadWrite,
-                        FileShare.None
-                    )) {
-                        fileStream.Close();
-                    }
-                }
-            }
-            catch (Exception)
+            if (!IsFileReadableWriteable(inputFilePath, outputName))
             {
                 FireEvent("Saving failed", "Files where locked!");
                 return;

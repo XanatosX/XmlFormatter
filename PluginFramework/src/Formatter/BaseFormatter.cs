@@ -3,6 +3,7 @@ using PluginFramework.src.Enums;
 using PluginFramework.src.EventMessages;
 using PluginFramework.src.Interfaces.PluginTypes;
 using System;
+using System.IO;
 
 namespace PluginFramework.src.Formatter
 {
@@ -65,6 +66,42 @@ namespace PluginFramework.src.Formatter
             EventHandler<BaseEventArgs> handle = StatusChanged;
             BaseEventArgs dataMessage = new BaseEventArgs(caption, message);
             handle?.Invoke(this, dataMessage);
+        }
+
+        protected bool IsFileReadableWriteable(string inputFilePath, string outputName)
+        {
+            bool readable = false;
+            try
+            {
+                using (FileStream fileStream = File.Open(
+                    inputFilePath,
+                    FileMode.Open,
+                    FileAccess.ReadWrite,
+                    FileShare.None
+                ))
+                {
+                    fileStream.Close();
+                }
+                if (File.Exists(outputName))
+                {
+                    using (FileStream fileStream = File.Open(
+                        outputName,
+                        FileMode.Open,
+                        FileAccess.ReadWrite,
+                        FileShare.None
+                    ))
+                    {
+                        fileStream.Close();
+                    }
+                }
+                readable = true;
+            }
+            catch (Exception)
+            {
+                readable = false;
+            }
+
+            return readable;
         }
     }
 }
