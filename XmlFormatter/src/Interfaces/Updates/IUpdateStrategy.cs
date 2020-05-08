@@ -1,12 +1,17 @@
-﻿using PluginFramework.src.DataContainer;
+﻿using XmlFormatter.src.DataContainer;
 
-namespace PluginFramework.src.Interfaces.PluginTypes
+namespace XmlFormatter.src.Interfaces.Updates
 {
     /// <summary>
     /// An strategy to update the version
     /// </summary>
-    public interface IUpdateStrategy : IPluginOverhead
+    interface IUpdateStrategy
     {
+        /// <summary>
+        /// The name to display in the select box
+        /// </summary>
+        string DisplayName { get; }
+
         /// <summary>
         /// Update the application with the current strategy
         /// </summary>

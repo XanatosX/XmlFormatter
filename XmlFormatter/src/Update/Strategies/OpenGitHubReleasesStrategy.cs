@@ -1,29 +1,30 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.PluginTypes;
-using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Interfaces.Updates;
 
-namespace CorePlugin.src.Updating
+namespace XmlFormatter.src.Update.Strategies
 {
     /// <summary>
     /// This class will open up the release GitHub page
     /// </summary>
     class OpenGitHubReleasesStrategy : IUpdateStrategy
     {
-        /// <inheritdoc/>
-        public PluginInformation Information => information;
+        /// <summary>
+        /// The readonly name to show in the dropdown
+        /// </summary>
+        private readonly string displayName;
 
         /// <summary>
-        /// Private readonly information about this plugin
+        /// The displayname to show in the dropdown
         /// </summary>
-        private readonly PluginInformation information;
+        public string DisplayName => displayName;
 
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
         public OpenGitHubReleasesStrategy()
         {
-            information = new PluginInformation("Open GitHub releases", "Open the GitHub Release", "XanatosX", new Version(1, 0));
+            displayName = "Open GitHub releases";
         }
 
         /// <inheritdoc/>

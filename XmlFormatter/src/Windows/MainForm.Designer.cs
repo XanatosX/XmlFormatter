@@ -45,7 +45,6 @@
             this.MI_ReportIssue = new System.Windows.Forms.ToolStripMenuItem();
             this.L_Status = new System.Windows.Forms.Label();
             this.NI_Notification = new System.Windows.Forms.NotifyIcon(this.components);
-            this.CB_Formatter = new System.Windows.Forms.ComboBox();
             this.MI_MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,9 +52,9 @@
             // 
             this.B_Select.Location = new System.Drawing.Point(15, 67);
             this.B_Select.Name = "B_Select";
-            this.B_Select.Size = new System.Drawing.Size(96, 23);
+            this.B_Select.Size = new System.Drawing.Size(75, 23);
             this.B_Select.TabIndex = 0;
-            this.B_Select.Text = "B_Select";
+            this.B_Select.Text = "Select XML";
             this.B_Select.UseVisualStyleBackColor = true;
             this.B_Select.Click += new System.EventHandler(this.B_Select_Click);
             // 
@@ -81,9 +80,9 @@
             this.L_SelectedPath.AutoSize = true;
             this.L_SelectedPath.Location = new System.Drawing.Point(12, 24);
             this.L_SelectedPath.Name = "L_SelectedPath";
-            this.L_SelectedPath.Size = new System.Drawing.Size(83, 13);
+            this.L_SelectedPath.Size = new System.Drawing.Size(114, 13);
             this.L_SelectedPath.TabIndex = 3;
-            this.L_SelectedPath.Text = "L_SelectedPath";
+            this.L_SelectedPath.Text = "Selected XML file path";
             // 
             // CB_Mode
             // 
@@ -165,7 +164,7 @@
             // L_Status
             // 
             this.L_Status.AutoSize = true;
-            this.L_Status.Location = new System.Drawing.Point(117, 72);
+            this.L_Status.Location = new System.Drawing.Point(92, 72);
             this.L_Status.Name = "L_Status";
             this.L_Status.Size = new System.Drawing.Size(49, 13);
             this.L_Status.TabIndex = 7;
@@ -177,22 +176,11 @@
             this.NI_Notification.Text = "notifyIcon1";
             this.NI_Notification.Click += new System.EventHandler(this.NI_Notification_Click);
             // 
-            // CB_Formatter
-            // 
-            this.CB_Formatter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Formatter.FormattingEnabled = true;
-            this.CB_Formatter.Location = new System.Drawing.Point(436, 68);
-            this.CB_Formatter.Name = "CB_Formatter";
-            this.CB_Formatter.Size = new System.Drawing.Size(144, 21);
-            this.CB_Formatter.TabIndex = 8;
-            this.CB_Formatter.SelectedIndexChanged += new System.EventHandler(this.CB_Formatter_SelectedIndexChanged);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 99);
-            this.Controls.Add(this.CB_Formatter);
             this.Controls.Add(this.L_Status);
             this.Controls.Add(this.CB_Mode);
             this.Controls.Add(this.L_SelectedPath);
@@ -234,7 +222,6 @@
         private System.Windows.Forms.ToolStripMenuItem MI_HideToTray;
         private System.Windows.Forms.ToolStripMenuItem MI_Settings;
         private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
-        private System.Windows.Forms.ComboBox CB_Formatter;
     }
 }
 
