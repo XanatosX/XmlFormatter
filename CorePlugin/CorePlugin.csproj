@@ -50,12 +50,6 @@
     <Compile Include="src\Updating\OpenGitHubReleasesStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
-      <Project>{563ebe6c-bb53-4a33-b8bc-10e701d7cfc6}</Project>
-      <Name>PluginFramework</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
