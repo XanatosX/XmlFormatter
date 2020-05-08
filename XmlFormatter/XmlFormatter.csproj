@@ -161,7 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
-      <Project>{563ebe6c-bb53-4a33-b8bc-10e701d7cfc6}</Project>
+      <Project>{5a901e53-8cce-42dd-8953-d181f176a331}</Project>
       <Name>PluginFramework</Name>
     </ProjectReference>
   </ItemGroup>
