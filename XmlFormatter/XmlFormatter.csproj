@@ -36,8 +36,8 @@
     <ApplicationIcon>XmlFormatterIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Octokit, Version=0.36.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.36.0\lib\net46\Octokit.dll</HintPath>
+    <Reference Include="Octokit, Version=0.47.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.47.0\lib\net46\Octokit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -111,6 +111,12 @@
     <Compile Include="src\Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Windows\VersionInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Windows\VersionInformation.Designer.cs">
+      <DependentUpon>VersionInformation.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="src\Windows\HotfolderEditor.resx">
       <DependentUpon>HotfolderEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +150,9 @@
   <ItemGroup>
     <EmbeddedResource Include="src\Windows\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Windows\VersionInformation.resx">
+      <DependentUpon>VersionInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Version.txt" />
   </ItemGroup>
