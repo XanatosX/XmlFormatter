@@ -93,7 +93,10 @@ namespace XmlFormatter.src.Windows
                     }
 
                     AddSettingsTab();
-                    currentSettingsPanel.Controls.Add(currentPlugin.GetSettingsPage());
+                    UserControl control = currentPlugin.GetSettingsPage();
+                    control.Width = currentSettingsPanel.Width;
+                    control.Height = currentSettingsPanel.Height;
+                    currentSettingsPanel.Controls.Add(control);
                 }
             }
         }
