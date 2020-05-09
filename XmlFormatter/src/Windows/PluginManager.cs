@@ -35,7 +35,7 @@ namespace XmlFormatter.src.Windows
             L_Name.Tag = L_Name.Text;
             L_Version.Tag = L_Version.Text;
             L_Author.Tag = L_Author.Text;
-            TB_Description.Enabled = false;
+            TB_Description.ReadOnly = true;
         }
 
         private void PluginManager_Load(object sender, EventArgs e)
