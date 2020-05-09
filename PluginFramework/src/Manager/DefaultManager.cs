@@ -107,25 +107,45 @@ namespace PluginFramework.src.Manager
         /// <inheritdoc/>
         public T LoadPlugin<T>(PluginMetaData metaData) where T : IPluginOverhead
         {
-            return LoadPlugin<T>(metaData.Id);
+            return LoadPlugin<T>(metaData, null);
+        }
+
+        public T LoadPlugin<T>(PluginMetaData metaData, PluginSettings settings) where T : IPluginOverhead
+        {
+            return LoadPlugin<T>(metaData.Id, settings);
         }
 
         /// <inheritdoc/>
         public T LoadPlugin<T>(int id) where T : IPluginOverhead
         {
+            return LoadPlugin<T>(id, null);
+        }
+
+        public T LoadPlugin<T>(int id, PluginSettings settings) where T : IPluginOverhead
+        {
             PluginMetaData metaData = plugins.Find(plugin => plugin.Id == id);
-            return metaData == null ? default :(T)Activator.CreateInstance(plugins[id].Type);
+            T pluginInstance = metaData == null ? default : (T)Activator.CreateInstance(plugins[id].Type);
+            if (pluginInstance != null && settings != null)
+            {
+                pluginInstance.ChangeSettings(settings);
+            }
+            return pluginInstance;
         }
 
         /// <inheritdoc/>
         public T LoadPlugin<T>(string type) where T : IPluginOverhead
+        {
+            return LoadPlugin<T>(type, null);
+        }
+
+        public T LoadPlugin<T>(string type, PluginSettings settings) where T : IPluginOverhead
         {
             if (!loadedTypes.Contains(typeof(T)))
             {
                 LoadPluginsOfType<T>(defaultStrategy, false);
             }
             PluginMetaData metaData = plugins.Find(plugin => plugin.Type.ToString() == type);
-            return metaData != null ? LoadPlugin<T>(metaData) : default;
+            return metaData != null ? LoadPlugin<T>(metaData.Id) : default;
         }
     }
 }

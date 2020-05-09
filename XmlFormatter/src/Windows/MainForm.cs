@@ -623,5 +623,12 @@ namespace XmlFormatter.src.Windows
                 TB_SelectedXml.Text = string.Empty;
             }
         }
+
+        private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager pluginManagerWindow = new PluginManager(pluginManager, settingManager, settingFile);
+            pluginManagerWindow.ShowDialog();
+
+        }
     }
 }

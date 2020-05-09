@@ -1,4 +1,5 @@
 ﻿using PluginFramework.src.DataContainer;
+using System.Windows.Forms;
 
 namespace PluginFramework.src.Interfaces.PluginTypes
 {
@@ -7,9 +8,15 @@ namespace PluginFramework.src.Interfaces.PluginTypes
     /// </summary>
     public interface IPluginOverhead
     {
+        PluginSettings Settings { get; }
+
         /// <summary>
         /// The information for the plugin
         /// </summary>
         PluginInformation Information { get; }
+
+        void ChangeSettings(PluginSettings settings);
+
+        UserControl GetSettingsPage();
     }
 }
