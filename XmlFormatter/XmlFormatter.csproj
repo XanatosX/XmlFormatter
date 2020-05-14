@@ -176,9 +176,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir $(ProjectDir)\$(OutDir)\Plugins
-copy $(ProjectDir)\..\CorePlugin\$(OutDir)\CorePlugin.dll $(ProjectDir)\$(OutDir)\Plugins
-copy $(ProjectDir)\..\JsonPlugin\$(OutDir)\JsonPlugin.dll $(ProjectDir)\$(OutDir)\Plugins
-copy $(ProjectDir)\..\JsonPlugin\$(OutDir)\Newtonsoft.Json.dll $(ProjectDir)\$(OutDir)\Plugins</PostBuildEvent>
+    <PostBuildEvent>mkdir "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\CorePlugin\$(OutDir)\CorePlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\JsonPlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\Newtonsoft.Json.dll" "$(ProjectDir)\$(OutDir)\Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>
