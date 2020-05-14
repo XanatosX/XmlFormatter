@@ -1,9 +1,7 @@
-﻿using CorePlugin.src.Settings;
-using PluginFramework.src.DataContainer;
+﻿using PluginFramework.src.DataContainer;
 using PluginFramework.src.Formatter;
 using System;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace CorePlugin.src.Formatter
@@ -13,15 +11,11 @@ namespace CorePlugin.src.Formatter
     /// </summary>
     class XmlFormatterProvider : BaseFormatter
     {
-        SettingsControl settingsMenu;
-
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
         public XmlFormatterProvider() : base("xml", new PluginInformation("Xml Formatter", "Convert xml files", "XanatosX", new Version(1, 0)))
         {
-            Settings.AddValue("test", "test1");
-            Settings.AddValue("test2", true);
         }
 
         /// <inheritdoc/>
@@ -36,13 +30,6 @@ namespace CorePlugin.src.Formatter
         {
             FormatFile(filePath, outputName, SaveOptions.None);
             return true;
-        }
-
-        public override UserControl GetSettingsPage()
-        {
-            settingsMenu = settingsMenu ?? new SettingsControl();
-            settingsMenu.SetSettings(Settings);
-            return settingsMenu;
         }
 
         /// <summary>
