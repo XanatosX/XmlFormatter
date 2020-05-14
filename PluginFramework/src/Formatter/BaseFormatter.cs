@@ -25,6 +25,11 @@ namespace PluginFramework.src.Formatter
         /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> StatusChanged;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="fileExtension">The file extension this formatter is using</param>
+        /// <param name="pluginInformation">The information for this plugin</param>
         protected BaseFormatter(string fileExtension, PluginInformation pluginInformation)
         {
             Extension = fileExtension;

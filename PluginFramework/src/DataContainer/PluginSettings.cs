@@ -1,29 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PluginFramework.src.DataContainer
 {
+    /// <summary>
+    /// The settings of the plugin
+    /// </summary>
     public class PluginSettings
     {
+        /// <summary>
+        /// Dictionary with all the settings
+        /// </summary>
         public Dictionary<string, object> Settings { get; }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="settings">The initial settings</param>
         public PluginSettings(Dictionary<string, object> settings)
         {
             this.Settings = settings;
         }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
         public PluginSettings() : this(new Dictionary<string, object>())
         {
         }
 
+        /// <summary>
+        /// Add a new value to the settings
+        /// </summary>
+        /// <param name="key">The key of the setting</param>
+        /// <param name="value">The value of the setting</param>
         public void AddValue(string key, object value)
         {
             AddValue(key, value, false);
         }
 
+        /// <summary>
+        /// Add a new value to the settings
+        /// </summary>
+        /// <param name="key">The key of the setting</param>
+        /// <param name="value">The value of the setting</param>
+        /// <param name="allowOverride">Should we override already existing settings</param>
         public void AddValue(string key, object value, bool allowOverride)
         {
             if (Settings.ContainsKey(key))
@@ -39,6 +60,12 @@ namespace PluginFramework.src.DataContainer
             Settings.Add(key, value);
         }
 
+        /// <summary>
+        /// The a value from the settings
+        /// </summary>
+        /// <typeparam name="T">The type of the setting to get</typeparam>
+        /// <param name="key">The key to get</param>
+        /// <returns>An instance of type T of the requested setting</returns>
         public T GetValue<T>(string key)
         {
             if (!Settings.ContainsKey(key))

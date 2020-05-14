@@ -2,6 +2,9 @@
 
 namespace PluginFramework.src.DataContainer
 {
+    /// <summary>
+    /// This class represents all the information of the plugin
+    /// </summary>
     public class PluginInformation
     {
         /// <summary>

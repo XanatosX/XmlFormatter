@@ -110,6 +110,7 @@ namespace PluginFramework.src.Manager
             return LoadPlugin<T>(metaData, null);
         }
 
+        /// <inheritdoc/>
         public T LoadPlugin<T>(PluginMetaData metaData, PluginSettings settings) where T : IPluginOverhead
         {
             return LoadPlugin<T>(metaData.Id, settings);
@@ -121,6 +122,7 @@ namespace PluginFramework.src.Manager
             return LoadPlugin<T>(id, null);
         }
 
+        /// <inheritdoc/>
         public T LoadPlugin<T>(int id, PluginSettings settings) where T : IPluginOverhead
         {
             PluginMetaData metaData = plugins.Find(plugin => plugin.Id == id);
@@ -138,6 +140,7 @@ namespace PluginFramework.src.Manager
             return LoadPlugin<T>(type, null);
         }
 
+        /// <inheritdoc/>
         public T LoadPlugin<T>(string type, PluginSettings settings) where T : IPluginOverhead
         {
             if (!loadedTypes.Contains(typeof(T)))
