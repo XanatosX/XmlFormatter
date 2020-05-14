@@ -1,13 +1,13 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Enums;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Interfaces.PluginTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
-using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Enums;
 using XmlFormatter.src.Hotfolder;
+using XmlFormatter.src.Interfaces.Formatter;
 using XmlFormatter.src.Interfaces.Hotfolder;
 
 namespace XmlFormatter.src.Windows
@@ -23,42 +23,43 @@ namespace XmlFormatter.src.Windows
         private readonly bool editMode;
 
         /// <summary>
+        /// Was something saved
+        /// </summary>
+        private bool saved;
+
+        /// <summary>
         /// Readonly access if something was saved
         /// </summary>
-        public bool Saved { get; private set; }
+        public bool Saved => saved;
+
+        /// <summary>
+        /// A lookup for the formatters
+        /// </summary>
+        private readonly Dictionary<string, Type> formatters;
+
+        /// <summary>
+        /// The current hotfolder configuration
+        /// </summary>
+        private IHotfolder hotfolder;
 
         /// <summary>
         /// Readonly access to the hotfolder configuration
         /// </summary>
-        public IHotfolder Hotfolder { get; private set; }
-
-        /// <summary>
-        /// The plugin manager to use
-        /// </summary>
-        private readonly IPluginManager PluginManager;
+        public IHotfolder Hotfolder => hotfolder;
 
         /// <summary>
         /// Create a new instance of the editor
         /// </summary>
         /// <param name="hotfolder">The hotfolder configuration to use for editing</param>
-        public HotfolderEditor(IPluginManager pluginManager) :this(null, pluginManager)
-        {
-
-        }
-
-        /// <summary>
-        /// Create a new instance of the editor
-        /// </summary>
-        /// <param name="hotfolder">The hotfolder configuration to use for editing</param>
-        public HotfolderEditor(IHotfolder hotfolder, IPluginManager pluginManager)
+        public HotfolderEditor(IHotfolder hotfolder)
         {
             editMode = hotfolder != null;
+            formatters = new Dictionary<string, Type>();
            
             InitializeComponent();
 
             CB_Formatter.Enabled = !editMode;
-            Hotfolder = hotfolder;
-            PluginManager = pluginManager;
+            this.hotfolder = hotfolder;
         }
 
 
@@ -69,11 +70,14 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">Event arguments</param>
         private void HotfolderEditor_Load(object sender, EventArgs e)
         {
-            List<PluginMetaData> pluginsMetaData = PluginManager.ListPlugins<IFormatter>();
+            Type type = typeof(IFormatter);
+            Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            var formatterTypes = types.Where(currentType => currentType.GetInterfaces().Contains(type));
 
-            foreach (PluginMetaData metaData in pluginsMetaData)
+            foreach (Type currentType in formatterTypes)
             {
-                CB_Formatter.Items.Add(new ComboboxPluginItem(metaData));
+                formatters.Add(currentType.Name, currentType);
+                CB_Formatter.Items.Add(currentType.Name);
             }
 
             foreach (ModesEnum mode in Enum.GetValues(typeof(ModesEnum)))
@@ -97,50 +101,34 @@ namespace XmlFormatter.src.Windows
             CB_Mode.SelectedIndex = 0;
             if (editMode)
             {
-                bool foundEntry = false;
                 for (int i = 0; i < CB_Formatter.Items.Count; i++)
                 {
-                    if (CB_Formatter.Items[i] is ComboboxPluginItem item)
+                    string item = CB_Formatter.Items[i].ToString();
+                    if (item == hotfolder.FormatterToUse.GetType().Name)
                     {
-                        if (item.Type.FullName == Hotfolder.FormatterToUse.GetType().FullName)
-                        {
-                            CB_Formatter.SelectedIndex = i;
-                            foundEntry = true;
-                            break;
-                        }
+                        CB_Formatter.SelectedIndex = i;
+                        break;
                     }
-
                 }
 
                 for (int i = 0; i < CB_Mode.Items.Count; i++)
                 {
                     string item = CB_Mode.Items[i].ToString();
-                    if (item == Hotfolder.Mode.ToString())
+                    if (item == hotfolder.Mode.ToString())
                     {
                         CB_Mode.SelectedIndex = i;
                         break;
                     }
                 }
 
-                TB_WatchedFolder.Text = Hotfolder.WatchedFolder;
-                TB_Filter.Text = Hotfolder.Filter;
-                TB_OutputFolder.Text = Hotfolder.OutputFolder;
-                TB_OutputFileScheme.Text = Hotfolder.OutputFileScheme;
+                TB_WatchedFolder.Text = hotfolder.WatchedFolder;
+                TB_Filter.Text = hotfolder.Filter;
+                TB_OutputFolder.Text = hotfolder.OutputFolder;
+                TB_OutputFileScheme.Text = hotfolder.OutputFileScheme;
 
-                CB_OnRename.Checked = Hotfolder.OnRename;
-                CB_RemoveOld.Checked = Hotfolder.RemoveOld;
-
-                if (!foundEntry)
-                {
-                    CB_Formatter.Enabled = true;
-                    MessageBox.Show(
-                        "Missing type " + Hotfolder.FormatterToUse.GetType().FullName + " did you delete the plugin?",
-                        "Missing formatter",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                        );
+                CB_OnRename.Checked = hotfolder.OnRename;
+                CB_RemoveOld.Checked = hotfolder.RemoveOld;
                 }
-            }
         }
 
         /// <summary>
@@ -212,20 +200,18 @@ namespace XmlFormatter.src.Windows
                 );
                 return;
             }
-            if (CB_Formatter.SelectedItem is ComboboxPluginItem selectedItem)
+            Type formatterType = formatters[CB_Formatter.SelectedItem.ToString()];
+            IFormatter formatter = (IFormatter)Activator.CreateInstance(formatterType);
+            hotfolder = new HotfolderContainer(formatter, TB_WatchedFolder.Text)
             {
-                IFormatter plugin = PluginManager.LoadPlugin<IFormatter>(selectedItem.Id);
-                Hotfolder = new HotfolderContainer(plugin, TB_WatchedFolder.Text)
-                {
-                    Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString()),
-                    Filter = TB_Filter.Text,
-                    OutputFolder = TB_OutputFolder.Text,
-                    OnRename = CB_OnRename.Checked,
-                    RemoveOld = CB_RemoveOld.Checked
-                };
-            }
+                Mode = (ModesEnum)Enum.Parse(typeof(ModesEnum), CB_Mode.SelectedItem.ToString()),
+                Filter = TB_Filter.Text,
+                OutputFolder = TB_OutputFolder.Text,
+                OnRename = CB_OnRename.Checked,
+                RemoveOld = CB_RemoveOld.Checked
+            };
 
-            Saved = true;
+            saved = true;
             B_Cancel.PerformClick();
         }
 

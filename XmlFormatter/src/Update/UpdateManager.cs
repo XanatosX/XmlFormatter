@@ -1,6 +1,4 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.PluginTypes;
-using XmlFormatter.src.DataContainer;
+﻿using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Interfaces.Updates;
 
 namespace XmlFormatter.src.Update
@@ -10,15 +8,7 @@ namespace XmlFormatter.src.Update
     /// </summary>
     class UpdateManager : IUpdater
     {
-        /// <summary>
-        /// The strategy to use
-        /// </summary>
         private IUpdateStrategy strategy;
-
-        /// <summary>
-        /// Is there a update strategy set
-        /// </summary>
-        public bool IsStrategySet => strategy != null;
 
         /// <inheritdoc/>
         public void SetStrategy(IUpdateStrategy updateStrategy)
