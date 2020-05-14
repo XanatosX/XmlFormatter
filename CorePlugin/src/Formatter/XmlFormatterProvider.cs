@@ -1,11 +1,7 @@
 ﻿using CorePlugin.src.Settings;
 using PluginFramework.src.DataContainer;
-using PluginFramework.src.Enums;
-using PluginFramework.src.EventMessages;
 using PluginFramework.src.Formatter;
-using PluginFramework.src.Interfaces.PluginTypes;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;

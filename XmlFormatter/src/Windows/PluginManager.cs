@@ -1,27 +1,52 @@
-﻿using Octokit;
-using PluginFramework.src.DataContainer;
+﻿using PluginFramework.src.DataContainer;
 using PluginFramework.src.Interfaces.Manager;
 using PluginFramework.src.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using XmlFormatter.src.Interfaces.Settings;
 using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Settings;
 using XmlFormatter.src.Settings.DataStructure;
 
 namespace XmlFormatter.src.Windows
 {
+    /// <summary>
+    /// Window to manage the plugins
+    /// </summary>
     public partial class PluginManager : Form
     {
+        /// <summary>
+        /// Instance of the plugin manager to use
+        /// </summary>
         private readonly IPluginManager pluginManager;
+
+        /// <summary>
+        /// Instance of the settings manager to use
+        /// </summary>
         private readonly ISettingsManager settingsManager;
+
+        /// <summary>
+        /// Path where the settings file is stored
+        /// </summary>
         private readonly string settingFile;
+
+        /// <summary>
+        /// Current plugin which was selected
+        /// </summary>
         private IPluginOverhead currentPlugin;
+
+        /// <summary>
+        /// Current panel to put the plugin settings into
+        /// </summary>
         private Panel currentSettingsPanel;
 
+        /// <summary>
+        /// Create a new instance of the plugin manager window
+        /// </summary>
+        /// <param name="pluginManager">The plugin manager to use</param>
+        /// <param name="settingsManager">The settings manager to use</param>
+        /// <param name="settingsFileName">The file to save the settings in</param>
         public PluginManager(IPluginManager pluginManager, ISettingsManager settingsManager, string settingsFileName)
         {
             InitializeComponent();
@@ -38,6 +63,11 @@ namespace XmlFormatter.src.Windows
             TB_Description.ReadOnly = true;
         }
 
+        /// <summary>
+        /// Load event of the plugin window
+        /// </summary>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="e">The event arguments</param>
         private void PluginManager_Load(object sender, EventArgs e)
         {
             TreeNode root = new TreeNode("Plugins");
@@ -52,6 +82,11 @@ namespace XmlFormatter.src.Windows
             TV_Plugins.Nodes.Add(root);
         }
 
+        /// <summary>
+        /// Add new plugins to the tree view of a given type
+        /// </summary>
+        /// <typeparam name="T">The plugin type</typeparam>
+        /// <param name="node">The root node to create the plugins in</param>
         private void AddPluginsOfType<T>(TreeNode node) where T : IPluginOverhead
         {
             List<PluginMetaData> pluginMetas = pluginManager.ListPlugins<T>();
@@ -65,6 +100,11 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// After item was selected in the tree view
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The arguments of the evend</param>
         private void TV_Plugins_AfterSelect(object sender, TreeViewEventArgs e)
         {
             currentPlugin = null;
@@ -101,6 +141,11 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Convert ISettingScope to plugin settings
+        /// </summary>
+        /// <param name="settingScope">The settings scope to convert</param>
+        /// <returns>The plugin settings ready to use</returns>
         private PluginSettings ConvertToPluginSettings(ISettingScope settingScope)
         {
             PluginSettings returnSettings = new PluginSettings();
@@ -112,6 +157,11 @@ namespace XmlFormatter.src.Windows
             return returnSettings;
         }
 
+        /// <summary>
+        /// Save the plugin settings
+        /// </summary>
+        /// <param name="sender">Sender of the event</param>
+        /// <param name="e">Arguments of the event</param>
         private void B_Save_Click(object sender, EventArgs e)
         {
             if (currentPlugin != null)
@@ -131,6 +181,9 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Add the settings tab to the tab control
+        /// </summary>
         private void AddSettingsTab()
         {
             if (TC_PluginData.TabPages.Count < 2)
@@ -158,6 +211,9 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Remove the settings tab from the tab control
+        /// </summary>
         private void RemoveSettingsTab()
         {
             if (TC_PluginData.TabPages.Count == 2)
@@ -167,6 +223,10 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Get the name of the scope to save the settings to
+        /// </summary>
+        /// <returns>Name of the scope to use</returns>
         private string GetScopeName()
         {
             string returnString = string.Empty;

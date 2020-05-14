@@ -1,6 +1,5 @@
 ﻿using Octokit;
 using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.PluginTypes;
 using PluginFramework.src.Update;
 using System;
 using System.Diagnostics;
