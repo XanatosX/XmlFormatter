@@ -68,21 +68,22 @@ namespace CorePlugin.src.Formatter
             }
 
             FireEvent("Saving", "Saving ...");
-            bool saveSuccess = await Task<bool>.Run(() => {
-                    try
-                    {
-                        fileToConvert.Save(outputName, options);
-                        return true;
-                    }
-                    catch (Exception)
-                    {
-                        FireEvent("Saving did fail", "Saving went wrong, maybe the file was used?");
-                        return false;
-                    }
-                });           
+            bool saveSuccess = await Task<bool>.Run(() =>
+            {
+                try
+                {
+                    fileToConvert.Save(outputName, options);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    FireEvent("Saving did fail", "Saving went wrong, maybe the file was used?");
+                    return false;
+                }
+            });
 
             if (saveSuccess)
-            {   
+            {
                 FireEvent("Done", "Saving done!");
             }
         }

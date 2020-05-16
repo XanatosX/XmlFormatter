@@ -25,7 +25,7 @@ namespace PluginFramework.src.DataContainer
         /// <summary>
         /// The version of the plugin
         /// </summary>
-        public Version Version { get; }        
+        public Version Version { get; }
 
         /// <summary>
         /// Create a new plugin information instance

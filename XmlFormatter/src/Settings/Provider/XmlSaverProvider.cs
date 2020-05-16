@@ -33,7 +33,7 @@ namespace XmlFormatter.src.Settings.Provider
             {
                 xmlSerializer.Serialize(writer, container);
             }
-                
+
 
             return true;
         }

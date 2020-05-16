@@ -112,7 +112,7 @@ namespace XmlFormatter.src.DataContainer.Logging
         /// <param name="message">The message itself</param>
         /// <param name="exception">A throwen exception</param>
         public LoggingMessage(LogScopesEnum scope, object sender, string message, Exception exception)
-        : this (scope, sender.GetType().FullName, message, exception)
+        : this(scope, sender.GetType().FullName, message, exception)
         {
 
         }

@@ -57,7 +57,7 @@ namespace JsonPlugin
                 object returnData = null;
                 try
                 {
-                    
+
                     returnData = JsonConvert.DeserializeObject(File.ReadAllText(inputFilePath));
                 }
                 catch (Exception)
@@ -74,7 +74,8 @@ namespace JsonPlugin
             }
 
             FireEvent("Saving", "Saving ...");
-            bool saveSuccess = await Task<bool>.Run(() => {
+            bool saveSuccess = await Task<bool>.Run(() =>
+            {
                 try
                 {
                     string writeableData = JsonConvert.SerializeObject(data, formatting);

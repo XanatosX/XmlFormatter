@@ -1,5 +1,4 @@
-﻿using Octokit;
-using PluginFramework.src.DataContainer;
+﻿using PluginFramework.src.DataContainer;
 using PluginFramework.src.Interfaces.Manager;
 using PluginFramework.src.Interfaces.PluginTypes;
 using System;

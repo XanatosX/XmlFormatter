@@ -126,7 +126,7 @@ namespace XmlFormatter.src.Windows
                         currentPlugin.ChangeSettings(ConvertToPluginSettings(settings));
                     }
 
-                    
+
                     if (currentPlugin.GetSettingsPage() == null)
                     {
                         return;
@@ -169,7 +169,7 @@ namespace XmlFormatter.src.Windows
                 PluginSettings settings = currentPlugin.Settings;
                 string scopeName = GetScopeName();
                 ISettingScope scope = new SettingScope(scopeName);
-                foreach(KeyValuePair<string, object> settingPair in settings.Settings)
+                foreach (KeyValuePair<string, object> settingPair in settings.Settings)
                 {
                     ISettingPair pair = new SettingPair(settingPair.Key);
                     pair.SetValue(settingPair.Value);
@@ -196,7 +196,7 @@ namespace XmlFormatter.src.Windows
                     Width = settings.Width,
                     Height = settings.Height - 31
                 };
-                
+
                 Button button = new Button()
                 {
                     Text = "Save settings",
@@ -238,7 +238,7 @@ namespace XmlFormatter.src.Windows
                 returnString += currentPlugin.Information.Name;
                 returnString = returnString.Replace(" ", "");
             }
-            
+
             return returnString;
         }
     }

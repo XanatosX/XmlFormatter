@@ -1,6 +1,5 @@
 ﻿using PluginFramework.src.DataContainer;
 using PluginFramework.src.Interfaces.PluginTypes;
-using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Interfaces.Updates;
 
 namespace XmlFormatter.src.Update

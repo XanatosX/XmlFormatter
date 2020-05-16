@@ -1,5 +1,4 @@
-﻿using Octokit;
-using PluginFramework.src.DataContainer;
+﻿using PluginFramework.src.DataContainer;
 using System;
 
 namespace XmlFormatter.src.DataContainer
@@ -44,7 +43,7 @@ namespace XmlFormatter.src.DataContainer
         /// <returns>The name of the plugin</returns>
         public override string ToString()
         {
-            return Information.Name; 
+            return Information.Name;
         }
     }
 }

@@ -61,7 +61,7 @@ namespace CorePlugin.src.Updating
             {
                 Process.Start(Environment.CurrentDirectory);
             }
-            
+
             return returnValue;
         }
     }

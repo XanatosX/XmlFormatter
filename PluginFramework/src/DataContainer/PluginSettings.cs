@@ -53,7 +53,7 @@ namespace PluginFramework.src.DataContainer
                 {
                     Settings[key] = value;
                 }
-                
+
                 return;
             }
 

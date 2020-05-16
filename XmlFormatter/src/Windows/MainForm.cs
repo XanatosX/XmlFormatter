@@ -1,33 +1,33 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using PluginFramework.src.DataContainer;
+using PluginFramework.src.Enums;
+using PluginFramework.src.Interfaces.Manager;
+using PluginFramework.src.Interfaces.PluginTypes;
+using PluginFramework.src.LoadStrategies;
+using PluginFramework.src.Manager;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
-using XmlFormatter.src.Manager;
-using XmlFormatter.src.Settings;
-using XmlFormatter.src.Settings.DataStructure;
-using XmlFormatter.src.Settings.Adapter;
-using XmlFormatter.src.Settings.Provider.Factories;
-using XmlFormatter.src.Interfaces.Settings;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using System.Windows.Forms;
+using XmlFormatter.src.DataContainer;
 using XmlFormatter.src.Enums;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
-using XmlFormatter.src.Settings.Hotfolder;
-using XmlFormatter.src.Update;
+using XmlFormatter.src.Interfaces.Logging;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Interfaces.Updates;
 using XmlFormatter.src.Logging;
-using XmlFormatter.src.Interfaces.Logging;
-using XmlFormatter.src.Logging.Strategies;
 using XmlFormatter.src.Logging.FormatStrategies;
-using PluginFramework.src.Interfaces.PluginTypes;
-using PluginFramework.src.Enums;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Manager;
-using PluginFramework.src.DataContainer;
-using PluginFramework.src.LoadStrategies;
-using System.Collections.Generic;
-using XmlFormatter.src.DataContainer;
+using XmlFormatter.src.Logging.Strategies;
+using XmlFormatter.src.Manager;
+using XmlFormatter.src.Settings;
+using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Hotfolder;
+using XmlFormatter.src.Settings.Provider.Factories;
+using XmlFormatter.src.Update;
 
 namespace XmlFormatter.src.Windows
 {
@@ -234,7 +234,7 @@ namespace XmlFormatter.src.Windows
                     hotfolderManager.ResetManager();
                     hotfolderManager = null;
                 }
-                
+
                 return;
             }
             hotfolderManager = hotfolderManager ?? new HotfolderManager();
@@ -246,7 +246,7 @@ namespace XmlFormatter.src.Windows
 
             HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager, pluginManager);
             foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
-            { 
+            {
                 hotfolderManager.AddHotfolder(hotfolder);
             }
         }
@@ -259,7 +259,7 @@ namespace XmlFormatter.src.Windows
         {
             if (formatterToUse != null)
             {
-                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;    
+                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;
             }
             formatterToUse = formatter;
             formatterToUse.StatusChanged += FormatterToUse_StatusChanged;
@@ -343,7 +343,7 @@ namespace XmlFormatter.src.Windows
             string name = fi.Name.Replace(fi.Extension, "");
             saveFile.FileName = name + "_" + CB_Mode.SelectedItem.ToString() + fi.Extension;
 
-            saveFile.Filter = formatterToUse.Extension.ToUpper() + " files (*." + formatterToUse.Extension +")|*." + formatterToUse.Extension;
+            saveFile.Filter = formatterToUse.Extension.ToUpper() + " files (*." + formatterToUse.Extension + ")|*." + formatterToUse.Extension;
             DialogResult result = saveFile.ShowDialog();
 
             if (result != DialogResult.OK)
@@ -370,7 +370,7 @@ namespace XmlFormatter.src.Windows
             ModesEnum currentEnum = formatted ? ModesEnum.Formatted : ModesEnum.Flat;
 
             bool success = formatterToUse.ConvertToFormat(inputFilePath, outputFilePath, currentEnum);
-             
+
             SwitchFormMode(true);
             return success;
         }
@@ -480,7 +480,7 @@ namespace XmlFormatter.src.Windows
                 }
             }
 
-            if ( forceShow || !onlyShowNewBox)
+            if (forceShow || !onlyShowNewBox)
             {
                 DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)

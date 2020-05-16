@@ -17,7 +17,7 @@ namespace PluginFramework.src.Interfaces.PluginTypes
         /// <summary>
         /// The Extension to use
         /// </summary>
-        string Extension { get;  }
+        string Extension { get; }
 
         /// <summary>
         /// Convert the given file to the defined format

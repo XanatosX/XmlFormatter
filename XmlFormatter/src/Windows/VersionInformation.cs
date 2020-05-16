@@ -50,7 +50,7 @@ namespace XmlFormatter.src.Windows
         {
             if (sender is ListView listView)
             {
-                if (listView.SelectedItems.Count > 0 
+                if (listView.SelectedItems.Count > 0
                     && listView.SelectedItems[0] is ListViewItem listViewItem
                     && lastSelectedThirdParty != listView.SelectedIndices[0])
                 {
