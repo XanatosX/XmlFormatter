@@ -73,19 +73,17 @@ namespace PluginFramework.src.DataContainer
                 return default;
             }
 
-            T returnData = default;
-
             try
             {
                 object dataSet = Settings[key];
-                returnData = (T)dataSet;
+                return (T)dataSet;
             }
             catch (Exception)
             {
                 //Cast did not work no error handling for now
             }
 
-            return returnData;
+            return default;
         }
     }
 }

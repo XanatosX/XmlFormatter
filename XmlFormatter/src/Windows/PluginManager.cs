@@ -92,11 +92,11 @@ namespace XmlFormatter.src.Windows
             List<PluginMetaData> pluginMetas = pluginManager.ListPlugins<T>();
             foreach (PluginMetaData metaData in pluginMetas)
             {
-                TreeNode currentPlugin = new TreeNode(metaData.Information.Name)
+                TreeNode selectedPlugin = new TreeNode(metaData.Information.Name)
                 {
                     Tag = metaData
                 };
-                node.Nodes.Add(currentPlugin);
+                node.Nodes.Add(selectedPlugin);
             }
         }
 
@@ -197,7 +197,7 @@ namespace XmlFormatter.src.Windows
                     Height = settings.Height - 31
                 };
 
-                Button button = new Button()
+                Button button = new Button
                 {
                     Text = "Save settings",
                     Location = new Point(5, settings.Height - 27),
