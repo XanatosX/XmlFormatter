@@ -624,6 +624,11 @@ namespace XmlFormatter.src.Windows
             }
         }
 
+        /// <summary>
+        /// Event if plugin dialog is clicked
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The event arguments</param>
         private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             PluginManager pluginManagerWindow = new PluginManager(pluginManager, settingManager, settingFile);

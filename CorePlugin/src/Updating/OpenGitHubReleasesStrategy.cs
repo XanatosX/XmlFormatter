@@ -1,5 +1,4 @@
 ﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.PluginTypes;
 using PluginFramework.src.Update;
 using System;
 using System.Diagnostics;
@@ -18,6 +17,7 @@ namespace CorePlugin.src.Updating
         {
         }
 
+        /// <inheritdoc/>
         public override bool Update(VersionCompare versionInformation)
         {
             Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionInformation.LatestRelease.TagName);
