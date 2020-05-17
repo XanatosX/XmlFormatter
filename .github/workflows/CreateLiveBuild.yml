@@ -51,6 +51,13 @@ jobs:
            body: Body goes here!
            draft: true
            prerelease: false
+       - name: Create GitHub release
+         uses: Roang-zero1/github-upload-release-artifacts-action@master
+         with:
+          args:
+            - ..\Artifacts\*.zip
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        #- name: Upload XmlFormatter artifacts
        #  uses: actions/upload-artifact@v1
        #  with:
