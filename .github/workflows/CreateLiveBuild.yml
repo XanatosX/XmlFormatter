@@ -26,7 +26,7 @@ jobs:
        - name: Create artifacts
          run: |
            $tags = "${env:GITHUB_REF}" -split "/"
-           $tag = tags[-1]
+           $tag = $tags[-1]
            echo $tag
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
