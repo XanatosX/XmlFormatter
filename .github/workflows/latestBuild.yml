@@ -1,4 +1,4 @@
-name: Create last unstable build artifact
+name: Latest unstable build
 
 on:
   pull_request:
