@@ -59,6 +59,15 @@ namespace PluginFramework.src.Interfaces.Manager
         /// Load a plugin by the meta data
         /// </summary>
         /// <typeparam name="T">The type of the plugin to load</typeparam>
+        /// <param name="metaData">The meta data</param>
+        /// <param name="settings">Settings for the plugin</param>
+        /// <returns>A instance of the plugin</returns>
+        T LoadPlugin<T>(PluginMetaData metaData, PluginSettings settings) where T : IPluginOverhead;
+
+        /// <summary>
+        /// Load a plugin by the meta data
+        /// </summary>
+        /// <typeparam name="T">The type of the plugin to load</typeparam>
         /// <param name="id">The id of the plugin</param>
         /// <returns>A instance of the plugin</returns>
         T LoadPlugin<T>(int id) where T : IPluginOverhead;
@@ -67,8 +76,26 @@ namespace PluginFramework.src.Interfaces.Manager
         /// Load a plugin by the meta data
         /// </summary>
         /// <typeparam name="T">The type of the plugin to load</typeparam>
+        /// <param name="id">The id of the plugin</param>
+        /// <param name="settings">Settings for the plugin</param>
+        /// <returns>A instance of the plugin</returns>
+        T LoadPlugin<T>(int id, PluginSettings settings) where T : IPluginOverhead;
+
+        /// <summary>
+        /// Load a plugin by the meta data
+        /// </summary>
+        /// <typeparam name="T">The type of the plugin to load</typeparam>
         /// <param name="type">The type of the plugin</param>
         /// <returns>A instance of the plugin</returns>
         T LoadPlugin<T>(string type) where T : IPluginOverhead;
+
+        /// <summary>
+        /// Load a plugin by the meta data
+        /// </summary>
+        /// <typeparam name="T">The type of the plugin to load</typeparam>
+        /// <param name="type">The type of the plugin</param>
+        /// <param name="settings">Settings for the plugin</param>
+        /// <returns>A instance of the plugin</returns>
+        T LoadPlugin<T>(string type, PluginSettings settings) where T : IPluginOverhead;
     }
 }

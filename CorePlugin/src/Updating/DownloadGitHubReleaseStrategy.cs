@@ -1,6 +1,6 @@
 ﻿using Octokit;
 using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.PluginTypes;
+using PluginFramework.src.Update;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -12,26 +12,17 @@ namespace CorePlugin.src.Updating
     /// <summary>
     /// This class descripes the download from GitHub strategy
     /// </summary>
-    class DownloadGitHubReleaseStrategy : IUpdateStrategy
+    class DownloadGitHubReleaseStrategy : BaseUpdate
     {
-        /// <inheritdoc/>
-        public PluginInformation Information => information;
-
-        /// <summary>
-        /// Private readonly information about this plugin
-        /// </summary>
-        private readonly PluginInformation information;
-
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
-        public DownloadGitHubReleaseStrategy()
+        public DownloadGitHubReleaseStrategy() : base(new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 0)))
         {
-            information = new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 0));
         }
 
         /// <inheritdoc/>
-        public bool Update(VersionCompare versionInformation)
+        public override bool Update(VersionCompare versionInformation)
         {
             bool returnValue = true;
             string tempFolder = Path.GetTempPath();
@@ -70,7 +61,7 @@ namespace CorePlugin.src.Updating
             {
                 Process.Start(Environment.CurrentDirectory);
             }
-            
+
             return returnValue;
         }
     }

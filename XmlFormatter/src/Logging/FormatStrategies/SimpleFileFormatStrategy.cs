@@ -20,7 +20,7 @@ namespace XmlFormatter.src.Logging.FormatStrategies
         public SimpleFileFormatStrategy()
              : this(70)
         {
-            
+
         }
 
         /// <summary>

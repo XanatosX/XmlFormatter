@@ -8,24 +8,14 @@ namespace PluginFramework.src.EventMessages
     public class BaseEventArgs : EventArgs
     {
         /// <summary>
-        /// The title of the event
-        /// </summary>
-        private readonly string title;
-
-        /// <summary>
         /// Readonly access to the event title
         /// </summary>
-        public string Title => title;
-
-        /// <summary>
-        /// The message of the event
-        /// </summary>
-        private readonly string message;
+        public string Title { get; }
 
         /// <summary>
         /// Readonly access to the event message
         /// </summary>
-        public string Message => message;
+        public string Message { get; }
 
         /// <summary>
         /// This will create a basic event data container
@@ -34,8 +24,8 @@ namespace PluginFramework.src.EventMessages
         /// <param name="message">The message of the event</param>
         public BaseEventArgs(string title, string message)
         {
-            this.title = title;
-            this.message = message;
+            this.Title = title;
+            this.Message = message;
         }
     }
 }

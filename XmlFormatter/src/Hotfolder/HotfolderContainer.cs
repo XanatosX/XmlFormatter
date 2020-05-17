@@ -1,6 +1,5 @@
 ﻿using PluginFramework.src.Enums;
 using PluginFramework.src.Interfaces.PluginTypes;
-using XmlFormatter.src.Enums;
 using XmlFormatter.src.Interfaces.Hotfolder;
 
 namespace XmlFormatter.src.Hotfolder
@@ -46,7 +45,7 @@ namespace XmlFormatter.src.Hotfolder
         public string Filter
         {
             get => filter;
-            set => filter = value; 
+            set => filter = value;
         }
 
         /// <summary>

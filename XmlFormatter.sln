@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatter", "XmlFormatter\XmlFormatter.csproj", "{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61B2922F-25C0-4F10-8DF0-FF91287C4452} = {61B2922F-25C0-4F10-8DF0-FF91287C4452}
+		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9} = {3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{61B2922F-25C0-4F10-8DF0-FF91287C4452}"
 EndProject

@@ -46,6 +46,8 @@
             this.L_Status = new System.Windows.Forms.Label();
             this.NI_Notification = new System.Windows.Forms.NotifyIcon(this.components);
             this.CB_Formatter = new System.Windows.Forms.ComboBox();
+            this.pluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MI_MainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -121,14 +123,14 @@
             // MI_HideToTray
             // 
             this.MI_HideToTray.Name = "MI_HideToTray";
-            this.MI_HideToTray.Size = new System.Drawing.Size(136, 22);
+            this.MI_HideToTray.Size = new System.Drawing.Size(180, 22);
             this.MI_HideToTray.Text = "Hide to tray";
             this.MI_HideToTray.Click += new System.EventHandler(this.MI_HideToTray_Click);
             // 
             // MI_Settings
             // 
             this.MI_Settings.Name = "MI_Settings";
-            this.MI_Settings.Size = new System.Drawing.Size(136, 22);
+            this.MI_Settings.Size = new System.Drawing.Size(180, 22);
             this.MI_Settings.Text = "Settings";
             this.MI_Settings.Click += new System.EventHandler(this.MI_Settings_Click);
             // 
@@ -136,6 +138,8 @@
             // 
             this.MI_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MI_CheckForUpdate,
+            this.pluginsToolStripMenuItem,
+            this.toolStripSeparator1,
             this.MI_About});
             this.MI_Help.Name = "MI_Help";
             this.MI_Help.Size = new System.Drawing.Size(44, 20);
@@ -144,14 +148,14 @@
             // MI_CheckForUpdate
             // 
             this.MI_CheckForUpdate.Name = "MI_CheckForUpdate";
-            this.MI_CheckForUpdate.Size = new System.Drawing.Size(165, 22);
+            this.MI_CheckForUpdate.Size = new System.Drawing.Size(180, 22);
             this.MI_CheckForUpdate.Text = "Check for update";
             this.MI_CheckForUpdate.Click += new System.EventHandler(this.MI_CheckForUpdate_Click);
             // 
             // MI_About
             // 
             this.MI_About.Name = "MI_About";
-            this.MI_About.Size = new System.Drawing.Size(165, 22);
+            this.MI_About.Size = new System.Drawing.Size(180, 22);
             this.MI_About.Text = "About";
             this.MI_About.Click += new System.EventHandler(this.MI_About_Click);
             // 
@@ -186,6 +190,18 @@
             this.CB_Formatter.Size = new System.Drawing.Size(144, 21);
             this.CB_Formatter.TabIndex = 8;
             this.CB_Formatter.SelectedIndexChanged += new System.EventHandler(this.CB_Formatter_SelectedIndexChanged);
+            // 
+            // pluginsToolStripMenuItem
+            // 
+            this.pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
+            this.pluginsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pluginsToolStripMenuItem.Text = "Plugins";
+            this.pluginsToolStripMenuItem.Click += new System.EventHandler(this.pluginsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // MainForm
             // 
@@ -235,6 +251,8 @@
         private System.Windows.Forms.ToolStripMenuItem MI_Settings;
         private System.Windows.Forms.ToolStripMenuItem MI_ReportIssue;
         private System.Windows.Forms.ComboBox CB_Formatter;
+        private System.Windows.Forms.ToolStripMenuItem pluginsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

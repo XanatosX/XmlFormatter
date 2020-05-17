@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\DataContainer\PluginInformation.cs" />
     <Compile Include="src\DataContainer\PluginMetaData.cs" />
+    <Compile Include="src\DataContainer\PluginSettings.cs" />
     <Compile Include="src\DataContainer\VersionCompare.cs" />
     <Compile Include="src\Enums\ModesEnum.cs" />
     <Compile Include="src\EventMessages\BaseEventArgs.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="src\Interfaces\PluginTypes\IUpdateStrategy.cs" />
     <Compile Include="src\LoadStrategies\PluginFolder.cs" />
     <Compile Include="src\Manager\DefaultManager.cs" />
+    <Compile Include="src\Update\BaseUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

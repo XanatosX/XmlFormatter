@@ -41,7 +41,7 @@ namespace XmlFormatter.src.Windows
         /// Create a new instance of the editor
         /// </summary>
         /// <param name="hotfolder">The hotfolder configuration to use for editing</param>
-        public HotfolderEditor(IPluginManager pluginManager) :this(null, pluginManager)
+        public HotfolderEditor(IPluginManager pluginManager) : this(null, pluginManager)
         {
 
         }
@@ -53,7 +53,7 @@ namespace XmlFormatter.src.Windows
         public HotfolderEditor(IHotfolder hotfolder, IPluginManager pluginManager)
         {
             editMode = hotfolder != null;
-           
+
             InitializeComponent();
 
             CB_Formatter.Enabled = !editMode;

@@ -1,10 +1,6 @@
 ﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Enums;
-using PluginFramework.src.EventMessages;
 using PluginFramework.src.Formatter;
-using PluginFramework.src.Interfaces.PluginTypes;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -72,21 +68,22 @@ namespace CorePlugin.src.Formatter
             }
 
             FireEvent("Saving", "Saving ...");
-            bool saveSuccess = await Task<bool>.Run(() => {
-                    try
-                    {
-                        fileToConvert.Save(outputName, options);
-                        return true;
-                    }
-                    catch (Exception)
-                    {
-                        FireEvent("Saving did fail", "Saving went wrong, maybe the file was used?");
-                        return false;
-                    }
-                });           
+            bool saveSuccess = await Task<bool>.Run(() =>
+            {
+                try
+                {
+                    fileToConvert.Save(outputName, options);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    FireEvent("Saving did fail", "Saving went wrong, maybe the file was used?");
+                    return false;
+                }
+            });
 
             if (saveSuccess)
-            {   
+            {
                 FireEvent("Done", "Saving done!");
             }
         }
