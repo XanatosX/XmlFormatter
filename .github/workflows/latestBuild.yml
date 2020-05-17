@@ -31,6 +31,7 @@ jobs:
           mkdir ..\Artifacts\JsonPlugin\
           mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
           cd ..\Artifacts\JsonPlugin\
+          tree /f
           ls .\JsonPlugin\
           ls .\XmlFormatter\
           mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
