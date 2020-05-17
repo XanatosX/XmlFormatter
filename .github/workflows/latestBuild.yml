@@ -24,6 +24,6 @@ jobs:
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
-       - name: Creating artifacts
-         run: cd .\XmlFormatter\bin\Release\
+       - name: Change directory
+         run: cd .\XmlFormatter\bin\Release\ | ls 
          shell: powershell
