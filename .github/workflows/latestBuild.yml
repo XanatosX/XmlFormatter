@@ -24,3 +24,6 @@ jobs:
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
+       - name: Creating artifacts
+         run: ls
+         shell: powershell
