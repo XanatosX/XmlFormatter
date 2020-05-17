@@ -25,5 +25,5 @@ jobs:
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
        - name: Creating artifacts
-         run: ls
+         run: cd .\XmlFormatter\bin\Release\
          shell: powershell
