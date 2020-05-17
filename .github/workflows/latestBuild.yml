@@ -27,7 +27,9 @@ jobs:
        - name: Change directory
          run: | 
           mkdir ..\Artifacts
-          mv .\XmlFormatter\bin\Release\ ..\Artifacts\XmlFormatter
+          mkdir ..\Artifacts\XmlFormatter\
+          mkdir ..\Artifacts\JsonPlugin\
+          mv .\XmlFormatter\bin\Release\ ..\Artifacts\XmlFormatter\
           cd ..\Artifacts
           ls 
          shell: powershell
