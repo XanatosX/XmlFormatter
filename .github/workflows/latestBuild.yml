@@ -32,16 +32,14 @@ jobs:
            mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
            cd ..\Artifacts\
            mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
-           7z a LatestDevelopment_XmlFormatter.zip .\XmlFormatter\
-           7z a LatestDevelopment_JsonPlugin.zip .\JsonPlugin\
          shell: powershell
        - name: Upload XmlFormatter artifacts
          uses: actions/upload-artifact@v1
          with:
            name: LatestDevelopment_XmlFormatter
-           path: ..\Artifacts\LatestDevelopment_XmlFormatter.zip
+           path: ..\Artifacts\XmlFormatter\
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
          with:
            name: LatestDevelopment_JsonPlugin
-           path: ..\Artifacts\LatestDevelopment_JsonPlugin.zip
+           path: ..\Artifacts\JsonPlugin\
