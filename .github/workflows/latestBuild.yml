@@ -30,7 +30,7 @@ jobs:
           mkdir ..\Artifacts\XmlFormatter\
           mkdir ..\Artifacts\JsonPlugin\
           mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
-          cd ..\Artifacts\JsonPlugin\
+          cd ..\Artifacts\
           tree /f
           ls .\JsonPlugin\
           ls .\XmlFormatter\
