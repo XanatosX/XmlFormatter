@@ -1,0 +1,26 @@
+name: Create last unstable build artifact
+
+on: [push]
+  #push:
+    #branches:
+      #- develop
+
+jobs:
+   build:
+     name: Create build artifact
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+         with: 
+           ref: develop
+       - name: Install nuget
+         uses: nuget/setup-nuget@v1
+       - name: Nuget restore
+         run: nuget restore
+         shell: powershell
+       - name: Setup msbuild
+         uses: microsoft/setup-msbuild@v1.0.0
+       - name: Build project
+         run: msbuild /t:Build /p:Configuration=Release
+         shell: powershell
