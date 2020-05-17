@@ -15,9 +15,9 @@ jobs:
          with: 
            ref: develop
        - name: Get current tag
-         run: echo ::set-env name=tag::$(("${env:GITHUB_REF}" -split "/")[-1] -replace " ","")
+         run: echo ::set-env name=tag::(("${env:GITHUB_REF}" -split "/")[-1] -replace " ","")
        - name: Show current tag
-         run: echo "${env:tag}"
+         run: echo "${tag}"
        - name: Install nuget
          uses: nuget/setup-nuget@v1
        - name: Setup msbuild
