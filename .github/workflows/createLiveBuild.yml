@@ -25,8 +25,7 @@ jobs:
          shell: powershell
        - name: Create artifacts
          run: |
-           echo ${{GITHUB_REF}}
-           echo ${{GITHUB_REF##*/}}
+           echo ${GITHUB_REF}
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
@@ -37,11 +36,11 @@ jobs:
        - name: Upload XmlFormatter artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: ${{GITHUB_REF##*/}}_XmlFormatter
+           name: ${GITHUB_REF##*/}_XmlFormatter
            path: ..\Artifacts\XmlFormatter\
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: ${{GITHUB_REF##*/}}_JsonPlugin
+           name: ${GITHUB_REF##*/}_JsonPlugin
            path: ..\Artifacts\JsonPlugin\
        #- name: Create Release
