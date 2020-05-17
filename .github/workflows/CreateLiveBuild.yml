@@ -1,9 +1,9 @@
 name: Live build
 
-on:
-  push:
-    tags:
-     - '*'
+on: [push]
+  #push:
+  #  tags:
+  #   - '*'
 
 jobs:
    build:
@@ -25,21 +25,47 @@ jobs:
          shell: powershell
        - name: Create artifacts
          run: |
+           $tags = "${env:GITHUB_REF}" -split "/"
+           $tag = $tags[-1]
+           $tag = $tag -replace " ",""
+           echo $tag
+           $xmlFormatter = -join($tag, "_XmlFormatter.zip")
+           $jsonPlugin = -join($tag, "_JsonPlugin.zip")
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
            mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
            cd ..\Artifacts\
            mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
+           7z a $xmlFormatter .\XmlFormatter\**
+           7z a $jsonPlugin .\JsonPlugin\**
          shell: powershell
-       - name: Upload XmlFormatter artifacts
-         uses: actions/upload-artifact@v1
+       - name: Create Release
+         id: create_release
+         uses: actions/create-release@v1
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-           name: ${GITHUB_REF}_XmlFormatter
-           path: ..\Artifacts\XmlFormatter\
-       - name: Upload JsonPlugin artifacts
-         uses: actions/upload-artifact@v1
+           tag_name: ${{ github.ref }}
+           release_name: Release ${{ github.ref }}
+           body: Body goes here!
+           draft: true
+           prerelease: false
+       - name: Create GitHub release
+         uses: Roang-zero1/github-upload-release-artifacts-action@master
          with:
-           name: ${GITHUB_REF}_JsonPlugin
-           path: ..\Artifacts\JsonPlugin\
+          args:
+            - ..\Artifacts\*.zip
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       #- name: Upload XmlFormatter artifacts
+       #  uses: actions/upload-artifact@v1
+       #  with:
+       #    name: ${{ env.GITHUB_REF##*/ }}_XmlFormatter
+       #    path: ..\Artifacts\XmlFormatter\
+       #- name: Upload JsonPlugin artifacts
+       #  uses: actions/upload-artifact@v1
+       #  with:
+       #    name: ${{ env.GITHUB_REF##*/ }}_JsonPlugin
+       #    path: ..\Artifacts\JsonPlugin\
        #- name: Create Release
