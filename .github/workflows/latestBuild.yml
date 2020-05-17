@@ -3,7 +3,6 @@ jobs:
      name: Create build artifact
      runs-on: windows-latest
      steps:
-       - continue-on-error: false
        - name: Clone repository
          uses: actions/checkout@v2
          with: 
