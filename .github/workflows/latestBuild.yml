@@ -1,3 +1,10 @@
+name: Create last unstable build artifact
+
+on: [push]
+  #push:
+    #branches:
+      #- develop
+
 jobs:
    build:
      name: Create build artifact
