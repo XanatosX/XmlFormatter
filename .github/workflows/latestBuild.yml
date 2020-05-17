@@ -31,5 +31,9 @@ jobs:
           mkdir ..\Artifacts\JsonPlugin\
           mv .\XmlFormatter\bin\Release\ ..\Artifacts\XmlFormatter\
           cd ..\Artifacts
-          ls 
+          mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
+          mv .\XmlFormatter\Plugins\Newtonsoft.Json.dll .\JsonPlugin\
+          ls .\JsonPlugin\
+          ls .\XmlFormatter\
+          
          shell: powershell
