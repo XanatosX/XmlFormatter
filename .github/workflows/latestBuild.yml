@@ -26,7 +26,8 @@ jobs:
          shell: powershell
        - name: Change directory
          run: | 
-          ls
-          cd .\XmlFormatter\bin\Release\
+          mkdir ..\Artifacts
+          mv .\XmlFormatter\bin\Release\ ..\Artifacts\XmlFormatter
+          cd ..\Artifacts
           ls 
          shell: powershell
