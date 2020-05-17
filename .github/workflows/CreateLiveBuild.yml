@@ -1,12 +1,12 @@
-name: Latest unstable build
+name: Live build
 
 on:
-  pull_request:
-    types: [closed] 
+  push:
+    tags:
+     - '*'
 
 jobs:
    build:
-     if: github.event.pull_request.merged == true
      name: Create build artifact
      runs-on: windows-latest
      steps:
@@ -35,10 +35,11 @@ jobs:
        - name: Upload XmlFormatter artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: LatestDevelopment_XmlFormatter
+           name: ${GITHUB_REF}_XmlFormatter
            path: ..\Artifacts\XmlFormatter\
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: LatestDevelopment_JsonPlugin
+           name: ${GITHUB_REF}_JsonPlugin
            path: ..\Artifacts\JsonPlugin\
+       #- name: Create Release
