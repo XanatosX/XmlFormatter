@@ -25,6 +25,7 @@ jobs:
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
        - name: Create artifacts
+         shell: powershell
          run: | 
           mkdir ..\Artifacts
           mkdir ..\Artifacts\XmlFormatter\
@@ -36,16 +37,15 @@ jobs:
           tree /f
           ls .\JsonPlugin\
           ls .\XmlFormatter\
-          7z a XmlFormatter.zip .\XmlFormatter\
-          7z a JsonPlugin.zip .\JsonPlugin\
-         shell: powershell
+          7z a LatestDevelopment_XmlFormatter.zip .\XmlFormatter\
+          7z a LatestDevelopment_JsonPlugin.zip .\JsonPlugin\
         - name: Upload XmlFormatter artifacts
           uses: actions/upload-artifact@v1
           with:
            name: XmlFormatter
-           path: XmlFormatter.zip
+           path: LatestDevelopment_XmlFormatter.zip
         - name: Upload JsonPlugin artifacts
           uses: actions/upload-artifact@v1
           with:
            name: JsonPlugin
-           path: JsonPlugin.zip
+           path: LatestDevelopment_JsonPlugin.zip
