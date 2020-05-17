@@ -25,7 +25,7 @@ jobs:
          shell: powershell
        - name: Create artifacts
          run: |
-           echo $env:GITHUB_REF
+           echo ${env:GITHUB_REF##*/}
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
