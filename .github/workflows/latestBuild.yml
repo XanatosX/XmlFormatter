@@ -24,16 +24,14 @@ jobs:
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
-       - name: Change directory
+       - name: Create artifacts
          run: | 
           mkdir ..\Artifacts
           mkdir ..\Artifacts\XmlFormatter\
           mkdir ..\Artifacts\JsonPlugin\
           mv .\XmlFormatter\bin\Release\ ..\Artifacts\XmlFormatter\
           cd ..\Artifacts
-          mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
-          mv .\XmlFormatter\Plugins\Newtonsoft.Json.dll .\JsonPlugin\
           ls .\JsonPlugin\
           ls .\XmlFormatter\
-          
+          zip -r 
          shell: powershell
