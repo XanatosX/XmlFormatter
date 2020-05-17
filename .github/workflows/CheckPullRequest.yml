@@ -12,8 +12,6 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
-         with: 
-           ref: develop
        - name: Install nuget
          uses: nuget/setup-nuget@v1
        - name: Nuget restore
