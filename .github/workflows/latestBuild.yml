@@ -16,36 +16,31 @@ jobs:
            ref: develop
        - name: Install nuget
          uses: nuget/setup-nuget@v1
-       - name: Nuget restore
-         run: nuget restore
-         shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.0
        - name: Build project
-         run: msbuild /t:Build /p:Configuration=Release
+         run: |
+           nuget restore
+           msbuild /t:Build /p:Configuration=Release
          shell: powershell
        - name: Create artifacts
+         run: |
+           mkdir ..\Artifacts
+           mkdir ..\Artifacts\XmlFormatter\
+           mkdir ..\Artifacts\JsonPlugin\
+           mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
+           cd ..\Artifacts\
+           mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
+           7z a LatestDevelopment_XmlFormatter.zip .\XmlFormatter\
+           7z a LatestDevelopment_JsonPlugin.zip .\JsonPlugin\
          shell: powershell
-         run: | 
-          mkdir ..\Artifacts
-          mkdir ..\Artifacts\XmlFormatter\
-          mkdir ..\Artifacts\JsonPlugin\
-          mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
-          cd ..\Artifacts\
-          mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
-          mv .\XmlFormatter\Plugins\Newtonsoft.Json.dll .\JsonPlugin\
-          tree /f
-          ls .\JsonPlugin\
-          ls .\XmlFormatter\
-          7z a LatestDevelopment_XmlFormatter.zip .\XmlFormatter\
-          7z a LatestDevelopment_JsonPlugin.zip .\JsonPlugin\
-        - name: Upload XmlFormatter artifacts
-          uses: actions/upload-artifact@v1
-          with:
+       - name: Upload XmlFormatter artifacts
+         uses: actions/upload-artifact@v1
+         with:
            name: XmlFormatter
            path: LatestDevelopment_XmlFormatter.zip
-        - name: Upload JsonPlugin artifacts
-          uses: actions/upload-artifact@v1
-          with:
+       - name: Upload JsonPlugin artifacts
+         uses: actions/upload-artifact@v1
+         with:
            name: JsonPlugin
            path: LatestDevelopment_JsonPlugin.zip
