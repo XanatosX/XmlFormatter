@@ -21,3 +21,5 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.0
+       - name: Build project
+         run: msbuild /t:Build /p:Configuration=Release
