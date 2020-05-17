@@ -36,6 +36,6 @@ jobs:
           tree /f
           ls .\JsonPlugin\
           ls .\XmlFormatter\
-          7zip a XmlFormatter.zip .\XmlFormatter\
-          7zip a JsonPlugin.zip .\JsonPlugin\
+          7z a XmlFormatter.zip .\XmlFormatter\
+          7z a JsonPlugin.zip .\JsonPlugin\
          shell: powershell
