@@ -18,5 +18,6 @@ jobs:
          uses: nuget/setup-nuget@v1
        - name: Nuget restore
          run: nuget restore
-         shell: powershell 
-          
+         shell: powershell
+       - name: Setup msbuild
+         uses: microsoft/setup-msbuild@v1.0.0
