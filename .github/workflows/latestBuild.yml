@@ -39,3 +39,13 @@ jobs:
           7z a XmlFormatter.zip .\XmlFormatter\
           7z a JsonPlugin.zip .\JsonPlugin\
          shell: powershell
+        - name: Upload XmlFormatter artifacts
+          uses: actions/upload-artifact@v1
+          with:
+           name: XmlFormatter
+           path: XmlFormatter.zip
+        - name: Upload JsonPlugin artifacts
+          uses: actions/upload-artifact@v1
+          with:
+           name: JsonPlugin
+           path: JsonPlugin.zip
