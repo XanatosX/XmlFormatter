@@ -31,11 +31,11 @@ jobs:
           mkdir ..\Artifacts\JsonPlugin\
           mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
           cd ..\Artifacts\
+          mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
+          mv .\XmlFormatter\Plugins\Newtonsoft.Json.dll .\JsonPlugin\
           tree /f
           ls .\JsonPlugin\
           ls .\XmlFormatter\
-          mv .\XmlFormatter\Plugins\JsonPlugin.dll .\JsonPlugin\
-          mv .\XmlFormatter\Plugins\Newtonsoft.Json.dll .\JsonPlugin\
           7zip a XmlFormatter.zip .\XmlFormatter\
           7zip a JsonPlugin.zip .\JsonPlugin\
          shell: powershell
