@@ -1,12 +1,13 @@
 name: Create last unstable build artifact
 
 on: [push]
-  #push:
-    #branches:
-      #- develop
+#on:
+  #pull_request:
+    #types: [closed] 
 
 jobs:
    build:
+     #if: github.event.pull_request.merged == true
      name: Create build artifact
      runs-on: windows-latest
      steps:
@@ -37,10 +38,10 @@ jobs:
        - name: Upload XmlFormatter artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: XmlFormatter
+           name: LatestDevelopment_XmlFormatter
            path: ..\Artifacts\LatestDevelopment_XmlFormatter.zip
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: JsonPlugin
+           name: LatestDevelopment_JsonPlugin
            path: ..\Artifacts\LatestDevelopment_JsonPlugin.zip
