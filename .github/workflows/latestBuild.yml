@@ -38,9 +38,9 @@ jobs:
          uses: actions/upload-artifact@v1
          with:
            name: XmlFormatter
-           path: LatestDevelopment_XmlFormatter.zip
+           path: ..\Artifacts\LatestDevelopment_XmlFormatter.zip
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
          with:
            name: JsonPlugin
-           path: LatestDevelopment_JsonPlugin.zip
+           path: ..\Artifacts\LatestDevelopment_JsonPlugin.zip
