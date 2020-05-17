@@ -36,7 +36,7 @@ jobs:
        - name: Upload XmlFormatter artifacts
          uses: actions/upload-artifact@v1
          with:
-           name: ${GITHUB_REF}_XmlFormatter
+           name: ${{GITHUB_REF}}_XmlFormatter
            path: ..\Artifacts\XmlFormatter\
        - name: Upload JsonPlugin artifacts
          uses: actions/upload-artifact@v1
