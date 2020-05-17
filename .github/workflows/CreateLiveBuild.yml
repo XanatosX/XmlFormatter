@@ -35,14 +35,14 @@ jobs:
            cd ..\Artifacts\
            mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
          shell: powershell
-       - name: Upload XmlFormatter artifacts
-         uses: actions/upload-artifact@v1
-         with:
-           name: ${{ env.GITHUB_REF##*/ }}_XmlFormatter
-           path: ..\Artifacts\XmlFormatter\
-       - name: Upload JsonPlugin artifacts
-         uses: actions/upload-artifact@v1
-         with:
-           name: ${{ env.GITHUB_REF##*/ }}_JsonPlugin
-           path: ..\Artifacts\JsonPlugin\
+       #- name: Upload XmlFormatter artifacts
+       #  uses: actions/upload-artifact@v1
+       #  with:
+       #    name: ${{ env.GITHUB_REF##*/ }}_XmlFormatter
+       #    path: ..\Artifacts\XmlFormatter\
+       #- name: Upload JsonPlugin artifacts
+       #  uses: actions/upload-artifact@v1
+       #  with:
+       #    name: ${{ env.GITHUB_REF##*/ }}_JsonPlugin
+       #    path: ..\Artifacts\JsonPlugin\
        #- name: Create Release
