@@ -32,7 +32,7 @@ jobs:
            $xmlFormatter = -join($env:tag, "_XmlFormatter.zip")
            $jsonPlugin = -join($env:tag, "_JsonPlugin.zip")
            echo "::set-env name=xmlFormatter::$($xmlFormatter)"
-           echo "::set-env name=jsonPlugin::$(%JsonPlugin)"
+           echo "::set-env name=jsonPlugin::$($JsonPlugin)"
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
