@@ -10,22 +10,22 @@ jobs:
      name: Create build artifact
      runs-on: windows-latest
      steps:
-       - name: Clone repository
+       - name: Clone Repository
          uses: actions/checkout@v2
          with: 
            ref: develop
-       - name: Get current tag
+       - name: Get Current Tag
          run: echo "::set-env name=tag::$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')"
-       - name: Install nuget
+       - name: Install NuGet
          uses: nuget/setup-nuget@v1
-       - name: Setup msbuild
+       - name: Install msbuild
          uses: microsoft/setup-msbuild@v1.0.0
-       - name: Build project
+       - name: Build Project
          run: |
            nuget restore
            msbuild /t:Build /p:Configuration=Release
          shell: powershell
-       - name: Create artifacts
+       - name: Create Artifacts
          run: |
            $xmlFormatter = -join($env:tag, "_XmlFormatter.zip")
            $jsonPlugin = -join($env:tag, "_JsonPlugin.zip")
