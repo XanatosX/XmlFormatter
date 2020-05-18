@@ -29,16 +29,18 @@ jobs:
          shell: powershell
        - name: Create artifacts
          run: |
-           $xmlFormatter = -join($tag, "_XmlFormatter.zip")
-           $jsonPlugin = -join($tag, "_JsonPlugin.zip")
+           $xmlFormatter = -join($env:tag, "_XmlFormatter.zip")
+           $jsonPlugin = -join($env:tag, "_JsonPlugin.zip")
+           echo "::set-env name=xmlFormatter::$($xmlFormatter)"
+           echo "::set-env name=jsonPlugin::$(%JsonPlugin)"
            mkdir ..\Artifacts
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
            mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
            cd ..\Artifacts\
            mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
-           #7z a $xmlFormatter .\XmlFormatter\**
-           #7z a $jsonPlugin .\JsonPlugin\**
+           7z a $xmlFormatter .\XmlFormatter\**
+           7z a $jsonPlugin .\JsonPlugin\**
          shell: powershell
        - name: Create Release
          id: create_release
@@ -51,21 +53,13 @@ jobs:
            body: Body goes here!
            draft: true
            prerelease: true
-       #- name: Create GitHub release
-         #uses: Roang-zero1/github-upload-release-artifacts-action@master
-         #with:
-          #args:
-          #  - ..\Artifacts\*.zip
-          #env:
-          #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       #- name: Upload XmlFormatter artifacts
-       #  uses: actions/upload-artifact@v1
-       #  with:
-       #    name: ${{ env.GITHUB_REF##*/ }}_XmlFormatter
-       #    path: ..\Artifacts\XmlFormatter\
-       #- name: Upload JsonPlugin artifacts
-       #  uses: actions/upload-artifact@v1
-       #  with:
-       #    name: ${{ env.GITHUB_REF##*/ }}_JsonPlugin
-       #    path: ..\Artifacts\JsonPlugin\
-       #- name: Create Release
+       - name: Upload Release Asset
+         id: upload-release-asset 
+         uses: actions/upload-release-asset@v1
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         with:
+           upload_url: ${{ steps.create_release.outputs.upload_url }}
+           asset_path: ..\Artifacts\${{ env.xmlFormatter }}
+           asset_name: ${{ env.xmlFormatter }}
+           asset_content_type: application/zip
