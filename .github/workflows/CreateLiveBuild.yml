@@ -50,7 +50,7 @@ jobs:
            release_name: Release ${{ env.tag }}
            body: Body goes here!
            draft: true
-           prerelease: false
+           prerelease: true
        #- name: Create GitHub release
          #uses: Roang-zero1/github-upload-release-artifacts-action@master
          #with:
