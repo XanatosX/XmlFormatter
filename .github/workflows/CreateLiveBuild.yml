@@ -52,7 +52,7 @@ jobs:
            draft: true
            prerelease: true
        - name: Upload XmlFormatter Release Asset
-         id: upload-release-asset 
+         id: upload-application-release-asset 
          uses: actions/upload-release-asset@v1
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -61,8 +61,8 @@ jobs:
            asset_path: ..\Artifacts\${{ env.xmlFormatter }}
            asset_name: ${{ env.xmlFormatter }}
            asset_content_type: application/zip
-       - name: Upload JsonPlugid Release Asset
-         id: upload-release-asset 
+       - name: Upload JsonPlugin Release Asset
+         id: upload-plugin-release-asset 
          uses: actions/upload-release-asset@v1
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
