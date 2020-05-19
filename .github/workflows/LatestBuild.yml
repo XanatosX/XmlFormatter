@@ -1,12 +1,12 @@
 name: Latest unstable build
 
-on:
-  pull_request:
-    types: [closed] 
+on: [push]
+  #pull_request:
+    #types: [closed] 
 
 jobs:
    build:
-     if: github.event.pull_request.merged == true
+     #if: github.event.pull_request.merged == true
      name: Create latest build artifact
      runs-on: windows-latest
      steps:
@@ -40,10 +40,10 @@ jobs:
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-           tag_name: ${{ github.ref }}
+           tag_name: ${{ github.ref }} - ${{ GITHUB.RUN.NUMBER }}
            release_name: Latest unstable
            body: You cannot update this version from within the application!
-           draft: false
+           draft: true
            prerelease: true
        - name: Upload XmlFormatter Release Asset
          id: upload-application-release-asset 
