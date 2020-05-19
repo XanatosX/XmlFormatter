@@ -36,6 +36,7 @@ jobs:
            mkdir ..\Artifacts\XmlFormatter\
            mkdir ..\Artifacts\JsonPlugin\
            mv .\XmlFormatter\bin\Release\** ..\Artifacts\XmlFormatter\
+           mv LICENSE ..\Artifacts\XmlFormatter\
            cd ..\Artifacts\
            mv .\XmlFormatter\Plugins\*Json*.dll .\JsonPlugin\
            7z a $xmlFormatter .\XmlFormatter\**
