@@ -1,7 +1,9 @@
 ﻿using Octokit;
 using PluginFramework.src.DataContainer;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -78,13 +80,17 @@ namespace XmlFormatter.src.Manager
             {
                 ThrowError("No version found", "Could't not find a version on GitHub");
             }
-            Release latestRelease = releases[0];
-            string latest = latestRelease.Name;
-            Regex regex = new Regex(@"([0-9]{1,}.[0-9]{1,}.[0-9]{1,})");
+            string gitHubString = "";
             Version gitHubVersion = null;
-            foreach (Match match in regex.Matches(latest))
+            Regex regex = new Regex(@"([0-9]{1,}.[0-9]{1,}.[0-9]{1,})");
+
+            List<Release> correctTags = releases.Where(release => regex.IsMatch(release.TagName)).ToList();
+            Release latestRelease = correctTags.Count > 0 ? correctTags[0] : null;
+            
+            if (latestRelease != null)
             {
-                gitHubVersion = ConvertInnerFormatToProperVersion(match.Value);
+                string version = regex.Match(latestRelease.TagName).Value;
+                gitHubVersion = ConvertInnerFormatToProperVersion(version);
             }
             Version applicationVersion = GetApplicationVersion();
             int compareResult = applicationVersion.CompareTo(gitHubVersion);
