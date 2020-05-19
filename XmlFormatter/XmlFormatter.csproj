@@ -25,7 +25,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -36,8 +36,8 @@
     <ApplicationIcon>XmlFormatterIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Octokit, Version=0.36.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Octokit.0.36.0\lib\net46\Octokit.dll</HintPath>
+    <Reference Include="Octokit, Version=0.47.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Octokit.0.47.0\lib\net46\Octokit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\DataContainer\ComboboxPluginItem.cs" />
     <Compile Include="src\DataContainer\HotfolderTask.cs" />
     <Compile Include="src\Interfaces\Logging\ILoggable.cs" />
     <Compile Include="src\Interfaces\Logging\ILoggingFormatStrategy.cs" />
@@ -60,10 +61,8 @@
     <Compile Include="src\Logging\Logger.cs" />
     <Compile Include="src\DataContainer\Logging\LoggingMessage.cs" />
     <Compile Include="src\Enums\LogScopesEnum.cs" />
-    <Compile Include="src\Formatter\XmlFormatterProvider.cs" />
     <Compile Include="src\Hotfolder\HotfolderContainer.cs" />
     <Compile Include="src\Hotfolder\HotfolderManager.cs" />
-    <Compile Include="src\Interfaces\Formatter\IFormatter.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolder.cs" />
     <Compile Include="src\Interfaces\Hotfolder\IHotfolderManager.cs" />
     <Compile Include="src\Interfaces\Logging\ILogger.cs" />
@@ -72,11 +71,9 @@
     <Compile Include="src\Interfaces\Settings\LoadingProvider\IPersistentFactory.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingLoadProvider.cs" />
     <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingSaveProvider.cs" />
-    <Compile Include="src\Enums\ModesEnum.cs" />
     <Compile Include="src\Logging\LoggingManager.cs" />
     <Compile Include="src\Logging\Strategies\SimpleFileLogStrategy.cs" />
     <Compile Include="src\Interfaces\Updates\IUpdater.cs" />
-    <Compile Include="src\Interfaces\Updates\IUpdateStrategy.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingPair.cs" />
     <Compile Include="src\Interfaces\Settings\DataStructure\ISettingScope.cs" />
@@ -91,8 +88,6 @@
     <Compile Include="src\Settings\Provider\XmlLoaderProvider.cs" />
     <Compile Include="src\Settings\Provider\XmlSaverProvider.cs" />
     <Compile Include="src\Settings\SettingsManager.cs" />
-    <Compile Include="src\Update\Strategies\DownloadGitHubReleaseStrategy.cs" />
-    <Compile Include="src\Update\Strategies\OpenGitHubReleasesStrategy.cs" />
     <Compile Include="src\Update\UpdateManager.cs" />
     <Compile Include="src\Windows\HotfolderEditor.cs">
       <SubType>Form</SubType>
@@ -108,14 +103,25 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\DataContainer\VersionCompare.cs" />
     <Compile Include="src\EventMessages\BaseEventArgs.cs" />
     <Compile Include="src\Manager\VersionManager.cs" />
+    <Compile Include="src\Windows\PluginManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Windows\PluginManager.Designer.cs">
+      <DependentUpon>PluginManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Windows\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Windows\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Windows\VersionInformation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Windows\VersionInformation.Designer.cs">
+      <DependentUpon>VersionInformation.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="src\Windows\HotfolderEditor.resx">
       <DependentUpon>HotfolderEditor.cs</DependentUpon>
@@ -148,14 +154,31 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="src\Windows\PluginManager.resx">
+      <DependentUpon>PluginManager.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Windows\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Windows\VersionInformation.resx">
+      <DependentUpon>VersionInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XmlFormatterIcon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
+      <Project>{9808f069-6dc1-4c26-a434-16630fc697e8}</Project>
+      <Name>PluginFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\CorePlugin\$(OutDir)\CorePlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\JsonPlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\Newtonsoft.Json.dll" "$(ProjectDir)\$(OutDir)\Plugins"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -37,6 +37,5 @@ namespace XmlFormatter.src.EventMessages
             this.title = title;
             this.message = message;
         }
-        
     }
 }

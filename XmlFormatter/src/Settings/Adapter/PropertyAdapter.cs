@@ -77,7 +77,7 @@ namespace XmlFormatter.src.Settings.Adapter
             {
                 //Not important since we can return an empty value
             }
-            
+
             return returnValue;
         }
 

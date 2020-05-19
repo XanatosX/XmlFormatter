@@ -1,30 +1,33 @@
-﻿using System;
-using System.IO;
-using System.Windows.Forms;
+﻿using PluginFramework.src.DataContainer;
+using PluginFramework.src.Enums;
+using PluginFramework.src.Interfaces.Manager;
+using PluginFramework.src.Interfaces.PluginTypes;
+using PluginFramework.src.LoadStrategies;
+using PluginFramework.src.Manager;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
-using XmlFormatter.src.Manager;
+using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Settings;
-using XmlFormatter.src.Settings.DataStructure;
-using XmlFormatter.src.Settings.Adapter;
-using XmlFormatter.src.Settings.Provider.Factories;
-using XmlFormatter.src.Interfaces.Settings;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Formatter;
 using XmlFormatter.src.Enums;
-using XmlFormatter.src.Interfaces.Formatter;
-using XmlFormatter.src.EventMessages;
 using XmlFormatter.src.Hotfolder;
 using XmlFormatter.src.Interfaces.Hotfolder;
-using XmlFormatter.src.Settings.Hotfolder;
-using XmlFormatter.src.Update;
-using XmlFormatter.src.Interfaces.Updates;
-using XmlFormatter.src.Update.Strategies;
-using XmlFormatter.src.Logging;
 using XmlFormatter.src.Interfaces.Logging;
-using XmlFormatter.src.Logging.Strategies;
+using XmlFormatter.src.Interfaces.Settings;
+using XmlFormatter.src.Interfaces.Settings.DataStructure;
+using XmlFormatter.src.Interfaces.Updates;
+using XmlFormatter.src.Logging;
 using XmlFormatter.src.Logging.FormatStrategies;
+using XmlFormatter.src.Logging.Strategies;
+using XmlFormatter.src.Manager;
+using XmlFormatter.src.Settings;
+using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatter.src.Settings.Hotfolder;
+using XmlFormatter.src.Settings.Provider.Factories;
+using XmlFormatter.src.Update;
 
 namespace XmlFormatter.src.Windows
 {
@@ -57,6 +60,11 @@ namespace XmlFormatter.src.Windows
         /// Instance of the update manager
         /// </summary>
         private readonly IUpdater updateManager;
+
+        /// <summary>
+        /// Instance to manage plugins
+        /// </summary>
+        private readonly IPluginManager pluginManager;
 
         /// <summary>
         /// The formatter to use
@@ -121,6 +129,9 @@ namespace XmlFormatter.src.Windows
                 Properties.Settings.Default[settingPair.Name] = settingPair.Value;
             }
 
+            pluginManager = new DefaultManager();
+            pluginManager.SetDefaultLoadStrategy(new PluginFolder(AppDomain.CurrentDomain.BaseDirectory + "\\Plugins"));
+
             settingManager.Save(settingFile);
             updateManager = new UpdateManager();
             SetUpdateStrategy();
@@ -155,16 +166,14 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         private void SetUpdateStrategy()
         {
-            IUpdateStrategy updateStrategy;
+            IUpdateStrategy updateStrategy = null;
             try
             {
-                Type type = Type.GetType(Properties.Settings.Default.UpdateStrategy);
-                updateStrategy = (IUpdateStrategy)Activator.CreateInstance(type);
+                string type = Properties.Settings.Default.UpdateStrategy;
+                updateStrategy = pluginManager.LoadPlugin<IUpdateStrategy>(type);
             }
             catch (Exception)
             {
-                updateStrategy = new OpenGitHubReleasesStrategy();
-                Properties.Settings.Default.UpdateStrategy = updateStrategy.GetType().FullName;
             }
             updateManager.SetStrategy(updateStrategy);
         }
@@ -186,9 +195,31 @@ namespace XmlFormatter.src.Windows
                 CheckForUpdatedVersion(true);
             }
 
-            SetFormatter(new XmlFormatterProvider());
             SetupHotFolder();
-            
+            SetupFormatterSelection();
+        }
+
+        /// <summary>
+        /// Setup the formatter selection combobox
+        /// </summary>
+        private void SetupFormatterSelection()
+        {
+            CB_Formatter.Items.Clear();
+            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>();
+            foreach (PluginMetaData metaData in formatters)
+            {
+                CB_Formatter.Items.Add(new ComboboxPluginItem(metaData));
+            }
+            if (CB_Formatter.Items.Count > 0)
+            {
+                CB_Formatter.SelectedIndex = 0;
+                ComboboxPluginItem item = CB_Formatter.SelectedItem as ComboboxPluginItem;
+                SetFormatter(pluginManager.LoadPlugin<IFormatter>(item.Id));
+            }
+            if (CB_Formatter.Items.Count == 1)
+            {
+                CB_Formatter.Visible = false;
+            }
         }
 
         /// <summary>
@@ -203,19 +234,19 @@ namespace XmlFormatter.src.Windows
                     hotfolderManager.ResetManager();
                     hotfolderManager = null;
                 }
-                
+
                 return;
             }
             hotfolderManager = hotfolderManager ?? new HotfolderManager();
-            if (hotfolderManager is ILoggable)
+            if (hotfolderManager is ILoggable loggable)
             {
-                ((ILoggable)hotfolderManager).SetLoggingManager(loggingManager);
+                loggable.SetLoggingManager(loggingManager);
             }
             hotfolderManager.ResetManager();
 
-            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager);
+            HotfolderExtension hotfolderExtension = new HotfolderExtension(settingManager, pluginManager);
             foreach (IHotfolder hotfolder in hotfolderExtension.GetHotFoldersFromSettings())
-            { 
+            {
                 hotfolderManager.AddHotfolder(hotfolder);
             }
         }
@@ -228,10 +259,12 @@ namespace XmlFormatter.src.Windows
         {
             if (formatterToUse != null)
             {
-                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;    
+                formatterToUse.StatusChanged -= FormatterToUse_StatusChanged;
             }
             formatterToUse = formatter;
             formatterToUse.StatusChanged += FormatterToUse_StatusChanged;
+            L_SelectedPath.Text = "Selected " + formatterToUse.Extension.ToUpper() + "-file path";
+            B_Select.Text = "Select " + formatterToUse.Extension.ToUpper();
         }
 
         /// <summary>
@@ -239,7 +272,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The sender of the message</param>
         /// <param name="e">The new status</param>
-        private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
+        private void FormatterToUse_StatusChanged(object sender, PluginFramework.src.EventMessages.BaseEventArgs e)
         {
             UpdateLabelTextThreadSafe(L_Status, e.Message);
         }
@@ -261,7 +294,6 @@ namespace XmlFormatter.src.Windows
             label.Text = textToUse;
         }
 
-
         /// <summary>
         /// This method will allow you to select the xml file you want to convert
         /// </summary>
@@ -271,7 +303,7 @@ namespace XmlFormatter.src.Windows
         {
             OpenFileDialog dialog = new OpenFileDialog
             {
-                Filter = "XML files (*.xml)|*.xml"
+                Filter = formatterToUse.Extension.ToUpper() + " files (*." + formatterToUse.Extension + ")|*." + formatterToUse.Extension
             };
             DialogResult result = dialog.ShowDialog();
 
@@ -310,7 +342,8 @@ namespace XmlFormatter.src.Windows
             FileInfo fi = new FileInfo(TB_SelectedXml.Text);
             string name = fi.Name.Replace(fi.Extension, "");
             saveFile.FileName = name + "_" + CB_Mode.SelectedItem.ToString() + fi.Extension;
-            saveFile.Filter = "XML files (*.xml)|*.xml";
+
+            saveFile.Filter = formatterToUse.Extension.ToUpper() + " files (*." + formatterToUse.Extension + ")|*." + formatterToUse.Extension;
             DialogResult result = saveFile.ShowDialog();
 
             if (result != DialogResult.OK)
@@ -337,7 +370,7 @@ namespace XmlFormatter.src.Windows
             ModesEnum currentEnum = formatted ? ModesEnum.Formatted : ModesEnum.Flat;
 
             bool success = formatterToUse.ConvertToFormat(inputFilePath, outputFilePath, currentEnum);
-             
+
             SwitchFormMode(true);
             return success;
         }
@@ -368,7 +401,7 @@ namespace XmlFormatter.src.Windows
             }
             string fileName = files[0];
             FileInfo fi = new FileInfo(fileName);
-            if (e.Data.GetDataPresent(DataFormats.FileDrop) && fi.Extension.ToLower() == ".xml")
+            if (e.Data.GetDataPresent(DataFormats.FileDrop) && fi.Extension.ToLower() == "." + formatterToUse.Extension)
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -396,9 +429,8 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The event arguments</param>
         private void MI_About_Click(object sender, EventArgs e)
         {
-            VersionManager manager = new VersionManager();
-            Version version = manager.GetApplicationVersion();
-            MessageBox.Show(manager.GetStringVersion(version), "Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            VersionInformation versionInformation = new VersionInformation();
+            versionInformation.ShowDialog();
         }
 
         /// <summary>
@@ -440,9 +472,12 @@ namespace XmlFormatter.src.Windows
                 text += "\n\nYour version: " + manager.GetStringVersion(versionCompare.LocalVersion);
                 text += "\nGitHub version: " + manager.GetStringVersion(versionCompare.GitHubVersion);
 
-                text += "\n\nDo you want to upgrade now?";
-                buttons = MessageBoxButtons.YesNo;
-                forceShow = true;
+                if (updateManager.IsStrategySet)
+                {
+                    text += "\n\nDo you want to upgrade now?";
+                    buttons = MessageBoxButtons.YesNo;
+                    forceShow = true;
+                }
             }
 
             if (forceShow || !onlyShowNewBox)
@@ -567,11 +602,38 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">The arguments provided by the sender</param>
         private void MI_Settings_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings(settingManager, settingFile);
+            Settings settings = new Settings(settingManager, settingFile, pluginManager);
             settings.ShowDialog();
             SetupLogging();
             SetupHotFolder();
             SetUpdateStrategy();
+        }
+
+        /// <summary>
+        /// Selected formatter did change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CB_Formatter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox box && box.SelectedItem is ComboboxPluginItem item)
+            {
+                IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(item.Id);
+                SetFormatter(formatter);
+                TB_SelectedXml.Text = string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Event if plugin dialog is clicked
+        /// </summary>
+        /// <param name="sender">The sender of the event</param>
+        /// <param name="e">The event arguments</param>
+        private void pluginsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PluginManager pluginManagerWindow = new PluginManager(pluginManager, settingManager, settingFile);
+            pluginManagerWindow.ShowDialog();
+
         }
     }
 }

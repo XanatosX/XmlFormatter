@@ -1,5 +1,5 @@
-﻿using XmlFormatter.src.Enums;
-using XmlFormatter.src.Interfaces.Formatter;
+﻿using PluginFramework.src.Enums;
+using PluginFramework.src.Interfaces.PluginTypes;
 using XmlFormatter.src.Interfaces.Hotfolder;
 
 namespace XmlFormatter.src.Hotfolder
@@ -9,11 +9,6 @@ namespace XmlFormatter.src.Hotfolder
     /// </summary>
     class HotfolderContainer : IHotfolder
     {
-        /// <summary>
-        /// The mode to use for formatting
-        /// </summary>
-        private ModesEnum mode;
-
         /// <inheritdoc/>
         public ModesEnum Mode
         {
@@ -22,14 +17,17 @@ namespace XmlFormatter.src.Hotfolder
         }
 
         /// <summary>
-        /// The formatter to use
+        /// The mode to use for formatting
         /// </summary>
-        private readonly IFormatter formatterToUse;
+        private ModesEnum mode;
 
         /// <inheritdoc/>
         public IFormatter FormatterToUse => formatterToUse;
 
-        private string watchedFolder;
+        /// <summary>
+        /// The formatter to use
+        /// </summary>
+        private readonly IFormatter formatterToUse;
 
         /// <inheritdoc/>
         public string WatchedFolder
@@ -39,21 +37,21 @@ namespace XmlFormatter.src.Hotfolder
         }
 
         /// <summary>
-        /// The filter to use in the watched folder
+        /// The folder which is getting watched
         /// </summary>
-        private string filter;
+        private string watchedFolder;
 
         /// <inheritdoc/>
         public string Filter
         {
             get => filter;
-            set => filter = value; 
+            set => filter = value;
         }
 
         /// <summary>
-        /// The output folder to save the new file in
+        /// The filter to use in the watched folder
         /// </summary>
-        private string outputFolder;
+        private string filter;
 
         /// <inheritdoc/>
         public string OutputFolder
@@ -63,9 +61,9 @@ namespace XmlFormatter.src.Hotfolder
         }
 
         /// <summary>
-        /// The scheme of the output file
+        /// The output folder to save the new file in
         /// </summary>
-        private string outputFileScheme;
+        private string outputFolder;
 
         /// <inheritdoc/>
         public string OutputFileScheme
@@ -75,9 +73,9 @@ namespace XmlFormatter.src.Hotfolder
         }
 
         /// <summary>
-        /// Should we trigger on rename as well
+        /// The scheme of the output file
         /// </summary>
-        private bool onRename;
+        private string outputFileScheme;
 
         /// <inheritdoc/>
         public bool OnRename
@@ -87,9 +85,9 @@ namespace XmlFormatter.src.Hotfolder
         }
 
         /// <summary>
-        /// Should we delete the old file
+        /// Should we trigger on rename as well
         /// </summary>
-        private bool removeOld;
+        private bool onRename;
 
         /// <inheritdoc/>
         public bool RemoveOld
@@ -97,6 +95,11 @@ namespace XmlFormatter.src.Hotfolder
             get => removeOld;
             set => removeOld = value;
         }
+
+        /// <summary>
+        /// Should we delete the old file
+        /// </summary>
+        private bool removeOld;
 
         /// <summary>
         /// Create a new instance of the hotfolder configuration
