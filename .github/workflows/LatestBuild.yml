@@ -52,6 +52,16 @@ jobs:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
            upload_url: ${{ steps.create_release.outputs.upload_url }}
+           asset_path: ..\Artifacts\LatestDevelopment_XmlFormatter.zip
+           asset_name: LatestDevelopment_XmlFormatter.zip
+           asset_content_type: application/zip
+       - name: Upload Json Plugin Release Asset
+         id: upload-plugin-release-asset 
+         uses: actions/upload-release-asset@v1
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         with:
+           upload_url: ${{ steps.create_release.outputs.upload_url }}
            asset_path: ..\Artifacts\LatestDevelopment_JsonPlugin.zip
            asset_name: LatestDevelopment_JsonPlugin.zip
            asset_content_type: application/zip
