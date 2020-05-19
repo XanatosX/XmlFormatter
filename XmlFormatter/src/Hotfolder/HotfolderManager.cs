@@ -173,6 +173,10 @@ namespace XmlFormatter.src.Hotfolder
             return hotfolders.Keys.ToList().Find(currentHotfolder =>
             {
                 bool isIdentical = false;
+                if (hotfolder.FormatterToUse == null)
+                {
+                    return true;
+                }
                 if (currentHotfolder.FormatterToUse.GetType() == hotfolder.FormatterToUse.GetType())
                 {
                     if (currentHotfolder.Mode == hotfolder.Mode && currentHotfolder.WatchedFolder == hotfolder.WatchedFolder)
