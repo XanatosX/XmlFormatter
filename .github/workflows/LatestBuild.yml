@@ -7,7 +7,7 @@ on:
 jobs:
    build:
      if: github.event.pull_request.merged == true
-     name: Create build artifact
+     name: Create latest build artifact
      runs-on: windows-latest
      steps:
        - name: Clone repository
