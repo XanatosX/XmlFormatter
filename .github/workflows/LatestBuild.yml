@@ -40,7 +40,7 @@ jobs:
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
-           tag_name: ${{ github.ref }}-${{ GITHUB.RUN.NUMBER }}
+           tag_name: ${{ github.ref }}-${{ GITHUB_RUN.NUMBER }}
            release_name: Latest unstable
            body: You cannot update this version from within the application!
            draft: true
