@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
    build:
-     name: Create build artifact
+     name: Check pull request
      runs-on: windows-latest
      steps:
        - name: Clone repository
