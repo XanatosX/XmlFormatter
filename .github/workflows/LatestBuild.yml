@@ -1,12 +1,12 @@
 name: Latest unstable build
 
-on: [push]
-  #pull_request:
-    #types: [closed] 
+on:
+  pull_request:
+    types: [closed] 
 
 jobs:
    build:
-     #if: github.event.pull_request.merged == true
+     if: github.event.pull_request.merged == true
      name: Create build artifact
      runs-on: windows-latest
      steps:
