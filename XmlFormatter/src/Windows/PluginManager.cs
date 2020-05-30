@@ -1,13 +1,11 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Interfaces.PluginTypes;
+﻿using PluginFramework.DataContainer;
+using PluginFramework.Interfaces.Manager;
+using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using XmlFormatter.src.Interfaces.Settings;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatterModel.Setting;
 
 namespace XmlFormatter.src.Windows
 {
@@ -127,16 +125,16 @@ namespace XmlFormatter.src.Windows
                     }
 
 
-                    if (currentPlugin.GetSettingsPage() == null)
-                    {
-                        return;
-                    }
+                    //if (currentPlugin.GetSettingsPage() == null)
+                    //{
+                        //return;
+                    //}
 
-                    AddSettingsTab();
-                    UserControl control = currentPlugin.GetSettingsPage();
-                    control.Width = currentSettingsPanel.Width;
-                    control.Height = currentSettingsPanel.Height;
-                    currentSettingsPanel.Controls.Add(control);
+                    //AddSettingsTab();
+                    //UserControl control = currentPlugin.GetSettingsPage();
+                    //control.Width = currentSettingsPanel.Width;
+                    //control.Height = currentSettingsPanel.Height;
+                    //currentSettingsPanel.Controls.Add(control);
                 }
             }
         }

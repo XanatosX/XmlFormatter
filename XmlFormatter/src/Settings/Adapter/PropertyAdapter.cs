@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Settings.DataStructure;
+using XmlFormatterModel.Setting;
 
 namespace XmlFormatter.src.Settings.Adapter
 {

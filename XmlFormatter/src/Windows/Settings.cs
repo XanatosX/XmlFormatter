@@ -1,18 +1,16 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Interfaces.PluginTypes;
+﻿using PluginFramework.DataContainer;
+using PluginFramework.Interfaces.Manager;
+using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Interfaces.Hotfolder;
-using XmlFormatter.src.Interfaces.Settings;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
 using XmlFormatter.src.Manager;
-using XmlFormatter.src.Settings.DataStructure;
-using XmlFormatter.src.Settings.Hotfolder;
+using XmlFormatterModel.Setting;
+using XmlFormatterModel.Setting.Hotfolder;
+using XMLFormatterModel.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {

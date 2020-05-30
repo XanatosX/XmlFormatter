@@ -1,14 +1,13 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Enums;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Interfaces.PluginTypes;
+﻿using PluginFramework.DataContainer;
+using PluginFramework.Enums;
+using PluginFramework.Interfaces.Manager;
+using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Hotfolder;
-using XmlFormatter.src.Interfaces.Hotfolder;
+using XMLFormatterModel.Hotfolder;
 
 namespace XmlFormatter.src.Windows
 {

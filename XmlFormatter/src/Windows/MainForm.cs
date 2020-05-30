@@ -1,9 +1,9 @@
-﻿using PluginFramework.src.DataContainer;
-using PluginFramework.src.Enums;
-using PluginFramework.src.Interfaces.Manager;
-using PluginFramework.src.Interfaces.PluginTypes;
-using PluginFramework.src.LoadStrategies;
-using PluginFramework.src.Manager;
+﻿using PluginFramework.DataContainer;
+using PluginFramework.Enums;
+using PluginFramework.Interfaces.Manager;
+using PluginFramework.Interfaces.PluginTypes;
+using PluginFramework.LoadStrategies;
+using PluginFramework.Manager;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,23 +11,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Enums;
-using XmlFormatter.src.Hotfolder;
-using XmlFormatter.src.Interfaces.Hotfolder;
-using XmlFormatter.src.Interfaces.Logging;
-using XmlFormatter.src.Interfaces.Settings;
-using XmlFormatter.src.Interfaces.Settings.DataStructure;
-using XmlFormatter.src.Interfaces.Updates;
-using XmlFormatter.src.Logging;
-using XmlFormatter.src.Logging.FormatStrategies;
-using XmlFormatter.src.Logging.Strategies;
 using XmlFormatter.src.Manager;
-using XmlFormatter.src.Settings;
 using XmlFormatter.src.Settings.Adapter;
-using XmlFormatter.src.Settings.DataStructure;
-using XmlFormatter.src.Settings.Hotfolder;
-using XmlFormatter.src.Settings.Provider.Factories;
-using XmlFormatter.src.Update;
+using XmlFormatterModel.Enums;
+using XmlFormatterModel.Hotfolder;
+using XmlFormatterModel.Logging;
+using XmlFormatterModel.Logging.Strategy;
+using XmlFormatterModel.Logging.Strategy.Format;
+using XmlFormatterModel.Setting;
+using XmlFormatterModel.Setting.Hotfolder;
+using XmlFormatterModel.Update;
+using XMLFormatterModel.Hotfolder;
+using XMLFormatterModel.Setting.InputOutput;
 
 namespace XmlFormatter.src.Windows
 {
@@ -272,7 +267,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The sender of the message</param>
         /// <param name="e">The new status</param>
-        private void FormatterToUse_StatusChanged(object sender, PluginFramework.src.EventMessages.BaseEventArgs e)
+        private void FormatterToUse_StatusChanged(object sender, PluginFramework.EventMessages.BaseEventArgs e)
         {
             UpdateLabelTextThreadSafe(L_Status, e.Message);
         }

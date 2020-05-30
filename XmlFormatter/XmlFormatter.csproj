@@ -54,41 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\DataContainer\ComboboxPluginItem.cs" />
-    <Compile Include="src\DataContainer\HotfolderTask.cs" />
-    <Compile Include="src\Interfaces\Logging\ILoggable.cs" />
-    <Compile Include="src\Interfaces\Logging\ILoggingFormatStrategy.cs" />
-    <Compile Include="src\Logging\FormatStrategies\SimpleFileFormatStrategy.cs" />
-    <Compile Include="src\Logging\Logger.cs" />
-    <Compile Include="src\DataContainer\Logging\LoggingMessage.cs" />
-    <Compile Include="src\Enums\LogScopesEnum.cs" />
-    <Compile Include="src\Hotfolder\HotfolderContainer.cs" />
-    <Compile Include="src\Hotfolder\HotfolderManager.cs" />
-    <Compile Include="src\Interfaces\Hotfolder\IHotfolder.cs" />
-    <Compile Include="src\Interfaces\Hotfolder\IHotfolderManager.cs" />
-    <Compile Include="src\Interfaces\Logging\ILogger.cs" />
-    <Compile Include="src\Interfaces\Logging\ILoggingManager.cs" />
-    <Compile Include="src\Interfaces\Logging\ILoggingStrategy.cs" />
-    <Compile Include="src\Interfaces\Settings\LoadingProvider\IPersistentFactory.cs" />
-    <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingLoadProvider.cs" />
-    <Compile Include="src\Interfaces\Settings\LoadingProvider\ISettingSaveProvider.cs" />
-    <Compile Include="src\Logging\LoggingManager.cs" />
-    <Compile Include="src\Logging\Strategies\SimpleFileLogStrategy.cs" />
-    <Compile Include="src\Interfaces\Updates\IUpdater.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />
-    <Compile Include="src\Interfaces\Settings\DataStructure\ISettingPair.cs" />
-    <Compile Include="src\Interfaces\Settings\DataStructure\ISettingScope.cs" />
-    <Compile Include="src\Settings\DataStructure\SettingPair.cs" />
-    <Compile Include="src\Settings\DataStructure\SettingScope.cs" />
-    <Compile Include="src\Interfaces\Settings\ISettingsManager.cs" />
-    <Compile Include="src\Settings\Hotfolder\HotfolderExtension.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\SerializableScope.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\SerializableSetting.cs" />
-    <Compile Include="src\Settings\Provider\DataStructure\SerializableSettingContainer.cs" />
-    <Compile Include="src\Settings\Provider\Factories\XmlProviderFactory.cs" />
-    <Compile Include="src\Settings\Provider\XmlLoaderProvider.cs" />
-    <Compile Include="src\Settings\Provider\XmlSaverProvider.cs" />
-    <Compile Include="src\Settings\SettingsManager.cs" />
-    <Compile Include="src\Update\UpdateManager.cs" />
     <Compile Include="src\Windows\HotfolderEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,15 +136,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj">
-      <Project>{9808f069-6dc1-4c26-a434-16630fc697e8}</Project>
+      <Project>{9833586d-9807-4930-8540-3cf012a1bb59}</Project>
       <Name>PluginFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMLFormatterData\XmlFormatterModel.csproj">
+      <Project>{f2245aae-dfaf-41cc-8af2-d3836b558847}</Project>
+      <Name>XmlFormatterModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(ProjectDir)\$(OutDir)\Plugins"
-copy "$(ProjectDir)\..\CorePlugin\$(OutDir)\CorePlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
-copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\JsonPlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
-copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\Newtonsoft.Json.dll" "$(ProjectDir)\$(OutDir)\Plugins"</PostBuildEvent>
+copy "$(ProjectDir)\..\CorePlugin\$(OutDir)\netstandard2.0\CorePlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\netstandard2.0\JsonPlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
+copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\netstandard2.0\Newtonsoft.Json.dll" "$(ProjectDir)\$(OutDir)\Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

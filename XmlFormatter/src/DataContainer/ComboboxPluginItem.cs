@@ -1,4 +1,4 @@
-﻿using PluginFramework.src.DataContainer;
+﻿using PluginFramework.DataContainer;
 using System;
 
 namespace XmlFormatter.src.DataContainer
