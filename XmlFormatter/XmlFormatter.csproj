@@ -139,7 +139,7 @@
       <Project>{9833586d-9807-4930-8540-3cf012a1bb59}</Project>
       <Name>PluginFramework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XMLFormatterData\XmlFormatterModel.csproj">
+    <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj">
       <Project>{f2245aae-dfaf-41cc-8af2-d3836b558847}</Project>
       <Name>XmlFormatterModel</Name>
     </ProjectReference>

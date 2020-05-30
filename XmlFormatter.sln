@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatter", "XmlFormatte
 		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D} = {CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatterModel", "XMLFormatterData\XmlFormatterModel.csproj", "{F2245AAE-DFAF-41CC-8AF2-D3836B558847}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatterModel", "XMLFormatterModel\XmlFormatterModel.csproj", "{F2245AAE-DFAF-41CC-8AF2-D3836B558847}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}"
 EndProject
