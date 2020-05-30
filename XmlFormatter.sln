@@ -9,15 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatter", "XmlFormatte
 		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D} = {CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatterModel", "XMLFormatterModel\XmlFormatterModel.csproj", "{F2245AAE-DFAF-41CC-8AF2-D3836B558847}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlFormatterModel", "XMLFormatterModel\XmlFormatterModel.csproj", "{F2245AAE-DFAF-41CC-8AF2-D3836B558847}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorePlugin", "CorePlugin\CorePlugin.csproj", "{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorePlugin", "CorePlugin\CorePlugin.csproj", "{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{9833586D-9807-4930-8540-3CF012A1BB59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{9833586D-9807-4930-8540-3CF012A1BB59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatterOsIndependent", "XmlFormatterOsIndependent\XmlFormatterOsIndependent.csproj", "{5CA56FD7-15B8-4BAF-9264-0562ABB23754}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlFormatterOsIndependent", "XmlFormatterOsIndependent\XmlFormatterOsIndependent.csproj", "{5CA56FD7-15B8-4BAF-9264-0562ABB23754}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258} = {4FC9F80F-73AB-4647-8A7D-0F6284CD9258}
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D} = {CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

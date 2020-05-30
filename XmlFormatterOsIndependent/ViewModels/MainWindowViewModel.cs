@@ -1,9 +1,13 @@
 ﻿using Avalonia.Controls;
+using PluginFramework.DataContainer;
+using PluginFramework.Interfaces.Manager;
+using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Text;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
+using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -12,16 +16,22 @@ namespace XmlFormatterOsIndependent.ViewModels
         public string TextBoxText => textBoxText.ToString();
         private StringBuilder textBoxText;
 
+        public FormatterListModel PluginList { get; }
+
         public string CurrentFile
         {
             get => currentFilePath;
             set => this.RaiseAndSetIfChanged(ref currentFilePath, value);
         }
+        public IPluginManager PluginManager { get; }
+
         private string currentFilePath;
         private readonly ViewContainer view;
 
-        public MainWindowViewModel(ViewContainer view)
+        public MainWindowViewModel(ViewContainer view, IPluginManager pluginManager)
         {
+            PluginManager = pluginManager;
+            PluginList = new FormatterListModel(PluginManager.ListPlugins<IFormatter>());
             textBoxText = new StringBuilder();
             textBoxText.AppendFormat("Select {0}-file path", "empty");
 
