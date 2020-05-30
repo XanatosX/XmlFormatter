@@ -8,6 +8,11 @@ namespace XmlFormatterOsIndependent.Models
 {
     public class FormatterListModel : ViewModelBase
     {
+        public FormatterListModel()
+        {
+
+        }
+
         public FormatterListModel(IEnumerable<PluginMetaData> items)
         {
             Items = new ObservableCollection<PluginMetaData>(items);

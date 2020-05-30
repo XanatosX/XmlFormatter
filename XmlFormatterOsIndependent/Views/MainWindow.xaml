@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="XmlFormatterOsIndependent.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="XmlFormatterOsIndependent"
-        Height="120"
-        Width="820">
+        Icon="/Assets/XmlFormatterIcon.ico"
+        Title="File Formatter"
 
+        MinHeight="120"
+        Height="120"
+        MaxHeight="120"
+        MinWidth="820"
+        Width="820"
+        MaxWidth="820">
+  
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
@@ -17,24 +22,40 @@
   <StackPanel Spacing="5">
     <DockPanel>
       <Menu DockPanel.Dock="Top">
-        <MenuItem Header="_File">File</MenuItem>
-        <MenuItem>Help</MenuItem>
+        <MenuItem Header="_File">
+          <MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>
+          <MenuItem IsEnabled="False" Header="Settings"></MenuItem>
+          <Separator></Separator>
+          <MenuItem Command="{Binding ExitApplication}" Header="_Exit"></MenuItem>
+        </MenuItem>
+        <MenuItem Header="_Help">
+          <MenuItem IsEnabled="False" Header="Check for update"></MenuItem>
+          <MenuItem IsEnabled="False" Header="Plugins"></MenuItem>
+          <Separator></Separator>
+          <MenuItem IsEnabled="True" Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
+        </MenuItem>
+        <MenuItem Command="{Binding ReportIssue}" Header="_Report Issue"></MenuItem>
       </Menu>
     </DockPanel>
-    <TextBlock Text="{Binding TextBoxText}"></TextBlock>
-    <TextBox Text="{Binding CurrentFile}"></TextBox>
+    <TextBlock Text="{Binding TextBoxText}" Margin="5,0,0,0"></TextBlock>
+    <TextBox Text="{Binding CurrentFile}" Margin="5,0,0,0"></TextBox>
     <Grid ColumnDefinitions="*, 5*, *, *, *">
       <Button Grid.Column="0" Margin="5,0,5,0" Command="{Binding LoadFileCommand}">Load</Button>
-      <TextBlock Grid.Column="1" Margin="5,0,5,0" VerticalAlignment="Center">Status</TextBlock>
-      <DropDown Grid.Column="2" Margin="5,0,0,0"></DropDown>
-      <DropDown Grid.Column="3" Margin="5,0,0,0">
-        <DropDownItem IsSelected="True">Formatted</DropDownItem>
+      <TextBlock Grid.Column="1" Margin="5,0,5,0" VerticalAlignment="Center" Text="{Binding StatusString}"></TextBlock>
+      <ComboBox  x:Name="FormatterSelection" Grid.Column="2" Margin="5,0,0,0" Items="{Binding List}" IsVisible="{Binding FormatterSelectorVisible}" SelectedItem="{Binding CurrentPlugin}" SelectedIndex="{Binding CurrentFormatter}">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding Information.Name}"></TextBlock>
+          </DataTemplate>
+      </ComboBox.ItemTemplate>
+      </ComboBox>
+      <DropDown Grid.Column="3" Margin="5,0,0,0" SelectedIndex="{Binding CurrentMode}">
+        <DropDownItem>Formatted</DropDownItem>
         <DropDownItem>Flat</DropDownItem>
       </DropDown>
-      <Button Grid.Column="4" Margin="5,0,5,0">Save</Button>
+      <Button Grid.Column="4" Margin="5,0,5,0" IsEnabled="{Binding SaveEnabled}" Command="{Binding SaveFileCommand}">Save</Button>
     </Grid>
   </StackPanel>
-
 
 
 </Window>
