@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorePlugin", "CorePlugin\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{9833586D-9807-4930-8540-3CF012A1BB59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatterOsIndependent", "XmlFormatterOsIndependent\XmlFormatterOsIndependent.csproj", "{5CA56FD7-15B8-4BAF-9264-0562ABB23754}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{9833586D-9807-4930-8540-3CF012A1BB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9833586D-9807-4930-8540-3CF012A1BB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9833586D-9807-4930-8540-3CF012A1BB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
