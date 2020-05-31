@@ -26,6 +26,7 @@ namespace XmlFormatterOsIndependent.Commands
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filters = data.Filters;
+                saveFileDialog.InitialFileName = data.DefaultFileName;
                 this.data = await saveFileDialog.ShowAsync(data.View);
                 ExecutionDone();
             }

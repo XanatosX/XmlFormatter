@@ -19,5 +19,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
+    <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Views\SettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 </Project>

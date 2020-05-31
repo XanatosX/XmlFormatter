@@ -1,38 +1,42 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Octokit;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
-using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using XmlFormatterModel.Setting;
+using XMLFormatterModel.Setting.InputOutput;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class MainWindow : Window
+    public class SettingsWindow : Window
     {
-        public MainWindow()
+        private Window parent;
+
+        public SettingsWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 #if DEBUG
             this.AttachDevTools();
 #endif
+        }
 
-
+        public void SetParent(Window parent)
+        {
+            this.parent = parent;
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
             DefaultManagerFactory managerFactory = new DefaultManagerFactory();
-
-            DataContext = new MainWindowViewModel(new ViewContainer(this, this), managerFactory.GetPluginManager(), managerFactory.GetSettingsManager());
+            DataContext = new SettingsWindowViewModel(new ViewContainer(this, parent), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
         }
     }
 }

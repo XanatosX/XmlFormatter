@@ -1,14 +1,11 @@
 ﻿using Avalonia.Controls;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
-    public class OpenFileCommand : BaseDataCommand
+    internal class OpenFileCommand : BaseDataCommand
     {
         private string[] data;
 

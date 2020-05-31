@@ -5,8 +5,12 @@ using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reactive;
+using System.Windows.Input;
+using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Helper;
@@ -67,13 +71,22 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
         private bool formatterSelectorVisible;
 
-        public ReactiveCommand<Unit, PluginMetaData> Save;
         private readonly IPluginManager pluginManager;
+        private readonly ISettingsManager settingsManager;
+        private readonly string settingsPath;
         private readonly ViewContainer view;
 
-        public MainWindowViewModel(ViewContainer view, IPluginManager pluginManager)
+        public MainWindowViewModel(ViewContainer view, IPluginManager pluginManager, ISettingsManager settingsManager)
         {
             this.pluginManager = pluginManager;
+            this.settingsManager = settingsManager;
+            settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            settingsPath += System.IO.Path.DirectorySeparatorChar + "XmlFormatter";
+            settingsPath += System.IO.Path.DirectorySeparatorChar + "settings.set";
+            if (!File.Exists(settingsPath))
+            {
+                settingsManager.Save(settingsPath);
+            }
             this.view = view;
 
             TextBoxText = "Selected file path";
@@ -121,12 +134,19 @@ namespace XmlFormatterOsIndependent.ViewModels
         public void SaveFileCommand()
         {
             IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
-            if (formatter == null)
+            if (formatter == null || !File.Exists(CurrentFile))
             {
+                StatusString = "Status: Something is wrong with the input file";
+                SaveEnabled = false;
                 return;
             }
             IDataCommand saveCommand = new SaveFileCommand();
-            FileDialogData data = new FileDialogData(view.GetWindow(), GetCurrentFilter());
+            FileInfo fileInfo = new FileInfo(CurrentFile);
+            string fileName = fileInfo.Name;
+            fileName = fileName.Replace(fileInfo.Extension, "");
+            fileName += "_" + GetConvertionMode().ToString();
+            fileName += fileInfo.Extension;
+            FileDialogData data = new FileDialogData(view.GetWindow(), GetCurrentFilter(), fileName);
             if (saveCommand.CanExecute(data))
             {
                 saveCommand.AsyncExecute(data);
@@ -134,12 +154,36 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
         }
 
+        public void SearchForUpdate()
+        {
+
+        }
+
         public void OpenAboutCommand()
         {
             IDataCommand command = new OpenAboutCommand();
-            if (command.CanExecute(view.GetWindow()))
+            ExecuteAsyncCommand(command, view);
+        }
+
+        public void OpenSettingsCommand()
+        {
+            IDataCommand command = new OpenSettingsCommand();
+            ExecuteAsyncCommand(command, view);
+        }
+
+        private void ExecuteCommand(ICommand command, object parameter)
+        {
+            if (command.CanExecute(parameter))
             {
-                command.AsyncExecute(view.GetWindow());
+                command.Execute(parameter);
+            }
+        }
+
+        private void ExecuteAsyncCommand(IDataCommand command, object parameter)
+        {
+            if (command.CanExecute(parameter))
+            {
+                command.AsyncExecute(parameter);
             }
         }
 
@@ -153,12 +197,15 @@ namespace XmlFormatterOsIndependent.ViewModels
                 }
 
                 IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
-                ModesEnum mode = currentMode == 0 ? ModesEnum.Formatted : ModesEnum.Flat;
 
                 formatter.StatusChanged += Formatter_StatusChanged;
-                formatter.ConvertToFormat(CurrentFile, command.GetData<string>(), mode);
+                formatter.ConvertToFormat(CurrentFile, command.GetData<string>(), GetConvertionMode());
             }
+        }
 
+        private ModesEnum GetConvertionMode()
+        {
+            return currentMode == 0 ? ModesEnum.Formatted : ModesEnum.Flat; ;
         }
 
         private void Formatter_StatusChanged(object sender, PluginFramework.EventMessages.BaseEventArgs e)
@@ -183,7 +230,8 @@ namespace XmlFormatterOsIndependent.ViewModels
 
         public void ExitApplication()
         {
-            view.GetWindow().Close();
+            ICommand command = new CloseWindowCommand();
+            ExecuteCommand(command, new CloseWindowData(view.GetWindow()));
         }
     }
 }

@@ -21,7 +21,8 @@ namespace XmlFormatterOsIndependent.DataSets
         {
             return current;
         }
-        Window GetParent()
+
+        public Window GetParent()
         {
             return parent;
         }

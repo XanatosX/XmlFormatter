@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using Avalonia.Controls;
+using System.Threading.Tasks;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.Commands
 {
-    internal class OpenAboutCommand : BaseDataCommand
+    internal class OpenSettingsCommand : BaseDataCommand
     {
         public async override Task AsyncExecute(object parameter)
         {
@@ -24,8 +25,9 @@ namespace XmlFormatterOsIndependent.Commands
         {
             if (parameter is ViewContainer data)
             {
-                AboutWindow aboutWindow = new AboutWindow();
-                aboutWindow.ShowDialog(data.GetWindow());
+                SettingsWindow settingsWindow = new SettingsWindow();
+                settingsWindow.SetParent(data.GetParent());
+                settingsWindow.ShowDialog(data.GetWindow());
             }
 
         }
