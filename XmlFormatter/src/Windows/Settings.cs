@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Manager;
+using XmlFormatter.src.Update;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Setting.Hotfolder;
+using XmlFormatterModel.Update;
 using XMLFormatterModel.Hotfolder;
 
 namespace XmlFormatter.src.Windows
@@ -266,37 +268,42 @@ namespace XmlFormatter.src.Windows
             }
 
             string storedVersion = scope.GetSetting("ApplicationVersion").GetValue<string>();
-            VersionManager versionManager = new VersionManager();
+            IVersionManagerFactory factory = new VersionManagerFactory();
+            IVersionManager versionManager = factory.GetVersionManager();
 
             string lowestVersion = Properties.Settings.Default.LowestSupportedVersion;
 
-            Version settingVersion = versionManager.ConvertInnerFormatToProperVersion(storedVersion);
-            Version lowVersion = versionManager.ConvertInnerFormatToProperVersion(lowestVersion);
-            Version highVersion = versionManager.GetApplicationVersion();
-            if (highVersion < lowVersion)
+            Version settingVersion = versionManager.ConvertStringToVersion(storedVersion);
+            Version lowVersion = versionManager.ConvertStringToVersion(lowestVersion);
+            TaskAwaiter<Version> awaiter = versionManager.GetLocalVersion().GetAwaiter();
+            awaiter.OnCompleted(() => 
             {
-                highVersion = lowVersion;
-            }
+                Version highVersion = awaiter.GetResult();
+                if (highVersion < lowVersion)
+                {
+                    highVersion = lowVersion;
+                }
 
-            if (settingVersion < lowVersion || settingVersion > highVersion)
-            {
-                string message = "Import failed because setting file is not supported in this version";
-                message += "\r\n\r\nLowest supported version: " + lowVersion;
-                message += "\r\nApplication version: " + highVersion;
-                message += "\r\nSetting version: " + settingVersion;
-                MessageBox.Show(
-                    message,
-                    "Not supported import",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                 );
+                if (settingVersion < lowVersion || settingVersion > highVersion)
+                {
+                    string message = "Import failed because setting file is not supported in this version";
+                    message += "\r\n\r\nLowest supported version: " + lowVersion;
+                    message += "\r\nApplication version: " + highVersion;
+                    message += "\r\nSetting version: " + settingVersion;
+                    MessageBox.Show(
+                        message,
+                        "Not supported import",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                     );
 
-                settingManager.Load(settingFile);
-                return;
-            }
+                    settingManager.Load(settingFile);
+                    return;
+                }
 
-            settingManager.Save(settingFile);
-            SetupControls();
+                settingManager.Save(settingFile);
+                SetupControls();
+            });
         }
 
         /// <summary>

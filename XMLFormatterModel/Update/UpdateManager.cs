@@ -1,5 +1,7 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.PluginTypes;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace XmlFormatterModel.Update
 {
@@ -18,10 +20,37 @@ namespace XmlFormatterModel.Update
         /// </summary>
         public bool IsStrategySet => strategy != null;
 
+        /// <summary>
+        /// The version manager to use
+        /// </summary>
+        private IVersionManager versionManager;
+
+        /// <inheritdoc/>
+        public bool IsVersionManagerSet => versionManager != null;
+
         /// <inheritdoc/>
         public void SetStrategy(IUpdateStrategy updateStrategy)
         {
             strategy = updateStrategy;
+        }
+
+        /// <inheritdoc/>
+        public void SetVersionManager(IVersionManager manager)
+        {
+            versionManager = manager;
+        }
+
+        /// <inheritdoc/>
+        public bool UpdateApplication()
+        {
+            Task<VersionCompare> compare = versionManager.RemoteVersionIsNewer();
+            TaskAwaiter <VersionCompare>  awaiter = compare.GetAwaiter();
+            bool returnValue = false;
+            awaiter.OnCompleted(() =>
+            {
+                returnValue = UpdateApplication(awaiter.GetResult());
+            });
+            return returnValue;
         }
 
         /// <inheritdoc/>
@@ -34,5 +63,7 @@ namespace XmlFormatterModel.Update
 
             return strategy.Update(versionInformation);
         }
+
+
     }
 }

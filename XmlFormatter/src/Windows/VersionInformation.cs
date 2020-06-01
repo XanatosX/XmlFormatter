@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using XmlFormatter.src.Manager;
+using XmlFormatter.src.Update;
+using XmlFormatterModel.Update;
 
 namespace XmlFormatter.src.Windows
 {
@@ -34,11 +36,17 @@ namespace XmlFormatter.src.Windows
         /// <param name="e">Event arguments</param>
         private void VersionInformation_Load(object sender, EventArgs e)
         {
-            VersionManager manager = new VersionManager();
-            Version version = manager.GetApplicationVersion();
-            L_VersionNumber.Text = manager.GetStringVersion(version);
+            VersionManagerFactory factory = new VersionManagerFactory();
+            IVersionManager manager = factory.GetVersionManager();
+            TaskAwaiter<Version> awaiter = manager.GetLocalVersion().GetAwaiter();
+            awaiter.OnCompleted(() =>
+            {
+                Version version = awaiter.GetResult();
+                L_VersionNumber.Text = manager.GetStringVersion(version);
 
-            LV_ThirdPartyLibraries.Columns[0].Width = LV_ThirdPartyLibraries.Width - 4;
+                LV_ThirdPartyLibraries.Columns[0].Width = LV_ThirdPartyLibraries.Width - 4;
+            });
+
         }
 
         /// <summary>

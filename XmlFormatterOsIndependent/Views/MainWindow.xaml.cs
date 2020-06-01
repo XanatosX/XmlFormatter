@@ -32,7 +32,7 @@ namespace XmlFormatterOsIndependent.Views
             AvaloniaXamlLoader.Load(this);
             DefaultManagerFactory managerFactory = new DefaultManagerFactory();
 
-            DataContext = new MainWindowViewModel(new ViewContainer(this, this), managerFactory.GetPluginManager(), managerFactory.GetSettingsManager());
+            DataContext = new MainWindowViewModel(new ViewContainer(this, this), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace XmlFormatterOsIndependent.Helper
 {
-    internal class UrlOpener
+    public class UrlOpener
     {
         private readonly string url;
 

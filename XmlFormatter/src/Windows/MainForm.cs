@@ -1,5 +1,6 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Enums;
+using PluginFramework.EventMessages;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using PluginFramework.LoadStrategies;
@@ -8,11 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using XmlFormatter.src.DataContainer;
-using XmlFormatter.src.Manager;
 using XmlFormatter.src.Settings.Adapter;
+using XmlFormatter.src.Update;
 using XmlFormatterModel.Enums;
 using XmlFormatterModel.Hotfolder;
 using XmlFormatterModel.Logging;
@@ -93,9 +95,17 @@ namespace XmlFormatter.src.Windows
         {
             InitializeComponent();
             defaultStatus = "Status: ";
-            VersionManager versionManager = new VersionManager();
-            string currentVersion = versionManager.GetStringVersion(versionManager.GetApplicationVersion());
-            Properties.Settings.Default.ApplicationVersion = currentVersion;
+            IVersionManagerFactory factory = new VersionManagerFactory();
+            IVersionManager versionManager = factory.GetVersionManager();
+            TaskAwaiter<Version> currentVersion = versionManager.GetLocalVersion().GetAwaiter();
+            currentVersion.OnCompleted(() =>
+            {
+                string stringVersion = versionManager.GetStringVersion(currentVersion.GetResult());
+                Properties.Settings.Default.ApplicationVersion = stringVersion;
+                settingManager.Load(settingFile);
+                settingManager.Save(settingFile);
+            });
+            
             NI_Notification.Text = this.Text;
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";
@@ -452,9 +462,10 @@ namespace XmlFormatter.src.Windows
         /// <param name="onlyShowNewBox">If this is active there will be no text box if the version is up to date</param>
         private async void CheckForUpdatedVersion(bool onlyShowNewBox)
         {
-            VersionManager manager = new VersionManager();
+            IVersionManagerFactory factory = new VersionManagerFactory();
+            IVersionManager manager = factory.GetVersionManager();
             manager.Error += Manager_Error;
-            VersionCompare versionCompare = await manager.GitHubVersionIsNewer();
+            VersionCompare versionCompare = await manager.RemoteVersionIsNewer();
 
             bool forceShow = false;
 
@@ -493,7 +504,7 @@ namespace XmlFormatter.src.Windows
         /// </summary>
         /// <param name="sender">The sender of the event</param>
         /// <param name="e">The arguments provided by the sender</param>
-        private void Manager_Error(object sender, src.EventMessages.BaseEventArgs e)
+        private void Manager_Error(object sender, BaseEventArgs e)
         {
             MessageBox.Show(e.Message, e.Title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

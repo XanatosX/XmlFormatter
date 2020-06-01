@@ -1,7 +1,7 @@
-﻿using Octokit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using XmlFormatterModel.Update;
 
 namespace PluginFramework.DataContainer
 {
@@ -44,22 +44,22 @@ namespace PluginFramework.DataContainer
         /// <summary>
         /// The newest release which can be found on GitHub
         /// </summary>
-        private readonly Release lastestRelease;
+        private readonly IRelease lastestRelease;
 
         /// <summary>
         /// Readonly access to the newest release on GitHub
         /// </summary>
-        public Release LatestRelease => lastestRelease;
+        public IRelease LatestRelease => lastestRelease;
 
         /// <summary>
         /// A readonly list of all the assets in the release build
         /// </summary>
-        private readonly List<ReleaseAsset> assets;
+        private readonly List<IReleaseAsset> assets;
 
         /// <summary>
         /// Public access to the assets in the release build
         /// </summary>
-        public List<ReleaseAsset> Assets => assets;
+        public List<IReleaseAsset> Assets => assets;
 
         /// <summary>
         /// Create an new instance of this class
@@ -68,7 +68,7 @@ namespace PluginFramework.DataContainer
         /// <param name="localVersion">The local version number</param>
         /// <param name="gitHubVersion">The GitHub version number</param>
         /// <param name="latestRelease">The latest release</param>
-        public VersionCompare(bool gitHubIsNewer, Version localVersion, Version gitHubVersion, Release latestRelease)
+        public VersionCompare(bool gitHubIsNewer, Version localVersion, Version gitHubVersion, IRelease latestRelease)
         {
             this.gitHubIsNewer = gitHubIsNewer;
             clientVersion = localVersion;

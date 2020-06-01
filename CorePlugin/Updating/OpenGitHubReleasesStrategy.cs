@@ -2,6 +2,7 @@
 using PluginFramework.Update;
 using System;
 using System.Diagnostics;
+using XmlFormatterOsIndependent.Helper;
 
 namespace CorePlugin.Updating
 {
@@ -20,7 +21,8 @@ namespace CorePlugin.Updating
         /// <inheritdoc/>
         public override bool Update(VersionCompare versionInformation)
         {
-            Process.Start("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionInformation.LatestRelease.TagName);
+            UrlOpener opener = new UrlOpener("https://github.com/XanatosX/XmlFormatter/releases/tag/" + versionInformation.LatestRelease.TagName);
+            opener.OpenUrl();
             return true;
         }
     }

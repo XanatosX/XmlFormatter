@@ -71,18 +71,13 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
         private bool formatterSelectorVisible;
 
-        private readonly IPluginManager pluginManager;
-        private readonly ISettingsManager settingsManager;
-        private readonly string settingsPath;
+
         private readonly ViewContainer view;
 
-        public MainWindowViewModel(ViewContainer view, IPluginManager pluginManager, ISettingsManager settingsManager)
+        public MainWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
+            : base(settingsManager, pluginManager)
         {
-            this.pluginManager = pluginManager;
-            this.settingsManager = settingsManager;
-            settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            settingsPath += System.IO.Path.DirectorySeparatorChar + "XmlFormatter";
-            settingsPath += System.IO.Path.DirectorySeparatorChar + "settings.set";
+
             if (!File.Exists(settingsPath))
             {
                 settingsManager.Save(settingsPath);
@@ -171,21 +166,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             ExecuteAsyncCommand(command, view);
         }
 
-        private void ExecuteCommand(ICommand command, object parameter)
-        {
-            if (command.CanExecute(parameter))
-            {
-                command.Execute(parameter);
-            }
-        }
 
-        private void ExecuteAsyncCommand(IDataCommand command, object parameter)
-        {
-            if (command.CanExecute(parameter))
-            {
-                command.AsyncExecute(parameter);
-            }
-        }
 
         private void SaveCommand_Executed(object sender, System.EventArgs e)
         {

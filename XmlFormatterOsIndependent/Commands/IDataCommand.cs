@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace XmlFormatterOsIndependent.Commands
 {
-    interface IDataCommand : ICommand
+    public interface IDataCommand : ICommand
     {
         event EventHandler Executed;
 

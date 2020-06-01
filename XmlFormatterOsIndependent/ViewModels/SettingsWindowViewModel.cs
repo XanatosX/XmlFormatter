@@ -1,15 +1,10 @@
-﻿using Avalonia.Controls.Shapes;
-using PluginFramework.DataContainer;
+﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
-using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 
@@ -46,23 +41,16 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
         private int updaterIndex;
         private readonly ViewContainer view;
-        private readonly ISettingsManager settingsManager;
-        private readonly IPluginManager pluginManager;
         private readonly ISettingScope applicationScope;
-        private readonly string settingsPath;
 
         public SettingsWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
+            : base(settingsManager, pluginManager)
         {
             this.view = view;
-            this.settingsManager = settingsManager;
-            this.pluginManager = pluginManager;
             if (this.settingsManager == null || this.pluginManager == null)
             {
                 return;
             }
-            settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            settingsPath += System.IO.Path.DirectorySeparatorChar + "XmlFormatter";
-            settingsPath += System.IO.Path.DirectorySeparatorChar + "settings.set";
             this.settingsManager.Load(settingsPath);
             applicationScope = this.settingsManager.GetScope("Default");
             List = pluginManager.ListPlugins<IUpdateStrategy>();
@@ -128,14 +116,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             applicationScope.AddSetting(updater);
             settingsManager.Save(settingsPath);
             CloseWindow();
-        }
-
-        private void ExecuteCommand(ICommand command, object parameter)
-        {
-            if (command.CanExecute(parameter))
-            {
-                command.Execute(parameter);
-            }
         }
     }
 }

@@ -54,7 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\DataContainer\ComboboxPluginItem.cs" />
+    <Compile Include="src\Update\VersionManagerFactory.cs" />
     <Compile Include="src\Settings\Adapter\PropertyAdapter.cs" />
+    <Compile Include="src\Update\LocalVersionReciever.cs" />
     <Compile Include="src\Windows\HotfolderEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,7 +72,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\EventMessages\BaseEventArgs.cs" />
-    <Compile Include="src\Manager\VersionManager.cs" />
     <Compile Include="src\Windows\PluginManager.cs">
       <SubType>Form</SubType>
     </Compile>
