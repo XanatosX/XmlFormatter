@@ -1,7 +1,9 @@
-﻿using System;
+﻿using PluginFramework.Interfaces.PluginTypes;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
@@ -14,12 +16,15 @@ namespace XmlFormatterOsIndependent.Commands
 
         public override bool CanExecute(object parameter)
         {
-            throw new NotImplementedException();
+            return parameter is IUpdateStrategy;
         }
 
         public override void Execute(object parameter)
         {
-            throw new NotImplementedException();
+            if (parameter is IUpdateStrategy strategy)
+            {
+                strategy.Update(null);
+            }
         }
 
         public override T GetData<T>()

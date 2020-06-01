@@ -204,6 +204,13 @@ namespace XmlFormatterOsIndependent.ViewModels
                 awaiter.OnCompleted(() =>
                 {
                     ButtonResult buttonResult = awaiter.GetResult();
+                    if (buttonResult == ButtonResult.Yes)
+                    {
+                        IDataCommand updateStrategyCommand = new GetUpdateStrategyCommand();
+                        ExecuteCommand(updateStrategyCommand, new PluginManagmentData(pluginManager, settingsManager));
+                        ICommand command = new UpdateApplicationCommand();
+                        ExecuteCommand(command, updateStrategyCommand.GetData<IUpdateStrategy>());
+                    }
 
                 });
             }
