@@ -1,13 +1,16 @@
-﻿using XmlFormatterModel.Update;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
 
-namespace XmlFormatter.src.Update
+namespace XmlFormatterOsIndependent.Update
 {
-    internal class VersionManagerFactory : IVersionManagerFactory
+    class UpdateManagerFactory : IVersionManagerFactory
     {
         private IVersionManager manager;
 
-        public VersionManagerFactory()
+        public UpdateManagerFactory()
         {
             manager = null;
         }
@@ -18,7 +21,7 @@ namespace XmlFormatter.src.Update
             {
                 manager = new VersionManager(
                 new DefaultStringConvertStrategy(),
-                new LocalVersionReciever(),
+                new LocalVersionRecieverStrategy(),
                 new GitHubVersionRecieverStrategy());
             }
             return manager;

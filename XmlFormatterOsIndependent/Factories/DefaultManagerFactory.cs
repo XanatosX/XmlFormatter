@@ -1,16 +1,25 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using XmlFormatterModel.Setting;
+using XmlFormatterModel.Update;
 using XMLFormatterModel.Setting.InputOutput;
+using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.Factories
 {
     internal class DefaultManagerFactory
     {
+        private readonly IVersionManagerFactory versionManagerFactory;
+
+        public DefaultManagerFactory()
+        {
+            versionManagerFactory = new UpdateManagerFactory();
+        }
         public IPluginManager GetPluginManager()
         {
             IPluginManager manager = new DefaultManager();
@@ -30,6 +39,11 @@ namespace XmlFormatterOsIndependent.Factories
             ISettingsManager manager = new SettingsManager();
             manager.SetPersistendFactory(new XmlProviderFactory());
             return manager;
+        }
+
+        public IVersionManager GetVersionManager()
+        {
+            return versionManagerFactory.GetVersionManager();
         }
     }
 }

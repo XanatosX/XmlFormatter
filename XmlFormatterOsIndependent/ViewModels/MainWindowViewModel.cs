@@ -151,7 +151,22 @@ namespace XmlFormatterOsIndependent.ViewModels
 
         public void SearchForUpdate()
         {
+            IDataCommand command = new CheckForUpdateCommand();
+            command.Executed += UpdateExecuted_Executed;
+            ExecuteAsyncCommand(command, null);
 
+        }
+
+        private void UpdateExecuted_Executed(object sender, EventArgs e)
+        {
+            if (sender is CheckForUpdateCommand updateCommand)
+            {
+                VersionCompare versionInfo = updateCommand.GetData<VersionCompare>();
+                if (versionInfo.GitHubIsNewer)
+                {
+
+                }
+            }
         }
 
         public void OpenAboutCommand()
@@ -165,8 +180,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             IDataCommand command = new OpenSettingsCommand();
             ExecuteAsyncCommand(command, view);
         }
-
-
 
         private void SaveCommand_Executed(object sender, System.EventArgs e)
         {

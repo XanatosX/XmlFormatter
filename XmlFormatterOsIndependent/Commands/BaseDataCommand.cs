@@ -11,12 +11,12 @@ namespace XmlFormatterOsIndependent.Commands
         public event EventHandler CanExecuteChanged;
         public event EventHandler Executed;
 
-        public void CanExecute()
+        public virtual void CanExecute()
         {
             CanExecute(null);
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
             Execute(null);
         }
