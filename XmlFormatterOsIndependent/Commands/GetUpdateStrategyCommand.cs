@@ -57,7 +57,6 @@ namespace XmlFormatterOsIndependent.Commands
                 }
 
                 strategy = data.PluginManager.LoadPlugin<IUpdateStrategy>(metaData);
-
             }
         }
 
