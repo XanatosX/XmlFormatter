@@ -16,14 +16,14 @@ namespace XmlFormatterOsIndependent.Commands
 
         public override bool CanExecute(object parameter)
         {
-            return parameter is IUpdateStrategy;
+            return parameter is UpdateApplicationData;
         }
 
         public override void Execute(object parameter)
         {
-            if (parameter is IUpdateStrategy strategy)
+            if (parameter is UpdateApplicationData data)
             {
-                strategy.Update(null);
+                data.Strategy.Update(data.VersionCompare);
             }
         }
 

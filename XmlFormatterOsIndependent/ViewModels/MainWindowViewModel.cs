@@ -209,7 +209,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                         IDataCommand updateStrategyCommand = new GetUpdateStrategyCommand();
                         ExecuteCommand(updateStrategyCommand, new PluginManagmentData(pluginManager, settingsManager));
                         ICommand command = new UpdateApplicationCommand();
-                        ExecuteCommand(command, updateStrategyCommand.GetData<IUpdateStrategy>());
+                        ExecuteCommand(command, new UpdateApplicationData(updateStrategyCommand.GetData<IUpdateStrategy>(), versionInfo));
                     }
 
                 });
