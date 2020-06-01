@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace XmlFormatterOsIndependent.Enums
+﻿namespace XmlFormatterOsIndependent.Enums
 {
     internal enum ThemeEnum
     {
-        Dark,
-        Light
+        Light,
+        Dark
     }
 }

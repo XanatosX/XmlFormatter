@@ -1,5 +1,9 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using MessageBox.Avalonia;
+using MessageBox.Avalonia.BaseWindows;
+using MessageBox.Avalonia.DTO;
+using MessageBox.Avalonia.Enums;
 using PluginFramework.DataContainer;
 using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
@@ -9,10 +13,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
+using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Helper;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -71,18 +78,14 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
         private bool formatterSelectorVisible;
 
-
-        private readonly ViewContainer view;
-
         public MainWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
-            : base(settingsManager, pluginManager)
+            : base(view, settingsManager, pluginManager)
         {
 
             if (!File.Exists(settingsPath))
             {
                 settingsManager.Save(settingsPath);
             }
-            this.view = view;
 
             TextBoxText = "Selected file path";
             statusString = "Status: ";
@@ -161,11 +164,48 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             if (sender is CheckForUpdateCommand updateCommand)
             {
+                IDataCommand themeCommand = new GetThemeCommand();
+                ExecuteCommand(themeCommand, settingsManager);
+
                 VersionCompare versionInfo = updateCommand.GetData<VersionCompare>();
+                string title = "Version is up to date";
+                string content = "You version is up to date";
+
+                MessageBoxStandardParams parameter = new MessageBoxStandardParams()
+                {
+                    Icon = Icon.Info
+                };
+
+                if (themeCommand.IsExecuted() && themeCommand.GetData<ThemeEnum>() == ThemeEnum.Dark)
+                {
+                    parameter.Style = Style.DarkMode;
+                }
+
+                ButtonEnum buttons = ButtonEnum.Ok;
                 if (versionInfo.GitHubIsNewer)
                 {
-
+                    title = "Update Available";
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendFormat(
+                        "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
+                        Environment.NewLine,
+                        versionInfo.LocalVersion,
+                        versionInfo.GitHubVersion
+                        );
+                    content = stringBuilder.ToString();
+                    buttons = ButtonEnum.YesNo;
                 }
+                parameter.ContentTitle = title;
+                parameter.ContentMessage = content;
+                parameter.ButtonDefinitions = buttons;
+
+                IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
+                TaskAwaiter<ButtonResult> awaiter = window.ShowDialog(view.GetWindow()).GetAwaiter();
+                awaiter.OnCompleted(() =>
+                {
+                    ButtonResult buttonResult = awaiter.GetResult();
+
+                });
             }
         }
 
@@ -178,7 +218,13 @@ namespace XmlFormatterOsIndependent.ViewModels
         public void OpenSettingsCommand()
         {
             IDataCommand command = new OpenSettingsCommand();
+            command.Executed += ShowSettings_Executed;
             ExecuteAsyncCommand(command, view);
+        }
+
+        private void ShowSettings_Executed(object sender, EventArgs e)
+        {
+            ChangeTheme();
         }
 
         private void SaveCommand_Executed(object sender, System.EventArgs e)

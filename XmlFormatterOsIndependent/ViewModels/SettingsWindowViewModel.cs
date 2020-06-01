@@ -2,11 +2,13 @@
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
+using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -19,6 +21,13 @@ namespace XmlFormatterOsIndependent.ViewModels
             set => this.RaiseAndSetIfChanged(ref askBeforeClosing, value);
         }
         private bool askBeforeClosing;
+
+        public int ThemeMode
+        {
+            get => themeMode;
+            set => this.RaiseAndSetIfChanged(ref themeMode, value);
+        }
+        private int themeMode;
 
         public bool CheckUpdateOnStart
         {
@@ -40,13 +49,12 @@ namespace XmlFormatterOsIndependent.ViewModels
             set => this.RaiseAndSetIfChanged(ref updaterIndex, value);
         }
         private int updaterIndex;
-        private readonly ViewContainer view;
+
         private readonly ISettingScope applicationScope;
 
         public SettingsWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
-            : base(settingsManager, pluginManager)
+            : base(view, settingsManager, pluginManager)
         {
-            this.view = view;
             if (this.settingsManager == null || this.pluginManager == null)
             {
                 return;
@@ -61,14 +69,17 @@ namespace XmlFormatterOsIndependent.ViewModels
                 this.settingsManager.AddScope(applicationScope);
             }
             LoadSettings();
-
         }
 
         private void LoadSettings()
         {
             AskBeforeClosing = GetSettingsValue<bool>("AskBeforeClosing");
             CheckUpdateOnStart = GetSettingsValue<bool>("SearchUpdateOnStartup");
-            
+            string themeName = GetSettingsValue<string>("Theme");
+            ThemeEnum themeEnum = ThemeEnum.Light;
+            Enum.TryParse(themeName, out themeEnum);
+            ThemeMode = (int)themeEnum;
+
             string updater = GetSettingsValue<string>("UpdateStrategy");
             int updaterToUse = -1;
             if (List.Count > 0)
@@ -105,15 +116,21 @@ namespace XmlFormatterOsIndependent.ViewModels
 
         public void SaveAndClose()
         {
+            ThemeEnum theme = ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark;
+
             ISettingPair askClose = new SettingPair("AskBeforeClosing");
             ISettingPair searchUpdate = new SettingPair("SearchUpdateOnStartup");
             ISettingPair updater = new SettingPair("UpdateStrategy");
+            ISettingPair themeMode = new SettingPair("Theme");
             askClose.SetValue(AskBeforeClosing);
             searchUpdate.SetValue(CheckUpdateOnStart);
             updater.SetValue(Updater.Type.ToString());
+            themeMode.SetValue(theme.ToString());
+
             applicationScope.AddSetting(askClose);
             applicationScope.AddSetting(searchUpdate);
             applicationScope.AddSetting(updater);
+            applicationScope.AddSetting(themeMode);
             settingsManager.Save(settingsPath);
             CloseWindow();
         }

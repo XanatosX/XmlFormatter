@@ -19,6 +19,10 @@
             <StackPanel Margin="5,0,0,0">
               <TextBlock HorizontalAlignment="Left" Background="{Binding $parent[6].Background}" Margin="5,-10,0,0" Text="Application Settings"></TextBlock>
               <CheckBox Margin="0,5,0,5" Content="Ask before Closing" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
+              <ComboBox Margin="0,0,5,5" SelectedIndex="{Binding ThemeMode}">
+                <ComboBoxItem Content="Light"></ComboBoxItem>
+                <ComboBoxItem Content="Dark"></ComboBoxItem>
+              </ComboBox>
             </StackPanel>
           </Border>
           <Border BorderBrush="Gray" BorderThickness="1" Margin="5,10,5,0">

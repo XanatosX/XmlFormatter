@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Views;
@@ -27,7 +28,8 @@ namespace XmlFormatterOsIndependent.Commands
             {
                 SettingsWindow settingsWindow = new SettingsWindow();
                 settingsWindow.SetParent(data.GetParent());
-                settingsWindow.ShowDialog(data.GetWindow());
+                TaskAwaiter awaiter = settingsWindow.ShowDialog(data.GetWindow()).GetAwaiter();
+                awaiter.OnCompleted( () => ExecutionDone());
             }
 
         }

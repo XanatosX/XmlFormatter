@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Views;
 
@@ -25,7 +26,8 @@ namespace XmlFormatterOsIndependent.Commands
             if (parameter is ViewContainer data)
             {
                 AboutWindow aboutWindow = new AboutWindow();
-                aboutWindow.ShowDialog(data.GetWindow());
+                TaskAwaiter awaiter = aboutWindow.ShowDialog(data.GetWindow()).GetAwaiter();
+                awaiter.OnCompleted(() => ExecutionDone());
             }
 
         }

@@ -1,4 +1,5 @@
-﻿using Avalonia.Markup.Xaml.Styling;
+﻿using Avalonia.Controls;
+using Avalonia.Markup.Xaml.Styling;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,8 +39,10 @@ namespace XmlFormatterOsIndependent.Commands
             if (parameter is ThemeSwitchData data)
             {
                 StyleInclude styleToUse = data.Theme == ThemeEnum.Dark ? dark : light;
-                data.View.GetWindow().Styles.Add(styleToUse);
-
+                Window window = data.View.GetWindow();
+                var styles = window.Styles;
+                styles.Clear();
+                styles.Add(styleToUse);
             }
         }
     }
