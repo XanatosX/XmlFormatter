@@ -10,18 +10,26 @@ using XmlFormatterModel.Update.Adapter;
 
 namespace XmlFormatterModel.Update.Strategies
 {
+    /// <summary>
+    /// Get the newest version from GitHub
+    /// </summary>
     public class GitHubVersionRecieverStrategy : IVersionRecieverStrategy
     {
+        /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> Error;
 
         private readonly IRelease releases;
         private readonly Regex regex;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
         public GitHubVersionRecieverStrategy()
         {
             regex = new Regex(@"([0-9]{1,}.[0-9]{1,}.[0-9]{1,})");
         }
 
+        /// <inheritdoc/>
         public async Task<List<IRelease>> GetReleases()
         {
             List<IRelease> returnReleases = new List<IRelease>();
@@ -34,6 +42,7 @@ namespace XmlFormatterModel.Update.Strategies
             return returnReleases;
         }
 
+        /// <inheritdoc/>
         public async Task<IRelease> GetLatestRelease()
         {
             List<IRelease> releases = await GetReleases();
@@ -49,6 +58,7 @@ namespace XmlFormatterModel.Update.Strategies
             return latestRelease;
         }
 
+        /// <inheritdoc/>
         public async Task<Version> GetVersion(IVersionConvertStrategy convertStrategy)
         {
             Version gitHubVersion = null;
