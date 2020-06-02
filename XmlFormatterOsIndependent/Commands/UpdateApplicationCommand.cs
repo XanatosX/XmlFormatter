@@ -2,39 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
-    internal class UpdateApplicationCommand : BaseDataCommand
+    internal class UpdateApplicationCommand : ICommand
     {
-        public override Task AsyncExecute(object parameter)
+        public event EventHandler CanExecuteChanged;
+
+        private IDataCommand getStrategyCommand;
+        private ICommand executeUpdateStrategyCommand;
+
+        public UpdateApplicationCommand()
         {
-            throw new NotImplementedException();
+            getStrategyCommand = new GetUpdateStrategyCommand();
+            executeUpdateStrategyCommand = new ExecuteUpdateStrategyCommand();
         }
 
-        public override bool CanExecute(object parameter)
+        public bool CanExecute(object parameter)
         {
-            return parameter is UpdateApplicationData;
+            return getStrategyCommand.CanExecute(parameter);
         }
 
-        public override void Execute(object parameter)
+        public void Execute(object parameter)
         {
-            if (parameter is UpdateApplicationData data)
+            if (getStrategyCommand.CanExecute(parameter))
             {
-                data.Strategy.Update(data.VersionCompare);
+                getStrategyCommand.Execute(parameter);
+                IUpdateStrategy strategy = getStrategyCommand.GetData<IUpdateStrategy>();
+                //UpdateApplicationData applicationData = new UpdateApplicationData()
+                if (strategy != null)
+                {
+                    
+                }
             }
-        }
-
-        public override T GetData<T>()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsExecuted()
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -2,6 +2,7 @@
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterModel.Setting;
@@ -13,9 +14,9 @@ namespace XmlFormatterOsIndependent.Commands
     {
         IUpdateStrategy strategy;
 
-        public override Task AsyncExecute(object parameter)
+        public async override Task AsyncExecute(object parameter)
         {
-            throw new NotImplementedException();
+            Execute();
         }
 
         public override bool CanExecute(object parameter)
@@ -63,7 +64,7 @@ namespace XmlFormatterOsIndependent.Commands
         public override T GetData<T>()
         {
             Type type = typeof(T);
-            return type == typeof(IUpdateStrategy) ? (T)Convert.ChangeType(strategy, typeof(T)) : default;
+            return type == typeof(IUpdateStrategy) && IsExecuted() ? (T)strategy : default;
         }
 
         public override bool IsExecuted()
