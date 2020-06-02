@@ -23,6 +23,16 @@
           </NativeMenu>
         </NativeMenuItem.Menu>
         </NativeMenuItem>
+      <NativeMenuItem Header="Help">
+        <NativeMenuItem.Menu>
+          <NativeMenu>
+            <NativeMenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></NativeMenuItem>
+            <!-- <NativeMenuItem Header="Plugins"></NativeMenuItem> -->
+            <NativeMenuItem Command="{Binding OpenAboutCommand}" Header="About"></NativeMenuItem>
+          </NativeMenu>
+        </NativeMenuItem.Menu>
+      </NativeMenuItem>
+      <NativeMenuItem Command="{Binding ReportIssue}" Header="Report Issue"></NativeMenuItem>
       </NativeMenu>
   </NativeMenu.Menu>
   <StackPanel Spacing="5">
@@ -38,7 +48,7 @@
           <MenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></MenuItem>
           <MenuItem IsEnabled="False" Header="Plugins"></MenuItem>
           <Separator></Separator>
-          <MenuItem IsEnabled="True" Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
+          <MenuItem Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
         </MenuItem>
         <MenuItem Command="{Binding ReportIssue}" Header="_Report Issue"></MenuItem>
       </Menu>
