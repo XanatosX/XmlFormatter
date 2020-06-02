@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using PluginFramework.Interfaces.Manager;
 using ReactiveUI;
@@ -32,6 +33,38 @@ namespace XmlFormatterOsIndependent.ViewModels
 
             settingsManager.Load(settingsPath);
             ChangeTheme();
+            DoOSSpecific();
+        }
+
+        protected virtual void DoOSSpecific()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                IsWindowsOs();
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                IsLinuxOs();
+            }
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                IsMacOs();
+            }
+        }
+
+        protected virtual void IsMacOs()
+        {
+
+        }
+
+        protected virtual void IsLinuxOs()
+        {
+
+        }
+
+        protected virtual void IsWindowsOs()
+        {
+
         }
 
         protected void ChangeTheme()
