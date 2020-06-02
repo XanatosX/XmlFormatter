@@ -98,6 +98,15 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFormatter = 0;
         }
 
+        protected override void IsMacOs()
+        {
+            Window parent = view.GetWindow();
+            parent.FindControl<DockPanel>("WindowDock").IsVisible = false;
+            parent.Height = parent.Height - 35;
+            parent.MinHeight = parent.Height;
+            parent.MaxHeight = parent.Height;
+        }
+
         private List<FileDialogFilter> GetCurrentFilter()
         {
             List<FileDialogFilter> filters = new List<FileDialogFilter>();
@@ -208,7 +217,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                     {
                         IDataCommand updateStrategyCommand = new GetUpdateStrategyCommand();
                         ExecuteCommand(updateStrategyCommand, new PluginManagmentData(pluginManager, settingsManager));
-                        ICommand command = new UpdateApplicationCommand();
+                        ICommand command = new ExecuteUpdateStrategyCommand();
                         ExecuteCommand(command, new UpdateApplicationData(updateStrategyCommand.GetData<IUpdateStrategy>(), versionInfo));
                     }
 
