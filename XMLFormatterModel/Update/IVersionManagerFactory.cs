@@ -1,11 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace XmlFormatterModel.Update
+﻿namespace XmlFormatterModel.Update
 {
+    /// <summary>
+    /// Create a new version manager
+    /// </summary>
     public interface IVersionManagerFactory
     {
+        /// <summary>
+        /// Get a working version manager
+        /// </summary>
+        /// <returns>A working version manager</returns>
         IVersionManager GetVersionManager();
     }
 }
