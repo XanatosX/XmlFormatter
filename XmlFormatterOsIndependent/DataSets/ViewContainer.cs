@@ -16,7 +16,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// <summary>
         /// The parent window
         /// </summary>
-        public Window Parent { get; };
+        public Window Parent { get; }
 
         /// <summary>
         /// Create a new instance of this class
