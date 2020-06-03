@@ -17,7 +17,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// The search filter to use
         /// </summary>
         public List<FileDialogFilter> Filters { get; }
-#
+
         /// <summary>
         /// The default name of the file to save to
         /// </summary>
