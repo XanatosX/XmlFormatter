@@ -5,22 +5,24 @@ using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.Commands
 {
+    /// <summary>
+    /// Open the about view
+    /// </summary>
     internal class OpenAboutCommand : BaseDataCommand
     {
+        /// <inheritdoc/>
         public async override Task AsyncExecute(object parameter)
         {
             Execute(parameter);
         }
 
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
-            if (parameter is ViewContainer)
-            {
-                return true;
-            }
-            return false;
+            return parameter is ViewContainer;
         }
 
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
             if (parameter is ViewContainer data)
@@ -32,11 +34,13 @@ namespace XmlFormatterOsIndependent.Commands
 
         }
 
+        /// <inheritdoc/>
         public override T GetData<T>()
         {
             return default;
         }
 
+        /// <inheritdoc/>
         public override bool IsExecuted()
         {
             return false;

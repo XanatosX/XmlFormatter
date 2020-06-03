@@ -8,20 +8,29 @@ using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
+    /// <summary>
+    /// Get the current update strategy
+    /// </summary>
     class GetUpdateStrategyCommand : BaseDataCommand
     {
+        /// <summary>
+        /// The update strategy to use
+        /// </summary>
         IUpdateStrategy strategy;
 
+        /// <inheritdoc/>
         public async override Task AsyncExecute(object parameter)
         {
             Execute();
         }
 
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
             return parameter is PluginManagmentData;
         }
 
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
             strategy = null;
@@ -59,12 +68,14 @@ namespace XmlFormatterOsIndependent.Commands
             }
         }
 
+        /// <inheritdoc/>
         public override T GetData<T>()
         {
             Type type = typeof(T);
             return type == typeof(IUpdateStrategy) && IsExecuted() ? (T)strategy : default;
         }
 
+        /// <inheritdoc/>
         public override bool IsExecuted()
         {
             return strategy != null;

@@ -145,7 +145,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                 SaveEnabled = false;
                 return;
             }
-            IDataCommand saveCommand = new SaveFileCommand();
+            IDataCommand saveCommand = new OpenSaveFileDialogCommand();
             FileInfo fileInfo = new FileInfo(CurrentFile);
             string fileName = fileInfo.Name;
             fileName = fileName.Replace(fileInfo.Extension, "");
@@ -213,12 +213,9 @@ namespace XmlFormatterOsIndependent.ViewModels
                     ButtonResult buttonResult = awaiter.GetResult();
                     if (buttonResult == ButtonResult.Yes)
                     {
-                        IDataCommand updateStrategyCommand = new GetUpdateStrategyCommand();
-                        ExecuteCommand(updateStrategyCommand, new PluginManagmentData(pluginManager, settingsManager));
-                        ICommand command = new ExecuteUpdateStrategyCommand();
-                        ExecuteCommand(command, new UpdateApplicationData(updateStrategyCommand.GetData<IUpdateStrategy>(), versionInfo));
+                        ICommand command = new UpdateApplicationCommand();
+                        ExecuteCommand(command, new UpdateApplicationData(pluginManager, settingsManager, versionInfo));
                     }
-
                 });
             }
         }

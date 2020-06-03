@@ -17,7 +17,6 @@ namespace XmlFormatterModel.Update.Strategies
         /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> Error;
 
-        private readonly IRelease releases;
         private readonly Regex regex;
 
         /// <summary>

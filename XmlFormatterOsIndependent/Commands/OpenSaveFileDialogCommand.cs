@@ -5,10 +5,17 @@ using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
-    public class SaveFileCommand : BaseDataCommand
+    /// <summary>
+    /// Open the save file fialot
+    /// </summary>
+    public class OpenSaveFileDialogCommand : BaseDataCommand
     {
+        /// <summary>
+        /// The data of the file dialog
+        /// </summary>
         private string data;
 
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
             if (parameter is FileDialogData)
@@ -18,6 +25,7 @@ namespace XmlFormatterOsIndependent.Commands
             return false;
         }
 
+        /// <inheritdoc/>
         public async override Task AsyncExecute(object parameter)
         {
             if (parameter is FileDialogData data)
@@ -30,12 +38,13 @@ namespace XmlFormatterOsIndependent.Commands
             }
         }
 
-
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
             AsyncExecute();
         }
 
+        /// <inheritdoc/>
         public override T GetData<T>()
         {
             if (!IsExecuted())
@@ -46,6 +55,7 @@ namespace XmlFormatterOsIndependent.Commands
             return type == typeof(string) ? (T)Convert.ChangeType(data, typeof(T)) : default;
         }
 
+        /// <inheritdoc/>
         public override bool IsExecuted()
         {
             return !string.IsNullOrWhiteSpace(data);

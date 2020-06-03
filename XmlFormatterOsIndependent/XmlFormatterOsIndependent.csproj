@@ -13,6 +13,18 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\HotfolderIcon.ico" />
+    <AvaloniaResource Remove="Assets\XmlFormatterSettingsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\HotfolderIcon.ico" />
+    <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\HotfolderIcon.ico" />
+    <Content Include="Assets\XmlFormatterSettingsIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />

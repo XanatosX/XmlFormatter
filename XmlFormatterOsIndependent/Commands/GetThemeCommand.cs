@@ -5,21 +5,34 @@ using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.Commands
 {
+    /// <summary>
+    /// Get the theme of the application
+    /// </summary>
     internal class GetThemeCommand : BaseDataCommand
     {
+        /// <summary>
+        /// The theme to use 
+        /// </summary>
         private ThemeEnum theme;
+
+        /// <summary>
+        /// Was this command executed
+        /// </summary>
         private bool executed;
 
+        /// <inheritdoc/>
         public async override Task AsyncExecute(object parameter)
         {
             Execute();
         }
 
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
             return parameter is ISettingsManager;
         }
 
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
             theme = ThemeEnum.Light;
@@ -44,6 +57,7 @@ namespace XmlFormatterOsIndependent.Commands
             }
         }
 
+        /// <inheritdoc/>
         public override T GetData<T>()
         {
 
@@ -51,6 +65,7 @@ namespace XmlFormatterOsIndependent.Commands
             return type == typeof(ThemeEnum) ? (T)Convert.ChangeType(theme, typeof(T)) : default;
         }
 
+        /// <inheritdoc/>
         public override bool IsExecuted()
         {
             return executed;

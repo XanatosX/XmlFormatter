@@ -5,10 +5,15 @@ using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
+    /// <summary>
+    /// This command will close the current window
+    /// </summary>
     internal class CloseWindowCommand : ICommand
     {
+        /// <inheritdoc/>
         public event EventHandler CanExecuteChanged;
 
+        /// <inheritdoc/>
         public bool CanExecute(object parameter)
         {
             if (parameter is CloseWindowData)
@@ -18,6 +23,7 @@ namespace XmlFormatterOsIndependent.Commands
             return false;
         }
 
+        /// <inheritdoc/>
         public void Execute(object parameter)
         {
             if (parameter is CloseWindowData data)
@@ -30,6 +36,7 @@ namespace XmlFormatterOsIndependent.Commands
             }
         }
 
+        /// <inheritdoc/>
         private void CloseWithoutAsking(Window window)
         {
             window.Close();

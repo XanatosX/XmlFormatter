@@ -12,54 +12,29 @@ namespace PluginFramework.DataContainer
     public class VersionCompare
     {
         /// <summary>
-        /// Is the GitHub version newer
-        /// </summary>
-        private readonly bool gitHubIsNewer;
-
-        /// <summary>
         /// Readonly acces if the GitHub version is newer
         /// </summary>
-        public bool GitHubIsNewer => gitHubIsNewer;
-
-        /// <summary>
-        /// The version of the current client application 
-        /// </summary>
-        private readonly Version clientVersion;
+        public bool GitHubIsNewer { get; }
 
         /// <summary>
         /// Readonly access to the current client version of this application
         /// </summary>
-        public Version LocalVersion => clientVersion;
-
-        /// <summary>
-        /// The version on GitHub
-        /// </summary>
-        private readonly Version gitHubVersion;
+        public Version LocalVersion { get; }
 
         /// <summary>
         /// Readonly access to the GitHub version
         /// </summary>
-        public Version GitHubVersion => gitHubVersion;
-
-        /// <summary>
-        /// The newest release which can be found on GitHub
-        /// </summary>
-        private readonly IRelease lastestRelease;
+        public Version GitHubVersion { get; }
 
         /// <summary>
         /// Readonly access to the newest release on GitHub
         /// </summary>
-        public IRelease LatestRelease => lastestRelease;
-
-        /// <summary>
-        /// A readonly list of all the assets in the release build
-        /// </summary>
-        private readonly List<IReleaseAsset> assets;
+        public IRelease LatestRelease { get; }
 
         /// <summary>
         /// Public access to the assets in the release build
         /// </summary>
-        public List<IReleaseAsset> Assets => assets;
+        public List<IReleaseAsset> Assets { get; }
 
         /// <summary>
         /// Create an new instance of this class
@@ -70,11 +45,11 @@ namespace PluginFramework.DataContainer
         /// <param name="latestRelease">The latest release</param>
         public VersionCompare(bool gitHubIsNewer, Version localVersion, Version gitHubVersion, IRelease latestRelease)
         {
-            this.gitHubIsNewer = gitHubIsNewer;
-            clientVersion = localVersion;
-            this.gitHubVersion = gitHubVersion;
-            lastestRelease = latestRelease;
-            assets = latestRelease.Assets.ToList();
+            GitHubIsNewer = gitHubIsNewer;
+            LocalVersion = localVersion;
+            GitHubVersion = gitHubVersion;
+            LatestRelease = latestRelease;
+            Assets = latestRelease.Assets.ToList();
         }
 
     }

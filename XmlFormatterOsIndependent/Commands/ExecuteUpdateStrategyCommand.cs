@@ -4,21 +4,32 @@ using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
+    /// <summary>
+    /// This command will execute a given update strategy
+    /// </summary>
     internal class ExecuteUpdateStrategyCommand : BaseDataCommand
     {
+        /// <summary>
+        /// This method is not implemented!
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns>An error if called</returns>
         public override Task AsyncExecute(object parameter)
         {
             throw new NotImplementedException();
         }
 
+
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
-            return parameter is UpdateApplicationData;
+            return parameter is ExecuteApplicationUpdateData;
         }
 
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
-            if (parameter is UpdateApplicationData data)
+            if (parameter is ExecuteApplicationUpdateData data)
             {
                 if (data.Strategy == null)
                 {
@@ -28,11 +39,13 @@ namespace XmlFormatterOsIndependent.Commands
             }
         }
 
+        /// <inheritdoc/>
         public override T GetData<T>()
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public override bool IsExecuted()
         {
             throw new NotImplementedException();

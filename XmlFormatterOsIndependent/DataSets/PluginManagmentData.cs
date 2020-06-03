@@ -7,7 +7,6 @@ namespace XmlFormatterOsIndependent.DataSets
     {
         public IPluginManager PluginManager { get; }
         public ISettingsManager SettingsManager { get; }
-        //public string SettingsFilePath { get; }
 
         public PluginManagmentData(IPluginManager pluginManager, ISettingsManager settingsManager)
         {
