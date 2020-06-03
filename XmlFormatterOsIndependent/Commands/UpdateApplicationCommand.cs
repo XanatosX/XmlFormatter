@@ -1,9 +1,6 @@
 ﻿using PluginFramework.Interfaces.PluginTypes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
-using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
 {
@@ -34,7 +31,7 @@ namespace XmlFormatterOsIndependent.Commands
                 //UpdateApplicationData applicationData = new UpdateApplicationData()
                 if (strategy != null)
                 {
-                    
+
                 }
             }
         }

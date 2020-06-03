@@ -276,7 +276,7 @@ namespace XmlFormatter.src.Windows
             Version settingVersion = versionManager.ConvertStringToVersion(storedVersion);
             Version lowVersion = versionManager.ConvertStringToVersion(lowestVersion);
             TaskAwaiter<Version> awaiter = versionManager.GetLocalVersion().GetAwaiter();
-            awaiter.OnCompleted(() => 
+            awaiter.OnCompleted(() =>
             {
                 Version highVersion = awaiter.GetResult();
                 if (highVersion < lowVersion)

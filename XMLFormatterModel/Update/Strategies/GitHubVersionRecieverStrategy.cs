@@ -3,7 +3,6 @@ using PluginFramework.EventMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using XmlFormatterModel.Update.Adapter;
@@ -52,7 +51,7 @@ namespace XmlFormatterModel.Update.Strategies
                 handler?.Invoke(this, new BaseEventArgs("No version found", "Could't not find a version on GitHub"));
                 return null;
             }
-            
+
             List<IRelease> correctTags = releases.Where(release => regex.IsMatch(release.TagName)).ToList();
             IRelease latestRelease = correctTags.Count > 0 ? correctTags[0] : null;
             return latestRelease;

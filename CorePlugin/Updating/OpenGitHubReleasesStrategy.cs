@@ -1,7 +1,6 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Update;
 using System;
-using System.Diagnostics;
 using XmlFormatterOsIndependent.Helper;
 
 namespace CorePlugin.Updating

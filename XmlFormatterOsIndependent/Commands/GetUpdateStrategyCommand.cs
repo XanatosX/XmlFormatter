@@ -2,8 +2,6 @@
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
-using System.Security;
-using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.DataSets;

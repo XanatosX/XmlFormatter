@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace XmlFormatterModel.Update.Strategies
@@ -18,7 +16,7 @@ namespace XmlFormatterModel.Update.Strategies
             {
                 version += ".0";
             }
-            
+
             Regex regex = new Regex(@"[0-9]{1,}.[0-9]{1,}.[0-9]{1,}");
             if (!regex.IsMatch(version))
             {

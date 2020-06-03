@@ -1,7 +1,6 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
-using System;
 using System.IO;
 using System.Reflection;
 using System.Text;

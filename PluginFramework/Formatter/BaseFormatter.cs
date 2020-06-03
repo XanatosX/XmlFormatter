@@ -51,7 +51,7 @@ namespace PluginFramework.Formatter
         /// <inheritdoc/>
         //public virtual UserControl GetSettingsPage()
         //{
-            //return null;
+        //return null;
         //}
 
         /// <inheritdoc/>

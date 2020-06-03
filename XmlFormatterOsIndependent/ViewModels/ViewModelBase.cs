@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PluginFramework.Interfaces.Manager;
+using ReactiveUI;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
-using PluginFramework.Interfaces.Manager;
-using ReactiveUI;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;

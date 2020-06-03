@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent

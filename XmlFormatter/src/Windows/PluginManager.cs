@@ -127,7 +127,7 @@ namespace XmlFormatter.src.Windows
 
                     //if (currentPlugin.GetSettingsPage() == null)
                     //{
-                        //return;
+                    //return;
                     //}
 
                     //AddSettingsTab();

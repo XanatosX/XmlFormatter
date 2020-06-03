@@ -44,7 +44,7 @@ namespace XmlFormatterModel.Update
         public bool UpdateApplication()
         {
             Task<VersionCompare> compare = versionManager.RemoteVersionIsNewer();
-            TaskAwaiter <VersionCompare>  awaiter = compare.GetAwaiter();
+            TaskAwaiter<VersionCompare> awaiter = compare.GetAwaiter();
             bool returnValue = false;
             awaiter.OnCompleted(() =>
             {

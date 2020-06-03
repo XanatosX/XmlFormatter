@@ -1,12 +1,8 @@
 ﻿using PluginFramework.DataContainer;
-using SharpDX.Direct3D11;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Factories;
-using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.Commands
 {

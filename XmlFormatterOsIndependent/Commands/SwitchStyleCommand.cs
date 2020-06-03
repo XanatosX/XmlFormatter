@@ -1,8 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml.Styling;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;

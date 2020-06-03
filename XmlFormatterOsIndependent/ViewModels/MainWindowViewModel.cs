@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.BaseWindows;
 using MessageBox.Avalonia.DTO;
@@ -12,7 +11,6 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reactive;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;

@@ -34,7 +34,7 @@ namespace PluginFramework.Update
         /// <inheritdoc/>
         //public virtual UserControl GetSettingsPage()
         //{
-           // return null;
+        // return null;
         //}
 
         /// <inheritdoc/>

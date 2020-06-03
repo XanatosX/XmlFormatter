@@ -1,7 +1,5 @@
 ﻿using Avalonia.Controls;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace XmlFormatterOsIndependent.DataSets
 {
@@ -9,7 +7,7 @@ namespace XmlFormatterOsIndependent.DataSets
     {
         public Window View { get; }
         public List<FileDialogFilter> Filters { get; }
-        public string DefaultFileName { get;  }
+        public string DefaultFileName { get; }
 
         public FileDialogData(Window view, List<FileDialogFilter> filter) : this(view, filter, string.Empty)
         {

@@ -105,7 +105,7 @@ namespace XmlFormatter.src.Windows
                 settingManager.Load(settingFile);
                 settingManager.Save(settingFile);
             });
-            
+
             NI_Notification.Text = this.Text;
 
             settingPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\" + "XmlFormatter\\";

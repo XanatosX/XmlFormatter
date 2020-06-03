@@ -1,7 +1,6 @@
 ﻿using PluginFramework.EventMessages;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;

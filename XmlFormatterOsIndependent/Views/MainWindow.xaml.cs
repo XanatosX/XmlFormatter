@@ -1,14 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Octokit;
-using PluginFramework.Interfaces.Manager;
-using PluginFramework.LoadStrategies;
-using PluginFramework.Manager;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Text;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.ViewModels;

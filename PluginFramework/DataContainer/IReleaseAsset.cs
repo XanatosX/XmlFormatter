@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace XmlFormatterModel.Update
+﻿namespace XmlFormatterModel.Update
 {
     /// <summary>
     /// This interface represents a release asset
