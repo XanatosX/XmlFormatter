@@ -154,7 +154,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
 
         /// <inheritdoc>/>
-        protected override void IsMacOs()
+        protected override void IsOsX()
         {
             Window parent = view.Current;
             parent.FindControl<DockPanel>("WindowDock").IsVisible = false;

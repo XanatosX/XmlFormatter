@@ -10,18 +10,45 @@ using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
+    /// <summary>
+    /// Base view model class
+    /// </summary>
     public class ViewModelBase : ReactiveObject
     {
+        /// <summary>
+        /// The current view of this model
+        /// </summary>
         protected readonly ViewContainer view;
+
+        /// <summary>
+        /// The settings manager to use
+        /// </summary>
         protected readonly ISettingsManager settingsManager;
+
+        /// <summary>
+        /// The plugin manager to use
+        /// </summary>
         protected readonly IPluginManager pluginManager;
+
+        /// <summary>
+        /// The path to the settings file
+        /// </summary>
         protected readonly string settingsPath;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
         public ViewModelBase() : this(null, null, null)
         {
 
         }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="view">The view for this model</param>
+        /// <param name="settingsManager">The settings manager for this model</param>
+        /// <param name="pluginManager">The plugin manager for this model</param>
         public ViewModelBase(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
         {
             this.view = view;
@@ -36,6 +63,9 @@ namespace XmlFormatterOsIndependent.ViewModels
             DoOSSpecific();
         }
 
+        /// <summary>
+        /// Do something os specific
+        /// </summary>
         protected virtual void DoOSSpecific()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -48,25 +78,37 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                IsMacOs();
+                IsOsX();
             }
         }
 
-        protected virtual void IsMacOs()
+        /// <summary>
+        /// This system is a osx system
+        /// </summary>
+        protected virtual void IsOsX()
         {
 
         }
 
+        /// <summary>
+        /// This system is a linux system
+        /// </summary>
         protected virtual void IsLinuxOs()
         {
 
         }
 
+        /// <summary>
+        /// This system is a windows system
+        /// </summary>
         protected virtual void IsWindowsOs()
         {
 
         }
 
+        /// <summary>
+        /// Change the theme for this window
+        /// </summary>
         protected void ChangeTheme()
         {
             IDataCommand themeCommand = new GetThemeCommand();
@@ -75,6 +117,11 @@ namespace XmlFormatterOsIndependent.ViewModels
             ExecuteCommand(themeSwitchCommand, new ThemeSwitchData(view, themeCommand.GetData<ThemeEnum>()));
         }
 
+        /// <summary>
+        /// Execute a given command if possible
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        /// <param name="parameter">The parameter to use</param>
         protected void ExecuteCommand(ICommand command, object parameter)
         {
             if (command.CanExecute(parameter))
@@ -83,6 +130,11 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
         }
 
+        /// <summary>
+        /// Execute a async command
+        /// </summary>
+        /// <param name="command">The command to use</param>
+        /// <param name="parameter">The parameter to use</param>
         protected void ExecuteAsyncCommand(IDataCommand command, object parameter)
         {
             if (command.CanExecute(parameter))
