@@ -6,7 +6,7 @@ namespace XmlFormatterOsIndependent.DataSets
     /// <summary>
     /// Data container with all the view information
     /// </summary>
-    internal class ViewContainer
+    public class ViewContainer
     {
         /// <summary>
         /// The current window
