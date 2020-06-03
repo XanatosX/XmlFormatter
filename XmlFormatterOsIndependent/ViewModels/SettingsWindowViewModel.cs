@@ -72,7 +72,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Private updater to use
         /// </summary>
         private PluginMetaData updater;
-        
+
         /// <summary>
         /// Index of the selected updater
         /// </summary>

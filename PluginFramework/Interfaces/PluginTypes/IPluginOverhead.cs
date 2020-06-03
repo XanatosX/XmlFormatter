@@ -20,11 +20,5 @@ namespace PluginFramework.Interfaces.PluginTypes
         /// </summary>
         /// <param name="settings"></param>
         void ChangeSettings(PluginSettings settings);
-
-        /// <summary>
-        /// This method will return the settings view for the plugin
-        /// </summary>
-        /// <returns>A useable control to implement into the host application</returns>
-        //UserControl GetSettingsPage();
     }
 }

@@ -49,12 +49,6 @@ namespace PluginFramework.Formatter
         }
 
         /// <inheritdoc/>
-        //public virtual UserControl GetSettingsPage()
-        //{
-        //return null;
-        //}
-
-        /// <inheritdoc/>
         public abstract bool ConvertToFormatted(string filePath, string outputName);
 
         /// <inheritdoc/>

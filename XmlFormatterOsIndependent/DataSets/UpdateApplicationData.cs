@@ -26,7 +26,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="compare">The compare class to use</param>
         public UpdateApplicationData(IPluginManager pluginManager, ISettingsManager settingsManager, VersionCompare compare)
-            : this (new PluginManagmentData(pluginManager, settingsManager), compare)
+            : this(new PluginManagmentData(pluginManager, settingsManager), compare)
         {
 
         }
@@ -40,6 +40,6 @@ namespace XmlFormatterOsIndependent.DataSets
         {
             PluginManagmentData = managmentData;
             VersionCompare = compare;
-        }  
+        }
     }
 }
