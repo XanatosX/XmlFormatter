@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Octokit" Version="0.47.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
   </ItemGroup>
 

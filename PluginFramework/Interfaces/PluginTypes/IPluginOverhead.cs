@@ -1,5 +1,4 @@
 ﻿using PluginFramework.DataContainer;
-//using System.Windows.Forms;
 
 namespace PluginFramework.Interfaces.PluginTypes
 {
