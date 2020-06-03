@@ -75,10 +75,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             AskBeforeClosing = GetSettingsValue<bool>("AskBeforeClosing");
             CheckUpdateOnStart = GetSettingsValue<bool>("SearchUpdateOnStartup");
-            string themeName = GetSettingsValue<string>("Theme");
-            ThemeEnum themeEnum = ThemeEnum.Light;
-            Enum.TryParse(themeName, out themeEnum);
-            ThemeMode = (int)themeEnum;
+            IDataCommand getTheme = new GetThemeCommand();
+            ExecuteCommand(getTheme, settingsManager);
+            ThemeMode = (int)getTheme.GetData<ThemeEnum>();
 
             string updater = GetSettingsValue<string>("UpdateStrategy");
             int updaterToUse = -1;
