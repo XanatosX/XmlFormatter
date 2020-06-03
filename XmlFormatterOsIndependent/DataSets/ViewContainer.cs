@@ -1,26 +1,52 @@
 ﻿using Avalonia.Controls;
+using System;
 
 namespace XmlFormatterOsIndependent.DataSets
 {
-    public class ViewContainer
+    /// <summary>
+    /// Data container with all the view information
+    /// </summary>
+    internal class ViewContainer
     {
-        private readonly Window current;
-        private readonly Window parent;
+        /// <summary>
+        /// The current window
+        /// </summary>
+        public Window Current { get; }
 
+        /// <summary>
+        /// The parent window
+        /// </summary>
+        public Window Parent { get; };
+
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="current">The current window</param>
+        /// <param name="parent">The parent window</param>
         public ViewContainer(Window current, Window parent)
         {
-            this.current = current;
-            this.parent = parent;
+            Current = current;
+            Parent = parent;
         }
 
+        /// <summary>
+        /// Get the current window
+        /// </summary>
+        /// <returns>The current window</returns>
+        [Obsolete]
         public Window GetWindow()
         {
-            return current;
+            return Current;
         }
 
+        /// <summary>
+        /// Get the parent window
+        /// </summary>
+        /// <returns>The parent window</returns>
+        [Obsolete]
         public Window GetParent()
         {
-            return parent;
+            return Parent;
         }
     }
 }

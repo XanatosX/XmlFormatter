@@ -10,9 +10,17 @@ namespace XmlFormatterOsIndependent.Commands
     /// </summary>
     internal class UpdateApplicationCommand : ICommand
     {
+        /// <inheritdoc/>
         public event EventHandler CanExecuteChanged;
 
+        /// <summary>
+        /// The command to get the strategy
+        /// </summary>
         private IDataCommand getStrategyCommand;
+
+        /// <summary>
+        /// The command to execute the update
+        /// </summary>
         private ICommand executeUpdateStrategyCommand;
 
         /// <inheritdoc/>

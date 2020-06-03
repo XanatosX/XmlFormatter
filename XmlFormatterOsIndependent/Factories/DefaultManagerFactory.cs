@@ -11,37 +11,71 @@ using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.Factories
 {
+    /// <summary>
+    /// Factory to create the manager used for this application
+    /// </summary>
     internal class DefaultManagerFactory
     {
-        private readonly IVersionManagerFactory versionManagerFactory;
+        /// <summary>
+        /// The factory used to create the version managment
+        /// </summary>
+        private IVersionManagerFactory versionManagerFactory;
 
-        public DefaultManagerFactory()
-        {
-            versionManagerFactory = new UpdateManagerFactory();
-        }
+        /// <summary>
+        /// The plugin manager to use
+        /// </summary>
+        private IPluginManager pluginManager;
+
+        /// <summary>
+        /// The settings manager to use
+        /// </summary>
+        private ISettingsManager settingsManager;
+
+        /// <summary>
+        /// Get the current plugin manager
+        /// </summary>
+        /// <returns>The plugin manager to use</returns>
         public IPluginManager GetPluginManager()
         {
-            IPluginManager manager = new DefaultManager();
-            StringBuilder builder = new StringBuilder();
+            if (pluginManager == null)
+            {
+                pluginManager = new DefaultManager();
+                StringBuilder builder = new StringBuilder();
 
 
-            FileInfo folderInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            string folder = folderInfo.DirectoryName;
-            builder.AppendFormat("{0}{1}Plugins{1}", folder, Path.DirectorySeparatorChar);
-            manager.SetDefaultLoadStrategy(new PluginFolder(builder.ToString()));
+                FileInfo folderInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
+                string folder = folderInfo.DirectoryName;
+                builder.AppendFormat("{0}{1}Plugins{1}", folder, Path.DirectorySeparatorChar);
+                pluginManager.SetDefaultLoadStrategy(new PluginFolder(builder.ToString()));
+            }
 
-            return manager;
+            return pluginManager;
         }
 
+        /// <summary>
+        /// Get the settings manager for this application
+        /// </summary>
+        /// <returns>The settings manager to use</returns>
         public ISettingsManager GetSettingsManager()
         {
-            ISettingsManager manager = new SettingsManager();
-            manager.SetPersistendFactory(new XmlProviderFactory());
-            return manager;
+            if (settingsManager == null)
+            {
+                settingsManager = new SettingsManager();
+                settingsManager.SetPersistendFactory(new XmlProviderFactory());
+            }
+            return settingsManager;
         }
 
+        /// <summary>
+        /// Get the version manager of this application
+        /// </summary>
+        /// <returns>The version manager to use</returns>
         public IVersionManager GetVersionManager()
         {
+            if (versionManagerFactory == null)
+            {
+                versionManagerFactory = new UpdateManagerFactory();
+            }
             return versionManagerFactory.GetVersionManager();
         }
     }
