@@ -104,11 +104,6 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
-       - name: Install nuget
-         uses: nuget/setup-nuget@v1
-       - name: Nuget restore
-         run: nuget restore
-         shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
        - name: List folder
@@ -119,6 +114,9 @@ jobs:
          shell: powershell
        - name: List folder
          run: dir
+         shell: powershell
+       - name: Nuget restore
+         run: dotnet restore
          shell: powershell
        - name: Build project
          run: dotnet publish -c Release -r win-x64 --self-contained true
