@@ -19,7 +19,7 @@ jobs:
        - name: Install NuGet
          uses: nuget/setup-nuget@v1
        - name: Install msbuild
-         uses: microsoft/setup-msbuild@v1.0.0
+         uses: microsoft/setup-msbuild@v1.0.2
        - name: Build Project
          run: |
            nuget restore
