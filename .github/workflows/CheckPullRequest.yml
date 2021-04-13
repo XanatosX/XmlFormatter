@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
    checkWinFormsBuild:
-     name: Check pull request
+     name: Check windows forms build
      runs-on: windows-latest
      steps:
        - name: Clone repository
@@ -23,7 +23,7 @@ jobs:
          run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
    checkAvaloniaBuild:
-     name: Check pull request
+     name: Check Avalonia build
      runs-on: windows-latest
      steps:
        - name: Clone repository
