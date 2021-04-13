@@ -114,6 +114,9 @@ jobs:
        - name: Switch folder
          run: cd src\XmlFormatterOsIndependent
          shell: powershell
+       - name: List folder
+         run: dir
+         shell: powershell
        - name: Build project
          run: dotnet publish -c Release -r win-x64 --self-contained true
          shell: powershell
