@@ -16,7 +16,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\CorePlugin
          shell: powershell
        - name: Build project
@@ -35,7 +35,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\JsonPlugin
          shell: powershell
        - name: Build project
@@ -54,7 +54,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\PluginFramework
          shell: powershell
        - name: Build project
@@ -73,7 +73,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\XmlFormatter
          shell: powershell
        - name: Build project
@@ -92,7 +92,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\XmlFormatterModel
          shell: powershell
        - name: Build project
@@ -111,7 +111,7 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: switch folder
+       - name: Switch folder
          run: cd src\XmlFormatterOsIndependent
          shell: powershell
        - name: Build project
