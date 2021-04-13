@@ -147,7 +147,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(ProjectDir)\$(OutDir)\Plugins"
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+  echo "Release build ignore post build!"
+  exit
+)
+mkdir "$(ProjectDir)\$(OutDir)\Plugins"
 copy "$(ProjectDir)\..\CorePlugin\$(OutDir)\netstandard2.0\CorePlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
 copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\netstandard2.0\JsonPlugin.dll" "$(ProjectDir)\$(OutDir)\Plugins"
 copy "$(ProjectDir)\..\JsonPlugin\$(OutDir)\netstandard2.0\Newtonsoft.Json.dll" "$(ProjectDir)\$(OutDir)\Plugins"</PostBuildEvent>

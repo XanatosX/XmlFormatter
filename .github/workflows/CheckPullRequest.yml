@@ -3,7 +3,7 @@ name: Check pull request
 on: [pull_request]
 
 jobs:
-   build:
+   checkWinFormsBuild:
      name: Check pull request
      runs-on: windows-latest
      steps:
@@ -16,6 +16,26 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
+       - name: switch folder
+         run: cd src\XmlFormatter
+         shell: powershell
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
+         shell: powershell
+   checkAvaloniaBuild:
+     name: Check pull request
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+       - name: Install nuget
+         uses: nuget/setup-nuget@v1
+       - name: Nuget restore
+         run: nuget restore
+         shell: powershell
+       - name: switch folder
+         run: cd src\XmlFormatterOsIndependent
+         shell: powershell
+       - name: Build project
+         run: dotnet publish -c Release -r win-x64 --self-contained true
          shell: powershell

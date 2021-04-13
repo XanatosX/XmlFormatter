@@ -2,6 +2,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>XmlFormatter</AssemblyName>
+    <ApplicationIcon>XmlFormatterIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -25,10 +27,12 @@
   <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
+    <None Remove="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\HotfolderIcon.ico" />
     <Content Include="Assets\XmlFormatterSettingsIcon.ico" />
+    <Content Include="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.10" />
@@ -46,6 +50,6 @@
     </None>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="mkdir &quot;$(ProjectDir)\$(OutDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)CorePlugin\bin\$(ConfigurationName)\netstandard2.0\CorePlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\JsonPlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\Newtonsoft.Json.dll&quot; &quot;$(TargetDir)\Plugins&quot;" />
+    <Exec Command="if $(ConfigurationName) == Release (&#xD;&#xA;  echo &quot;Release build ignore post build!&quot;&#xD;&#xA;  exit&#xD;&#xA;)&#xD;&#xA;mkdir &quot;$(ProjectDir)\$(OutDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)CorePlugin\bin\$(ConfigurationName)\netstandard2.0\CorePlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\JsonPlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\Newtonsoft.Json.dll&quot; &quot;$(TargetDir)\Plugins&quot;" />
   </Target>
 </Project>
