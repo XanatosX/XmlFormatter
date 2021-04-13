@@ -21,6 +21,44 @@ jobs:
          shell: powershell
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
+         shell: powershell   
+   checkJsonPlugin:
+     name: Check json plugin build
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+       - name: Install nuget
+         uses: nuget/setup-nuget@v1
+       - name: Nuget restore
+         run: nuget restore
+         shell: powershell
+       - name: Setup msbuild
+         uses: microsoft/setup-msbuild@v1.0.2
+       - name: switch folder
+         run: cd src\JsonPlugin
+         shell: powershell
+       - name: Build project
+         run: msbuild /t:Build /p:Configuration=Release
+         shell: powershell   
+   checkPluginFramework:
+     name: Check plugin framework build
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+       - name: Install nuget
+         uses: nuget/setup-nuget@v1
+       - name: Nuget restore
+         run: nuget restore
+         shell: powershell
+       - name: Setup msbuild
+         uses: microsoft/setup-msbuild@v1.0.2
+       - name: switch folder
+         run: cd src\PluginFramework
+         shell: powershell
+       - name: Build project
+         run: msbuild /t:Build /p:Configuration=Release
          shell: powershell
    checkWinFormsBuild:
      name: Check windows forms build
@@ -37,6 +75,25 @@ jobs:
          uses: microsoft/setup-msbuild@v1.0.2
        - name: switch folder
          run: cd src\XmlFormatter
+         shell: powershell
+       - name: Build project
+         run: msbuild /t:Build /p:Configuration=Release
+         shell: powershell
+   checkFormatterModel:
+     name: Check formatter model build
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+       - name: Install nuget
+         uses: nuget/setup-nuget@v1
+       - name: Nuget restore
+         run: nuget restore
+         shell: powershell
+       - name: Setup msbuild
+         uses: microsoft/setup-msbuild@v1.0.2
+       - name: switch folder
+         run: cd src\XmlFormatterModel
          shell: powershell
        - name: Build project
          run: msbuild /t:Build /p:Configuration=Release
