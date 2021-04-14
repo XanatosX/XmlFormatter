@@ -54,6 +54,23 @@ jobs:
            dotnet publish .\src\CorePlugin\ -c Release -r win-x64
            dotnet publish .\src\CorePlugin\ -c Release -r win-x64
          shell: powershell
+       - name: Move artifact files
+         run: |
+           mkdir upload-artifacts\
+           mkdir plugins\
+           mv .\src\CorePlugin\bin\Release\netstandard2.0\win-x64\publish\CorePlugin.dll plugins\
+           mv .\src\JsonPlugin\bin\Release\netstandard2.0\win-x64\publish\JsonPlugin.dll plugins\
+           mv .\src\JsonPlugin\bin\Release\netstandard2.0\win-x64\publish\Newtonsoft.Json.dll plugins\
+           mv .\src\XmlFormatterOsIndependent\bin\Release\netcoreapp3.1\win-x64\publish\** upload-artifacts\
+           mv LICENSE upload-artifacts\
+           mv README.md upload-artifacts\  
+       - name: Upload build artifact
+         uses: actions/upload-artifact@v2
+         with:
+          name: AvaloniaWindowsBuildArtifact
+          path: |
+            upload-artifacts/
+            plugins/
 
    #build:
    #  if: github.event.pull_request.merged == true
