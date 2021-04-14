@@ -48,11 +48,11 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
-       - name: Restore
-         run: dotnet restore
-         shell: powershell
        - name: Build project
-         run: dotnet publish .\src\XmlFormatterOsIndependent\ -c Release -r win-x64 --self-contained true
+         run: | 
+           dotnet publish .\src\XmlFormatterOsIndependent\ -c Release -r win-x64 --self-contained true
+           dotnet publish .\src\CorePlugin\ -c Release -r win-x64
+           dotnet publish .\src\CorePlugin\ -c Release -r win-x64
          shell: powershell
 
    #build:
