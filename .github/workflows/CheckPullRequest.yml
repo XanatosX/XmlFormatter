@@ -16,11 +16,8 @@ jobs:
          shell: powershell
        - name: Setup msbuild
          uses: microsoft/setup-msbuild@v1.0.2
-       - name: Switch folder
-         run: cd src\XmlFormatter
-         shell: powershell
        - name: Build project
-         run: msbuild /t:Build /p:Configuration=Release
+         run: msbuild .\src\XmlFormatter\XmlFormatter.csproj /t:Build /p:Configuration=Release
          shell: powershell
    checkAvaloniaBuild:
      name: Check Avalonia build
