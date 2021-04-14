@@ -28,7 +28,7 @@ jobs:
        - name: Move artifact files
          run: |
            mkdir upload-artifacts\
-           mkdir plugins
+           mkdir plugins\
            mv .\src\CorePlugin\bin\Release\netstandard2.0\CorePlugin.dll plugins\
            mv .\src\JsonPlugin\bin\Release\netstandard2.0\JsonPlugin.dll plugins\
            mv .\src\JsonPlugin\bin\Release\netstandard2.0\Newtonsoft.Json.dll plugins\
