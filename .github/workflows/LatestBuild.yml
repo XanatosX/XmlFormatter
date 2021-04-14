@@ -7,7 +7,7 @@ on:
 
 jobs:
    createWinFormsBuild:
-     name: Check windows forms build
+     name: Create Windows forms build
      runs-on: windows-latest
      steps:
        - name: Clone repository
@@ -41,8 +41,9 @@ jobs:
           name: WinFormBuildArtifact
           path: |
             upload-artifacts/
-   createAvaloniaBuild:
-     name: Check Avalonia build
+            plugins/
+   createAvaloniaBuildWindows:
+     name: Create Avalonia build for Windows
      runs-on: windows-latest
      steps:
        - name: Clone repository
