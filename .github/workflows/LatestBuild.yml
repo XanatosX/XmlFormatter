@@ -129,6 +129,22 @@ jobs:
           path: |
             upload-artifacts/
             plugins/
+     createWinFormsZip:
+       name: Create WinForm zip
+       needs: ["createWinFormsBuild"]
+       runs-on: ubuntu-latest
+       steps:
+         - name: Download artifacts
+           uses: actions/download-artifact@v2
+           with:
+             name: WinFormBuildArtifact
+             path: dist
+         - name: Create zip
+           run: |
+             cd dist/
+             dir
+             
+           
 
    #build:
    #  if: github.event.pull_request.merged == true
