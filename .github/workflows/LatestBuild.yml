@@ -161,7 +161,7 @@ jobs:
           path: |
             upload-artifacts/
    createAvaloniaZipWindows:
-     name: Create WinForm zip
+     name: Create Avalonia Windows zip
      needs: ["createAvaloniaBuildWindows"]
      runs-on: ubuntu-latest
      steps:
@@ -192,7 +192,7 @@ jobs:
           path: |
             upload-artifacts/
    createAvaloniaZipLinux:
-     name: Create WinForm zip
+     name: Create Avalonia Linux zip
      needs: ["createAvaloniaBuildLinux"]
      runs-on: ubuntu-latest
      steps:
@@ -223,7 +223,7 @@ jobs:
           path: |
             upload-artifacts/
    createAvaloniaZipDarwin:
-     name: Create WinForm zip
+     name: Create Avalonia Darwin zip
      needs: ["createAvaloniaBuildDarwin"]
      runs-on: ubuntu-latest
      steps:
