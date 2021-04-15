@@ -191,6 +191,68 @@ jobs:
           name: WindowsAvaloniaZipArtifact
           path: |
             upload-artifacts/
+   createAvaloniaZipLinux:
+     name: Create WinForm zip
+     needs: ["createAvaloniaBuildLinux"]
+     runs-on: ubuntu-latest
+     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: AvaloniaLinuxBuildArtifact
+          path: dist
+      - name: Prepare Formatter
+        run: |
+           mkdir dist/upload-artifacts/Plugins
+           mv dist/plugins/CorePlugin.dll dist/upload-artifacts/Plugins
+      - name: Create zips
+        run: |
+           cd dist/upload-artifacts
+           zip -r LatestDevelopment_LinuxAvaloniaXmlFormatter.zip .
+           cd ../plugins/
+           zip -r LatestDevelopment_LinuxAvaloniaJsonPlugin.zip .
+      - name: Move artifact
+        run: |
+           mkdir upload-artifacts/
+           mv dist/upload-artifacts/LatestDevelopment_LinuxAvaloniaXmlFormatter.zip upload-artifacts/
+           mv dist/plugins/LatestDevelopment_LinuxAvaloniaJsonPlugin.zip upload-artifacts/
+      - name: Upload Linux Avalonia build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: LinuxAvaloniaZipArtifact
+          path: |
+            upload-artifacts/
+   createAvaloniaZipDarwin:
+     name: Create WinForm zip
+     needs: ["createAvaloniaBuildDarwin"]
+     runs-on: ubuntu-latest
+     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: AvaloniaDarwinBuildArtifact
+          path: dist
+      - name: Prepare Formatter
+        run: |
+           mkdir dist/upload-artifacts/Plugins
+           mv dist/plugins/CorePlugin.dll dist/upload-artifacts/Plugins
+      - name: Create zips
+        run: |
+           cd dist/upload-artifacts
+           zip -r LatestDevelopment_DarwinAvaloniaXmlFormatter.zip .
+           cd ../plugins/
+           zip -r LatestDevelopment_DarwinAvaloniaJsonPlugin.zip .
+      - name: Move artifact
+        run: |
+           mkdir upload-artifacts/
+           mv dist/upload-artifacts/LatestDevelopment_DarwinAvaloniaXmlFormatter.zip upload-artifacts/
+           mv dist/plugins/LatestDevelopment_DarwinAvaloniaJsonPlugin.zip upload-artifacts/
+      - name: Upload Darwin Avalonia build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: DarwinAvaloniaZipArtifact
+          path: |
+            upload-artifacts/
              
            
 
