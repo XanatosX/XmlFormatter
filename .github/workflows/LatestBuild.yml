@@ -151,7 +151,7 @@ jobs:
            rm CorePlugin.dll
            zip -r LatestDevelopment_WinFormsJsonPlugin.zip .
       - name: Move artifact
-         run: |
+        run: |
            mkdir upload-artifacts/
            mv dist/upload-artifacts/LatestDevelopment_WinFormsXmlFormatter.zip upload-artifacts/
            mv dist/upload-artifacts/LatestDevelopment_WinFormsJsonPlugin.zip upload-artifacts/
