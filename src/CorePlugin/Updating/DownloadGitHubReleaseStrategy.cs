@@ -30,10 +30,10 @@ namespace CorePlugin.Updating
             string tempFolder = Path.GetTempPath();
             using (WebClient client = new WebClient())
             {
-                foreach (ReleaseAsset release in versionInformation.Assets.FindAll(assetFilter))
+                foreach (IReleaseAsset release in versionInformation.Assets.FindAll(assetFilter))
                 {
                     string localFile = tempFolder;
-                    string[] splittet = release.BrowserDownloadUrl.Split('/');
+                    string[] splittet = release.DownloadUrl.Split('/');
                     localFile += splittet.Last();
                     if (File.Exists(localFile))
                     {
@@ -55,7 +55,7 @@ namespace CorePlugin.Updating
                             continue;
                         }
                     }
-                    client.DownloadFile(release.BrowserDownloadUrl, localFile);
+                    client.DownloadFile(release.DownloadUrl, localFile);
                     Process.Start(localFile);
                 }
             }

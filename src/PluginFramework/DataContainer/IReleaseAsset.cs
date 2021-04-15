@@ -6,9 +6,14 @@
     public interface IReleaseAsset
     {
         /// <summary>
-        /// Url to the asset for downloading
+        /// Url to the asset dataset
         /// </summary>
         string Url { get; }
+
+        /// <summary>
+        /// Url to the asset for downloading
+        /// </summary>
+        string DownloadUrl { get; }
 
         /// <summary>
         /// The unique id of the asset

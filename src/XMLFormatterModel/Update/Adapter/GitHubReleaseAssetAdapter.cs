@@ -27,6 +27,9 @@ namespace XmlFormatterModel.Update.Adapter
         /// <inheritdoc/>
         public int Size => asset.Size;
 
+        /// <inheritdoc/>
+        public string DownloadUrl => asset.BrowserDownloadUrl;
+
         /// <summary>
         /// Create a new instance of this adapter class
         /// </summary>
