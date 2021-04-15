@@ -156,8 +156,8 @@ jobs:
            mv dist/upload-artifacts/LatestDevelopment_WinFormsXmlFormatter.zip upload-artifacts/
            mv dist/upload-artifacts/LatestDevelopment_WinFormsJsonPlugin.zip upload-artifacts/
       - name: Upload WinForms build artifact
-         uses: actions/upload-artifact@v2
-         with:
+        uses: actions/upload-artifact@v2
+        with:
           name: WinFormZipArtifact
           path: |
             upload-artifacts/
