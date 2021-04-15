@@ -142,7 +142,7 @@ jobs:
       - name: Create zip
         run: |
            cd dist/
-           dir
+           ls-la
              
            
 
