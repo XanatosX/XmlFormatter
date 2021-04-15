@@ -148,7 +148,6 @@ jobs:
            cd dist/upload-artifacts
            zip -r LatestDevelopment_WinFormsXmlFormatter.zip .
            cd ../plugins/
-           rm CorePlugin.dll
            zip -r LatestDevelopment_WinFormsJsonPlugin.zip .
       - name: Move artifact
         run: |
