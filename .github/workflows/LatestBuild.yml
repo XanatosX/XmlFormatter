@@ -276,25 +276,25 @@ jobs:
           draft: true
           prerelease: true
       - name: Upload WinForm XmlFormatter zip
-          id: upload-win-form-formatter-zip
-          uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: dist/LatestDevelopment_WinFormsXmlFormatter.zip
-            asset_name: LatestDevelopment_WinFormsXmlFormatter.zip
-            asset_content_type: application/zip
+        id: upload-win-form-formatter-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/LatestDevelopment_WinFormsXmlFormatter.zip
+          asset_name: LatestDevelopment_WinFormsXmlFormatter.zip
+          asset_content_type: application/zip
       - name: Upload WinForm JsonPlugin zip
-          id: upload-win-form-json-plugin-zip
-          uses: actions/upload-release-asset@v1
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: dist/LatestDevelopment_WinFormsJsonPlugin.zip
-            asset_name: LatestDevelopment_WinFormsJsonPlugin.zip
-            asset_content_type: application/zip
+        id: upload-win-form-json-plugin-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/LatestDevelopment_WinFormsJsonPlugin.zip
+          asset_name: LatestDevelopment_WinFormsJsonPlugin.zip
+          asset_content_type: application/zip
              
            
 
