@@ -139,10 +139,28 @@ jobs:
         with:
           name: WinFormBuildArtifact
           path: dist
-      - name: Create zip
+      - name: Prepare Formatter
         run: |
-           cd dist/
-           ls -la
+           mkdir dist/upload-artifacts/Plugins
+           mv dist/plugins/CorePlugin.dll dist/upload-artifacts/Plugins
+      - name: Create zips
+        run: |
+           cd dist/upload-artifacts
+           zip -r LatestDevelopment_WinFormsXmlFormatter.zip .
+           cd ../plugins/
+           rm CorePlugin.dll
+           zip -r LatestDevelopment_WinFormsJsonPlugin.zip .
+      - name: Move artifact
+         run: |
+           mkdir upload-artifacts/
+           mv dist/upload-artifacts/LatestDevelopment_WinFormsXmlFormatter.zip upload-artifacts/
+           mv dist/upload-artifacts/LatestDevelopment_WinFormsJsonPlugin.zip upload-artifacts/
+      - name: Upload WinForms build artifact
+         uses: actions/upload-artifact@v2
+         with:
+          name: WinFormZipArtifact
+          path: |
+            upload-artifacts/
              
            
 
