@@ -1,5 +1,6 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.PluginTypes;
+using System;
 
 namespace XmlFormatterModel.Update
 {
@@ -41,5 +42,13 @@ namespace XmlFormatterModel.Update
         /// <param name="versionInformation">The information about the versions</param>
         /// <returns>True if update was successful</returns>
         bool UpdateApplication(VersionCompare versionInformation);
+
+        /// <summary>
+        /// Update this application with the strategy
+        /// </summary>
+        /// <param name="versionInformation">The information about the versions</param>
+        /// <param name="assetFilter">The asset filter to apply</param>
+        /// <returns>True if update was successful</returns>
+        bool UpdateApplication(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter);
     }
 }

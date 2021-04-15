@@ -1,5 +1,6 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.PluginTypes;
+using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -61,7 +62,18 @@ namespace XmlFormatterModel.Update
                 return false;
             }
 
-            return strategy.Update(versionInformation);
+            return strategy.Update(versionInformation, (asset) => true);
+        }
+
+        /// <inheritdoc/>
+        public bool UpdateApplication(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter)
+        {
+            if (strategy == null)
+            {
+                return false;
+            }
+
+            return strategy.Update(versionInformation, assetFilter);
         }
 
 

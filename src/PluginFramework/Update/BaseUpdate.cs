@@ -1,5 +1,7 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.PluginTypes;
+using System;
+using XmlFormatterModel.Update;
 
 namespace PluginFramework.Update
 {
@@ -38,6 +40,6 @@ namespace PluginFramework.Update
         //}
 
         /// <inheritdoc/>
-        public abstract bool Update(VersionCompare versionInformation);
+        public abstract bool Update(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter);
     }
 }

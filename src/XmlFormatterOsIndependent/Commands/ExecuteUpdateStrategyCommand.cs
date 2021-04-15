@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.DataSets;
 
 namespace XmlFormatterOsIndependent.Commands
@@ -9,6 +10,8 @@ namespace XmlFormatterOsIndependent.Commands
     /// </summary>
     internal class ExecuteUpdateStrategyCommand : BaseDataCommand
     {
+        private readonly Predicate<IReleaseAsset> assetFilter;
+
         /// <summary>
         /// This method is not implemented!
         /// </summary>
@@ -35,7 +38,7 @@ namespace XmlFormatterOsIndependent.Commands
                 {
                     return;
                 }
-                data.Strategy.Update(data.VersionCompare);
+                data.Strategy.Update(data.VersionCompare, assetFilter);
             }
         }
 

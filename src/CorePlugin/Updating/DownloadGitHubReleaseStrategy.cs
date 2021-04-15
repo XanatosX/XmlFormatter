@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using XmlFormatterModel.Update;
 
 namespace CorePlugin.Updating
 {
@@ -17,18 +18,19 @@ namespace CorePlugin.Updating
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
-        public DownloadGitHubReleaseStrategy() : base(new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 0)))
+        public DownloadGitHubReleaseStrategy() : base(new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 1)))
         {
         }
 
         /// <inheritdoc/>
-        public override bool Update(VersionCompare versionInformation)
+        public override bool Update(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter)
         {
             bool returnValue = true;
+            int downloadCount = 0;
             string tempFolder = Path.GetTempPath();
             using (WebClient client = new WebClient())
             {
-                foreach (ReleaseAsset release in versionInformation.Assets)
+                foreach (ReleaseAsset release in versionInformation.Assets.FindAll(assetFilter))
                 {
                     string localFile = tempFolder;
                     string[] splittet = release.BrowserDownloadUrl.Split('/');
@@ -44,6 +46,7 @@ namespace CorePlugin.Updating
                                     returnValue &= false;
                                     continue;
                                 }
+                                downloadCount++;
                             }
                         }
                         catch (Exception)
@@ -57,7 +60,7 @@ namespace CorePlugin.Updating
                 }
             }
 
-            if (returnValue)
+            if (returnValue && downloadCount > 0)
             {
                 Process.Start(Environment.CurrentDirectory);
             }

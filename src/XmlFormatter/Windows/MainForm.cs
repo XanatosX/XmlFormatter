@@ -491,7 +491,7 @@ namespace XmlFormatter.Windows
                 DialogResult result = MessageBox.Show(text, "Version status", buttons, MessageBoxIcon.Information);
                 if (result == DialogResult.Yes)
                 {
-                    if (!updateManager.UpdateApplication(versionCompare))
+                    if (!updateManager.UpdateApplication(versionCompare, (asset) => asset.Name.Contains("WinForms")))
                     {
                         //@TODO: Show some kind of error message
                     }
