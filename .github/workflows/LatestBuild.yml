@@ -160,6 +160,37 @@ jobs:
           name: WinFormZipArtifact
           path: |
             upload-artifacts/
+   createAvaloniaZipWindows:
+     name: Create WinForm zip
+     needs: ["createAvaloniaBuildWindows"]
+     runs-on: ubuntu-latest
+     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: AvaloniaWindowsBuildArtifact
+          path: dist
+      - name: Prepare Formatter
+        run: |
+           mkdir dist/upload-artifacts/Plugins
+           mv dist/plugins/CorePlugin.dll dist/upload-artifacts/Plugins
+      - name: Create zips
+        run: |
+           cd dist/upload-artifacts
+           zip -r LatestDevelopment_WindowsAvaloniaXmlFormatter.zip .
+           cd ../plugins/
+           zip -r LatestDevelopment_WindowsAvaloniaJsonPlugin.zip .
+      - name: Move artifact
+        run: |
+           mkdir upload-artifacts/
+           mv dist/upload-artifacts/LatestDevelopment_WindowsAvaloniaXmlFormatter.zip upload-artifacts/
+           mv dist/plugins/LatestDevelopment_WindowsAvaloniaJsonPlugin.zip upload-artifacts/
+      - name: Upload Windows Avalonia build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: WindowsAvaloniaZipArtifact
+          path: |
+            upload-artifacts/
              
            
 
