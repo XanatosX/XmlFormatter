@@ -262,6 +262,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: dist
+      - name: Read folder content
+        run: ls -la dist
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -273,6 +275,26 @@ jobs:
           body: You cannot update this version from within the application!
           draft: true
           prerelease: true
+      - name: Upload WinForm XmlFormatter zip
+          id: upload-winFormFormatter-zip
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: dist/LatestDevelopment_WinFormsXmlFormatter.zip
+            asset_name: LatestDevelopment_WinFormsXmlFormatter.zip
+            asset_content_type: application/zip
+      - name: Upload WinForm JsonPlugin zip
+          id: upload-winFormFormatter-zip
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: dist/LatestDevelopment_WinFormsJsonPlugin.zip
+            asset_name: LatestDevelopment_WinFormsJsonPlugin.zip
+            asset_content_type: application/zip
              
            
 
