@@ -295,6 +295,46 @@ jobs:
           asset_path: dist/WinFormBuildArtifact/LatestDevelopment_WinFormsJsonPlugin.zip
           asset_name: LatestDevelopment_WinFormsJsonPlugin.zip
           asset_content_type: application/zip
+      - name: Upload Windows Avalonia XmlFormatter zip
+        id: upload-avalonia-windows-formatter-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/WindowsAvaloniaZipArtifact/LatestDevelopment_WindowsAvaloniaXmlFormatter.zip
+          asset_name: LatestDevelopment_WindowsAvaloniaXmlFormatter.zip
+          asset_content_type: application/zip
+      - name: Upload Windows Avalonia JsonPlugin zip
+        id: upload-avalonia-windows-json-plugin-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/WindowsAvaloniaZipArtifact/LatestDevelopment_WindowsAvaloniaJsonPlugin.zip
+          asset_name: LatestDevelopment_WindowsAvaloniaJsonPlugin.zip
+          asset_content_type: application/zip
+      - name: Upload Linux Avalonia XmlFormatter zip
+        id: upload-avalonia-linux-formatter-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/LinuxAvaloniaZipArtifact/LatestDevelopment_LinuxAvaloniaXmlFormatter.zip
+          asset_name: LatestDevelopment_LinuxAvaloniaXmlFormatter.zip
+          asset_content_type: application/zip
+      - name: Upload Linux Avalonia JsonPlugin zip
+        id: upload-avalonia-linux-json-plugin-zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/LinuxAvaloniaZipArtifact/LatestDevelopment_LinuxAvaloniaJsonPlugin.zip
+          asset_name: LatestDevelopment_LinuxAvaloniaJsonPlugin.zip
+          asset_content_type: application/zip 
              
            
 
