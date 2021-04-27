@@ -3,8 +3,8 @@ name: Check pull request
 on: [pull_request]
 
 jobs:
-   build:
-     name: Check pull request
+   checkWinFormsBuild:
+     name: Check windows forms build
      runs-on: windows-latest
      steps:
        - name: Clone repository
@@ -15,7 +15,19 @@ jobs:
          run: nuget restore
          shell: powershell
        - name: Setup msbuild
-         uses: microsoft/setup-msbuild@v1.0.0
+         uses: microsoft/setup-msbuild@v1.0.2
        - name: Build project
-         run: msbuild /t:Build /p:Configuration=Release
+         run: msbuild .\src\XmlFormatter\XmlFormatter.csproj /t:Build /p:Configuration=Release
+         shell: powershell
+   checkAvaloniaBuild:
+     name: Check Avalonia build
+     runs-on: windows-latest
+     steps:
+       - name: Clone repository
+         uses: actions/checkout@v2
+       - name: Restore
+         run: dotnet restore
+         shell: powershell
+       - name: Build project
+         run: dotnet publish .\src\XmlFormatterOsIndependent\ -c Release -r win-x64 --self-contained true
          shell: powershell

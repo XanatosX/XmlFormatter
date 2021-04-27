@@ -3,17 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatter", "XmlFormatter\XmlFormatter.csproj", "{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlFormatter", "src\XmlFormatter\XmlFormatter.csproj", "{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}"
 	ProjectSection(ProjectDependencies) = postProject
-		{61B2922F-25C0-4F10-8DF0-FF91287C4452} = {61B2922F-25C0-4F10-8DF0-FF91287C4452}
-		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9} = {3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258} = {4FC9F80F-73AB-4647-8A7D-0F6284CD9258}
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D} = {CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{61B2922F-25C0-4F10-8DF0-FF91287C4452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlFormatterModel", "src\XMLFormatterModel\XmlFormatterModel.csproj", "{F2245AAE-DFAF-41CC-8AF2-D3836B558847}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorePlugin", "CorePlugin\CorePlugin.csproj", "{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPlugin", "src\JsonPlugin\JsonPlugin.csproj", "{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginFramework", "PluginFramework\PluginFramework.csproj", "{9808F069-6DC1-4C26-A434-16630FC697E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CorePlugin", "src\CorePlugin\CorePlugin.csproj", "{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginFramework", "src\PluginFramework\PluginFramework.csproj", "{9833586D-9807-4930-8540-3CF012A1BB59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XmlFormatterOsIndependent", "src\XmlFormatterOsIndependent\XmlFormatterOsIndependent.csproj", "{5CA56FD7-15B8-4BAF-9264-0562ABB23754}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258} = {4FC9F80F-73AB-4647-8A7D-0F6284CD9258}
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D} = {CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,18 +33,26 @@ Global
 		{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EAED5C3-DAB2-4919-9C26-EAD4D8222BD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61B2922F-25C0-4F10-8DF0-FF91287C4452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61B2922F-25C0-4F10-8DF0-FF91287C4452}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61B2922F-25C0-4F10-8DF0-FF91287C4452}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61B2922F-25C0-4F10-8DF0-FF91287C4452}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3E81CFB2-ADEE-4B81-BC13-F6CE8546F9C9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9808F069-6DC1-4C26-A434-16630FC697E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9808F069-6DC1-4C26-A434-16630FC697E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9808F069-6DC1-4C26-A434-16630FC697E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9808F069-6DC1-4C26-A434-16630FC697E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2245AAE-DFAF-41CC-8AF2-D3836B558847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2245AAE-DFAF-41CC-8AF2-D3836B558847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2245AAE-DFAF-41CC-8AF2-D3836B558847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2245AAE-DFAF-41CC-8AF2-D3836B558847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF65B491-2BA5-4F7A-968F-35E21DE5CC7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FC9F80F-73AB-4647-8A7D-0F6284CD9258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9833586D-9807-4930-8540-3CF012A1BB59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9833586D-9807-4930-8540-3CF012A1BB59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9833586D-9807-4930-8540-3CF012A1BB59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9833586D-9807-4930-8540-3CF012A1BB59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA56FD7-15B8-4BAF-9264-0562ABB23754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
