@@ -1,7 +1,7 @@
 # XML Formatter
 ![Live build](https://github.com/XanatosX/XmlFormatter/workflows/Live%20build/badge.svg)
 ![Latest unstable build](https://github.com/XanatosX/XmlFormatter/workflows/Latest%20unstable%20build/badge.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d82f0208f13547ff890deff9207bb4c4)](https://www.codacy.com/manual/simonaberle/XmlFormatter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=XanatosX/XmlFormatter&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e5160ad2aa1641f3af76a100c0d042f0)](https://www.codacy.com/gh/XanatosX/XmlFormatter/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=XanatosX/XmlFormatter&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_shield)
 
 This project is a lightweight tool to convert xml files from a flat to a formatted format or the other way round.

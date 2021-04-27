@@ -3,6 +3,9 @@ using XmlFormatterModel.Update.Adapter;
 
 namespace XmlFormatter.Update
 {
+    /// <summary>
+    /// Get the local version
+    /// </summary>
     class LocalVersionReciever : LocalResourceVersionReciever
     {
         /// <inheritdoc/>

@@ -5,6 +5,9 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent
 {
+    /// <summary>
+    /// Locater used to get the matching view
+    /// </summary>
     public class ViewLocator : IDataTemplate
     {
         public bool SupportsRecycling => false;

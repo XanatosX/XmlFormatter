@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace XmlFormatterModel.Update.Strategies
 {
+ 
+    /// <summary>
+    /// Interface to recieve version from different sources
+    /// </summary>
     public interface IVersionRecieverStrategy
     {
         /// <summary>
