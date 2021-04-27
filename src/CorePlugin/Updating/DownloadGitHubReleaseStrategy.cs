@@ -56,13 +56,30 @@ namespace CorePlugin.Updating
                         }
                     }
                     client.DownloadFile(release.DownloadUrl, localFile);
-                    Process.Start(localFile);
+                    try
+                    {
+                        Process starter = new Process();
+                        starter.StartInfo = new ProcessStartInfo(localFile)
+                        {
+                            UseShellExecute = true
+                        };
+                        starter.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
                 }
             }
 
             if (returnValue && downloadCount > 0)
             {
-                Process.Start(Environment.CurrentDirectory);
+                Process starter = new Process();
+                starter.StartInfo = new ProcessStartInfo(Environment.CurrentDirectory)
+                {
+                    UseShellExecute = true
+                };
+                starter.Start();
             }
 
             return returnValue;

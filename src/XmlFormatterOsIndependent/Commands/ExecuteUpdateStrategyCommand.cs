@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.DataSets;
+using XmlFormatterOsIndependent.Factories;
 
 namespace XmlFormatterOsIndependent.Commands
 {
@@ -11,6 +12,12 @@ namespace XmlFormatterOsIndependent.Commands
     internal class ExecuteUpdateStrategyCommand : BaseDataCommand
     {
         private readonly Predicate<IReleaseAsset> assetFilter;
+
+        public ExecuteUpdateStrategyCommand()
+        {
+            UpdatePredicateFactory predicateFactory = new UpdatePredicateFactory();
+            assetFilter = predicateFactory.GetFilter();
+        }
 
         /// <summary>
         /// This method is not implemented!

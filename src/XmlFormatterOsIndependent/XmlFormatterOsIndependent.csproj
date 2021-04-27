@@ -54,6 +54,6 @@
     </None>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(ConfigurationName) == Release (&#xD;&#xA;  echo &quot;Release build ignore post build!&quot;&#xD;&#xA;  exit&#xD;&#xA;)&#xD;&#xA;mkdir &quot;$(ProjectDir)\$(OutDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)CorePlugin\bin\$(ConfigurationName)\netstandard2.0\CorePlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\JsonPlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\Newtonsoft.Json.dll&quot; &quot;$(TargetDir)\Plugins&quot;" />
+    <Exec Command="if $(ConfigurationName) == Release (&#xD;&#xA;  echo &quot;Release build ignore post build!&quot;&#xD;&#xA;  exit&#xD;&#xA;)&#xD;&#xA;mkdir &quot;$(ProjectDir)\$(OutDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\CorePlugin\bin\$(ConfigurationName)\netstandard2.0\CorePlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\JsonPlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\Newtonsoft.Json.dll&quot; &quot;$(TargetDir)\Plugins&quot;" />
   </Target>
 </Project>
