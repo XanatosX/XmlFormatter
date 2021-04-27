@@ -65,9 +65,9 @@ namespace CorePlugin.Updating
                         };
                         starter.Start();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        
+                        // Could not open downloaded artifact but this is fine
                     }
                 }
             }

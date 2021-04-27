@@ -34,12 +34,6 @@ namespace PluginFramework.Update
         }
 
         /// <inheritdoc/>
-        //public virtual UserControl GetSettingsPage()
-        //{
-        // return null;
-        //}
-
-        /// <inheritdoc/>
         public abstract bool Update(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter);
     }
 }

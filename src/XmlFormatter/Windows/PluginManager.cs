@@ -123,18 +123,6 @@ namespace XmlFormatter.Windows
                     {
                         currentPlugin.ChangeSettings(ConvertToPluginSettings(settings));
                     }
-
-
-                    //if (currentPlugin.GetSettingsPage() == null)
-                    //{
-                    //return;
-                    //}
-
-                    //AddSettingsTab();
-                    //UserControl control = currentPlugin.GetSettingsPage();
-                    //control.Width = currentSettingsPanel.Width;
-                    //control.Height = currentSettingsPanel.Height;
-                    //currentSettingsPanel.Controls.Add(control);
                 }
             }
         }
