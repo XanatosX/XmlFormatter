@@ -47,7 +47,7 @@
     </TabControl>
     <Grid ColumnDefinitions="*,5*,*" Margin="5,5,5,0">
       <Button Grid.Column="0" Command="{Binding SaveAndClose}">Save and close</Button>
-      <Button Grid.Column="2" Command="{Binding CloseWindow}">Cancel</Button>
+      <Button Grid.Column="2" Command="{Binding CloseWindowCommand}">Cancel</Button>
     </Grid>
   </StackPanel>
 </Window>

@@ -9,9 +9,6 @@ namespace XmlFormatterOsIndependent.Views
         public AboutWindow()
         {
             this.InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

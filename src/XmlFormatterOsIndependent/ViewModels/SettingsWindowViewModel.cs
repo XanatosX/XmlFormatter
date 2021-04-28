@@ -16,6 +16,8 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// </summary>
     internal class SettingsWindowViewModel : ViewModelBase
     {
+
+        public ICommand CloseWindowCommand { get; }
         /// <summary>
         /// A list with all the update strategies
         /// </summary>
@@ -100,6 +102,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         public SettingsWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
             : base(view, settingsManager, pluginManager)
         {
+            CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
             if (this.settingsManager == null || this.pluginManager == null)
             {
                 return;
@@ -162,15 +165,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
 
         /// <summary>
-        /// Close this window
-        /// </summary>
-        public void CloseWindow()
-        {
-            ICommand command = new CloseWindowCommand();
-            ExecuteCommand(command, new CloseWindowData(view.GetWindow()));
-        }
-
-        /// <summary>
         /// Save the settings and close this window
         /// </summary>
         public void SaveAndClose()
@@ -191,7 +185,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             applicationScope.AddSetting(updater);
             applicationScope.AddSetting(themeMode);
             settingsManager.Save(settingsPath);
-            CloseWindow();
+            CloseWindowCommand.Execute(null);
         }
     }
 }

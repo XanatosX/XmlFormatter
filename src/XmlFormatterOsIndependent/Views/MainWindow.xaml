@@ -1,6 +1,7 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:XmlFormatterOsIndependent.ViewModels;assembly=XmlFormatterOsIndependent"
+        xmlns:converters="clr-namespace:XmlFormatterOsIndependent.Converters"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -15,7 +16,7 @@
         <NativeMenuItem.Menu>
           <NativeMenu>
             <NativeMenuItem Header="Settings" Command="{Binding OpenSettingsCommand}"></NativeMenuItem>
-            <NativeMenuItem Header="Exit" Command="{Binding ExitApplication}"></NativeMenuItem>
+            <NativeMenuItem Header="Exit" Command="{Binding CloseWindowCommand}"></NativeMenuItem>
           </NativeMenu>
         </NativeMenuItem.Menu>
         </NativeMenuItem>
@@ -23,7 +24,7 @@
         <NativeMenuItem.Menu>
           <NativeMenu>
             <NativeMenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></NativeMenuItem>
-            <!-- <NativeMenuItem Header="Plugins"></NativeMenuItem> -->
+            <NativeMenuItem Command="{Binding OpenPluginCommand}" Header="Plugins"></NativeMenuItem>
             <NativeMenuItem Command="{Binding OpenAboutCommand}" Header="About"></NativeMenuItem>
           </NativeMenu>
         </NativeMenuItem.Menu>
@@ -38,11 +39,11 @@
           <!--<MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>-->
           <MenuItem Header="_Settings" Command="{Binding OpenSettingsCommand}"></MenuItem>
           <Separator></Separator>
-          <MenuItem Command="{Binding ExitApplication}" Header="_Exit"></MenuItem>
+          <MenuItem Command="{Binding CloseWindowCommand}" Header="_Exit"></MenuItem>
         </MenuItem>
         <MenuItem Header="_Help">
           <MenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></MenuItem>
-          <MenuItem IsEnabled="False" Header="Plugins"></MenuItem>
+          <MenuItem Command="{Binding OpenPluginCommand}" Header="Plugins"></MenuItem>
           <Separator></Separator>
           <MenuItem Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
         </MenuItem>
@@ -50,22 +51,38 @@
       </Menu>
     </DockPanel>
     <TextBlock Text="{Binding TextBoxText}" Margin="5,0,0,0"></TextBlock>
-    <TextBox Text="{Binding CurrentFile}" Margin="5,0,5,0" Width="800"></TextBox>
+    <TextBox Name="InputFile" Text="{Binding CurrentFile}" Margin="5,0,5,0" Width="800"></TextBox>
     <Grid ColumnDefinitions="*, 4*, 2*, *, *">
-      <Button Grid.Column="0" Margin="5,0,5,0" Command="{Binding LoadFileCommand}">Load</Button>
+      <Button Grid.Column="0" Margin="5,0,5,0" Command="{Binding OpenFileCommand}" CommandParameter="{Binding CurrentPlugin}">Load</Button>
       <TextBlock Grid.Column="1" Margin="5,0,5,0" VerticalAlignment="Center" Text="{Binding StatusString}"></TextBlock>
-      <ComboBox Grid.Column="2" Margin="5,0,0,0" Items="{Binding List}" IsVisible="{Binding FormatterSelectorVisible}" SelectedItem="{Binding CurrentPlugin}" SelectedIndex="{Binding CurrentFormatter}">
+      <ComboBox Name="FormatterSelection" Grid.Column="2" Margin="5,0,0,0" Items="{Binding List}" IsVisible="{Binding FormatterSelectorVisible}" SelectedItem="{Binding CurrentPlugin}" SelectedIndex="{Binding CurrentFormatter}">
         <ComboBox.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding Information.Name}"></TextBlock>
           </DataTemplate>
       </ComboBox.ItemTemplate>
       </ComboBox>
-      <DropDown Grid.Column="3" Margin="5,0,0,0" SelectedIndex="{Binding CurrentMode}">
-        <DropDownItem>Formatted</DropDownItem>
-        <DropDownItem>Flat</DropDownItem>
+      <DropDown Name="ModeSelection" Grid.Column="3" Margin="5,0,0,0" IsVisible="{Binding ElementName=FormatterSelection,Path=IsVisible}" Items="{Binding ConversionModes}" SelectedIndex="{Binding CurrentMode}">
+        <DropDown.ItemTemplate>
+          <DataTemplate>
+            <TextBlock Text="{Binding DisplayName}"></TextBlock>
+          </DataTemplate>
+        </DropDown.ItemTemplate>
       </DropDown>
-      <Button Grid.Column="4" Margin="5,0,5,0" IsEnabled="{Binding SaveEnabled}" Command="{Binding SaveFileCommand}">Save</Button>
+      <Button Grid.Column="4" Margin="5,0,5,0" Command="{Binding ConvertFileCommand}" Content="Save">
+        <Button.Resources>
+          <converters:ConvertConversionData x:Key="ConvertConversionData"></converters:ConvertConversionData>
+        </Button.Resources>
+        
+        <Button.CommandParameter>
+          <MultiBinding Converter="{StaticResource ConvertConversionData}">
+            <Binding ElementName="InputFile" Path="Text"></Binding>
+            <Binding ElementName="FormatterSelection" Path="SelectedItem"></Binding>
+            <Binding ElementName="ModeSelection" Path="SelectedItem"></Binding>
+          </MultiBinding>
+          
+        </Button.CommandParameter>
+      </Button>
     </Grid>
   </StackPanel>
 </Window>
