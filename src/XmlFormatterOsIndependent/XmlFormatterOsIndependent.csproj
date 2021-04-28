@@ -15,19 +15,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="Assets\HotfolderIcon.ico" />
-    <AvaloniaResource Remove="Assets\XmlFormatterSettingsIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
+    <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
     <None Remove="version.txt" />
     <None Remove="Views\PluginManagerWindow.xaml" />
     <None Remove="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\HotfolderIcon.ico" />
-    <Content Include="Assets\XmlFormatterSettingsIcon.ico" />
     <Content Include="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>

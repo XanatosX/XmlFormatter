@@ -4,7 +4,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:models="clr-namespace:XmlFormatterOsIndependent.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800"
+        Height="450"
+        MinWidth="400"
+        MinHeight="225"
         x:Class="XmlFormatterOsIndependent.Views.PluginManagerWindow"
+        Icon="/Assets/PluginIcon.ico"
         Name="Root"
         Title="PluginManagerWindow">
   <DockPanel>
@@ -32,8 +37,7 @@
           </DataTemplate>
         </TreeView.DataTemplates>
       </TreeView>
-      <Panel  Grid.Column="1">
-        <!-- IsVisible="{Binding PanelVisible}"-->
+      <Panel IsVisible="{Binding PanelVisible}" Grid.Column="1">
         <Grid  Margin="5">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

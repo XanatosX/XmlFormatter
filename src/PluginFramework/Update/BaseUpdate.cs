@@ -16,7 +16,13 @@ namespace PluginFramework.Update
         public PluginSettings Settings { get; private set; }
 
         /// <inheritdoc/>
-        public PluginInformation Information { get; }
+        public PluginInformation Information { get; protected set; }
+
+        public BaseUpdate()
+            : this(new PluginInformation(string.Empty, string.Empty, string.Empty, new Version(0,0)))
+        {
+
+        }
 
         /// <summary>
         /// Create a new intsance of this base plugin calss
