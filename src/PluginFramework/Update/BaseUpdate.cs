@@ -31,7 +31,7 @@ namespace PluginFramework.Update
         /// Create a new intsance of this base plugin calss
         /// </summary>
         /// <param name="information">The plugin information to use</param>
-        protected BaseUpdate(PluginInformation information)
+        public BaseUpdate(PluginInformation information)
         {
             Information = information;
         }

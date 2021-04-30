@@ -15,12 +15,12 @@ namespace CorePlugin.Updating
         /// <summary>
         /// The url opener to use
         /// </summary>
-        private UrlOpener urlOpener;
+        private readonly UrlOpener urlOpener;
 
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
-        public OpenGitHubReleasesStrategy() : base()
+        public OpenGitHubReleasesStrategy()
         {
             ResourceLoader loader = new ResourceLoader();
 

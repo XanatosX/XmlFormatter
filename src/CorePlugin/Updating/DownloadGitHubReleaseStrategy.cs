@@ -19,7 +19,7 @@ namespace CorePlugin.Updating
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
-        public DownloadGitHubReleaseStrategy() : base()
+        public DownloadGitHubReleaseStrategy()
         {
             ResourceLoader loader = new ResourceLoader();
             
