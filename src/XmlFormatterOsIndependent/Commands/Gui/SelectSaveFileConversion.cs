@@ -5,16 +5,32 @@ using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using XmlFormatterOsIndependent.Commands.SystemCommands;
 using XmlFormatterOsIndependent.DataSets.Files;
 
 namespace XmlFormatterOsIndependent.Commands.Gui
 {
+    /// <summary>
+    /// Command to convert the input file to the defined format
+    /// </summary>
     class SelectSaveFileConversion : SaveFileCommand
     {
+        /// <summary>
+        /// The function used to convert the input file name to the output file name
+        /// </summary>
         private readonly Func<string, ModesEnum, string> fileConversionFunction;
+
+        /// <summary>
+        /// The plugin manager to use for loading plugins
+        /// </summary>
         private readonly IPluginManager pluginManager;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="parent">The parent window to bind the save dialog window to</param>
+        /// <param name="pluginManager">The plugin manager ussed for loading the plugin for conversion</param>
+        /// <param name="fileConversionFunction">The function to use for converting the input file to the output file name</param>
         public SelectSaveFileConversion(Window parent, IPluginManager pluginManager, Func<string, ModesEnum, string> fileConversionFunction)
             : base(parent)
         {
@@ -22,6 +38,7 @@ namespace XmlFormatterOsIndependent.Commands.Gui
             this.pluginManager = pluginManager;
         }
 
+        /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
             return parent != null
@@ -31,6 +48,7 @@ namespace XmlFormatterOsIndependent.Commands.Gui
                 && parameter is SaveFileConversionData;
         }
 
+        /// <inheritdoc/>
         public override void Execute(object parameter)
         {
             if (!CanExecute(parameter))
@@ -70,7 +88,3 @@ namespace XmlFormatterOsIndependent.Commands.Gui
         }
     }
 }
-
-//CurrentFile
-//ModesEnum
-//List<FileDialogFilter> dialogFilters

@@ -1,6 +1,6 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using MessageBox.Avalonia;
-using MessageBox.Avalonia.BaseWindows;
 using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
@@ -11,8 +11,8 @@ using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
@@ -20,10 +20,10 @@ using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Commands.Conversion;
 using XmlFormatterOsIndependent.Commands.Gui;
+using XmlFormatterOsIndependent.Commands.SystemCommands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.EventArg;
-using XmlFormatterOsIndependent.Helper;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Views;
 
@@ -34,16 +34,44 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Command to open the plugin window
+        /// </summary>
         public ICommand OpenPluginCommand { get; }
-        public ICommand OpenAboutCommand { get; }
-        public ICommand OpenSettingsCommand { get; }
 
+        /// <summary>
+        /// Command to open the about window
+        /// </summary>
+        public ICommand OpenAboutCommand { get; }
+
+        /// <summary>
+        /// Command to open the settings window
+        /// </summary>
+        public ITriggerCommand OpenSettingsCommand { get; }
+
+        /// <summary>
+        /// Close this window
+        /// </summary>
         public ICommand CloseWindowCommand { get; }
 
+        /// <summary>
+        /// Command to open a file to be formatted
+        /// </summary>
         public ITriggerCommand OpenFileCommand { get; }
 
+        /// <summary>
+        /// Command to convert and save the files
+        /// </summary>
         public ITriggerCommand ConvertFileCommand { get; }
 
+        /// <summary>
+        /// Open external link
+        /// </summary>
+        public ICommand OpenUrl { get; }
+
+        /// <summary>
+        /// The modes you could convert to
+        /// </summary>
         public List<ModeSelection> ConversionModes { get; }
 
         /// <summary>
@@ -97,6 +125,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 this.RaiseAndSetIfChanged(ref currentFormatter, value);
                 ConvertFileCommand?.DataHasChanged();
+                CurrentFile = string.Empty;
             }
         }
         /// <summary>
@@ -135,19 +164,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         private string currentFile;
 
         /// <summary>
-        /// Is the save button enabled
-        /// </summary>
-        public bool SaveEnabled
-        {
-            get => saveEnabled;
-            set => this.RaiseAndSetIfChanged(ref saveEnabled, value);
-        }
-        /// <summary>
-        /// Private information if the save button is enabled
-        /// </summary>
-        private bool saveEnabled;
-
-        /// <summary>
         /// Is the formatter selector visible at the moment
         /// </summary>
         public bool FormatterSelectorVisible
@@ -172,6 +188,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
             OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
             OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
+            OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
             OpenPluginCommand = new OpenWindowCommand(typeof(PluginManagerWindow), view.GetParent());
             OpenFileCommand = new OpenConversionFileCommand(view.Parent, pluginManager);
             OpenFileCommand.ContinueWith += (sender, data) =>
@@ -189,6 +206,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 ConversionModes.Add(new ModeSelection(value.ToString(), value));
             }
+            OpenUrl = new OpenBrowserUrl();
 
             if (!File.Exists(settingsPath))
             {
@@ -208,6 +226,51 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFile = string.Empty;
             CurrentMode = 0;
             CurrentFormatter = 0;
+
+            view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    data.DragEffects = DragDropEffects.None;
+                    return;
+                }
+
+                data.DragEffects = DragDropEffects.Copy;
+            });
+
+            view.Current.AddHandler(DragDrop.DropEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    return;
+                }
+
+                CurrentFile = data.Data.GetFileNames().First();
+            });
+        }
+
+        /// <summary>
+        /// Check if the file which was dragged dropped into is correct
+        /// </summary>
+        /// <param name="data">The dataset to check</param>
+        /// <returns>True if the file is valid</returns>
+        private bool CheckDragDropFile(DragEventArgs data)
+        {
+            IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
+            if (currentFormatter == null
+                || files.Count == 0
+                || files.Count > 1)
+            {
+                return false;
+            }
+            string firstFile = files.First();
+            FileInfo info = new FileInfo(firstFile);
+            if (info.Extension.Replace(".", string.Empty) != currentFormatter.Extension)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <inheritdoc>/>
@@ -286,34 +349,6 @@ namespace XmlFormatterOsIndependent.ViewModels
                     }
                 });
             }
-        }
-
-        /// <summary>
-        /// Event if the settings window was shown
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The parameters of this event</param>
-        private void ShowSettings_Executed(object sender, EventArgs e)
-        {
-            ChangeTheme();
-        }
-
-        /// <summary>
-        /// Get the current conversion mode
-        /// </summary>
-        /// <returns>The mode of conversion</returns>
-        private ModesEnum GetConvertionMode()
-        {
-            return currentMode == 0 ? ModesEnum.Formatted : ModesEnum.Flat;
-        }
-
-        /// <summary>
-        /// Report a new issue
-        /// </summary>
-        public void ReportIssue()
-        {
-            UrlOpener urlOpener = new UrlOpener("https://github.com/XanatosX/XmlFormatter/issues");
-            urlOpener.OpenUrl();
         }
     }
 }

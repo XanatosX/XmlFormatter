@@ -2,41 +2,26 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace XmlFormatterOsIndependent.Helper
+namespace PluginFramework.Utils
 {
     /// <summary>
-    /// This class will help you to open up urls
+    /// Util class to open links based on the operation system
     /// </summary>
-    [Obsolete]
     public class UrlOpener
     {
         /// <summary>
-        /// The url to open
-        /// </summary>
-        private readonly string url;
-
-        /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        /// <param name="url">The url which should be opened</param>
-        public UrlOpener(string url)
+        /// <param name="url"></param>
+        public void OpenUrl(Uri url)
         {
-            this.url = url;
-        }
-
-        /// <summary>
-        /// Create a new instance of this class
-        /// </summary>
-        /// <param name="url">The url which should be openend</param>
-        public UrlOpener(Uri url) : this(url.ToString())
-        {
-
+            OpenUrl(url.ToString());
         }
 
         /// <summary>
         /// Open the given url
         /// </summary>
-        public void OpenUrl()
+        public void OpenUrl(string url)
         {
             string realUrl = url;
             try

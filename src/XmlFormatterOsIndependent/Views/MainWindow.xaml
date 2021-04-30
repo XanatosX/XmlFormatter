@@ -9,7 +9,8 @@
         Icon="/Assets/XmlFormatterIcon.ico"
         Title="File Formatter"
         SizeToContent="WidthAndHeight"
-        CanResize="False">
+        CanResize="False"
+        DragDrop.AllowDrop="True">
   <NativeMenu.Menu>
     <NativeMenu>
       <NativeMenuItem Header="File">
@@ -19,7 +20,7 @@
             <NativeMenuItem Header="Exit" Command="{Binding CloseWindowCommand}"></NativeMenuItem>
           </NativeMenu>
         </NativeMenuItem.Menu>
-        </NativeMenuItem>
+      </NativeMenuItem>
       <NativeMenuItem Header="Help">
         <NativeMenuItem.Menu>
           <NativeMenu>
@@ -29,8 +30,8 @@
           </NativeMenu>
         </NativeMenuItem.Menu>
       </NativeMenuItem>
-      <NativeMenuItem Command="{Binding ReportIssue}" Header="Report Issue"></NativeMenuItem>
-      </NativeMenu>
+      <NativeMenuItem Command="{Binding OpenUrl}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="Report Issue"></NativeMenuItem>
+    </NativeMenu>
   </NativeMenu.Menu>
   <StackPanel Spacing="5" Margin="0,0,0,5">
     <DockPanel x:Name="WindowDock">
@@ -47,7 +48,7 @@
           <Separator></Separator>
           <MenuItem Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
         </MenuItem>
-        <MenuItem Command="{Binding ReportIssue}" Header="_Report Issue"></MenuItem>
+        <MenuItem Command="{Binding OpenUrl}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="_Report Issue"></MenuItem>
       </Menu>
     </DockPanel>
     <TextBlock Text="{Binding TextBoxText}" Margin="5,0,0,0"></TextBlock>
@@ -60,7 +61,7 @@
           <DataTemplate>
             <TextBlock Text="{Binding Information.Name}"></TextBlock>
           </DataTemplate>
-      </ComboBox.ItemTemplate>
+        </ComboBox.ItemTemplate>
       </ComboBox>
       <DropDown Name="ModeSelection" Grid.Column="3" Margin="5,0,0,0" IsVisible="{Binding ElementName=FormatterSelection,Path=IsVisible}" Items="{Binding ConversionModes}" SelectedIndex="{Binding CurrentMode}">
         <DropDown.ItemTemplate>
@@ -73,14 +74,14 @@
         <Button.Resources>
           <converters:ConvertConversionData x:Key="ConvertConversionData"></converters:ConvertConversionData>
         </Button.Resources>
-        
+
         <Button.CommandParameter>
           <MultiBinding Converter="{StaticResource ConvertConversionData}">
             <Binding ElementName="InputFile" Path="Text"></Binding>
             <Binding ElementName="FormatterSelection" Path="SelectedItem"></Binding>
             <Binding ElementName="ModeSelection" Path="SelectedItem"></Binding>
           </MultiBinding>
-          
+
         </Button.CommandParameter>
       </Button>
     </Grid>

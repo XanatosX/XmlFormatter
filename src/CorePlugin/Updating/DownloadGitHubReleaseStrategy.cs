@@ -24,7 +24,7 @@ namespace CorePlugin.Updating
             ResourceLoader loader = new ResourceLoader();
             
             string description = loader.LoadResource("Updating.DownloadGitHubDescription.txt");
-            Information = new PluginInformation("Open GitHub releases", description, "XanatosX", new Version(1, 1, 1));
+            Information = new PluginInformation("Download GitHub releases", description, "XanatosX", new Version(1, 1, 1));
         }
 
         /// <inheritdoc/>

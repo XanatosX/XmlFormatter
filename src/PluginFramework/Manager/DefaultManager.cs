@@ -33,12 +33,18 @@ namespace PluginFramework.Manager
         private int nextId;
 
         /// <summary>
+        /// Currently cached plugin so that we do not need to reload the same plugin all the time
+        /// </summary>
+        private Dictionary<Type, IPluginOverhead> cachedPlugins;
+
+        /// <summary>
         /// Create a new instance of this plugin manager
         /// </summary>
         public DefaultManager()
         {
             plugins = new List<PluginMetaData>();
             loadedTypes = new List<Type>();
+            cachedPlugins = new Dictionary<Type, IPluginOverhead>();
             nextId = 0;
         }
 
@@ -125,10 +131,24 @@ namespace PluginFramework.Manager
         public T LoadPlugin<T>(int id, PluginSettings settings) where T : IPluginOverhead
         {
             PluginMetaData metaData = plugins.Find(plugin => plugin.Id == id);
-            T pluginInstance = metaData == null ? default : (T)Activator.CreateInstance(plugins[id].Type);
-            if (pluginInstance != null && settings != null)
+            if (metaData == null)
             {
-                pluginInstance.ChangeSettings(settings);
+                return default;
+            }
+            if (cachedPlugins.ContainsKey(metaData.Type))
+            {
+                T returnPlugin = (T)cachedPlugins[metaData.Type];
+                if (settings != null)
+                {
+                    returnPlugin.ChangeSettings(settings);
+                }
+                return returnPlugin;
+            }
+            T pluginInstance = metaData == null ? default : (T)Activator.CreateInstance(metaData.Type);
+            if (pluginInstance != null)
+            {
+                cachedPlugins.Add(metaData.Type, pluginInstance);
+                return (LoadPlugin<T>(id, settings));
             }
             return pluginInstance;
         }

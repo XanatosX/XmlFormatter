@@ -26,7 +26,7 @@
           <DataTemplate DataType="models:PluginTreeViewItem">
             <Button Content="{Binding Information.Name}" Background="Transparent" BorderThickness="0"
                     HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                    Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding }">
+                    Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding Information}">
               <Button.Styles>
                 <Style Selector="Button:pressed /template/ ContentPresenter">
                   <Setter Property="Background" Value="Transparent">

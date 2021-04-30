@@ -3,6 +3,7 @@ using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using System.Collections.Generic;
+using XmlFormatterOsIndependent.Commands.SystemCommands;
 
 namespace XmlFormatterOsIndependent.Commands.Gui
 {
@@ -11,8 +12,16 @@ namespace XmlFormatterOsIndependent.Commands.Gui
     /// </summary>
     internal class OpenConversionFileCommand : OpenFileCommand
     {
+        /// <summary>
+        /// The plugin manager to use
+        /// </summary>
         private readonly IPluginManager pluginManager;
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="parent">The parent window to use for binding</param>
+        /// <param name="pluginManager">The plugin manager used for loading the plugins</param>
         public OpenConversionFileCommand(Window parent, IPluginManager pluginManager)
             : base(parent)
         {

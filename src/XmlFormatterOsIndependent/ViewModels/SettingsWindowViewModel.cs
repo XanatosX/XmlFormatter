@@ -17,7 +17,11 @@ namespace XmlFormatterOsIndependent.ViewModels
     internal class SettingsWindowViewModel : ViewModelBase
     {
 
+        /// <summary>
+        /// Command to close a specific window
+        /// </summary>
         public ICommand CloseWindowCommand { get; }
+
         /// <summary>
         /// A list with all the update strategies
         /// </summary>

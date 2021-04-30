@@ -1,10 +1,7 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
@@ -13,8 +10,14 @@ using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
+    /// <summary>
+    /// Window to list all the plugin data
+    /// </summary>
     class PluginManagerViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Is the information panel to the right visible
+        /// </summary>
         public bool PanelVisible
         {
             get => panelVisible;
@@ -22,22 +25,40 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
         private bool panelVisible;
 
+        /// <summary>
+        /// The current plugin information to display
+        /// </summary>
         public PluginInformation PluginInformation 
         { 
             get => pluginInformation; 
             private set => this.RaiseAndSetIfChanged(ref pluginInformation, value); 
         }
+
+        /// <summary>
+        /// Private plugin information which should be displayed
+        /// </summary>
         private PluginInformation pluginInformation;
 
+        /// <summary>
+        /// The groups for the plugins to be shown in the tree view
+        /// </summary>
         public List<PluginTreeViewGroup> PluginGroups { get; }
 
+        /// <summary>
+        /// Command to use to open the plugin and show the information
+        /// </summary>
         public ITriggerCommand OpenPluginCommand { get; }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        /// <param name="viewContainer">The container for the parent window and the current window</param>
+        /// <param name="managerFactory">The factory to create the plugin manager</param>
         public PluginManagerViewModel(ViewContainer viewContainer, DefaultManagerFactory managerFactory)
             : base(viewContainer, managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
         {
             PanelVisible = false;
-            OpenPluginCommand = new OpenPluginCommand(pluginManager);
+            OpenPluginCommand = new GetPluginInformationCommand(pluginManager);
             OpenPluginCommand.ContinueWith += (sender, data) =>
             {
                 if (data is PluginInformationArg arg)
