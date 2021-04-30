@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using XmlFormatterOsIndependent.DataSets.Files;
+using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.Converters
 {
@@ -28,9 +29,9 @@ namespace XmlFormatterOsIndependent.Converters
             {
                 pluginMetaData = metaData;
             }
-            if (values[0] is ModesEnum selection)
+            if (values[2] is ModeSelection selection)
             {
-                mode = selection;
+                mode = selection.Value;
             }
             if (InputFile != string.Empty && pluginMetaData != null)
             {
