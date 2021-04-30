@@ -1,13 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace CorePlugin.Assets
 {
-    class ResourceLoader
+    /// <summary>
+    /// Class to use for load embedded resources
+    /// </summary>
+    internal class ResourceLoader
     {
+        /// <summary>
+        /// Load the resource by name
+        /// </summary>
+        /// <param name="resourceName">The name of the resource to load</param>
+        /// <returns>Return the data string from the loaded resource</returns>
         public string LoadResource(string resourceName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
@@ -28,7 +34,6 @@ namespace CorePlugin.Assets
             {
                 return returnData;
             }
-
 
             return returnData;
         }

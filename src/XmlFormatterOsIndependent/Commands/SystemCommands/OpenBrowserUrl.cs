@@ -45,8 +45,6 @@ namespace XmlFormatterOsIndependent.Commands.SystemCommands
         {
             this.url = url;
         }
-
-
         
         /// <inheritdoc/>
         public override bool CanExecute(object parameter)

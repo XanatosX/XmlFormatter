@@ -18,6 +18,9 @@ namespace PluginFramework.Update
         /// <inheritdoc/>
         public PluginInformation Information { get; protected set; }
 
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
         public BaseUpdate()
             : this(new PluginInformation(string.Empty, string.Empty, string.Empty, new Version(0,0)))
         {

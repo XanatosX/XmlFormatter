@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace XmlFormatterOsIndependent.Enums
 {
+    /// <summary>
+    /// The pluging type to use
+    /// </summary>
     public enum PluginType
     {
         Updater,

@@ -9,8 +9,12 @@ using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.Converters
 {
+    /// <summary>
+    /// Class to convert bindings for file conversion
+    /// </summary>
     class ConvertConversionData : IMultiValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
             string InputFile = string.Empty;
