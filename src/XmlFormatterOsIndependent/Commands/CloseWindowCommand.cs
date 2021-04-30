@@ -8,38 +8,27 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// This command will close the current window
     /// </summary>
-    internal class CloseWindowCommand : ICommand
+    internal class CloseWindowCommand : BaseCommand
     {
-        /// <inheritdoc/>
-        public event EventHandler CanExecuteChanged;
+        private readonly Window targetWindow;
 
-        /// <inheritdoc/>
-        public bool CanExecute(object parameter)
+        public CloseWindowCommand(Window targetWindow)
         {
-            if (parameter is CloseWindowData)
-            {
-                return true;
-            }
-            return false;
+            this.targetWindow = targetWindow;
         }
 
-        /// <inheritdoc/>
-        public void Execute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            if (parameter is CloseWindowData data)
-            {
-                if (data.AskBeforeClosing)
-                {
-                    return;
-                }
-                CloseWithoutAsking(data.Window);
-            }
+            return targetWindow != null;
         }
 
-        /// <inheritdoc/>
-        private void CloseWithoutAsking(Window window)
+        public override void Execute(object parameter)
         {
-            window.Close();
+            if (!CanExecute(parameter))
+            {
+                return;
+            }
+            targetWindow.Close();
         }
     }
 }

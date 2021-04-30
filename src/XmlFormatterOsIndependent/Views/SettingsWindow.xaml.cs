@@ -7,16 +7,13 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class SettingsWindow : Window
+    public class SettingsWindow : Window, IParentSetable
     {
         private Window parent;
 
         public SettingsWindow()
         {
             this.InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         public void SetParent(Window parent)

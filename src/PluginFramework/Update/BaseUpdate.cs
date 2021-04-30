@@ -16,13 +16,22 @@ namespace PluginFramework.Update
         public PluginSettings Settings { get; private set; }
 
         /// <inheritdoc/>
-        public PluginInformation Information { get; }
+        public PluginInformation Information { get; protected set; }
+
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        public BaseUpdate()
+            : this(new PluginInformation(string.Empty, string.Empty, string.Empty, new Version(0,0)))
+        {
+
+        }
 
         /// <summary>
         /// Create a new intsance of this base plugin calss
         /// </summary>
         /// <param name="information">The plugin information to use</param>
-        protected BaseUpdate(PluginInformation information)
+        public BaseUpdate(PluginInformation information)
         {
             Information = information;
         }

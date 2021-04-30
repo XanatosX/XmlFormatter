@@ -5,7 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Updating\DownloadGitHubDescription.txt" />
+    <None Remove="Assets\Updating\OpenGitHubDescription.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Updating\DownloadGitHubDescription.txt" />
+    <EmbeddedResource Include="Assets\Updating\OpenGitHubDescription.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\Formatter\" />
   </ItemGroup>
 
 </Project>

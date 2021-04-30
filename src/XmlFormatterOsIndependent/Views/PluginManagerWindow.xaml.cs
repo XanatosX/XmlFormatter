@@ -1,4 +1,3 @@
-﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.DataSets;
@@ -7,19 +6,26 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class AboutWindow : Window
+    /// <summary>
+    /// Window class for the plugin manager
+    /// </summary>
+    public class PluginManagerWindow : Window
     {
-        public AboutWindow()
+        /// <summary>
+        /// Create a new instance of this class
+        /// </summary>
+        public PluginManagerWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
+        /// <inheritdoc/>
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
             DefaultManagerFactory managerFactory = new DefaultManagerFactory();
 
-            DataContext = new AboutWindowViewModel(new ViewContainer(this, this), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
+            DataContext = new PluginManagerViewModel(new ViewContainer(this, this), managerFactory);
         }
     }
 }

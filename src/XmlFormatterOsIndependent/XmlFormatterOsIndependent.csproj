@@ -15,40 +15,33 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="Models\**" />
-    <Compile Remove="Models\**" />
-    <EmbeddedResource Remove="Models\**" />
-    <None Remove="Models\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Remove="Assets\HotfolderIcon.ico" />
-    <AvaloniaResource Remove="Assets\XmlFormatterSettingsIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
+    <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
     <None Remove="version.txt" />
+    <None Remove="Views\PluginManagerWindow.xaml" />
     <None Remove="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\HotfolderIcon.ico" />
-    <Content Include="Assets\XmlFormatterSettingsIcon.ico" />
     <Content Include="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.10" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.10" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.10" />
-    <PackageReference Include="MessageBox.Avalonia" Version="0.9.6.1" />
+    <PackageReference Include="Avalonia" Version="0.10.2" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.2" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.2" />
+    <PackageReference Include="MessageBox.Avalonia" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
     <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Update="Views\PluginManagerWindow.xaml">
+      <Generator></Generator>
+    </AvaloniaResource>
     <None Update="Views\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

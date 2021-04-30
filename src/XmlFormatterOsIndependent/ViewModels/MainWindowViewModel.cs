@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Input;
 using MessageBox.Avalonia;
-using MessageBox.Avalonia.BaseWindows;
+using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using PluginFramework.DataContainer;
@@ -11,14 +12,20 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
+using XmlFormatterOsIndependent.Commands.Conversion;
+using XmlFormatterOsIndependent.Commands.Gui;
+using XmlFormatterOsIndependent.Commands.SystemCommands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
-using XmlFormatterOsIndependent.Helper;
+using XmlFormatterOsIndependent.EventArg;
+using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -27,6 +34,46 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// </summary>
     public class MainWindowViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Command to open the plugin window
+        /// </summary>
+        public ICommand OpenPluginCommand { get; }
+
+        /// <summary>
+        /// Command to open the about window
+        /// </summary>
+        public ICommand OpenAboutCommand { get; }
+
+        /// <summary>
+        /// Command to open the settings window
+        /// </summary>
+        public ITriggerCommand OpenSettingsCommand { get; }
+
+        /// <summary>
+        /// Close this window
+        /// </summary>
+        public ICommand CloseWindowCommand { get; }
+
+        /// <summary>
+        /// Command to open a file to be formatted
+        /// </summary>
+        public ITriggerCommand OpenFileCommand { get; }
+
+        /// <summary>
+        /// Command to convert and save the files
+        /// </summary>
+        public ITriggerCommand ConvertFileCommand { get; }
+
+        /// <summary>
+        /// Open external link
+        /// </summary>
+        public ICommand OpenUrl { get; }
+
+        /// <summary>
+        /// The modes you could convert to
+        /// </summary>
+        public List<ModeSelection> ConversionModes { get; }
+
         /// <summary>
         /// Text for the text box
         /// </summary>
@@ -43,7 +90,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         public PluginMetaData CurrentPlugin
         {
             get => currentPlugin;
-            set => this.RaiseAndSetIfChanged(ref currentPlugin, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref currentPlugin, value);
+                OpenFileCommand?.DataHasChanged();
+                ConvertFileCommand?.DataHasChanged();
+            }
         }
         /// <summary>
         /// Private storage for current selected plugin
@@ -69,7 +121,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         public int CurrentFormatter
         {
             get => currentFormatter;
-            set => this.RaiseAndSetIfChanged(ref currentFormatter, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref currentFormatter, value);
+                ConvertFileCommand?.DataHasChanged();
+                CurrentFile = string.Empty;
+            }
         }
         /// <summary>
         /// Private index of the selected formatter
@@ -82,7 +139,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         public int CurrentMode
         {
             get => currentMode;
-            set => this.RaiseAndSetIfChanged(ref currentMode, value);
+            set
+            {
+                this.RaiseAndSetIfChanged(ref currentMode, value);
+                ConvertFileCommand?.DataHasChanged();
+            }
         }
         /// <summary>
         /// Private currently selected conversion mode
@@ -101,19 +162,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Private currently selected file
         /// </summary>
         private string currentFile;
-
-        /// <summary>
-        /// Is the save button enabled
-        /// </summary>
-        public bool SaveEnabled
-        {
-            get => saveEnabled;
-            set => this.RaiseAndSetIfChanged(ref saveEnabled, value);
-        }
-        /// <summary>
-        /// Private information if the save button is enabled
-        /// </summary>
-        private bool saveEnabled;
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -137,6 +185,29 @@ namespace XmlFormatterOsIndependent.ViewModels
         public MainWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
             : base(view, settingsManager, pluginManager)
         {
+            CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
+            OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
+            OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
+            OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
+            OpenPluginCommand = new OpenWindowCommand(typeof(PluginManagerWindow), view.GetParent());
+            OpenFileCommand = new OpenConversionFileCommand(view.Parent, pluginManager);
+            OpenFileCommand.ContinueWith += (sender, data) =>
+            {
+                if (data is FileSelectedArg selectedArg)
+                {
+                    CurrentFile = selectedArg.SelectedFile;
+                }
+            };
+            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) => {
+                StatusString = "Status: " + data.Message;
+            });
+            ConversionModes = new List<ModeSelection>();
+            foreach(ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
+            {
+                ConversionModes.Add(new ModeSelection(value.ToString(), value));
+            }
+            OpenUrl = new OpenBrowserUrl();
+
             if (!File.Exists(settingsPath))
             {
                 settingsManager.Save(settingsPath);
@@ -147,10 +218,59 @@ namespace XmlFormatterOsIndependent.ViewModels
 
             List = this.pluginManager.ListPlugins<IFormatter>();
             formatterSelectorVisible = List.Count > 1;
+            if (!formatterSelectorVisible)
+            {
+                statusString += "Missing plugins for conversion!";
+            }
 
             CurrentFile = string.Empty;
             CurrentMode = 0;
             CurrentFormatter = 0;
+
+            view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    data.DragEffects = DragDropEffects.None;
+                    return;
+                }
+
+                data.DragEffects = DragDropEffects.Copy;
+            });
+
+            view.Current.AddHandler(DragDrop.DropEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    return;
+                }
+
+                CurrentFile = data.Data.GetFileNames().First();
+            });
+        }
+
+        /// <summary>
+        /// Check if the file which was dragged dropped into is correct
+        /// </summary>
+        /// <param name="data">The dataset to check</param>
+        /// <returns>True if the file is valid</returns>
+        private bool CheckDragDropFile(DragEventArgs data)
+        {
+            IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
+            if (currentFormatter == null
+                || files.Count == 0
+                || files.Count > 1)
+            {
+                return false;
+            }
+            string firstFile = files.First();
+            FileInfo info = new FileInfo(firstFile);
+            if (info.Extension.Replace(".", string.Empty) != currentFormatter.Extension)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <inheritdoc>/>
@@ -161,70 +281,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             parent.Height = parent.Height - 35;
             parent.MinHeight = parent.Height;
             parent.MaxHeight = parent.Height;
-        }
-
-        /// <summary>
-        /// Trigger the file load dialog
-        /// </summary>
-        public void LoadFileCommand()
-        {
-            IDataCommand openFile = new OpenFileCommand();
-            FileDialogData data = new FileDialogData(view.Current, GetCurrentFilter());
-            if (openFile.CanExecute(data))
-            {
-                openFile.Executed += OpenFile_Executed;
-                openFile.AsyncExecute(data);
-            }
-        }
-
-        /// <summary>
-        /// Trigger the save file dialog
-        /// </summary>
-        public void SaveFileCommand()
-        {
-            IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
-            if (formatter == null || !File.Exists(CurrentFile))
-            {
-                StatusString = "Status: Something is wrong with the input file";
-                SaveEnabled = false;
-                return;
-            }
-            IDataCommand saveCommand = new OpenSaveFileDialogCommand();
-            FileInfo fileInfo = new FileInfo(CurrentFile);
-            string fileName = fileInfo.Name;
-            fileName = fileName.Replace(fileInfo.Extension, "");
-            fileName += "_" + GetConvertionMode().ToString();
-            fileName += fileInfo.Extension;
-            FileDialogData data = new FileDialogData(view.Current, GetCurrentFilter(), fileName);
-            if (saveCommand.CanExecute(data))
-            {
-                saveCommand.AsyncExecute(data);
-                saveCommand.Executed += SaveCommand_Executed;
-            }
-        }
-
-        /// <summary>
-        /// Get the current filter for file open or save dialog
-        /// </summary>
-        /// <returns></returns>
-        private List<FileDialogFilter> GetCurrentFilter()
-        {
-            List<FileDialogFilter> filters = new List<FileDialogFilter>();
-
-            IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
-            if (formatter == null)
-            {
-                return filters;
-            }
-            List<string> extensions = new List<string>();
-            extensions.Add(formatter.Extension.ToLower());
-            filters.Add(new FileDialogFilter()
-            {
-                Name = formatter.Extension.ToUpper() + "-File",
-                Extensions = extensions
-            });
-
-            return filters;
         }
 
         /// <summary>
@@ -293,107 +349,6 @@ namespace XmlFormatterOsIndependent.ViewModels
                     }
                 });
             }
-        }
-
-        /// <summary>
-        /// Open the about window
-        /// </summary>
-        public void OpenAboutCommand()
-        {
-            IDataCommand command = new OpenAboutCommand();
-            ExecuteAsyncCommand(command, view);
-        }
-
-        /// <summary>
-        /// Open the settings window
-        /// </summary>
-        public void OpenSettingsCommand()
-        {
-            IDataCommand command = new OpenSettingsCommand();
-            command.Executed += ShowSettings_Executed;
-            ExecuteAsyncCommand(command, view);
-        }
-
-        /// <summary>
-        /// Event if the settings window was shown
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The parameters of this event</param>
-        private void ShowSettings_Executed(object sender, EventArgs e)
-        {
-            ChangeTheme();
-        }
-
-        /// <summary>
-        /// Save was executed successfully
-        /// </summary>
-        /// <param name="sender">The event sender</param>
-        /// <param name="e">The event arguments</param>
-        private void SaveCommand_Executed(object sender, System.EventArgs e)
-        {
-            if (sender is IDataCommand command)
-            {
-                if (!command.IsExecuted())
-                {
-                    return;
-                }
-
-                IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
-
-                formatter.StatusChanged += Formatter_StatusChanged;
-                formatter.ConvertToFormat(CurrentFile, command.GetData<string>(), GetConvertionMode());
-            }
-        }
-
-        /// <summary>
-        /// Get the current conversion mode
-        /// </summary>
-        /// <returns>The mode of conversion</returns>
-        private ModesEnum GetConvertionMode()
-        {
-            return currentMode == 0 ? ModesEnum.Formatted : ModesEnum.Flat; ;
-        }
-
-        /// <summary>
-        /// Did the status of the formttaer change
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The parameter of the event</param>
-        private void Formatter_StatusChanged(object sender, PluginFramework.EventMessages.BaseEventArgs e)
-        {
-            StatusString = "Status: " + e.Message;
-        }
-
-        /// <summary>
-        /// Open file dialog was executed
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The parameters of the event</param>
-        private void OpenFile_Executed(object sender, EventArgs e)
-        {
-            if (sender is IDataCommand command)
-            {
-                CurrentFile = command.IsExecuted() ? command.GetData<string>() : CurrentFile;
-                SaveEnabled = !string.IsNullOrWhiteSpace(CurrentFile);
-            }
-        }
-
-        /// <summary>
-        /// Report a new issue
-        /// </summary>
-        public void ReportIssue()
-        {
-            UrlOpener urlOpener = new UrlOpener("https://github.com/XanatosX/XmlFormatter/issues");
-            urlOpener.OpenUrl();
-        }
-
-        /// <summary>
-        /// Exit this application
-        /// </summary>
-        public void ExitApplication()
-        {
-            ICommand command = new CloseWindowCommand();
-            ExecuteCommand(command, new CloseWindowData(view.Current));
         }
     }
 }

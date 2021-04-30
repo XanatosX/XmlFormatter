@@ -7,6 +7,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Command wich will return you some data
     /// </summary>
+    [Obsolete]
     public interface IDataCommand : ICommand
     {
         /// <summary>

@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:XmlFormatterOsIndependent.Models"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800"
+        Height="450"
+        MinWidth="400"
+        MinHeight="225"
+        x:Class="XmlFormatterOsIndependent.Views.PluginManagerWindow"
+        Icon="/Assets/PluginIcon.ico"
+        Name="Root"
+        Title="PluginManagerWindow">
+  <DockPanel>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+        <ColumnDefinition Width="3*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <TreeView Grid.Column="0" Items="{Binding PluginGroups}">
+        <TreeView.DataTemplates>
+          <TreeDataTemplate DataType="models:PluginTreeViewGroup" ItemsSource="{Binding Items}"> <!--  -->
+            <TextBlock Text="{Binding Name}"></TextBlock>
+          </TreeDataTemplate>
+          <DataTemplate DataType="models:PluginTreeViewItem">
+            <Button Content="{Binding Information.Name}" Background="Transparent" BorderThickness="0"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                    Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding Information}">
+              <Button.Styles>
+                <Style Selector="Button:pressed /template/ ContentPresenter">
+                  <Setter Property="Background" Value="Transparent">
+                  </Setter>
+                </Style>
+              </Button.Styles>
+            </Button>
+          </DataTemplate>
+        </TreeView.DataTemplates>
+      </TreeView>
+      <Panel IsVisible="{Binding PanelVisible}" Grid.Column="1">
+        <Grid  Margin="5">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+              <TextBlock Text="Author:" Margin="0,0,10,0"></TextBlock>
+              <TextBlock Text="Name:" Margin="0,0,10,0"></TextBlock>
+              <TextBlock Text="Version:" Margin="0,0,10,0"></TextBlock>
+              <TextBlock Grid.Row="1" DockPanel.Dock="Top" Text="Description" Margin="0,10,0,0"></TextBlock>
+            </StackPanel>
+            <StackPanel Margin="5,0,0,0" Grid.Column="1">
+              <TextBlock Text="{Binding PluginInformation.Author}"></TextBlock>
+              <TextBlock Text="{Binding PluginInformation.Name}"></TextBlock>
+              <TextBlock Text="{Binding PluginInformation.Version}"></TextBlock>
+            </StackPanel>
+          </Grid>
+          <Border Grid.Row="2" VerticalAlignment="Stretch" DockPanel.Dock="Bottom" BorderThickness="1" BorderBrush="Black" Padding="2" Margin="0,5,0,0" >
+            <TextBlock TextWrapping="Wrap" Text="{Binding PluginInformation.Description}"></TextBlock>
+          </Border>
+        </Grid>
+      </Panel>
+    </Grid>
+  </DockPanel>
+</Window>

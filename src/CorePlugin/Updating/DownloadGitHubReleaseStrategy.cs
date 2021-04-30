@@ -1,4 +1,5 @@
-﻿using Octokit;
+﻿using CorePlugin.Assets;
+using Octokit;
 using PluginFramework.DataContainer;
 using PluginFramework.Update;
 using System;
@@ -18,8 +19,12 @@ namespace CorePlugin.Updating
         /// <summary>
         /// Create a new instance of this strategy
         /// </summary>
-        public DownloadGitHubReleaseStrategy() : base(new PluginInformation("Download GitHub releases", "Download the GitHub release", "XanatosX", new Version(1, 1)))
+        public DownloadGitHubReleaseStrategy()
         {
+            ResourceLoader loader = new ResourceLoader();
+            
+            string description = loader.LoadResource("Updating.DownloadGitHubDescription.txt");
+            Information = new PluginInformation("Download GitHub releases", description, "XanatosX", new Version(1, 1, 1));
         }
 
         /// <inheritdoc/>

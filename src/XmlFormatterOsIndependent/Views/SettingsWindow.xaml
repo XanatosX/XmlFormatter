@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="XmlFormatterOsIndependent.Views.SettingsWindow"
+        Icon="/Assets/XmlFormatterSettingsIcon.ico"
         Title="Settings"
         SizeToContent="WidthAndHeight"
         CanResize="False">
@@ -47,7 +48,7 @@
     </TabControl>
     <Grid ColumnDefinitions="*,5*,*" Margin="5,5,5,0">
       <Button Grid.Column="0" Command="{Binding SaveAndClose}">Save and close</Button>
-      <Button Grid.Column="2" Command="{Binding CloseWindow}">Cancel</Button>
+      <Button Grid.Column="2" Command="{Binding CloseWindowCommand}">Cancel</Button>
     </Grid>
   </StackPanel>
 </Window>
