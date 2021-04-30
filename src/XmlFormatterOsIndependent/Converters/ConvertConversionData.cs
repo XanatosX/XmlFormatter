@@ -4,7 +4,6 @@ using PluginFramework.Enums;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using XmlFormatterOsIndependent.DataSets.Files;
 using XmlFormatterOsIndependent.Models;
 
