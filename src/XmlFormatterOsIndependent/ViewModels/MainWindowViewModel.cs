@@ -166,15 +166,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Is the formatter selector visible at the moment
         /// </summary>
-        public bool FormatterSelectorVisible
-        {
-            get => formatterSelectorVisible;
-            set => this.RaiseAndSetIfChanged(ref formatterSelectorVisible, value);
-        }
+        public bool FormatterSelectorVisible { get; }
+
         /// <summary>
-        /// Private field if the formatter selection is visible at the moment
+        /// Is the mode of the formatter selector visible right now
         /// </summary>
-        private bool formatterSelectorVisible;
+        public bool FormatterModeSelectionVisible { get; }
 
         /// <summary>
         /// Create a new instance of this main window viewer
@@ -217,9 +214,11 @@ namespace XmlFormatterOsIndependent.ViewModels
             statusString = "Status: ";
 
             List = this.pluginManager.ListPlugins<IFormatter>();
-            formatterSelectorVisible = List.Count > 1;
-            if (!formatterSelectorVisible)
+            FormatterSelectorVisible = List.Count > 1;
+            FormatterModeSelectionVisible = true;
+            if (List.Count == 0)
             {
+                FormatterModeSelectionVisible = false;
                 statusString += "Missing plugins for conversion!";
             }
 
