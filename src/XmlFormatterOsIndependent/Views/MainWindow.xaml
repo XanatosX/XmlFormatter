@@ -63,7 +63,7 @@
           </DataTemplate>
         </ComboBox.ItemTemplate>
       </ComboBox>
-      <DropDown Name="ModeSelection" Grid.Column="3" Margin="5,0,0,0" IsVisible="{Binding ElementName=FormatterSelection,Path=IsVisible}" Items="{Binding ConversionModes}" SelectedIndex="{Binding CurrentMode}">
+      <DropDown Name="ModeSelection" Grid.Column="3" Margin="5,0,0,0" IsVisible="{Binding FormatterModeSelectionVisible}" Items="{Binding ConversionModes}" SelectedIndex="{Binding CurrentMode}">
         <DropDown.ItemTemplate>
           <DataTemplate>
             <TextBlock Text="{Binding DisplayName}"></TextBlock>
