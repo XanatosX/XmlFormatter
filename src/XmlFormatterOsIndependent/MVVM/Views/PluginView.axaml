@@ -54,11 +54,12 @@
         <TextBlock Text="Description:" FontFamily="{StaticResource OpenSans}"/>
       </StackPanel>
       <StackPanel Grid.Column="1" Margin="10,0,0,0">
-        <TextBlock Text="{ Binding CurrentPluginData.Author }"/>
-        <TextBlock Text="{ Binding CurrentPluginData.Name }"/>
-        <TextBlock Text="{ Binding CurrentPluginData.Version }"/>
+        <TextBlock Text="{ Binding CurrentPluginData.Author }" FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock Text="{ Binding CurrentPluginData.Name }" FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock Text="{ Binding CurrentPluginData.Version }" FontFamily="{StaticResource OpenSans}"/>
       </StackPanel>
       <TextBlock Margin="0,5,0,0"
+                 FontFamily="{StaticResource OpenSans}"
                  Grid.Row="1"
                  Grid.ColumnSpan="2"
                  TextWrapping="Wrap"
