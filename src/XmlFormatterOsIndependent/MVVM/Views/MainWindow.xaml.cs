@@ -3,15 +3,15 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
-using XmlFormatterOsIndependent.ViewModels;
+using XmlFormatterOsIndependent.MVVM.ViewModels;
 
-namespace XmlFormatterOsIndependent.Views
+namespace XmlFormatterOsIndependent.MVVM.Views
 {
-    public class AboutWindow : Window
+    public class MainWindow : Window
     {
-        public AboutWindow()
+        public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void InitializeComponent()
@@ -19,7 +19,7 @@ namespace XmlFormatterOsIndependent.Views
             AvaloniaXamlLoader.Load(this);
             DefaultManagerFactory managerFactory = new DefaultManagerFactory();
 
-            DataContext = new AboutWindowViewModel(new ViewContainer(this, this), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
+            DataContext = new MainWindowViewModel(new ViewContainer(this, this), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
         }
     }
 }

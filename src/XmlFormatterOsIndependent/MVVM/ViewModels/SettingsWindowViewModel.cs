@@ -9,7 +9,7 @@ using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
 
-namespace XmlFormatterOsIndependent.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     /// <summary>
     /// View model class for the settings window

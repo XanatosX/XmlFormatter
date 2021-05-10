@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Avalonia.Threading;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ namespace XmlFormatterOsIndependent.Commands
 
         protected void TriggerChangedEvent()
         {
-            CanExecuteChanged?.Invoke(this, new EventArgs());
+            Dispatcher.UIThread.InvokeAsync(() => CanExecuteChanged?.Invoke(this, new EventArgs()));
         }
     }
 }

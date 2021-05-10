@@ -24,10 +24,10 @@ using XmlFormatterOsIndependent.Commands.SystemCommands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.EventArg;
-using XmlFormatterOsIndependent.Models;
-using XmlFormatterOsIndependent.Views;
+using XmlFormatterOsIndependent.MVVM.Models;
+using XmlFormatterOsIndependent.MVVM.Views;
 
-namespace XmlFormatterOsIndependent.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     /// <summary>
     /// View model for the main window
@@ -195,11 +195,12 @@ namespace XmlFormatterOsIndependent.ViewModels
                     CurrentFile = selectedArg.SelectedFile;
                 }
             };
-            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) => {
+            ConvertFileCommand = new ConvertFileCommand(pluginManager, (sender, data) =>
+            {
                 StatusString = "Status: " + data.Message;
             });
             ConversionModes = new List<ModeSelection>();
-            foreach(ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
+            foreach (ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
             {
                 ConversionModes.Add(new ModeSelection(value.ToString(), value));
             }

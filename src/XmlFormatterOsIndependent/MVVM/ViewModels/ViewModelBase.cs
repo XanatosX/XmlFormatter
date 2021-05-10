@@ -8,7 +8,7 @@ using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
 
-namespace XmlFormatterOsIndependent.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     /// <summary>
     /// Base view model class
@@ -112,7 +112,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         protected void ChangeTheme()
         {
             IDataCommand themeCommand = new GetThemeCommand();
-            ExecuteCommand(themeCommand, this.settingsManager);
+            ExecuteCommand(themeCommand, settingsManager);
             ICommand themeSwitchCommand = new SwitchStyleCommand();
             ExecuteCommand(themeSwitchCommand, new ThemeSwitchData(view, themeCommand.GetData<ThemeEnum>()));
         }

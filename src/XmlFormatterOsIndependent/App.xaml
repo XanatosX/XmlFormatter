@@ -5,9 +5,23 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
+    <Application.Resources>
+      <ResourceDictionary>
+        <FontFamily x:Key="OpenSans">
+          /Assets/Fonts/OpenSans-Regular.ttf#Open Sans
+        </FontFamily>
+      </ResourceDictionary>
+
+    </Application.Resources>
 
     <Application.Styles>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
-        <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
+      <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+      <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
+      <StyleInclude Source="/Theme/GroupBoxResource.axaml"/>
+      <StyleInclude Source="/Theme/MainMenuItem.axaml"/>
+      <StyleInclude Source="/Theme/MainMenuSeperator.axaml"/>
+      <StyleInclude Source="/Theme/MainMenuButton.axaml"/>
+      <StyleInclude Source="/Theme/FormatterDropdown.axaml"/>
+      <StyleInclude Source="/Theme/ModeDropdown.axaml"/>
     </Application.Styles>
 </Application>

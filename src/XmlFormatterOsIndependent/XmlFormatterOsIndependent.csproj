@@ -15,12 +15,18 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaXaml Remove="MVVM\Windows\MainWindow.axaml" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
     <None Remove="version.txt" />
-    <None Remove="Views\PluginManagerWindow.xaml" />
+    <None Remove="MVVM\Views\PluginManagerWindow.xaml" />
     <None Remove="XmlFormatterIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="MVVM\Windows\MainWindow.axaml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XmlFormatterIcon.ico" />
@@ -29,22 +35,26 @@
     <EmbeddedResource Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.2" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.2" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.2" />
-    <PackageReference Include="MessageBox.Avalonia" Version="1.1.1" />
+    <PackageReference Include="Avalonia" Version="0.10.3" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.3" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
+    <PackageReference Include="MessageBox.Avalonia" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
     <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Update="Views\PluginManagerWindow.xaml">
+    <AvaloniaResource Update="MVVM\Views\PluginManagerWindow.xaml">
       <Generator></Generator>
     </AvaloniaResource>
-    <None Update="Views\SettingsWindow.xaml">
+    <None Update="MVVM\Views\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Images\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="if $(ConfigurationName) == Release (&#xD;&#xA;  echo &quot;Release build ignore post build!&quot;&#xD;&#xA;  exit&#xD;&#xA;)&#xD;&#xA;mkdir &quot;$(ProjectDir)\$(OutDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\CorePlugin\bin\$(ConfigurationName)\netstandard2.0\CorePlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\JsonPlugin.dll&quot; &quot;$(TargetDir)\Plugins&quot;&#xD;&#xA;copy &quot;$(SolutionDir)src\JsonPlugin\bin\$(ConfigurationName)\netstandard2.0\Newtonsoft.Json.dll&quot; &quot;$(TargetDir)\Plugins&quot;" />

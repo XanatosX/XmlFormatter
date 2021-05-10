@@ -1,52 +1,38 @@
 ﻿using Avalonia.Controls;
 using PluginFramework.DataContainer;
-using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
-using System;
 using System.Collections.Generic;
 using XmlFormatterOsIndependent.Commands.SystemCommands;
-using XmlFormatterOsIndependent.DataSets.Files;
 
 namespace XmlFormatterOsIndependent.Commands.Gui
 {
     /// <summary>
-    /// Command to convert the input file to the defined format
+    /// Load a file for conversion
     /// </summary>
-    [Obsolete] 
-    class SelectSaveFileConversion : SaveFileCommand
+    class SelectConversionFile : OpenFileCommand
     {
         /// <summary>
-        /// The function used to convert the input file name to the output file name
-        /// </summary>
-        private readonly Func<string, ModesEnum, string> fileConversionFunction;
-
-        /// <summary>
-        /// The plugin manager to use for loading plugins
+        /// The plugin manager to use for loading
         /// </summary>
         private readonly IPluginManager pluginManager;
 
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        /// <param name="parent">The parent window to bind the save dialog window to</param>
-        /// <param name="pluginManager">The plugin manager ussed for loading the plugin for conversion</param>
-        /// <param name="fileConversionFunction">The function to use for converting the input file to the output file name</param>
-        public SelectSaveFileConversion(Window parent, IPluginManager pluginManager, Func<string, ModesEnum, string> fileConversionFunction)
-            : base(parent)
+        /// <param name="pluginManager"></param>
+        public SelectConversionFile(IPluginManager pluginManager)
         {
-            this.fileConversionFunction = fileConversionFunction;
             this.pluginManager = pluginManager;
+        
         }
 
         /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
-            return parent != null
+            return base.CanExecute(parameter)
                 && pluginManager != null
-                && fileConversionFunction != null
-                && parameter != null
-                && parameter is SaveFileConversionData;
+                && parameter != null;
         }
 
         /// <inheritdoc/>
@@ -56,12 +42,11 @@ namespace XmlFormatterOsIndependent.Commands.Gui
             {
                 return;
             }
-
-            SaveFileConversionData dataSet = parameter as SaveFileConversionData;
-
-            string fileName = fileConversionFunction(dataSet.InputFile,dataSet.Mode);
-            base.Execute(new SaveFileData(fileName, GetCurrentFilter(dataSet.PluginMeta)));
-
+            if (parameter is PluginMetaData data)
+            {
+                List<FileDialogFilter> filters = GetCurrentFilter(parameter as PluginMetaData);
+                base.Execute(filters);
+            }
         }
 
         /// <summary>
@@ -70,13 +55,15 @@ namespace XmlFormatterOsIndependent.Commands.Gui
         /// <returns></returns>
         private List<FileDialogFilter> GetCurrentFilter(PluginMetaData currentPlugin)
         {
-            List<FileDialogFilter> filters = new List<FileDialogFilter>();
+            
 
             IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
             if (formatter == null)
             {
-                return filters;
+                return new List<FileDialogFilter>();
             }
+
+            List<FileDialogFilter> filters = new List<FileDialogFilter>();
             List<string> extensions = new List<string>();
             extensions.Add(formatter.Extension.ToLower());
             filters.Add(new FileDialogFilter()

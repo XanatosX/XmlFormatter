@@ -1,0 +1,16 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+          <DropDown Classes="Formatter" SelectedIndex="0" ItemTemplate="{StaticResource Formatter}"/>
+        </Border>
+    </Design.PreviewWith>
+  <Style Selector="DropDown.Formatter">
+    <Setter Property="ItemTemplate" Value="{StaticResource Formatter}"/>
+      <Style.Resources>
+        <DataTemplate x:Key="Formatter">
+          <TextBlock Text="{Binding Information.Name}" FontSize="15" FontFamily="{StaticResource OpenSans}"></TextBlock>
+        </DataTemplate>
+      </Style.Resources>
+  </Style>
+</Styles>

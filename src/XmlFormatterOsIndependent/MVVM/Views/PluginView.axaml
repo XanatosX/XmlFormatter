@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
+             xmlns:dataModels="clr-namespace:XmlFormatterOsIndependent.MVVM.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.PluginView"
+             Name="Root">
+  <UserControl.DataContext>
+    <models:PluginsViewModel></models:PluginsViewModel>
+  </UserControl.DataContext>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="2*"/>
+    </Grid.RowDefinitions>
+    <TreeView Items="{Binding PluginGroups}"
+              BorderThickness="0,0,0,5"
+              FontFamily="{StaticResource OpenSans}"
+              Margin="0,0,0,0">
+      <TreeView.DataTemplates>
+        <TreeDataTemplate DataType="dataModels:PluginTreeViewGroup" ItemsSource="{Binding Items}">
+          <TextBlock Text="{Binding Name}" FontSize="15"/>
+        </TreeDataTemplate>
+        <DataTemplate DataType="dataModels:PluginTreeViewItem">
+          <Button Content="{Binding Information.Name}" Background="Transparent" BorderThickness="0"
+                  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                  Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding Information}">
+            <Button.Styles>
+              <Style Selector="Button:pressed /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent">
+                </Setter>
+              </Style>
+            </Button.Styles>
+          </Button>
+        </DataTemplate>
+      </TreeView.DataTemplates>
+    </TreeView>
+    
+    <Grid Grid.Row="1" Margin="0,5,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+      <StackPanel>
+        <TextBlock Text="Author: " FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock Text="Name: " FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock Text="Version: " FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock Text="Description:" FontFamily="{StaticResource OpenSans}"/>
+      </StackPanel>
+      <StackPanel Grid.Column="1" Margin="10,0,0,0">
+        <TextBlock Text="{ Binding CurrentPluginData.Author }"/>
+        <TextBlock Text="{ Binding CurrentPluginData.Name }"/>
+        <TextBlock Text="{ Binding CurrentPluginData.Version }"/>
+      </StackPanel>
+      <TextBlock Margin="0,5,0,0"
+                 Grid.Row="1"
+                 Grid.ColumnSpan="2"
+                 TextWrapping="Wrap"
+                 Text="{Binding CurrentPluginData.Description}"/>
+    </Grid>
+  </Grid>
+</UserControl>

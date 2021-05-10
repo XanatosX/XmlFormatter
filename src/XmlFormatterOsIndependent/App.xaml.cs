@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using XmlFormatterOsIndependent.Views;
+using XmlFormatterOsIndependent.MVVM.Windows;
 
 namespace XmlFormatterOsIndependent
 {

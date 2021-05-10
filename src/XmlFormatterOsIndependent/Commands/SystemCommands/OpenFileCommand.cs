@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XmlFormatterOsIndependent.EventArg;
@@ -11,11 +13,6 @@ namespace XmlFormatterOsIndependent.Commands.SystemCommands
     class OpenFileCommand : BaseTriggerCommand
     {
         /// <summary>
-        /// The paren to use for binding the open file window to
-        /// </summary>
-        protected readonly Window parent;
-
-        /// <summary>
         /// The filter used for file selection
         /// </summary>
         protected readonly List<FileDialogFilter> dialogFilters;
@@ -24,8 +21,8 @@ namespace XmlFormatterOsIndependent.Commands.SystemCommands
         /// Create a new instance of this class
         /// </summary>
         /// <param name="parent">The parent window to use for binding the open file dialog to</param>
-        public OpenFileCommand(Window parent)
-            : this(parent, new List<FileDialogFilter>())
+        public OpenFileCommand()
+            : this(new List<FileDialogFilter>())
         {
 
         }
@@ -35,22 +32,34 @@ namespace XmlFormatterOsIndependent.Commands.SystemCommands
         /// </summary>
         /// <param name="parent">The parent window to use for binding the open file dialog to</param>
         /// <param name="dialogFilters">The filter to use for the open file dialog</param>
-        public OpenFileCommand(Window parent, List<FileDialogFilter> dialogFilters)
+        public OpenFileCommand(List<FileDialogFilter> dialogFilters)
         {
-            this.parent = parent;
             this.dialogFilters = dialogFilters;
+        }
+
+        /// <summary>
+        /// Get the current main window
+        /// </summary>
+        /// <returns>Current main window</returns>
+        protected Window GetMainWindow()
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                return desktop.MainWindow;
+            }
+            return null;
         }
 
         /// <inheritdoc/>
         public override bool CanExecute(object parameter)
         {
-            return parent != null && (dialogFilters != null || parameter is List<FileDialogFilter>);
+            return  (dialogFilters != null || parameter is List<FileDialogFilter>);
         }
 
         /// <inheritdoc/>
         public override void Execute(object parameter)
         {
-            if (!CanExecute(parameter))
+            if (!CanExecute(parameter) || GetMainWindow() == null)
             {
                 return;
             }
@@ -67,7 +76,7 @@ namespace XmlFormatterOsIndependent.Commands.SystemCommands
                 Filters = filterToUse
             };
 
-            Task<string[]> task = openFile.ShowAsync(parent);
+            Task<string[]> task = openFile.ShowAsync(GetMainWindow());
             task.ContinueWith((data) =>
             {
                 if (data.Result.Length == 0)

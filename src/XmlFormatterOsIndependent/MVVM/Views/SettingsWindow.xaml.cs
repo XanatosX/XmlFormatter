@@ -3,9 +3,10 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
-using XmlFormatterOsIndependent.ViewModels;
+using XmlFormatterOsIndependent.Views;
+using XmlFormatterOsIndependent.MVVM.ViewModels;
 
-namespace XmlFormatterOsIndependent.Views
+namespace XmlFormatterOsIndependent.MVVM.Views
 {
     public class SettingsWindow : Window, IParentSetable
     {
@@ -13,7 +14,7 @@ namespace XmlFormatterOsIndependent.Views
 
         public SettingsWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public void SetParent(Window parent)

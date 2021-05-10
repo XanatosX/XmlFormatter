@@ -1,0 +1,46 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+          <StackPanel>
+            <RadioButton Classes="MainMenu" Content="Testing1" IsChecked="true"></RadioButton>
+            <RadioButton Classes="MainMenu" Content="Testing2"></RadioButton>
+            <RadioButton Classes="MainMenu" Content="Testing3"></RadioButton>
+            <RadioButton Classes="MainMenu" Content="Testing4"></RadioButton>
+          </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+  <Style Selector="RadioButton.MainMenu">
+    <Setter Property="BorderThickness" Value="0"></Setter>
+    <Setter Property="Height" Value="50"></Setter>
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border BorderThickness="0">
+            <Grid Name="border">
+                <TextBlock Text="{TemplateBinding Content}"
+                           VerticalAlignment="Center"
+                           Margin="50,0,0,0"></TextBlock>
+            </Grid>
+          </Border>
+
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+
+  <Style Selector="RadioButton /template/ Grid#border">
+    <Setter Property="Background" Value="Transparent"/>
+  </Style>
+  
+  <Style Selector="RadioButton.MainMenu:pointerover /template/ Grid#border">
+    <Setter Property="Background" Value="WhiteSmoke" />
+  </Style>
+
+  <Style Selector="RadioButton.MainMenu:checked /template/ Grid#border">
+    <Setter Property="Background" Value="Gray" />
+  </Style>
+</Styles>

@@ -1,0 +1,17 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+      <Design.PreviewWith>
+        <Border Padding="20">
+          <DropDown Classes="Mode" SelectedIndex="0">
+            <DropDownItem Classes="Mode" Content="Test"></DropDownItem>
+          </DropDown>
+        </Border>
+      </Design.PreviewWith>
+      <Style Selector="DropDown.Mode">
+        <Style.Resources>
+          <DataTemplate x:Key="Mode">
+            <TextBlock Text="{Binding DisplayName}" FontSize="15" FontFamily="{StaticResource OpenSans}"></TextBlock>
+          </DataTemplate>
+        </Style.Resources>
+      </Style>
+</Styles>

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using XmlFormatterOsIndependent.DataSets.Files;
-using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.MVVM.Models;
 
 namespace XmlFormatterOsIndependent.Converters
 {

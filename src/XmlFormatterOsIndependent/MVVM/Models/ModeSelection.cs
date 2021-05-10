@@ -1,6 +1,6 @@
 ﻿using PluginFramework.Enums;
 
-namespace XmlFormatterOsIndependent.Models
+namespace XmlFormatterOsIndependent.MVVM.Models
 {
     /// <summary>
     /// Model used for mode selection dropdown

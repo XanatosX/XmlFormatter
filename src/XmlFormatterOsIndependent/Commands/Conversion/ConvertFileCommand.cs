@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using PluginFramework.EventMessages;
 using PluginFramework.Interfaces.Manager;
@@ -18,11 +20,6 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
     /// </summary>
     class ConvertFileCommand : BaseTriggerCommand
     {
-        /// <summary>
-        /// The parent window used for binding the save file dialog to
-        /// </summary>
-        private readonly Window parent;
-
         /// <summary>
         /// The manager to use for loading the plugin instances
         /// </summary>
@@ -49,9 +46,8 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
         /// <param name="parent">The parent window used for binding the save file dialog to</param>
         /// <param name="pluginManager">The plugin manager used for loading the plugins</param>
         /// <param name="statusChanged">The event which is getting called if the status did change</param>
-        public ConvertFileCommand(Window parent, IPluginManager pluginManager, EventHandler<BaseEventArgs> statusChanged)
+        public ConvertFileCommand(IPluginManager pluginManager, EventHandler<BaseEventArgs> statusChanged)
         {
-            this.parent = parent;
             this.pluginManager = pluginManager;
             this.statusChanged = statusChanged;
             executionLocked = false;
@@ -69,6 +65,10 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
         /// <inheritdoc/>
         public override void Execute(object parameter)
         {
+            if (GetMainWindow() == null || !CanExecute(parameter))
+            {
+                return;
+            }
             executionLocked = true;
             TriggerChangedEvent();
             SaveFileConversionData conversionData = parameter as SaveFileConversionData;
@@ -105,6 +105,20 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
         }
 
         /// <summary>
+        /// Get the current main window
+        /// </summary>
+        /// <returns>Current main window</returns>
+        protected Window GetMainWindow()
+        {
+            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                return desktop.MainWindow;
+            }
+            return null;
+        }
+
+
+        /// <summary>
         /// Get the command which should be used for saving
         /// </summary>
         /// <returns>A usable save command</returns>
@@ -114,7 +128,7 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
             {
                 return saveFileSelectionCommand;
             }
-            saveFileSelectionCommand =  new SelectSaveFileConversion(parent, pluginManager, (file, mode) =>
+            saveFileSelectionCommand =  new SelectSaveFileConversion(GetMainWindow(), pluginManager, (file, mode) =>
             {
                 FileInfo fileInfo = new FileInfo(file);
                 string fileName = fileInfo.Name;

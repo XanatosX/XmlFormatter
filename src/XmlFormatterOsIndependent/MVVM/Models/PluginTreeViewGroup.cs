@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace XmlFormatterOsIndependent.Models
+namespace XmlFormatterOsIndependent.MVVM.Models
 {
     /// <summary>
     /// Class to store information for the groups on the plugin tree
@@ -45,6 +45,18 @@ namespace XmlFormatterOsIndependent.Models
             }
 
             items.Add(item);
+        }
+
+        /// <summary>
+        /// Add all items in a list to this group
+        /// </summary>
+        /// <param name="items">The list with all the items to add</param>
+        public void Add(List<PluginTreeViewItem> items)
+        {
+            foreach(PluginTreeViewItem item in items)
+            {
+                this.items.Add(item);
+            }
         }
 
         /// <summary>

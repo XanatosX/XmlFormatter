@@ -6,9 +6,9 @@ using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
 using XmlFormatterOsIndependent.Factories;
-using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.MVVM.Models;
 
-namespace XmlFormatterOsIndependent.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     /// <summary>
     /// Window to list all the plugin data
@@ -28,10 +28,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The current plugin information to display
         /// </summary>
-        public PluginInformation PluginInformation 
-        { 
-            get => pluginInformation; 
-            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value); 
+        public PluginInformation PluginInformation
+        {
+            get => pluginInformation;
+            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value);
         }
 
         /// <summary>

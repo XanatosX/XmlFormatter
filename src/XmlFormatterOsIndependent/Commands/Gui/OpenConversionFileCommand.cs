@@ -23,7 +23,7 @@ namespace XmlFormatterOsIndependent.Commands.Gui
         /// <param name="parent">The parent window to use for binding</param>
         /// <param name="pluginManager">The plugin manager used for loading the plugins</param>
         public OpenConversionFileCommand(Window parent, IPluginManager pluginManager)
-            : base(parent)
+            : base()
         {
             this.pluginManager = pluginManager;
         }
@@ -34,8 +34,6 @@ namespace XmlFormatterOsIndependent.Commands.Gui
             return base.CanExecute(parameter)
                 && pluginManager != null
                 && parameter != null;
-                
-                
         }
 
         /// <inheritdoc/>

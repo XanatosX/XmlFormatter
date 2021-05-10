@@ -6,6 +6,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// This class is a base class for any data driven command
     /// </summary>
+    [Obsolete]
     public abstract class BaseDataCommand : IDataCommand
     {
         /// <inheritdoc/>

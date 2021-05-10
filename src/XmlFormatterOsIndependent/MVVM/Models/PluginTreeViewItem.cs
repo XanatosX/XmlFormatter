@@ -1,7 +1,7 @@
 ﻿using PluginFramework.DataContainer;
 using XmlFormatterOsIndependent.Enums;
 
-namespace XmlFormatterOsIndependent.Models
+namespace XmlFormatterOsIndependent.MVVM.Models
 {
     /// <summary>
     /// This class represents a selectable item in the plugin tree view

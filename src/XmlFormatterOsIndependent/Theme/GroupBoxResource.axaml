@@ -1,0 +1,45 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <HeaderedContentControl Classes="GroupBox" Background="Yellow" Header="Testing123">
+        <StackPanel>
+          <TextBlock>My Content                                                    123</TextBlock>
+          <TextBlock>My Content2</TextBlock>
+          <TextBlock>My Content3</TextBlock>
+        </StackPanel>
+      </HeaderedContentControl>
+    </Border>
+  </Design.PreviewWith>
+  <Style Selector="Border.GroupBox">
+    <Setter Property="BorderThickness" Value="2"></Setter>
+    <Setter Property="CornerRadius" Value="3"></Setter>
+    <Setter Property="BorderBrush" Value="Gray"></Setter>
+    <Setter Property="Padding" Value="5"></Setter>
+  </Style>
+  <Style Selector="ContentPresenter.GroupBox">
+    <Setter Property="Margin" Value="15,0,0,-7"></Setter>
+    <Setter Property="Padding" Value="3,0,3,0"></Setter>
+    <Setter Property="ZIndex" Value="1"></Setter>
+    <Setter Property="Background" Value="{StaticResource ThemeBackgroundBrush}"></Setter>
+    <Setter Property="TextBlock.FontWeight" Value="Bold"></Setter>
+    <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+  </Style>
+  <Style Selector="HeaderedContentControl.GroupBox">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Border Margin="5,5,5,0">
+            <StackPanel>
+              <ContentPresenter Classes="GroupBox" Content="{TemplateBinding Header}">
+              </ContentPresenter>
+              <Border Background="{TemplateBinding Background}" ZIndex="0" Classes="GroupBox">
+                <ContentPresenter Content="{TemplateBinding Content}"></ContentPresenter>
+              </Border>
+            </StackPanel>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+   </Style>
+</Styles>

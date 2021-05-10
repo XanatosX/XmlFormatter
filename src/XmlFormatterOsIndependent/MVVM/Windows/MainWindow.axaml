@@ -1,0 +1,54 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="800"
+        Height="450"
+        MaxWidth="1000"
+        MaxHeight="600"
+        MinWidth="550"
+        MinHeight="450"
+        x:Class="XmlFormatterOsIndependent.MVVM.Windows.MainWindow"
+        Title="">
+  <Window.DataContext>
+    <models:MainWindowViewModelNew></models:MainWindowViewModelNew>
+  </Window.DataContext>
+<Grid>
+  <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="*"></ColumnDefinition>
+  <ColumnDefinition Width="3*"></ColumnDefinition>
+  </Grid.ColumnDefinitions>
+  <Grid.RowDefinitions>
+    <RowDefinition Height="*"></RowDefinition>
+    <RowDefinition Height="10*"></RowDefinition>
+  </Grid.RowDefinitions>
+  <StackPanel Orientation="Horizontal">
+    <Image Source="/Assets/XmlFormatterIcon.ico" Margin="5" Width="30"></Image>
+    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Xml Formatter</TextBlock>
+  </StackPanel>
+
+  <StackPanel Grid.Row="1" >
+    <RadioButton Classes="MainMenu" Content="Formatting" IsChecked="true" Command="{Binding FormattingView}"></RadioButton>
+    <RadioButton Classes="MainMenu" Content="Plugins" Command="{Binding PluginsView}"></RadioButton>
+    <Border Classes="MainMenu"></Border>
+    <RadioButton Classes="MainMenu" Content="Settings"  Command="{Binding SettingsView}"></RadioButton>
+    <RadioButton Classes="MainMenu" Content="About"  Command="{Binding AboutView}"></RadioButton>
+    
+    <Border Classes="MainMenu"></Border>
+    <Button Classes="MainMenu" Content="Search for update"></Button>
+    <Button Classes="MainMenu" Content="Report Issue"></Button>
+
+  </StackPanel>
+  <DockPanel Grid.Row="1" LastChildFill="False">
+    <Button Classes="MainMenu" Content="Exit" DockPanel.Dock="Bottom"></Button>
+  </DockPanel>
+  
+  <Panel Grid.Column="1" Grid.Row="1">
+    <ContentControl Padding="5,0,5,5" Content="{Binding CurrentView}"></ContentControl>
+  </Panel>
+  
+  
+</Grid>
+</Window>

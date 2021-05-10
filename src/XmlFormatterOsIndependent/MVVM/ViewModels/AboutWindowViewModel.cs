@@ -6,7 +6,7 @@ using XmlFormatterModel.Update.Strategies;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Update;
 
-namespace XmlFormatterOsIndependent.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     /// <summary>
     /// Model view for the about window

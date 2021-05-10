@@ -2,9 +2,9 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
-using XmlFormatterOsIndependent.ViewModels;
+using XmlFormatterOsIndependent.MVVM.ViewModels;
 
-namespace XmlFormatterOsIndependent.Views
+namespace XmlFormatterOsIndependent.MVVM.Views
 {
     /// <summary>
     /// Window class for the plugin manager

@@ -1,0 +1,64 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
+             xmlns:converters="clr-namespace:XmlFormatterOsIndependent.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.FormatterView">
+  <UserControl.DataContext>
+    <models:XmlFormatterViewModel></models:XmlFormatterViewModel>
+  </UserControl.DataContext>
+  <Grid>
+
+    <StackPanel Spacing="5">
+      <Panel Margin="5,0,5,0" Background="{DynamicResource ThemeAccentBrush3}" DragDrop.AllowDrop="True">
+        <!--  DragDrop.DragOver="{Binding DragOverEvent}" DragDrop.Drop="{Binding DropEvent}"-->
+        <StackPanel Margin="5,10,5,10">
+          <TextBlock FontFamily="{StaticResource OpenSans}" FontStyle="Normal" TextAlignment="Center" Text="Drop file here" FontSize="30" Foreground="White"></TextBlock>
+          <Button FontFamily="{StaticResource OpenSans}" Command="{Binding LoadDocument}" CommandParameter="{Binding ElementName=FormatterSelection,Path=SelectedItem}">
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/Assets/avalonia-logo.ico" Stretch="Fill" Width="30" Margin="0,0,5,0"/>
+              <TextBlock FontSize="15" TextAlignment="Center" VerticalAlignment="Center" Text="Choose file"/>
+            </StackPanel>
+          </Button>
+          <DockPanel Margin="0,5,0,0" IsVisible="{Binding TextBoxVisible}">
+            <Label DockPanel.Dock="Left" Content="Selected path:"></Label>
+            <Button DockPanel.Dock="Right" FontFamily="{StaticResource OpenSans}" Content="Clear" Command="{Binding ClearFile}"/>
+            <TextBox DockPanel.Dock="Right" FontFamily="{StaticResource OpenSans}" Name="InputFile" IsEnabled="True" IsReadOnly="True" Text="{Binding SelectedFile}"/>
+          </DockPanel>
+        </StackPanel>
+      </Panel>
+      <HeaderedContentControl Classes="GroupBox" Header="Conversion Settings">
+        <DockPanel LastChildFill="False">
+          <StackPanel DockPanel.Dock="Left">
+            <TextBlock Text="Formatter To use" FontFamily="{StaticResource OpenSans}" FontSize="15"></TextBlock>
+            <DropDown Name="FormatterSelection" ItemTemplate="{StaticResource Formatter}" Items="{Binding FormatterPlugins}" SelectedIndex="0">
+            </DropDown>
+          </StackPanel>
+          <StackPanel DockPanel.Dock="Right">
+            <TextBlock Text="Conversion method" FontFamily="{StaticResource OpenSans}"  FontSize="15"></TextBlock>
+            <DropDown Name="ModeSelection" ItemTemplate="{StaticResource Mode}" Items="{Binding ModeSelections}" SelectedIndex="0"></DropDown>
+          </StackPanel>
+        </DockPanel>
+      </HeaderedContentControl>
+      <Button Margin="5,5,5,0" FontFamily="{StaticResource OpenSans}" FontSize="30" Content="Save" Height="50" Command="{Binding SaveDocument}">
+        <Button.Resources>
+          <converters:ConvertConversionData x:Key="ConvertConversionData"></converters:ConvertConversionData>
+        </Button.Resources>
+        <Button.CommandParameter>
+          <MultiBinding Converter="{StaticResource ConvertConversionData}">
+            <Binding ElementName="InputFile" Path="Text"></Binding>
+            <Binding ElementName="FormatterSelection" Path="SelectedItem"></Binding>
+            <Binding ElementName="ModeSelection" Path="SelectedItem"></Binding>
+          </MultiBinding>
+        </Button.CommandParameter>
+      </Button>
+      <StackPanel IsVisible="{Binding StatusVisible}" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5,0,0">
+        <TextBlock Text="Conversion Status: " FontSize="15" FontFamily="{StaticResource OpenSans}"></TextBlock>
+        <TextBlock Text="{Binding StatusText}" FontSize="15" FontFamily="{StaticResource OpenSans}"></TextBlock>
+      </StackPanel>
+    </StackPanel>
+
+  </Grid>
+</UserControl>
