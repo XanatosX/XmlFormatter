@@ -55,8 +55,6 @@ namespace XmlFormatterOsIndependent.Commands.Gui
         /// <returns></returns>
         private List<FileDialogFilter> GetCurrentFilter(PluginMetaData currentPlugin)
         {
-            
-
             IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(currentPlugin);
             if (formatter == null)
             {

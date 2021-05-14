@@ -33,6 +33,14 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         }
         private PluginInformation currentPluginData;
 
+        private bool dataIsAvailable;
+
+        public bool DataIsAvailable
+        {
+            get => dataIsAvailable;
+            set => this.RaiseAndSetIfChanged(ref dataIsAvailable, value);
+        }
+
 
         private DefaultManagerFactory factory;
 
@@ -44,6 +52,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             PluginTreeViewGroup updater = new PluginTreeViewGroup("Updater");
             formatter.Add(pluginManager.ListPlugins<IFormatter>().Select(data => new PluginTreeViewItem(data, PluginType.Formatter)).ToList());
             updater.Add(pluginManager.ListPlugins<IUpdateStrategy>().Select(data => new PluginTreeViewItem(data, PluginType.Updater)).ToList());
+            DataIsAvailable = false;
             PluginGroups = new List<PluginTreeViewGroup>()
             {
                 formatter,
@@ -56,6 +65,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                     if (parameter is PluginInformation information)
                     {
                         CurrentPluginData = information;
+                        DataIsAvailable = true;
                     }
                 }
             );

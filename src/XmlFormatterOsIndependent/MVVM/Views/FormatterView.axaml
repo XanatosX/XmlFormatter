@@ -33,7 +33,7 @@
         <DockPanel LastChildFill="False">
           <StackPanel DockPanel.Dock="Left">
             <TextBlock Text="Formatter To use" FontFamily="{StaticResource OpenSans}" FontSize="15"></TextBlock>
-            <DropDown Name="FormatterSelection" ItemTemplate="{StaticResource Formatter}" Items="{Binding FormatterPlugins}" SelectedIndex="0">
+            <DropDown Name="FormatterSelection" ItemTemplate="{StaticResource Formatter}" Items="{Binding FormatterPlugins}" SelectedItem="{Binding CurrentPlugin}">
             </DropDown>
           </StackPanel>
           <StackPanel DockPanel.Dock="Right">

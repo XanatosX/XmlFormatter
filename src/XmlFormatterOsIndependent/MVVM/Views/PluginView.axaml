@@ -16,7 +16,7 @@
       <RowDefinition Height="2*"/>
     </Grid.RowDefinitions>
     <TreeView Items="{Binding PluginGroups}"
-              BorderThickness="0,0,0,5"
+              BorderThickness="0,0,0,3"
               FontFamily="{StaticResource OpenSans}"
               Margin="0,0,0,0">
       <TreeView.DataTemplates>
@@ -38,7 +38,7 @@
       </TreeView.DataTemplates>
     </TreeView>
     
-    <Grid Grid.Row="1" Margin="0,5,0,0">
+    <Grid Grid.Row="1" Margin="0,5,0,0" IsVisible="{Binding DataIsAvailable}">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto"/>
         <ColumnDefinition Width="*"/>
@@ -57,13 +57,13 @@
         <TextBlock Text="{ Binding CurrentPluginData.Author }" FontFamily="{StaticResource OpenSans}"/>
         <TextBlock Text="{ Binding CurrentPluginData.Name }" FontFamily="{StaticResource OpenSans}"/>
         <TextBlock Text="{ Binding CurrentPluginData.Version }" FontFamily="{StaticResource OpenSans}"/>
+        <TextBlock FontFamily="{StaticResource OpenSans}"
+           Grid.Row="1"
+           Grid.Column="1"
+           TextWrapping="Wrap"
+           Text="{Binding CurrentPluginData.Description}"/>
       </StackPanel>
-      <TextBlock Margin="0,5,0,0"
-                 FontFamily="{StaticResource OpenSans}"
-                 Grid.Row="1"
-                 Grid.ColumnSpan="2"
-                 TextWrapping="Wrap"
-                 Text="{Binding CurrentPluginData.Description}"/>
+
     </Grid>
   </Grid>
 </UserControl>

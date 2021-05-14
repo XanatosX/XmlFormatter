@@ -23,5 +23,6 @@
       <StyleInclude Source="/Theme/MainMenuButton.axaml"/>
       <StyleInclude Source="/Theme/FormatterDropdown.axaml"/>
       <StyleInclude Source="/Theme/ModeDropdown.axaml"/>
+      <StyleInclude Source="/Theme/TitleBarButtons.axaml"/>
     </Application.Styles>
 </Application>

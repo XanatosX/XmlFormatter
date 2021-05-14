@@ -1,0 +1,44 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+          <StackPanel Orientation="Horizontal">
+            <Button Classes="Minimize" Content="_"/>
+            <Button Classes="Close" Content="X"/>
+          </StackPanel>
+          
+        </Border>
+    </Design.PreviewWith>
+  
+  <Style Selector="Button.Minimize">
+    <Setter Property="FontFamily" Value="{StaticResource OpenSans}"/>
+    <Setter Property="Width" Value="30"/>
+    <Setter Property="Height" Value="30"/>
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+
+  <Style Selector="Button.Minimize:pointerover">
+    <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}"></Setter>
+    <Setter Property="BorderThickness" Value="0"></Setter>
+  </Style>
+
+  <Style Selector="Button.Minimize:pressed /template/ ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightLowBrush}"></Setter>
+  </Style>
+  
+  <Style Selector="Button.Close">
+    <Setter Property="FontFamily" Value="{StaticResource OpenSans}"/>
+    <Setter Property="Width" Value="30"/>
+    <Setter Property="Height" Value="30"/>
+    <Setter Property="BorderThickness" Value="0"/>
+  </Style>
+
+  <Style Selector="Button.Close:pointerover">
+    <Setter Property="Background" Value="{DynamicResource ErrorBrush}"></Setter>
+    <Setter Property="BorderThickness" Value="0"></Setter>
+  </Style>
+
+  <Style Selector="Button.Close:pressed /template/ ContentPresenter" >
+    <Setter Property="Background" Value="{DynamicResource ErrorBrush}"></Setter>
+  </Style>
+</Styles>

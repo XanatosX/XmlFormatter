@@ -15,10 +15,12 @@ using XmlFormatterOsIndependent.Commands.Conversion;
 using System.Threading.Tasks;
 using System.Threading;
 using Avalonia.Input;
+using XmlFormatterOsIndependent.MVVM.ViewModels.Behaviors;
+using System.IO;
 
 namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
-    class XmlFormatterViewModel : ReactiveObject
+    class XmlFormatterViewModel : ReactiveObject, IEventView
     {
         public ITriggerCommand LoadDocument { get; }
         public ITriggerCommand SaveDocument { get; }
@@ -39,8 +41,6 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 this.RaiseAndSetIfChanged(ref selectedFile, value);
             }
         }
-
-
         public bool TextBoxVisible
         {
             get => SelectedFile != string.Empty;
@@ -75,6 +75,20 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             }
         }
 
+        private PluginMetaData currentPlugin;
+        public PluginMetaData CurrentPlugin
+        {
+            get => currentPlugin;
+            set
+            {
+                ClearFile?.DataHasChanged();
+                ClearFile?.Execute(null);
+                SaveDocument?.DataHasChanged();
+                this.RaiseAndSetIfChanged(ref currentPlugin, value);
+            }
+        }
+
+
         private readonly DefaultManagerFactory managerFactory;
 
         public XmlFormatterViewModel()
@@ -84,6 +98,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             ModeSelections = GetModeSelections();
             IPluginManager pluginManager = managerFactory.GetPluginManager();
             FormatterPlugins = pluginManager.ListPlugins<IFormatter>();
+            CurrentPlugin = FormatterPlugins.FirstOrDefault();
             LoadDocument = new SelectConversionFile(pluginManager);
             LoadDocument.ContinueWith += (sender, data) =>
             {
@@ -121,13 +136,62 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             return values.Select(value => new ModeSelection(value.ToString(), value)).ToList();
         }
 
-        public void DragOverEvent(object sender, DragEventArgs eventArgs)
+        public void RegisterEvents(Avalonia.Controls.Window currentWindow)
         {
+            if (currentWindow == null)
+            {
+                return;
+            }
+            currentWindow.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    data.DragEffects = DragDropEffects.None;
+                    return;
+                }
 
+                data.DragEffects = DragDropEffects.Copy;
+            });
+
+            currentWindow.AddHandler(DragDrop.DropEvent, (sender, data) =>
+            {
+                if (!CheckDragDropFile(data))
+                {
+                    return;
+                }
+                SelectedFile = data.Data.GetFileNames().First();
+                TextBoxVisible = true;
+            });
         }
-        public void DropEvent(object sender, DragEventArgs eventArgs)
+        /// <summary>
+        /// Check if the file which was dragged dropped into is correct
+        /// </summary>
+        /// <param name="data">The dataset to check</param>
+        /// <returns>True if the file is valid</returns>
+        private bool CheckDragDropFile(DragEventArgs data)
         {
+            
+            IFormatter currentFormatter = managerFactory.GetPluginManager().LoadPlugin<IFormatter>(CurrentPlugin);
+            IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
+            if (currentFormatter == null
+                || files.Count == 0
+                || files.Count > 1)
+            {
+                return false;
+            }
+            string firstFile = files.First();
+            FileInfo info = new FileInfo(firstFile);
+            if (info.Extension.Replace(".", string.Empty) != currentFormatter.Extension)
+            {
+                return false;
+            }
+            return true;
+        }
 
+
+        public void UnregisterEvents(Avalonia.Controls.Window currentWindow)
+        {
+            
         }
     }
 }

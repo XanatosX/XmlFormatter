@@ -10,26 +10,46 @@
         MaxHeight="600"
         MinWidth="550"
         MinHeight="450"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        CanResize="True"
         x:Class="XmlFormatterOsIndependent.MVVM.Windows.MainWindow"
-        Title="">
+        Title="Xml Formatter">
   <Window.DataContext>
     <models:MainWindowViewModelNew></models:MainWindowViewModelNew>
   </Window.DataContext>
 <Grid>
   <Grid.ColumnDefinitions>
+    <ColumnDefinition Width="Auto"></ColumnDefinition>
     <ColumnDefinition Width="*"></ColumnDefinition>
-  <ColumnDefinition Width="3*"></ColumnDefinition>
+    <ColumnDefinition Width="Auto"></ColumnDefinition>
   </Grid.ColumnDefinitions>
   <Grid.RowDefinitions>
+    <RowDefinition Height="Auto"></RowDefinition>
+    <RowDefinition Height="Auto"></RowDefinition>
     <RowDefinition Height="*"></RowDefinition>
-    <RowDefinition Height="10*"></RowDefinition>
   </Grid.RowDefinitions>
-  <StackPanel Orientation="Horizontal">
-    <Image Source="/Assets/XmlFormatterIcon.ico" Margin="5" Width="30"></Image>
-    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">Xml Formatter</TextBlock>
-  </StackPanel>
+  <DockPanel IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
+    <StackPanel IsHitTestVisible="False" Orientation="Horizontal" Margin="5" DockPanel.Dock="Left" Spacing="10">
+      <Image Source="/Assets/XmlFormatterIcon.ico" Width="20"></Image>
+      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">Xml Formatter</TextBlock>
+    </StackPanel>
+  </DockPanel>
+  <DockPanel Grid.Column="1" IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
+    
+  </DockPanel>
 
-  <StackPanel Grid.Row="1" >
+  <DockPanel LastChildFill="False" Grid.Column="2" Background="{DynamicResource ThemeAccentBrush}">
+    <StackPanel IsHitTestVisible="True" Orientation="Horizontal" DockPanel.Dock="Right">
+      <Button IsHitTestVisible="True" Classes="Minimize" Content="_" Command="{Binding MaximizeWindow}"/>
+      <Button IsHitTestVisible="True" Classes="Close" Content="X" Command="{Binding CloseWindow}"/>
+    </StackPanel>
+  </DockPanel>
+
+  <Border Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{DynamicResource ThemeForegroundBrush}" Margin="0,0,0,5"/>
+  
+  <StackPanel Grid.Row="2" >
     <RadioButton Classes="MainMenu" Content="Formatting" IsChecked="true" Command="{Binding FormattingView}"></RadioButton>
     <RadioButton Classes="MainMenu" Content="Plugins" Command="{Binding PluginsView}"></RadioButton>
     <Border Classes="MainMenu"></Border>
@@ -38,17 +58,15 @@
     
     <Border Classes="MainMenu"></Border>
     <Button Classes="MainMenu" Content="Search for update"></Button>
-    <Button Classes="MainMenu" Content="Report Issue"></Button>
+    <Button Classes="MainMenu" Content="Report Issue" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Command="{Binding OpenUrl}"></Button>
 
   </StackPanel>
-  <DockPanel Grid.Row="1" LastChildFill="False">
-    <Button Classes="MainMenu" Content="Exit" DockPanel.Dock="Bottom"></Button>
+  <DockPanel Grid.Row="2" LastChildFill="False">
+    <Button Classes="MainMenu" Content="Exit" DockPanel.Dock="Bottom" Command="{Binding CloseWindow}"/>
   </DockPanel>
   
-  <Panel Grid.Column="1" Grid.Row="1">
+  <Panel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
     <ContentControl Padding="5,0,5,5" Content="{Binding CurrentView}"></ContentControl>
   </Panel>
-  
-  
 </Grid>
 </Window>
