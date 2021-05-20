@@ -2,6 +2,7 @@
 using PluginFramework.DataContainer;
 using PluginFramework.Formatter;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -18,7 +19,19 @@ namespace JsonPlugin
         public JsonFormatter()
             : base(
                   "json",
-                  new PluginInformation("Json formatter", "This plugin will convert json files", "XanatosX", new Version(1, 0))
+                  new PluginInformation(
+                      "Json formatter",
+                      "This plugin will convert json files",
+                      "XanatosX",
+                      new Version(1, 1),
+                      new List<ThirdPartyLibrary>(){ 
+                          new ThirdPartyLibrary(
+                              "Newtonsoft Json",
+                              "James Newton-King",
+                              "https://www.newtonsoft.com/json"
+                              )
+                      }
+                      )
                   )
         {
         }

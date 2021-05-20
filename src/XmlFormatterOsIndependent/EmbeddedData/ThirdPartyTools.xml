@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SerializeableThirdPartyData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>Octokit</Name>
+      <Author>GitHub</Author>
+      <Url>https://github.com/octokit/octokit.net</Url>
+    </SerializeableThirdClassLibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>Avalonia</Name>
+      <Author>Avalonia</Author>
+      <Url>https://avaloniaui.net/</Url>
+    </SerializeableThirdClassLibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>Avalonia DataGrid</Name>
+      <Author>Avalonia.Controls.DataGrid</Author>
+      <Url>https://avaloniaui.net/</Url>
+    </SerializeableThirdClassLibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>Avalonia Desktop</Name>
+      <Author>Avalonia.Desktop</Author>
+      <Url>https://avaloniaui.net/</Url>
+    </SerializeableThirdClassLibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>Avalonia ReactiveUI</Name>
+      <Author>Avalonia.ReactiveUI</Author>
+      <Url>https://avaloniaui.net/</Url>
+    </SerializeableThirdClassLibraryData>
+    <SerializeableThirdClassLibraryData>
+      <Name>MessageBox Avalonia</Name>
+      <Author>Lary Tako</Author>
+      <Url>https://github.com/CreateLab/MessageBox.Avalonia</Url>
+    </SerializeableThirdClassLibraryData>
+  </LibraryData>
+</SerializeableThirdPartyData>
