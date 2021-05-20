@@ -15,7 +15,7 @@
   <StackPanel>
     <TabControl>
       <TabItem Header="General">
-        <Grid >
+        <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>

@@ -43,10 +43,13 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         public ICommand OpenUrl { get; }
 
+        private bool propertyChangedRegisterd;
+
         private readonly Lazy<FormatterView> formatterView;
         private readonly Lazy<PluginView> pluginView;
         private readonly Lazy<SettingsView> settingsView;
         private readonly Lazy<AboutView> aboutView;
+
 
         public MainWindowViewModelNew()
         {
@@ -89,6 +92,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 });
 
             OpenUrl = new OpenBrowserUrl();
+            propertyChangedRegisterd = false;
         }
 
         public void RegisterEvents(Window currentWindow)
@@ -97,23 +101,31 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             {
                 return;
             }
+
+            if (currentView is UserControl control
+                && control.DataContext is IEventView eventView
+                && control.DataContext != this)
+            {
+                eventView.RegisterEvents(currentWindow);
+            }
+
+            if (propertyChangedRegisterd)
+            {
+                return;
+            }
             currentWindow.PropertyChanged += (sender, data) =>
             {
                 if (data.Property.Name == "WindowState"
+                && (WindowState)data.NewValue != WindowState.Normal
                 && ((WindowState)data.NewValue == WindowState.Maximized
                 || (WindowState)data.NewValue == WindowState.FullScreen))
                 {
+                    Console.WriteLine("Changed window Size!");
                     currentWindow.WindowState = WindowState.Normal;
                     return;
                 }
             };
-
-            if (currentView is UserControl control
-                && control.DataContext is IEventView eventView)
-            {
-                eventView.RegisterEvents(currentWindow);
-            }
-            
+            propertyChangedRegisterd = true;
         }
 
         public void UnregisterEvents(Window currentWindow)

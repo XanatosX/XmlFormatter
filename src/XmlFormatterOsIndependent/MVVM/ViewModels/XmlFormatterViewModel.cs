@@ -22,6 +22,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 {
     class XmlFormatterViewModel : ReactiveObject, IEventView
     {
+        private static string DROP_FILE_IDLE_TEXT = "Drop file here";
+        private static string DROP_FILE_HOVER_TEXT = "Release file now";
+        private static string WRONG_DROP_FILE_FORMAT_TEXT = "Wrong file format";
         public ITriggerCommand LoadDocument { get; }
         public ITriggerCommand SaveDocument { get; }
         public ITriggerCommand ClearFile { get; }
@@ -88,6 +91,17 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             }
         }
 
+        private string dropFileText;
+
+        public string DropFileText
+        {
+            get => dropFileText;
+            set => this.RaiseAndSetIfChanged(ref dropFileText, value);
+            }
+
+        //
+
+
 
         private readonly DefaultManagerFactory managerFactory;
 
@@ -128,6 +142,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                     TextBoxVisible = false;
                 }
             );
+
+            DropFileText = DROP_FILE_IDLE_TEXT;
         }
 
         private IReadOnlyList<ModeSelection> GetModeSelections()
@@ -146,12 +162,16 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             {
                 if (!CheckDragDropFile(data))
                 {
+                    DropFileText = WRONG_DROP_FILE_FORMAT_TEXT;
                     data.DragEffects = DragDropEffects.None;
                     return;
                 }
 
+                DropFileText = DROP_FILE_HOVER_TEXT;
                 data.DragEffects = DragDropEffects.Copy;
             });
+
+            currentWindow.AddHandler(DragDrop.DragLeaveEvent, (sender, data) => DropFileText = DROP_FILE_IDLE_TEXT);
 
             currentWindow.AddHandler(DragDrop.DropEvent, (sender, data) =>
             {
@@ -161,6 +181,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 }
                 SelectedFile = data.Data.GetFileNames().First();
                 TextBoxVisible = true;
+                DropFileText = DROP_FILE_IDLE_TEXT;
             });
         }
         /// <summary>

@@ -15,7 +15,7 @@
       <Panel Margin="5,0,5,0" Background="{DynamicResource ThemeAccentBrush3}" DragDrop.AllowDrop="True">
         <!--  DragDrop.DragOver="{Binding DragOverEvent}" DragDrop.Drop="{Binding DropEvent}"-->
         <StackPanel Margin="5,10,5,10">
-          <TextBlock FontFamily="{StaticResource OpenSans}" FontStyle="Normal" TextAlignment="Center" Text="Drop file here" FontSize="30" Foreground="White"></TextBlock>
+          <TextBlock FontFamily="{StaticResource OpenSans}" FontStyle="Normal" TextAlignment="Center" Text="{Binding DropFileText}" FontSize="30" Foreground="White"></TextBlock>
           <Button FontFamily="{StaticResource OpenSans}" Command="{Binding LoadDocument}" CommandParameter="{Binding ElementName=FormatterSelection,Path=SelectedItem}">
             <StackPanel Orientation="Horizontal">
               <Image Source="/Assets/avalonia-logo.ico" Stretch="Fill" Width="30" Margin="0,0,5,0"/>
