@@ -76,6 +76,7 @@ namespace XmlFormatterOsIndependent.Commands.Conversion
 
             saveCommand.ContinueWith += (sender, data) =>
             {
+                //@Todo: There is a bug which will prevent the conversion data to change! THIS MUST BE FIXED BEFORE RELEASING
                 if (data is FileSelectedArg saveFile)
                 {
                     if (saveFile == null

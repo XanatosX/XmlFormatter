@@ -10,7 +10,7 @@ namespace XmlFormatterOsIndependent.DataSets.ThirdParty
         public ThirdClassLibraryData(string name, string author, string url, string scope)
             : base(name, author, url)
         {
-            Scope = scope;
+            Scope = scope.Trim();
         }
     }
 }

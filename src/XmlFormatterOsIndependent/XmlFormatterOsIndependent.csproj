@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\PluginIcon.ico" />
+    <None Remove="Assets\SearchIcon.png" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
     <None Remove="EmbeddedData\ThirdPartyTools.xml" />
     <None Remove="version.txt" />

@@ -2,7 +2,101 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="XmlFormatterOsIndependent.MVVM.Views.SettingsView">
-  Settings view
+  <UserControl.DataContext>
+    <models:SettingsViewModel></models:SettingsViewModel>
+  </UserControl.DataContext>
+  <Grid RowDefinitions="Auto,*, Auto">
+    <DockPanel Grid.Row="0">
+      <Menu>
+        <MenuItem Header="_Export Settings" IsEnabled="False"></MenuItem>
+        <MenuItem Header="_Import Settings" IsEnabled="False"></MenuItem>
+      </Menu>
+    </DockPanel>
+      <TabControl VerticalAlignment="Stretch" Grid.Row="1" Padding="10,2,10,5">
+        <TabItem Header="Application">
+          <StackPanel>
+            <HeaderedContentControl Classes="GroupBox" Header="Application Settings">
+              <StackPanel Margin="5,0,0,0">
+                <CheckBox Margin="0,5,0,5" Content="Ask before Closing" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
+                <ComboBox Margin="0,0,5,5" Items="{Binding AvailableThemes}" SelectedIndex="{Binding SelectedTheme}"/>
+              </StackPanel>
+            </HeaderedContentControl>
+            <HeaderedContentControl Classes="GroupBox" Header="Updating">
+              <StackPanel Margin="5,0,5,0">
+                <CheckBox Margin="0,5,0,5" Content="Check for update on startup" IsChecked="{Binding CheckUpdateOnStart}"></CheckBox>
+                <ComboBox Margin="0,0,0,5"
+                          Items="{Binding AvailableUpdaters}"
+                          SelectedItem="{Binding Updater}"
+                          SelectedIndex="{Binding UpdaterIndex}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Information.Name}"></TextBlock>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+            </HeaderedContentControl>
+          </StackPanel>
+        </TabItem>
+        <TabItem Header="Logging" VerticalAlignment="Stretch">
+          <Grid DockPanel.Dock="Bottom"
+                ColumnDefinitions="Auto,*"
+                RowDefinitions="Auto,*,Auto">
+            <CheckBox Name="LoggingActive" IsChecked="{Binding LoggingActive}" Grid.Row="0" Grid.ColumnSpan="2" DockPanel.Dock="Top" Content="Logging active" Margin="0,0,0,5"></CheckBox>
+            <DataGrid Name="LogFiles" IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}"
+                      BorderThickness="2"
+                      Grid.Column="0"
+                      Grid.Row="1"
+                      VerticalAlignment="Stretch"
+                      Items="{Binding LogFiles, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedLogFile, Mode=TwoWay}">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="Filename" Binding="{Binding Name}"></DataGridTextColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <TextBox IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}" Text="{Binding LogfileText}" Grid.Row="1" Grid.Column="1" IsReadOnly="True" VerticalAlignment="Stretch" TextWrapping="Wrap"></TextBox>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="2"
+                        IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}"
+                        Margin="0,5,0,0">
+              <Button Content="Delete"
+                      Command="{Binding DeleteLogFile}"
+                      CommandParameter="{Binding ElementName=LogFiles, Path=SelectedItem}"
+                      Margin="0,0,5,0"/>
+              <Button Content="Open Folder" Command="{Binding OpenLogFolder}"/>
+            </StackPanel>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Hotfolder">
+          <Grid RowDefinitions="Auto,*,Auto">
+            <CheckBox Name="HotfolderActive" IsChecked="{Binding HotfolderActive}" Content="Hotfolder Active"></CheckBox>
+            <DataGrid Margin="0,5,0,5" IsVisible="{Binding ElementName=HotfolderActive, Path=IsChecked}" Grid.Row="1">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="Formatter"></DataGridTextColumn>
+                <DataGridTextColumn Header="Mode"></DataGridTextColumn>
+                <DataGridTextColumn Header="Watched folder"></DataGridTextColumn>
+                <DataGridTextColumn Header="File Filter"></DataGridTextColumn>
+                <DataGridTextColumn Header="Output Folder"></DataGridTextColumn>
+                <DataGridTextColumn Header="Output File Scheme"></DataGridTextColumn>
+                <DataGridTextColumn Header="Rename"></DataGridTextColumn>
+                <DataGridTextColumn Header="Remove Old"></DataGridTextColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <DockPanel Grid.Row="2" LastChildFill="False">
+              <Button Margin="0,0,5,0" Content="Add" DockPanel.Dock="Left"></Button>
+              <Button Content="Edit" DockPanel.Dock="Left"></Button>
+              <Button Margin="5,0,0,0" Content="Remove" DockPanel.Dock="Right"></Button>
+            </DockPanel>
+          </Grid>
+        </TabItem>
+      </TabControl>
+    <DockPanel Grid.Row="2" LastChildFill="False" Margin="5">
+      <Button DockPanel.Dock="Left" Content="Save" Command="{Binding SaveSettings}"/>
+      <Button DockPanel.Dock="Right" Content="Reset Changes" Command="{Binding ResetSettings}"/>
+    </DockPanel>
+    
+  </Grid>
 </UserControl>

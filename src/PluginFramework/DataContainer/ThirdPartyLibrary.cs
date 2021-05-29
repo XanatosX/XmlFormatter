@@ -28,9 +28,9 @@
         /// <param name="url">Url to the library or empty if unknown</param>
         public ThirdPartyLibrary(string name, string author, string url)
         {
-            Name = name;
-            Author = author;
-            Url = url;
+            Name = name.Trim();
+            Author = author.Trim();
+            Url = url.Trim();
         }
     }
 }

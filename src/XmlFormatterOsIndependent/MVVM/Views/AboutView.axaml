@@ -31,7 +31,12 @@
       </Grid>
     </HeaderedContentControl>
     <HeaderedContentControl Classes="GroupBox" Header="Third Party Libraries" Margin="0,5,0,0">
-        <DataGrid Items="{Binding ThirdPartyLibraries}" IsReadOnly="True" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single">
+        <DataGrid 
+              Items="{Binding ThirdPartyLibraries}"
+              IsReadOnly="True"
+              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+              SelectionMode="Single"
+              CanUserSortColumns="False">
           <DataGrid.Columns>
             <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
             <DataGridTextColumn Header="Author" Binding="{Binding Author}" Width="*"/>

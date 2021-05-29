@@ -66,11 +66,14 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             foreach(PluginInformation information in pluginInfos)
             {
                 libraries.AddRange(
-                    information.Libraries.Select(Library => new ThirdClassLibraryData(Library.Name, Library.Author, Library.Url, information.Name))
+                    information.Libraries.Select(Library => new ThirdClassLibraryData(Library.Name, Library.Author, Library.Url, "Plugin: " + information.Name))
                                         .ToList()
                 );
             }
-            ThirdPartyLibraries = libraries.OrderBy(itemA => itemA.Name).ToList();
+            ThirdPartyLibraries = libraries.Distinct(new ThirdPartyDataComparer())
+                                           .OrderBy(library => library.Scope)
+                                           .ThenBy(itemA => itemA.Name)
+                                           .ToList();
             LinkOpener = new OpenBrowserUrl();
         }
 

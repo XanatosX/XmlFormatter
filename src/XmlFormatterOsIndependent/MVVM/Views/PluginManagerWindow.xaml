@@ -37,7 +37,7 @@
           </DataTemplate>
         </TreeView.DataTemplates>
       </TreeView>
-      <Panel IsVisible="{Binding PanelVisible}" Grid.Column="1">
+      <Panel IsVisible="True" Grid.Column="1">
         <Grid  Margin="5">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
