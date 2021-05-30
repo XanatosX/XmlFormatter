@@ -60,7 +60,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         private PluginMetaData updater;
 
         [SettingProperty]
-        private string selectedUpdater => managerFactory.GetPluginManager().LoadPlugin<IUpdateStrategy>(updater).GetType().ToString();
+        public string selectedUpdater => managerFactory.GetPluginManager().LoadPlugin<IUpdateStrategy>(updater).GetType().ToString();
 
         public int UpdaterIndex { get; set; }
 
@@ -170,7 +170,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             {
                 int index = AvailableUpdaters.Select(metaData => pluginManager.LoadPlugin<IUpdateStrategy>(metaData))
                                              .ToList()
-                                             .FindIndex(updater => updater.GetType().FullName == GetSettingValue<string>("UpdateStrategy"));
+                                             .FindIndex(updater => updater.GetType().FullName == GetSettingValue<string>("SelectedUpdater"));
                 UpdaterIndex = index == -1 ? 0 : index;
             }
 
