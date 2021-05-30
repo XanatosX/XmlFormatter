@@ -21,7 +21,10 @@
             <HeaderedContentControl Classes="GroupBox" Header="Application Settings">
               <StackPanel Margin="5,0,0,0">
                 <CheckBox Margin="0,5,0,5" Content="Ask before Closing" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
-                <ComboBox Margin="0,0,5,5" Items="{Binding AvailableThemes}" SelectedIndex="{Binding SelectedTheme}"/>
+                <ComboBox Margin="0,0,5,5"
+                          Items="{Binding AvailableThemes}"
+                          SelectedIndex="{Binding SelectedThemeIndex}"
+                          SelectedItem="{Binding SelectedTheme}"/>
               </StackPanel>
             </HeaderedContentControl>
             <HeaderedContentControl Classes="GroupBox" Header="Updating">

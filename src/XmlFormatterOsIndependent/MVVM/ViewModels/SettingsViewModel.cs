@@ -8,10 +8,14 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
+using System.Xml.Serialization;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
+using XmlFormatterOsIndependent.Commands.Settings;
 using XmlFormatterOsIndependent.DataLoader;
+using XmlFormatterOsIndependent.DataSets.Attributes;
 using XmlFormatterOsIndependent.Factories;
 
 namespace XmlFormatterOsIndependent.MVVM.ViewModels
@@ -22,17 +26,25 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         private readonly string defaultLogPath;
 
+        [SettingProperty]
         public bool AskBeforeClosing { get; set; }
 
+        [SettingProperty]
         public bool CheckUpdateOnStart { get; set; }
 
+        [SettingProperty]
         public bool LoggingActive { get; set; }
 
+        [SettingProperty]
         public bool HotfolderActive { get; set; }
 
+        
         public List<string> AvailableThemes { get; private set; }
 
-        public int SelectedTheme { get; set; }
+        public int SelectedThemeIndex { get; set; }
+
+        [SettingProperty]
+        public string SelectedTheme { get; set; }
 
         public List<PluginMetaData> AvailableUpdaters { get; private set; }
 
@@ -46,6 +58,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         }
 
         private PluginMetaData updater;
+
+        [SettingProperty]
+        private string selectedUpdater => managerFactory.GetPluginManager().LoadPlugin<IUpdateStrategy>(updater).GetType().ToString();
 
         public int UpdaterIndex { get; set; }
 
@@ -79,6 +94,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         public ICommand OpenLogFolder { get; }
 
+        public ITriggerCommand SaveSettings { get; }
+
         public ISettingScope ISettingScope { get; private set; }
 
         private DefaultManagerFactory managerFactory;
@@ -89,6 +106,15 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         public SettingsViewModel()
         {
+            managerFactory = new DefaultManagerFactory();
+            logFileLoader = new FileContentLoader();
+            folderDataLoader = new FolderDataLoader(fileInfo => fileInfo.Extension.ToLower() == ".log");
+
+            LogFiles = new ObservableCollection<FileInfo>();
+            settingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "XMLFormatter");
+            defaultLogPath = Path.Combine(settingsPath, "logs");
+            settingsPath = Path.Combine(settingsPath, "settings.set");
+
             DeleteLogFile = new RelayCommand(
                 paramter =>
                 {
@@ -121,13 +147,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 }
             );
 
-            folderDataLoader = new FolderDataLoader(fileInfo => fileInfo.Extension.ToLower() == ".log");
-            logFileLoader = new FileContentLoader();
-            LogFiles = new ObservableCollection<FileInfo>();
-            settingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "XMLFormatter");
-            defaultLogPath = Path.Combine(settingsPath, "logs");
-            settingsPath = Path.Combine(settingsPath, "settings.set");
-            managerFactory = new DefaultManagerFactory();
+            SaveSettings = new SaveSettingsCommand(managerFactory, this, settingsPath);
+
             LoadSettings();
             LoadLogFiles();
         }
@@ -141,8 +162,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             LoggingActive = false;
             HotfolderActive = false;
             AvailableThemes = new List<string>() { "Light", "Dark" };
-            SelectedTheme = AvailableThemes.FindIndex(theme => theme == GetSettingValue<string>("Theme"));
-            SelectedTheme = SelectedTheme == -1 ? 0 : SelectedTheme;
+            SelectedThemeIndex = AvailableThemes.FindIndex(theme => theme == GetSettingValue<string>("Theme"));
+            SelectedThemeIndex = SelectedThemeIndex == -1 ? 0 : SelectedThemeIndex;
+            SelectedTheme = AvailableThemes[SelectedThemeIndex];
             AvailableUpdaters = pluginManager.ListPlugins<IUpdateStrategy>().OrderBy((item) => item.Information.Name).ToList();
             if (AvailableUpdaters.Count > 0)
             {
@@ -151,6 +173,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                                              .FindIndex(updater => updater.GetType().FullName == GetSettingValue<string>("UpdateStrategy"));
                 UpdaterIndex = index == -1 ? 0 : index;
             }
+
+
         }
 
         private void LoadLogFiles()
