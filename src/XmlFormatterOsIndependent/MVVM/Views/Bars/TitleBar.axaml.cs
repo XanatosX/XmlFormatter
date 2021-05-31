@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace XmlFormatterOsIndependent.MVVM.Views
+namespace XmlFormatterOsIndependent.MVVM.Views.Bars
 {
-    public partial class PluginView : UserControl
+    public partial class TitleBar : UserControl
     {
-        public PluginView()
+        public TitleBar()
         {
             InitializeComponent();
         }

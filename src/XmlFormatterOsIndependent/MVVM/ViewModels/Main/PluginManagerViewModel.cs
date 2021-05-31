@@ -8,7 +8,7 @@ using XmlFormatterOsIndependent.EventArg;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.MVVM.Models;
 
-namespace XmlFormatterOsIndependent.MVVM.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 {
     /// <summary>
     /// Window to list all the plugin data
@@ -54,8 +54,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(ViewContainer viewContainer, DefaultManagerFactory managerFactory)
-            : base(viewContainer, managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
+        public PluginManagerViewModel(ViewContainer viewContainer)
+            : base(viewContainer, DefaultManagerFactory.GetSettingsManager(), DefaultManagerFactory.GetPluginManager())
         {
             PanelVisible = false;
             OpenPluginCommand = new GetPluginInformationCommand(pluginManager);

@@ -1,6 +1,7 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -14,29 +15,30 @@ namespace XmlFormatterOsIndependent.Factories
     /// <summary>
     /// Factory to create the manager used for this application
     /// </summary>
-    internal class DefaultManagerFactory
+    internal static class DefaultManagerFactory
     {
         /// <summary>
         /// The factory used to create the version managment
         /// </summary>
-        private IVersionManagerFactory versionManagerFactory;
+        private static IVersionManagerFactory versionManagerFactory;
 
         /// <summary>
         /// The plugin manager to use
         /// </summary>
-        private IPluginManager pluginManager;
+        private static IPluginManager pluginManager;
 
         /// <summary>
         /// The settings manager to use
         /// </summary>
-        private ISettingsManager settingsManager;
+        private static ISettingsManager settingsManager;
 
         /// <summary>
         /// Get the current plugin manager
         /// </summary>
         /// <returns>The plugin manager to use</returns>
-        public IPluginManager GetPluginManager()
+        public static IPluginManager GetPluginManager()
         {
+
             if (pluginManager == null)
             {
                 pluginManager = new DefaultManager();
@@ -56,12 +58,13 @@ namespace XmlFormatterOsIndependent.Factories
         /// Get the settings manager for this application
         /// </summary>
         /// <returns>The settings manager to use</returns>
-        public ISettingsManager GetSettingsManager()
+        public static ISettingsManager GetSettingsManager()
         {
             if (settingsManager == null)
             {
                 settingsManager = new SettingsManager();
                 settingsManager.SetPersistendFactory(new XmlProviderFactory());
+                settingsManager.Load(GetSettingPath());
             }
             return settingsManager;
         }
@@ -70,13 +73,23 @@ namespace XmlFormatterOsIndependent.Factories
         /// Get the version manager of this application
         /// </summary>
         /// <returns>The version manager to use</returns>
-        public IVersionManager GetVersionManager()
+        public static IVersionManager GetVersionManager()
         {
             if (versionManagerFactory == null)
             {
                 versionManagerFactory = new UpdateManagerFactory();
             }
             return versionManagerFactory.GetVersionManager();
+        }
+
+        /// <summary>
+        /// Get the settings path to use
+        /// </summary>
+        /// <returns>The path to the settings folder</returns>
+        public static string GetSettingPath()
+        {
+           string settingsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "XMLFormatter");
+           return Path.Combine(settingsPath, "settings.set");
         }
     }
 }

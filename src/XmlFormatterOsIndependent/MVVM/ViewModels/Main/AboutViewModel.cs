@@ -18,7 +18,7 @@ using XmlFormatterOsIndependent.DataSets.ThirdParty.LoadableClasses;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Update;
 
-namespace XmlFormatterOsIndependent.MVVM.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 {
     class AboutViewModel : ReactiveObject
     {
@@ -57,13 +57,12 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             Version version = versionTask.Result;
             Version = version.Major + "." + version.Minor + "." + version.Build;
             List<ThirdClassLibraryData> libraries = GetThirdPartyData().LibraryData.ToList();
-            DefaultManagerFactory factory = new DefaultManagerFactory();
-            IPluginManager pluginManager = factory.GetPluginManager();
+            IPluginManager pluginManager = DefaultManagerFactory.GetPluginManager();
             List<PluginMetaData> plugins = pluginManager.ListPlugins<IFormatter>();
             plugins.AddRange(pluginManager.ListPlugins<IUpdateStrategy>());
 
             List<PluginInformation> pluginInfos = plugins.Select(meta => meta.Information).ToList();
-            foreach(PluginInformation information in pluginInfos)
+            foreach (PluginInformation information in pluginInfos)
             {
                 libraries.AddRange(
                     information.Libraries.Select(Library => new ThirdClassLibraryData(Library.Name, Library.Author, Library.Url, "Plugin: " + information.Name))

@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
+        xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Main"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         Width="800"
         Height="450"
@@ -17,7 +17,7 @@
         x:Class="XmlFormatterOsIndependent.MVVM.Windows.MainWindow"
         Title="Xml Formatter">
   <Window.DataContext>
-    <models:MainWindowViewModelNew></models:MainWindowViewModelNew>
+    <models:MainWindowViewModel></models:MainWindowViewModel>
   </Window.DataContext>
 <Grid>
   <Grid.ColumnDefinitions>
@@ -30,25 +30,7 @@
     <RowDefinition Height="Auto"></RowDefinition>
     <RowDefinition Height="*"></RowDefinition>
   </Grid.RowDefinitions>
-  <DockPanel IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
-    <StackPanel IsHitTestVisible="False" Orientation="Horizontal" Margin="5" DockPanel.Dock="Left" Spacing="10">
-      <Image Source="/Assets/XmlFormatterIcon.ico" Width="20"></Image>
-      <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">Xml Formatter</TextBlock>
-    </StackPanel>
-  </DockPanel>
-  <DockPanel Grid.Column="1" IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
-    
-  </DockPanel>
-
-  <DockPanel LastChildFill="False" Grid.Column="2" Background="{DynamicResource ThemeAccentBrush}">
-    <StackPanel IsHitTestVisible="True" Orientation="Horizontal" DockPanel.Dock="Right">
-      <Button IsHitTestVisible="True" Classes="Minimize" Content="_" Command="{Binding MaximizeWindow}"/>
-      <Button IsHitTestVisible="True" Classes="Close" Content="X" Command="{Binding CloseWindow}"/>
-    </StackPanel>
-  </DockPanel>
-
-  <Border Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{DynamicResource ThemeForegroundBrush}" Margin="0,0,0,5"/>
-  
+  <ContentControl Content="{Binding TitleBar}" Grid.ColumnSpan="3" Grid.Row="0"/>
   <StackPanel Grid.Row="2" >
     <RadioButton Classes="MainMenu" Content="Formatting" IsChecked="true" Command="{Binding FormattingView}"></RadioButton>
     <RadioButton Classes="MainMenu" Content="Plugins" Command="{Binding PluginsView}"></RadioButton>

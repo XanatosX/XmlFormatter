@@ -19,8 +19,7 @@ namespace XmlFormatterOsIndependent.Commands
         /// <inheritdoc/>
         public async override Task AsyncExecute(object parameter)
         {
-            DefaultManagerFactory factory = new DefaultManagerFactory();
-            IVersionManager versionManager = factory.GetVersionManager();
+            IVersionManager versionManager = DefaultManagerFactory.GetVersionManager();
 
             data = await versionManager.RemoteVersionIsNewer();
             ExecutionDone();

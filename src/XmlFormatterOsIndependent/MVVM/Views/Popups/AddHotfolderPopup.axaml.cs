@@ -1,11 +1,12 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace XmlFormatterOsIndependent.MVVM.Views
+namespace XmlFormatterOsIndependent.MVVM.Views.Popups
 {
-    public partial class FormatterView : UserControl
+    public partial class AddHotfolderPopup : UserControl
     {
-        public FormatterView()
+        public AddHotfolderPopup()
         {
             InitializeComponent();
         }

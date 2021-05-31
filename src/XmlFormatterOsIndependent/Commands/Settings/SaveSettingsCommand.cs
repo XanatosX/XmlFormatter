@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.DataSets.Attributes;
 using XmlFormatterOsIndependent.Factories;
@@ -11,22 +9,16 @@ namespace XmlFormatterOsIndependent.Commands.Settings
 {
     class SaveSettingsCommand : BaseTriggerCommand
     {
-        private readonly DefaultManagerFactory defaultManagerFactory;
-        private readonly object propertyClass;
-        private readonly string filePath;
+        private readonly List<object> propertyClasses;
 
-        public SaveSettingsCommand(DefaultManagerFactory defaultManagerFactory, object propertyClass, string filePath)
+        public SaveSettingsCommand(List<object> propertyClasses)
         {
-            this.defaultManagerFactory = defaultManagerFactory;
-            this.propertyClass = propertyClass;
-            this.filePath = filePath;
+            this.propertyClasses = propertyClasses.Where(item => item != null).ToList();
         }
 
         public override bool CanExecute(object parameter)
         {
-            return defaultManagerFactory != null
-                   && propertyClass != null
-                   && propertyClass.GetType().GetProperties().FirstOrDefault(prop => prop.GetCustomAttributes(typeof(SettingProperty)).Count() > 0) != null;
+            return propertyClasses.Count > 0;
         }
 
         public override void Execute(object parameter)
@@ -36,13 +28,12 @@ namespace XmlFormatterOsIndependent.Commands.Settings
                 return;
             }
 
-            List<ISettingPair> propertiesToSave = propertyClass.GetType().GetProperties()
-                                     .Where(prop => prop.GetCustomAttributes(typeof(SettingProperty)).Count() > 0)
-                                     .Select(prop => PropertyToISettingPair(prop))
-                                     .Where(setting => setting.Value != null)
-                                     .ToList();
+            List<ISettingPair> propertiesToSave = propertyClasses.Select(currentClass => new SaveInformation(currentClass, currentClass.GetType().GetProperties()))
+                                                                 .Select(prop => PropertyToISettingPair(prop.Container, prop.SaveableProperties))
+                                                                 .SelectMany(item => item)
+                                                                 .ToList();
 
-            ISettingScope scope = defaultManagerFactory.GetSettingsManager().GetScope("Default");
+            ISettingScope scope = DefaultManagerFactory.GetSettingsManager().GetScope("Default");
             if (scope == null)
             {
                 return;
@@ -51,21 +42,43 @@ namespace XmlFormatterOsIndependent.Commands.Settings
             {
                 scope.AddSetting(pair);
             }
-            //defaultManagerFactory.GetSettingsManager().AddScope(scope);
-            defaultManagerFactory.GetSettingsManager().Save(filePath);
+            DefaultManagerFactory.GetSettingsManager().Save(DefaultManagerFactory.GetSettingPath());
+            CommandExecuted(null);
         }
 
-        private ISettingPair PropertyToISettingPair(PropertyInfo property)
+        private List<ISettingPair> PropertyToISettingPair(object currentClass, IReadOnlyList<PropertyInfo> property)
         {
-            string propertyName = char.ToUpper(property.Name[0]) + property.Name.Substring(1);
-            ISettingPair pair = new SettingPair(propertyName);
-            object value = property.GetValue(propertyClass, null);
-            if (value == null)
+            return property.Select(property =>
             {
+                string propertyName = char.ToUpper(property.Name[0]) + property.Name.Substring(1);
+                ISettingPair pair = new SettingPair(propertyName);
+                object value = property.GetValue(currentClass, null);
+                if (value == null)
+                {
+                    return pair;
+                }
+                
+                pair.SetValue(value);
                 return pair;
-            }
-            pair.SetValue(value);
-            return pair;
+            })
+            .Where(setting => setting.Value != null)
+            .ToList();
+        }
+    }
+
+    internal class SaveInformation
+    {
+        public IReadOnlyList<PropertyInfo> SaveableProperties { get; }
+        public object Container { get; }
+
+        public SaveInformation(object container, PropertyInfo[] propertyInfos)
+        {
+            Container = container;
+            SaveableProperties = propertyInfos.Where(propInfo => propInfo.GetCustomAttributes(typeof(SettingProperty)).Count() > 0)
+                                              .GroupBy(prop => prop.Name)
+                                              .Select(group => group.First())
+                                              .Where(item => item != null)
+                                              .ToList();
         }
     }
 }

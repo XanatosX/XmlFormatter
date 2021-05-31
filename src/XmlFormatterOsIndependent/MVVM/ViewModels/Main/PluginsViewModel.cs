@@ -12,7 +12,7 @@ using XmlFormatterOsIndependent.Enums;
 using PluginFramework.DataContainer;
 using XmlFormatterOsIndependent.Commands;
 
-namespace XmlFormatterOsIndependent.MVVM.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 {
     class PluginsViewModel : ReactiveObject
     {
@@ -41,13 +41,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             set => this.RaiseAndSetIfChanged(ref dataIsAvailable, value);
         }
 
-
-        private DefaultManagerFactory factory;
-
         public PluginsViewModel()
         {
-            factory = new DefaultManagerFactory();
-            IPluginManager pluginManager = factory.GetPluginManager();
+            IPluginManager pluginManager = DefaultManagerFactory.GetPluginManager();
             PluginTreeViewGroup formatter = new PluginTreeViewGroup("Formatter");
             PluginTreeViewGroup updater = new PluginTreeViewGroup("Updater");
             formatter.Add(pluginManager.ListPlugins<IFormatter>().Select(data => new PluginTreeViewItem(data, PluginType.Formatter)).ToList());
@@ -69,7 +65,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                     }
                 }
             );
-            
+
 
         }
     }

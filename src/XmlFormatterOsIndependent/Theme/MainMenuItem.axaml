@@ -22,6 +22,7 @@
             <Grid Name="border">
                 <TextBlock Text="{TemplateBinding Content}"
                            VerticalAlignment="Center"
+                           Foreground="{DynamicResource ThemeForegroundBrush}"
                            Margin="50,0,0,0"></TextBlock>
             </Grid>
           </Border>
@@ -37,10 +38,10 @@
   </Style>
   
   <Style Selector="RadioButton.MainMenu:pointerover /template/ Grid#border">
-    <Setter Property="Background" Value="WhiteSmoke" />
+    <Setter Property="Background" Value="{DynamicResource ThemeBorderLowBrush}" />
   </Style>
 
   <Style Selector="RadioButton.MainMenu:checked /template/ Grid#border">
-    <Setter Property="Background" Value="Gray" />
+    <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}" />
   </Style>
 </Styles>

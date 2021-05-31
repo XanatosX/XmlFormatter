@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Setting"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.Setting.LogfileView">
+  <UserControl.DataContext>
+    <models:LogfileViewModel></models:LogfileViewModel>
+  </UserControl.DataContext>
+  <Grid DockPanel.Dock="Bottom"
+        ColumnDefinitions="Auto,*"
+        RowDefinitions="Auto,*,Auto">
+    <CheckBox Name="LoggingActive" IsChecked="{Binding LoggingActive}" Grid.Row="0" Grid.ColumnSpan="2" DockPanel.Dock="Top" Content="Logging active" Margin="0,0,0,5"></CheckBox>
+    <DataGrid Name="LogFiles" IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}"
+              BorderThickness="2"
+              Grid.Column="0"
+              Grid.Row="1"
+              VerticalAlignment="Stretch"
+              Items="{Binding LogFiles, Mode=TwoWay}"
+              SelectedItem="{Binding SelectedLogFile, Mode=TwoWay}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Filename" Binding="{Binding Name}"></DataGridTextColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+    <TextBox IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}" Text="{Binding LogfileText}" Grid.Row="1" Grid.Column="1" IsReadOnly="True" VerticalAlignment="Stretch" TextWrapping="Wrap"></TextBox>
+    <StackPanel Orientation="Horizontal"
+                Grid.Row="2"
+                IsVisible="{Binding ElementName=LoggingActive, Path=IsChecked}"
+                Margin="0,5,0,0">
+      <Button Content="Delete"
+              Command="{Binding DeleteLogFile}"
+              CommandParameter="{Binding ElementName=LogFiles, Path=SelectedItem}"
+              Margin="0,0,5,0"/>
+      <Button Content="Open Folder" Command="{Binding OpenLogFolder}"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

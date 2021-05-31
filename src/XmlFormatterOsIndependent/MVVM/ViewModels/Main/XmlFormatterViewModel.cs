@@ -18,7 +18,7 @@ using Avalonia.Input;
 using XmlFormatterOsIndependent.MVVM.ViewModels.Behaviors;
 using System.IO;
 
-namespace XmlFormatterOsIndependent.MVVM.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 {
     class XmlFormatterViewModel : ReactiveObject, IEventView
     {
@@ -97,20 +97,13 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         {
             get => dropFileText;
             set => this.RaiseAndSetIfChanged(ref dropFileText, value);
-            }
-
-        //
-
-
-
-        private readonly DefaultManagerFactory managerFactory;
+        }
 
         public XmlFormatterViewModel()
         {
             SelectedFile = string.Empty;
-            managerFactory = new DefaultManagerFactory();
             ModeSelections = GetModeSelections();
-            IPluginManager pluginManager = managerFactory.GetPluginManager();
+            IPluginManager pluginManager = DefaultManagerFactory.GetPluginManager();
             FormatterPlugins = pluginManager.ListPlugins<IFormatter>();
             CurrentPlugin = FormatterPlugins.FirstOrDefault();
             LoadDocument = new SelectConversionFile(pluginManager);
@@ -136,8 +129,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 });
 
             };
-            ClearFile = new RelayCommand((parameter) => !StatusVisible, 
-                (parameter) => {
+            ClearFile = new RelayCommand((parameter) => !StatusVisible,
+                (parameter) =>
+                {
                     SelectedFile = string.Empty;
                     TextBoxVisible = false;
                 }
@@ -191,8 +185,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         /// <returns>True if the file is valid</returns>
         private bool CheckDragDropFile(DragEventArgs data)
         {
-            
-            IFormatter currentFormatter = managerFactory.GetPluginManager().LoadPlugin<IFormatter>(CurrentPlugin);
+
+            IFormatter currentFormatter = DefaultManagerFactory.GetPluginManager().LoadPlugin<IFormatter>(CurrentPlugin);
             IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
             if (currentFormatter == null
                 || files.Count == 0
@@ -212,7 +206,7 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         public void UnregisterEvents(Avalonia.Controls.Window currentWindow)
         {
-            
+
         }
     }
 }

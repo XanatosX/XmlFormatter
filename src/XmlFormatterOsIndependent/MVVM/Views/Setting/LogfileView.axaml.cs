@@ -2,11 +2,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace XmlFormatterOsIndependent.MVVM.Views
+namespace XmlFormatterOsIndependent.MVVM.Views.Setting
 {
-    public partial class AboutView : UserControl
+    public partial class LogfileView : UserControl
     {
-        public AboutView()
+        public LogfileView()
         {
             InitializeComponent();
         }

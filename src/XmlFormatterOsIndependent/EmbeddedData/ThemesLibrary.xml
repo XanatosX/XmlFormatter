@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SerializeableThemeContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Themes>
+    <SerializeableTheme>
+      <Name>Dark</Name>
+      <Url>avares://Avalonia.Themes.Default/Accents/BaseDark.xaml</Url>
+    </SerializeableTheme>
+    <SerializeableTheme>
+      <Name>Light</Name>
+      <Url>avares://Avalonia.Themes.Default/Accents/BaseLight.xaml</Url>
+    </SerializeableTheme>
+  </Themes>
+</SerializeableThemeContainer>

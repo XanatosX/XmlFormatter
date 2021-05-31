@@ -1,8 +1,8 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.DataSets;
-using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.MVVM.ViewModels;
+using XmlFormatterOsIndependent.MVVM.ViewModels.Main;
 
 namespace XmlFormatterOsIndependent.MVVM.Views
 {
@@ -23,9 +23,8 @@ namespace XmlFormatterOsIndependent.MVVM.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            DefaultManagerFactory managerFactory = new DefaultManagerFactory();
 
-            DataContext = new PluginManagerViewModel(new ViewContainer(this, this), managerFactory);
+            DataContext = new PluginManagerViewModel(new ViewContainer(this, this));
         }
     }
 }

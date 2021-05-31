@@ -34,6 +34,14 @@ namespace XmlFormatterModel.Setting
         ISettingScope GetScope(string name);
 
         /// <summary>
+        /// The the setting from a specific scope
+        /// </summary>
+        /// <param name="scope">Get a scope by there name/key</param>
+        /// <param name="name">The name of the setting to get</param>
+        /// <returns>The settings container</returns>
+        ISettingPair GetSetting(string scope, string name);
+
+        /// <summary>
         /// Get all the scopes saved in this manager
         /// </summary>
         /// <returns>A List with all the scopes in this manager</returns>

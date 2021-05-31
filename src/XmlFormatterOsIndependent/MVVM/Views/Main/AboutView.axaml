@@ -3,8 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels"
-             x:Class="XmlFormatterOsIndependent.MVVM.Views.AboutView">
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Main"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.Main.AboutView">
   <UserControl.DataContext>
     <models:AboutViewModel></models:AboutViewModel>
   </UserControl.DataContext>

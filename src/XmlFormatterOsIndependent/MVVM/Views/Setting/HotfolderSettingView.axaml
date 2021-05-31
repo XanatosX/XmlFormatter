@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Setting"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.Setting.HotfolderSettingView">
+  <UserControl.DataContext>
+    <models:HotfolderViewModel></models:HotfolderViewModel>
+  </UserControl.DataContext>
+  <Grid RowDefinitions="Auto,*,Auto">
+    <CheckBox Name="HotfolderActive" IsChecked="{Binding HotfolderActive}" Content="Hotfolder Active"></CheckBox>
+    <DataGrid Margin="0,5,0,5" IsVisible="{Binding ElementName=HotfolderActive, Path=IsChecked}" Grid.Row="1">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Formatter"></DataGridTextColumn>
+        <DataGridTextColumn Header="Mode"></DataGridTextColumn>
+        <DataGridTextColumn Header="Watched folder"></DataGridTextColumn>
+        <DataGridTextColumn Header="File Filter"></DataGridTextColumn>
+        <DataGridTextColumn Header="Output Folder"></DataGridTextColumn>
+        <DataGridTextColumn Header="Output File Scheme"></DataGridTextColumn>
+        <DataGridTextColumn Header="Rename"></DataGridTextColumn>
+        <DataGridTextColumn Header="Remove Old"></DataGridTextColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+    <DockPanel Grid.Row="2" LastChildFill="False" IsVisible="{Binding ElementName=HotfolderActive, Path=IsChecked}">
+      <Button Margin="0,0,5,0" Content="Add" DockPanel.Dock="Left" Command="{Binding AddHotfolder}"></Button>
+      <Button Content="Edit" DockPanel.Dock="Left" Command="{Binding EditHotfolder}"/>
+      <Button Margin="5,0,0,0" Content="Remove" DockPanel.Dock="Right" Command="{Binding RemoveHotfolder}"></Button>
+    </DockPanel>
+  </Grid>
+</UserControl>

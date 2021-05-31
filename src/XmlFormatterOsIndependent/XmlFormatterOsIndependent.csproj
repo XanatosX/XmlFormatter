@@ -16,18 +16,24 @@
   </ItemGroup>
   <ItemGroup>
     <AvaloniaXaml Remove="MVVM\Windows\MainWindow.axaml" />
+    <AvaloniaXaml Remove="MVVM\Windows\PopupWindow.axaml" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\SearchIcon.png" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
+    <None Remove="EmbeddedData\ThemesLibrary.xml" />
     <None Remove="EmbeddedData\ThirdPartyTools.xml" />
     <None Remove="version.txt" />
     <None Remove="MVVM\Views\PluginManagerWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Include="MVVM\Windows\MainWindow.axaml" />
+    <AvaloniaResource Include="MVVM\Windows\PopupWindow.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedData\ThemesLibrary.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="EmbeddedData\ThirdPartyTools.xml" />

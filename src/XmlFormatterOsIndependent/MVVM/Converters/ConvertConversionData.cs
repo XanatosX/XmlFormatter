@@ -7,7 +7,7 @@ using System.Globalization;
 using XmlFormatterOsIndependent.DataSets.Files;
 using XmlFormatterOsIndependent.MVVM.Models;
 
-namespace XmlFormatterOsIndependent.Converters
+namespace XmlFormatterOsIndependent.MVVM.Converters
 {
     /// <summary>
     /// Class to convert bindings for file conversion

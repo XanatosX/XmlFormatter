@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Main"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.Main.SettingsView">
+  <UserControl.DataContext>
+    <models:SettingsViewModel></models:SettingsViewModel>
+  </UserControl.DataContext>
+  <Grid RowDefinitions="Auto,*, Auto">
+    <DockPanel Grid.Row="0">
+      <Menu>
+        <MenuItem Header="_Export Settings" IsEnabled="False"></MenuItem>
+        <MenuItem Header="_Import Settings" IsEnabled="False"></MenuItem>
+      </Menu>
+    </DockPanel>
+      <TabControl VerticalAlignment="Stretch" Grid.Row="1" Padding="10,2,10,5">
+        <TabItem Header="Application">
+          <StackPanel>
+            <HeaderedContentControl Classes="GroupBox" Header="Application Settings">
+              <StackPanel Margin="5,0,0,0">
+                <CheckBox Margin="0,5,0,5" Content="Ask before Closing" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
+                <ComboBox Margin="0,0,5,5"
+                          Items="{Binding AvailableThemes}"
+                          SelectedIndex="{Binding SelectedThemeIndex}"
+                          SelectedItem="{Binding SelectedTheme}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Name}"></TextBlock>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+            </HeaderedContentControl>
+            <HeaderedContentControl Classes="GroupBox" Header="Updating">
+              <StackPanel Margin="5,0,5,0">
+                <CheckBox Margin="0,5,0,5" Content="Check for update on startup" IsChecked="{Binding CheckUpdateOnStart}"></CheckBox>
+                <ComboBox Margin="0,0,0,5"
+                          Items="{Binding AvailableUpdaters}"
+                          SelectedItem="{Binding Updater}"
+                          SelectedIndex="{Binding UpdaterIndex}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Information.Name}"></TextBlock>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+              </StackPanel>
+            </HeaderedContentControl>
+          </StackPanel>
+        </TabItem>
+        <TabItem Header="Logging" VerticalAlignment="Stretch">
+          <ContentControl Content="{Binding LogfileView}">
+          </ContentControl>
+        </TabItem>
+        <TabItem Header="Hotfolder">
+          <ContentControl Content="{Binding HotfolderView}">
+          </ContentControl>
+        </TabItem>
+      </TabControl>
+    <DockPanel Grid.Row="2" LastChildFill="False" Margin="5">
+      <Button DockPanel.Dock="Left" Content="Save" Command="{Binding SaveSettings}"/>
+      <Button DockPanel.Dock="Right" Content="Reset Changes" Command="{Binding ResetSettings}"/>
+    </DockPanel>
+    
+  </Grid>
+</UserControl>

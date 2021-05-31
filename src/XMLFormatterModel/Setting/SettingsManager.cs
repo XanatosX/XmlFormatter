@@ -112,5 +112,12 @@ namespace XmlFormatterModel.Setting
         {
             scopes.Clear();
         }
+
+        /// <inheritdoc/>
+        public ISettingPair GetSetting(string scope, string name)
+        {
+            ISettingScope settingScope = GetScope(scope);
+            return settingScope?.GetSetting(name);
+        }
     }
 }

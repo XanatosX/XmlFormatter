@@ -4,16 +4,26 @@ using Avalonia.Controls.ApplicationLifetimes;
 using ReactiveUI;
 using System;
 using System.Windows.Input;
+using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Commands.SystemCommands;
+using XmlFormatterOsIndependent.DataLoader;
+using XmlFormatterOsIndependent.DataSets.Themes;
+using XmlFormatterOsIndependent.DataSets.Themes.LoadableClasses;
+using XmlFormatterOsIndependent.Factories;
+using XmlFormatterOsIndependent.Manager;
 using XmlFormatterOsIndependent.MVVM.ViewModels.Behaviors;
-using XmlFormatterOsIndependent.MVVM.Views;
+using XmlFormatterOsIndependent.MVVM.Views.Bars;
+using XmlFormatterOsIndependent.MVVM.Views.Main;
 
-namespace XmlFormatterOsIndependent.MVVM.ViewModels
+namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 {
-    class MainWindowViewModelNew : ReactiveObject, IEventView
+    class MainWindowViewModel : ReactiveObject, IEventView
     {
-        public object CurrentView {
+
+        public object TitleBar { get; }
+        public object CurrentView
+        {
             get => currentView;
             private set
             {
@@ -37,10 +47,6 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
 
         public ICommand AboutView { get; }
 
-        public ICommand CloseWindow { get; }
-
-        public ICommand MaximizeWindow { get; }
-
         public ICommand OpenUrl { get; }
 
         private bool propertyChangedRegisterd;
@@ -51,8 +57,9 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
         private readonly Lazy<AboutView> aboutView;
 
 
-        public MainWindowViewModelNew()
+        public MainWindowViewModel()
         {
+            TitleBar = new TitleBar();
             formatterView = new Lazy<FormatterView>();
             pluginView = new Lazy<PluginView>();
             settingsView = new Lazy<SettingsView>();
@@ -72,24 +79,6 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
             AboutView = new RelayCommand(
                 (parameter) => CurrentView = aboutView.Value
                 );
-
-            CloseWindow = new RelayCommand(
-                (parameter) =>
-                {
-                    if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                    {
-                        desktop.MainWindow.Close();
-                    }
-                });
-
-            MaximizeWindow = new RelayCommand(
-                paramter =>
-                {
-                    if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-                    {
-                        desktop.MainWindow.WindowState = WindowState.Minimized;
-                    }
-                });
 
             OpenUrl = new OpenBrowserUrl();
             propertyChangedRegisterd = false;
@@ -126,6 +115,20 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels
                 }
             };
             propertyChangedRegisterd = true;
+            SetInitalTheme();
+        }
+
+        private void SetInitalTheme()
+        {
+            ISettingPair themeSetting = DefaultManagerFactory.GetSettingsManager().GetSetting("Default", "CurrentTheme");
+            if (themeSetting != null)
+            {
+                IDataLoader<SerializeableThemeContainer> containerLoader = new EmbeddedXmlDataLoader<SerializeableThemeContainer>();
+                SerializeableThemeContainer container = containerLoader.Load("XmlFormatterOsIndependent.EmbeddedData.ThemesLibrary.xml");
+                ThemeContainer realContainer = container.GetThemeContainer();
+                Theme theme = realContainer.Themes.Find(data => data.Name == themeSetting.GetValue<string>());
+                ThemeManager.ChangeTheme(theme);
+            }
         }
 
         public void UnregisterEvents(Window currentWindow)

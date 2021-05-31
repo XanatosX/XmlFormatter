@@ -1,12 +1,11 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace XmlFormatterOsIndependent.MVVM.Views
+namespace XmlFormatterOsIndependent.MVVM.Views.Main
 {
-    public partial class SettingsView : UserControl
+    public partial class AboutView : UserControl
     {
-        public SettingsView()
+        public AboutView()
         {
             InitializeComponent();
         }

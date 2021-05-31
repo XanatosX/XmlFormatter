@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:XmlFormatterOsIndependent.MVVM.ViewModels.Bars"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.MVVM.Views.Bars.TitleBar">
+  <UserControl.DataContext>
+    <models:TitleBarViewModel></models:TitleBarViewModel>
+  </UserControl.DataContext>
+  <Grid ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,5">
+    
+    <DockPanel IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
+      <StackPanel IsHitTestVisible="False" Orientation="Horizontal" Margin="5" DockPanel.Dock="Left" Spacing="10">
+        <Image Source="/Assets/XmlFormatterIcon.ico" Width="20"></Image>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">Xml Formatter</TextBlock>
+      </StackPanel>
+    </DockPanel>
+    <DockPanel Grid.Column="1" IsHitTestVisible="False" Background="{DynamicResource ThemeAccentBrush}">
+    </DockPanel>
+    <DockPanel LastChildFill="False" Grid.Column="2" Background="{DynamicResource ThemeAccentBrush}">
+      <StackPanel IsHitTestVisible="True" Orientation="Horizontal" DockPanel.Dock="Right">
+        <Button IsHitTestVisible="True" Classes="Minimize" Content="_" Command="{Binding MinimizeWindow}"/>
+        <Button IsHitTestVisible="True" Classes="Close" Content="X" Command="{Binding CloseWindow}"/>
+      </StackPanel>
+    </DockPanel>
+  </Grid>
+</UserControl>
