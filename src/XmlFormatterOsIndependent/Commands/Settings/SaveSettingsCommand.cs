@@ -36,12 +36,13 @@ namespace XmlFormatterOsIndependent.Commands.Settings
             ISettingScope scope = DefaultManagerFactory.GetSettingsManager().GetScope("Default");
             if (scope == null)
             {
-                return;
+                scope = new SettingScope("Default");
             }
             foreach(ISettingPair pair in propertiesToSave)
             {
                 scope.AddSetting(pair);
             }
+            DefaultManagerFactory.GetSettingsManager().AddScope(scope);
             DefaultManagerFactory.GetSettingsManager().Save(DefaultManagerFactory.GetSettingPath());
             CommandExecuted(null);
         }
