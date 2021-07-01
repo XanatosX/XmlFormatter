@@ -10,10 +10,17 @@ namespace XmlFormatterOsIndependent.Commands.Settings
     class SaveSettingsCommand : BaseTriggerCommand
     {
         private readonly List<object> propertyClasses;
+        private readonly string settingScopeName;
 
         public SaveSettingsCommand(List<object> propertyClasses)
+            : this(propertyClasses, "Default")
+        {
+        }
+
+        public SaveSettingsCommand(List<object> propertyClasses, string settingScopeName)
         {
             this.propertyClasses = propertyClasses.Where(item => item != null).ToList();
+            this.settingScopeName = settingScopeName == null || settingScopeName == string.Empty ? "Default" : settingScopeName;
         }
 
         public override bool CanExecute(object parameter)
@@ -36,7 +43,7 @@ namespace XmlFormatterOsIndependent.Commands.Settings
             ISettingScope scope = DefaultManagerFactory.GetSettingsManager().GetScope("Default");
             if (scope == null)
             {
-                scope = new SettingScope("Default");
+                scope = new SettingScope(settingScopeName);
             }
             foreach(ISettingPair pair in propertiesToSave)
             {

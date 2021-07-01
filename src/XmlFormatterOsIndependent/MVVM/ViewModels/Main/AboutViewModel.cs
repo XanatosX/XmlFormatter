@@ -83,7 +83,6 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
                 dataLoader = new EmbeddedXmlDataLoader<SerializeableThirdPartyData>();
             }
 
-
             SerializeableThirdPartyData thirdPartyLibraries = dataLoader.Load("XmlFormatterOsIndependent.EmbeddedData.ThirdPartyTools.xml");
             return thirdPartyLibraries.GetImmutableClass();
         }

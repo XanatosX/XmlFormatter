@@ -17,6 +17,7 @@ using XmlFormatterOsIndependent.DataSets.Themes;
 using XmlFormatterOsIndependent.DataSets.Themes.LoadableClasses;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Manager;
+using XmlFormatterOsIndependent.MVVM.ViewModels.Behaviors;
 using XmlFormatterOsIndependent.MVVM.Views;
 using XmlFormatterOsIndependent.MVVM.Views.Setting;
 
@@ -79,9 +80,22 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
             SaveSettings.ContinueWith += (sender, data) =>
             {
                 ThemeManager.ChangeTheme(SelectedTheme);
+                SaveView(LogfileView);
+                SaveView(HotfolderView);
             };
 
             LoadSettings();
+        }
+
+        private void SaveView(object objectToTrigger)
+        {
+            if (objectToTrigger is UserControl control)
+            {
+                if (control.DataContext is ISaveSettingView settingView)
+                {
+                    settingView.SaveSettings();
+                }
+            }
         }
 
         private void LoadSettings()

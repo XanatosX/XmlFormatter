@@ -5,9 +5,11 @@ using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Views;
 using XmlFormatterOsIndependent.MVVM.ViewModels;
+using System;
 
 namespace XmlFormatterOsIndependent.MVVM.Views
 {
+    [Obsolete]
     public class SettingsWindow : Window, IParentSetable
     {
         private Window parent;

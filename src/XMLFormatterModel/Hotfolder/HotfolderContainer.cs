@@ -9,96 +9,28 @@ namespace XMLFormatterModel.Hotfolder
     public class HotfolderContainer : IHotfolder
     {
         /// <inheritdoc/>
-        public ModesEnum Mode
-        {
-            get => mode;
-            set => mode = value;
-        }
-
-        /// <summary>
-        /// The mode to use for formatting
-        /// </summary>
-        private ModesEnum mode;
+        public ModesEnum Mode { get; set; }
 
         /// <inheritdoc/>
-        public IFormatter FormatterToUse => formatterToUse;
-
-        /// <summary>
-        /// The formatter to use
-        /// </summary>
-        private readonly IFormatter formatterToUse;
+        public IFormatter FormatterToUse { get; set; }
 
         /// <inheritdoc/>
-        public string WatchedFolder
-        {
-            get => watchedFolder;
-            set => watchedFolder = value;
-        }
-
-        /// <summary>
-        /// The folder which is getting watched
-        /// </summary>
-        private string watchedFolder;
+        public string WatchedFolder { get; set; }
 
         /// <inheritdoc/>
-        public string Filter
-        {
-            get => filter;
-            set => filter = value;
-        }
-
-        /// <summary>
-        /// The filter to use in the watched folder
-        /// </summary>
-        private string filter;
+        public string Filter { get; set; }
 
         /// <inheritdoc/>
-        public string OutputFolder
-        {
-            get => outputFolder;
-            set => outputFolder = value;
-        }
-
-        /// <summary>
-        /// The output folder to save the new file in
-        /// </summary>
-        private string outputFolder;
+        public string OutputFolder { get; set; }
 
         /// <inheritdoc/>
-        public string OutputFileScheme
-        {
-            get => outputFileScheme;
-            set => outputFileScheme = value;
-        }
-
-        /// <summary>
-        /// The scheme of the output file
-        /// </summary>
-        private string outputFileScheme;
+        public string OutputFileScheme { get; set; }
 
         /// <inheritdoc/>
-        public bool OnRename
-        {
-            get => onRename;
-            set => onRename = value;
-        }
-
-        /// <summary>
-        /// Should we trigger on rename as well
-        /// </summary>
-        private bool onRename;
+        public bool OnRename { get; set; }
 
         /// <inheritdoc/>
-        public bool RemoveOld
-        {
-            get => removeOld;
-            set => removeOld = value;
-        }
-
-        /// <summary>
-        /// Should we delete the old file
-        /// </summary>
-        private bool removeOld;
+        public bool RemoveOld { get; set; }
 
         /// <summary>
         /// Create a new instance of the hotfolder configuration
@@ -107,11 +39,11 @@ namespace XMLFormatterModel.Hotfolder
         /// <param name="watchedFolder">The hotfolder to watch</param>
         public HotfolderContainer(IFormatter formatter, string watchedFolder)
         {
-            formatterToUse = formatter;
-            this.watchedFolder = watchedFolder;
-            filter = "*.*";
-            outputFolder = this.watchedFolder + "\\output";
-            outputFileScheme = "{inputfile}_{format}.{extension}";
+            FormatterToUse = formatter;
+            WatchedFolder = watchedFolder;
+            Filter = "*.*";
+            OutputFolder = WatchedFolder + "\\output";
+            OutputFileScheme = "{inputfile}_{format}.{extension}";
         }
     }
 }

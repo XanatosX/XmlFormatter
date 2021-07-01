@@ -5,6 +5,7 @@ using System.Text;
 
 namespace XmlFormatterOsIndependent.MVVM.ViewModels.Popups
 {
+    [Obsolete]
     class AddHotfolderPopupViewModel : IPopupContent
     {
         public AddHotfolderPopupViewModel()

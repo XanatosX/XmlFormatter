@@ -5,6 +5,7 @@ using System.Text;
 
 namespace XmlFormatterOsIndependent.MVVM.ViewModels.Popups
 {
+    [Obsolete]
     interface IPopupContent
     {
         object GetData();

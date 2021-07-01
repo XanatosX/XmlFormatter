@@ -49,6 +49,8 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 
         public ICommand OpenUrl { get; }
 
+        public ICommand CloseWindow { get; }
+
         private bool propertyChangedRegisterd;
 
         private readonly Lazy<FormatterView> formatterView;
@@ -82,6 +84,15 @@ namespace XmlFormatterOsIndependent.MVVM.ViewModels.Main
 
             OpenUrl = new OpenBrowserUrl();
             propertyChangedRegisterd = false;
+
+            CloseWindow = new RelayCommand(
+                        (parameter) =>
+                        {
+                            if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                            {
+                                desktop.MainWindow.Close();
+                            }
+                        });
         }
 
         public void RegisterEvents(Window currentWindow)
