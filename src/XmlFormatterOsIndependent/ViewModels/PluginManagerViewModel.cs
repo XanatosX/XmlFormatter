@@ -2,6 +2,7 @@
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Linq;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
@@ -28,10 +29,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The current plugin information to display
         /// </summary>
-        public PluginInformation PluginInformation 
-        { 
-            get => pluginInformation; 
-            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value); 
+        public PluginInformation PluginInformation
+        {
+            get => pluginInformation;
+            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value);
         }
 
         /// <summary>
@@ -54,8 +55,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(ViewContainer viewContainer, DefaultManagerFactory managerFactory)
-            : base(viewContainer, managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
+        public PluginManagerViewModel(DefaultManagerFactory managerFactory) //ViewContainer viewContainer, 
+            : base(managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
         {
             PanelVisible = false;
             OpenPluginCommand = new GetPluginInformationCommand(pluginManager);
@@ -70,12 +71,12 @@ namespace XmlFormatterOsIndependent.ViewModels
             PluginGroups = new List<PluginTreeViewGroup>();
             PluginTreeViewGroup formatterGroup = new PluginTreeViewGroup("Formatter");
             PluginTreeViewGroup updaterGroup = new PluginTreeViewGroup("Updater");
-            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>();
+            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>().ToList();
             foreach (PluginMetaData formatter in formatters)
             {
                 formatterGroup.Add(new PluginTreeViewItem(formatter, Enums.PluginType.Formatter));
             }
-            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>();
+            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
             foreach (PluginMetaData updater in updaters)
             {
                 updaterGroup.Add(new PluginTreeViewItem(updater, Enums.PluginType.Updater));

@@ -23,9 +23,9 @@ namespace XmlFormatterOsIndependent.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            DefaultManagerFactory managerFactory = new DefaultManagerFactory();
+            //DefaultManagerFactory managerFactory = new DefaultManagerFactory();
 
-            DataContext = new PluginManagerViewModel(new ViewContainer(this, this), managerFactory);
+            //DataContext = new PluginManagerViewModel(new ViewContainer(this, this), managerFactory);
         }
     }
 }

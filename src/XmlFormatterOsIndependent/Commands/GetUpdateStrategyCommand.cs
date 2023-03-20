@@ -2,6 +2,7 @@
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.DataSets;
@@ -49,7 +50,7 @@ namespace XmlFormatterOsIndependent.Commands
                 }
 
                 string name = strategyPair.GetValue<string>();
-                List<PluginMetaData> plugins = data.PluginManager.ListPlugins<IUpdateStrategy>();
+                List<PluginMetaData> plugins = data.PluginManager.ListPlugins<IUpdateStrategy>().ToList();
                 if (name == string.Empty)
                 {
                     if (plugins.Count == 0)

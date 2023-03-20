@@ -3,6 +3,7 @@ using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
@@ -103,8 +104,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view for this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public SettingsWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
-            : base(view, settingsManager, pluginManager)
+        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager) //ViewContainer view, 
+            : base(settingsManager, pluginManager)
         {
             CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
             if (this.settingsManager == null || this.pluginManager == null)
@@ -113,7 +114,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
             this.settingsManager.Load(settingsPath);
             applicationScope = this.settingsManager.GetScope("Default");
-            List = pluginManager.ListPlugins<IUpdateStrategy>();
+            List = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
 
             if (applicationScope == null)
             {

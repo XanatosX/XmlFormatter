@@ -22,7 +22,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Create a new instance of this class
         /// </summary>
         /// <inheritdoc>
-        public AboutWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager) : base(view, settingsManager, pluginManager)
+        public AboutWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager) : base(settingsManager, pluginManager) // ViewContainer view, 
         {
             LocalVersionRecieverStrategy localVersionRecieverStrategy = new LocalVersionRecieverStrategy();
             Task<Version> versionTask = localVersionRecieverStrategy.GetVersion(new DefaultStringConvertStrategy());

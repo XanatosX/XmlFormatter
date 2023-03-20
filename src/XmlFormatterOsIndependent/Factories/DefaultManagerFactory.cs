@@ -1,6 +1,7 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -14,6 +15,7 @@ namespace XmlFormatterOsIndependent.Factories
     /// <summary>
     /// Factory to create the manager used for this application
     /// </summary>
+    [Obsolete]
     internal class DefaultManagerFactory
     {
         /// <summary>

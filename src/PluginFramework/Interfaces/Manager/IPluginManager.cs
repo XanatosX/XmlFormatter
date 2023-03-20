@@ -20,7 +20,7 @@ namespace PluginFramework.Interfaces.Manager
         /// </summary>
         /// <typeparam name="T">The type of plugin to list</typeparam>
         /// <returns>A list with the plugin meta data</returns>
-        List<PluginMetaData> ListPlugins<T>() where T : IPluginOverhead;
+        IEnumerable<PluginMetaData> ListPlugins<T>() where T : IPluginOverhead;
 
         /// <summary>
         /// List all the plugins of a given type by using the default strategy
@@ -28,7 +28,7 @@ namespace PluginFramework.Interfaces.Manager
         /// <typeparam name="T">The type of plugin to list</typeparam>
         /// <param name="reload">Reload all the plugins</param>
         /// <returns>A list with the plugin meta data</returns>
-        List<PluginMetaData> ListPlugins<T>(bool reload) where T : IPluginOverhead;
+        IEnumerable<PluginMetaData> ListPlugins<T>(bool reload) where T : IPluginOverhead;
 
         /// <summary>
         /// List all the plugins of a given type by
@@ -36,7 +36,7 @@ namespace PluginFramework.Interfaces.Manager
         /// <typeparam name="T">The type of plugin to list</typeparam>
         /// <param name="loadStrategy">The strategy to use for loading</param>
         /// <returns>A list with the plugin meta data</returns>
-        List<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy) where T : IPluginOverhead;
+        IEnumerable<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy) where T : IPluginOverhead;
 
         /// <summary>
         /// List all the plugins of a given type by
@@ -45,7 +45,7 @@ namespace PluginFramework.Interfaces.Manager
         /// <param name="loadStrategy">The strategy to use for loading</param>
         /// <param name="reload">Reload all the plugins</param>
         /// <returns>A list with the plugin meta data</returns>
-        List<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy, bool reload) where T : IPluginOverhead;
+        IEnumerable<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy, bool reload) where T : IPluginOverhead;
 
         /// <summary>
         /// Load a plugin by the meta data

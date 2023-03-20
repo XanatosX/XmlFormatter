@@ -11,13 +11,14 @@
         SizeToContent="WidthAndHeight"
         CanResize="False"
         DragDrop.AllowDrop="True">
+	<!--
   <NativeMenu.Menu>
     <NativeMenu>
       <NativeMenuItem Header="File">
         <NativeMenuItem.Menu>
           <NativeMenu>
             <NativeMenuItem Header="Settings" Command="{Binding OpenSettingsCommand}"></NativeMenuItem>
-            <NativeMenuItem Header="Exit" Command="{Binding CloseWindowCommand}"></NativeMenuItem>
+            <NativeMenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></NativeMenuItem>
           </NativeMenu>
         </NativeMenuItem.Menu>
       </NativeMenuItem>
@@ -30,9 +31,10 @@
           </NativeMenu>
         </NativeMenuItem.Menu>
       </NativeMenuItem>
-      <NativeMenuItem Command="{Binding OpenUrl}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="Report Issue"></NativeMenuItem>
+      <NativeMenuItem Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="Report Issue"></NativeMenuItem>
     </NativeMenu>
   </NativeMenu.Menu>
+  -->
   <StackPanel Spacing="5" Margin="0,0,0,5">
     <DockPanel x:Name="WindowDock">
       <Menu DockPanel.Dock="Top">
@@ -40,7 +42,7 @@
           <!--<MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>-->
           <MenuItem Header="_Settings" Command="{Binding OpenSettingsCommand}"></MenuItem>
           <Separator></Separator>
-          <MenuItem Command="{Binding CloseWindowCommand}" Header="_Exit"></MenuItem>
+          <MenuItem Command="{Binding CloseApplicationCommand}" Header="_Exit"></MenuItem>
         </MenuItem>
         <MenuItem Header="_Help">
           <MenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></MenuItem>
@@ -48,7 +50,7 @@
           <Separator></Separator>
           <MenuItem Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>
         </MenuItem>
-        <MenuItem Command="{Binding OpenUrl}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="_Report Issue"></MenuItem>
+        <MenuItem Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/XanatosX/XmlFormatter/issues" Header="_Report Issue"></MenuItem>
       </Menu>
     </DockPanel>
     <TextBlock Text="{Binding TextBoxText}" Margin="5,0,0,0"></TextBlock>

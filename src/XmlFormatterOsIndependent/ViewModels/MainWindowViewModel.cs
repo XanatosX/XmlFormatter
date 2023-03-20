@@ -1,5 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
@@ -24,7 +27,9 @@ using XmlFormatterOsIndependent.Commands.SystemCommands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.EventArg;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -32,7 +37,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel : ObservableObject
     {
         /// <summary>
         /// Command to open the plugin window
@@ -50,11 +55,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         public ITriggerCommand OpenSettingsCommand { get; }
 
         /// <summary>
-        /// Close this window
-        /// </summary>
-        public ICommand CloseWindowCommand { get; }
-
-        /// <summary>
         /// Command to open a file to be formatted
         /// </summary>
         public ITriggerCommand OpenFileCommand { get; }
@@ -63,11 +63,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Command to convert and save the files
         /// </summary>
         public ITriggerCommand ConvertFileCommand { get; }
-
-        /// <summary>
-        /// Open external link
-        /// </summary>
-        public ICommand OpenUrl { get; }
 
         /// <summary>
         /// The modes you could convert to
@@ -87,6 +82,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Current selected plugin
         /// </summary>
+        /**
         public PluginMetaData CurrentPlugin
         {
             get => currentPlugin;
@@ -97,6 +93,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                 ConvertFileCommand?.DataHasChanged();
             }
         }
+        */
+
         /// <summary>
         /// Private storage for current selected plugin
         /// </summary>
@@ -105,19 +103,25 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Current text on the status string
         /// </summary>
+        /**
         public string StatusString
         {
             get => statusString;
             set => this.RaiseAndSetIfChanged(ref statusString, value);
         }
+        */
+
         /// <summary>
         /// Private text of the status string
         /// </summary>
+        [ObservableProperty]
         private string statusString;
 
         /// <summary>
         /// Current index of the selected formatter
         /// </summary>
+
+        /**
         public int CurrentFormatter
         {
             get => currentFormatter;
@@ -128,6 +132,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                 CurrentFile = string.Empty;
             }
         }
+        */
+
         /// <summary>
         /// Private index of the selected formatter
         /// </summary>
@@ -136,6 +142,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The currently selected conversion mode
         /// </summary>
+        /**
         public int CurrentMode
         {
             get => currentMode;
@@ -145,6 +152,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                 ConvertFileCommand?.DataHasChanged();
             }
         }
+        */
+
         /// <summary>
         /// Private currently selected conversion mode
         /// </summary>
@@ -153,15 +162,19 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The currently selected file
         /// </summary>
+        /**
         public string CurrentFile
         {
             get => currentFile;
             set => this.RaiseAndSetIfChanged(ref currentFile, value);
         }
+        */
+
         /// <summary>
         /// Private currently selected file
         /// </summary>
         private string currentFile;
+        private readonly IIOInteractionService interactionService;
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -179,10 +192,16 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view of this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public MainWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
-            : base(view, settingsManager, pluginManager)
+        public MainWindowViewModel(ISettingsManager settingsManager,
+                                   IPluginManager pluginManager,
+                                   IPathService pathService,
+                                   IIOInteractionService interactionService) // ViewContainer view, 
+                                                                             //: base(settingsManager, pluginManager)
         {
-            CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
+
+
+
+            /**
             OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
             OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
             OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
@@ -195,37 +214,42 @@ namespace XmlFormatterOsIndependent.ViewModels
                     CurrentFile = selectedArg.SelectedFile;
                 }
             };
-            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) => {
+            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) =>
+            {
                 StatusString = "Status: " + data.Message;
             });
+            */
             ConversionModes = new List<ModeSelection>();
-            foreach(ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
+            foreach (ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
             {
                 ConversionModes.Add(new ModeSelection(value.ToString(), value));
             }
-            OpenUrl = new OpenBrowserUrl();
 
-            if (!File.Exists(settingsPath))
+            if (!File.Exists(pathService.GetSettingsFile()))
             {
-                settingsManager.Save(settingsPath);
+                settingsManager.Save(pathService.GetSettingsFile());
             }
 
             TextBoxText = "Selected file path";
-            statusString = "Status: ";
+            StatusString = "Status: ";
 
-            List = this.pluginManager.ListPlugins<IFormatter>();
+            List = pluginManager.ListPlugins<IFormatter>().ToList();
             FormatterSelectorVisible = List.Count > 1;
             FormatterModeSelectionVisible = true;
             if (List.Count == 0)
             {
                 FormatterModeSelectionVisible = false;
-                statusString += "Missing plugins for conversion!";
+                StatusString += "Missing plugins for conversion!";
             }
 
+            this.interactionService = interactionService;
+            /**
             CurrentFile = string.Empty;
             CurrentMode = 0;
             CurrentFormatter = 0;
+            */
 
+            /**
             view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
             {
                 if (!CheckDragDropFile(data))
@@ -246,6 +270,19 @@ namespace XmlFormatterOsIndependent.ViewModels
 
                 CurrentFile = data.Data.GetFileNames().First();
             });
+            */
+        }
+
+        [RelayCommand]
+        public void CloseApplication()
+        {
+            WeakReferenceMessenger.Default.Send(new CloseApplicationMessage());
+        }
+
+        [RelayCommand]
+        public void OpenUrl(string url)
+        {
+            interactionService.OpenWebsite(url);
         }
 
         /// <summary>
@@ -255,7 +292,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <returns>True if the file is valid</returns>
         private bool CheckDragDropFile(DragEventArgs data)
         {
-            IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            //IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            IFormatter currentFormatter = null;
             IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
             if (currentFormatter == null
                 || files.Count == 0
@@ -273,14 +311,16 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
 
         /// <inheritdoc>/>
-        protected override void IsOsX()
-        {
-            Window parent = view.Current;
-            parent.FindControl<DockPanel>("WindowDock").IsVisible = false;
-            parent.Height = parent.Height - 35;
-            parent.MinHeight = parent.Height;
-            parent.MaxHeight = parent.Height;
-        }
+        //protected override void IsOsX()
+        //{
+        /**
+        Window parent = view.Current;
+        parent.FindControl<DockPanel>("WindowDock").IsVisible = false;
+        parent.Height = parent.Height - 35;
+        parent.MinHeight = parent.Height;
+        parent.MaxHeight = parent.Height;
+        */
+        //}
 
         /// <summary>
         /// Search if there is an update
@@ -289,7 +329,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             IDataCommand command = new CheckForUpdateCommand();
             command.Executed += UpdateExecuted_Executed;
-            ExecuteAsyncCommand(command, null);
+            //ExecuteAsyncCommand(command, null);
         }
 
         /// <summary>
@@ -302,7 +342,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             if (sender is CheckForUpdateCommand updateCommand)
             {
                 IDataCommand themeCommand = new GetThemeCommand();
-                ExecuteCommand(themeCommand, settingsManager);
+                //ExecuteCommand(themeCommand, settingsManager);
 
                 VersionCompare versionInfo = updateCommand.GetData<VersionCompare>();
                 string title = "Version is up to date";
@@ -337,16 +377,16 @@ namespace XmlFormatterOsIndependent.ViewModels
                 parameter.ButtonDefinitions = buttons;
 
                 IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
-                TaskAwaiter<ButtonResult> awaiter = window.ShowDialog(view.GetWindow()).GetAwaiter();
-                awaiter.OnCompleted(() =>
-                {
-                    ButtonResult buttonResult = awaiter.GetResult();
-                    if (buttonResult == ButtonResult.Yes)
-                    {
-                        ICommand command = new UpdateApplicationCommand();
-                        ExecuteCommand(command, new UpdateApplicationData(pluginManager, settingsManager, versionInfo));
-                    }
-                });
+                //TaskAwaiter<ButtonResult> awaiter = window.ShowDialog(view.GetWindow()).GetAwaiter();
+                //awaiter.OnCompleted(() =>
+                //{
+                //ButtonResult buttonResult = awaiter.GetResult();
+                //if (buttonResult == ButtonResult.Yes)
+                //{
+                //ICommand command = new UpdateApplicationCommand();
+                //ExecuteCommand(command, new UpdateApplicationData(pluginManager, settingsManager, versionInfo));
+                //}
+                //});
             }
         }
     }
