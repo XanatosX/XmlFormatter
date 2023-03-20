@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>XmlFormatter</AssemblyName>
     <ApplicationIcon>XmlFormatterIcon.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">

@@ -2,10 +2,10 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
-using XmlFormatterOsIndependent.DataSets;
+using System;
+using System.Linq;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Model.Messages;
-using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
@@ -18,6 +18,11 @@ namespace XmlFormatterOsIndependent.Views
             WeakReferenceMessenger.Default.Register<CloseApplicationMessage>(this, (_, _) =>
             {
                 Close();
+            });
+
+            WeakReferenceMessenger.Default.Register<RequestMainWindowMessage>(this, async (_, e) =>
+            {
+                e.Reply(this);
             });
         }
 

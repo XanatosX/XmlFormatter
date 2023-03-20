@@ -55,11 +55,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         public ITriggerCommand OpenSettingsCommand { get; }
 
         /// <summary>
-        /// Command to open a file to be formatted
-        /// </summary>
-        public ITriggerCommand OpenFileCommand { get; }
-
-        /// <summary>
         /// Command to convert and save the files
         /// </summary>
         public ITriggerCommand ConvertFileCommand { get; }
@@ -175,6 +170,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private string currentFile;
         private readonly IIOInteractionService interactionService;
+        private readonly IWindowApplicationService applicationService;
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -195,12 +191,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         public MainWindowViewModel(ISettingsManager settingsManager,
                                    IPluginManager pluginManager,
                                    IPathService pathService,
-                                   IIOInteractionService interactionService) // ViewContainer view, 
-                                                                             //: base(settingsManager, pluginManager)
+                                   IIOInteractionService interactionService,
+                                   IWindowApplicationService applicationService) // ViewContainer view, 
+                                                                                 //: base(settingsManager, pluginManager)
         {
-
-
-
             /**
             OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
             OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
@@ -243,11 +237,12 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
 
             this.interactionService = interactionService;
+            this.applicationService = applicationService;
             /**
-            CurrentFile = string.Empty;
-            CurrentMode = 0;
-            CurrentFormatter = 0;
-            */
+CurrentFile = string.Empty;
+CurrentMode = 0;
+CurrentFormatter = 0;
+*/
 
             /**
             view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
@@ -274,9 +269,23 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
 
         [RelayCommand]
+        public async void OpenFile()
+        {
+            //@TODO: Replace filter with proper one!
+            var data = await applicationService.OpenFileAsync(new() { new FileDialogFilter() {
+            Extensions =  new List<string>()
+            {
+                "txt"
+            },
+            Name = "txt-Files"
+            }}
+            );
+        }
+
+        [RelayCommand]
         public void CloseApplication()
         {
-            WeakReferenceMessenger.Default.Send(new CloseApplicationMessage());
+            applicationService.CloseAplication();
         }
 
         [RelayCommand]

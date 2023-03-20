@@ -26,7 +26,8 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<IVersionRecieverStrategy, LocalVersionRecieverStrategy>()
                          .AddSingleton<IVersionRecieverStrategy, GitHubVersionRecieverStrategy>()
                          .AddSingleton<IPathService, PathService>()
-                         .AddSingleton<IIOInteractionService, DefaultInteractionService>();
+                         .AddSingleton<IIOInteractionService, DefaultInteractionService>()
+                         .AddSingleton<IWindowApplicationService, WindowApplicationService>();
 
     }
 
