@@ -18,6 +18,11 @@ namespace PluginFramework.LoadStrategies
         /// </summary>
         private readonly string folder;
 
+        public PluginFolder() : this(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins"))
+        {
+
+        }
+
         /// <summary>
         /// Create a new instance of this load strategy
         /// </summary>

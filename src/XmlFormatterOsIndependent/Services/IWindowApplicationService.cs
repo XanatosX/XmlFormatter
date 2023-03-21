@@ -14,4 +14,6 @@ public interface IWindowApplicationService
     Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters);
 
     Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FileDialogFilter> fileFilters);
+
+    Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters);
 }

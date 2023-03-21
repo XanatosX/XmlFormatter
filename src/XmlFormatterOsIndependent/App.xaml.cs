@@ -18,7 +18,8 @@ namespace XmlFormatterOsIndependent
 
         private IServiceCollection CreateServiceCollection()
         {
-            return new ServiceCollection().AddServices()
+            return new ServiceCollection().AddPluginFramwork()
+                                          .AddServices()
                                           .AddViews()
                                           .AddViewModels();
         }

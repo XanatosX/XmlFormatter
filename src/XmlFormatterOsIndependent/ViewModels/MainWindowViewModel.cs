@@ -2,7 +2,6 @@
 using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
@@ -11,26 +10,17 @@ using PluginFramework.DataContainer;
 using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.Commands.Conversion;
-using XmlFormatterOsIndependent.Commands.Gui;
-using XmlFormatterOsIndependent.Commands.SystemCommands;
-using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
-using XmlFormatterOsIndependent.EventArg;
-using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
-using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -55,11 +45,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         public ITriggerCommand OpenSettingsCommand { get; }
 
         /// <summary>
-        /// Command to convert and save the files
-        /// </summary>
-        public ITriggerCommand ConvertFileCommand { get; }
-
-        /// <summary>
         /// The modes you could convert to
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
@@ -69,108 +54,36 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public string TextBoxText { get; }
 
-        /// <summary>
-        /// List of all the formatting plugins
-        /// </summary>
-        public List<PluginMetaData> List { get; }
-
-        /// <summary>
-        /// Current selected plugin
-        /// </summary>
-        /**
-        public PluginMetaData CurrentPlugin
-        {
-            get => currentPlugin;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentPlugin, value);
-                OpenFileCommand?.DataHasChanged();
-                ConvertFileCommand?.DataHasChanged();
-            }
-        }
-        */
+        [ObservableProperty]
+        private List<PluginMetaData> availablePlugins;
 
         /// <summary>
         /// Private storage for current selected plugin
         /// </summary>
-        private PluginMetaData currentPlugin;
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
+        private PluginMetaData? currentPlugin;
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
+        private ModeSelection? selectedMode;
 
         /// <summary>
-        /// Current text on the status string
+        /// Private currently selected file
         /// </summary>
-        /**
-        public string StatusString
-        {
-            get => statusString;
-            set => this.RaiseAndSetIfChanged(ref statusString, value);
-        }
-        */
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        private string? currentFile;
+
+
 
         /// <summary>
         /// Private text of the status string
         /// </summary>
         [ObservableProperty]
-        private string statusString;
-
-        /// <summary>
-        /// Current index of the selected formatter
-        /// </summary>
-
-        /**
-        public int CurrentFormatter
-        {
-            get => currentFormatter;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentFormatter, value);
-                ConvertFileCommand?.DataHasChanged();
-                CurrentFile = string.Empty;
-            }
-        }
-        */
-
-        /// <summary>
-        /// Private index of the selected formatter
-        /// </summary>
-        private int currentFormatter;
-
-        /// <summary>
-        /// The currently selected conversion mode
-        /// </summary>
-        /**
-        public int CurrentMode
-        {
-            get => currentMode;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentMode, value);
-                ConvertFileCommand?.DataHasChanged();
-            }
-        }
-        */
-
-        /// <summary>
-        /// Private currently selected conversion mode
-        /// </summary>
-        private int currentMode;
-
-        /// <summary>
-        /// The currently selected file
-        /// </summary>
-        /**
-        public string CurrentFile
-        {
-            get => currentFile;
-            set => this.RaiseAndSetIfChanged(ref currentFile, value);
-        }
-        */
-
-        /// <summary>
-        /// Private currently selected file
-        /// </summary>
-        private string currentFile;
-        private readonly IIOInteractionService interactionService;
-        private readonly IWindowApplicationService applicationService;
+        private string? statusString;
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -181,6 +94,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Is the mode of the formatter selector visible right now
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
+
+        private readonly IPluginManager pluginManager;
+        private readonly IIOInteractionService interactionService;
+        private readonly IWindowApplicationService applicationService;
+
 
         /// <summary>
         /// Create a new instance of this main window viewer
@@ -200,18 +118,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
             OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
             OpenPluginCommand = new OpenWindowCommand(typeof(PluginManagerWindow), view.GetParent());
-            OpenFileCommand = new OpenConversionFileCommand(view.Parent, pluginManager);
-            OpenFileCommand.ContinueWith += (sender, data) =>
-            {
-                if (data is FileSelectedArg selectedArg)
-                {
-                    CurrentFile = selectedArg.SelectedFile;
-                }
-            };
-            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) =>
-            {
-                StatusString = "Status: " + data.Message;
-            });
             */
             ConversionModes = new List<ModeSelection>();
             foreach (ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
@@ -227,22 +133,22 @@ namespace XmlFormatterOsIndependent.ViewModels
             TextBoxText = "Selected file path";
             StatusString = "Status: ";
 
-            List = pluginManager.ListPlugins<IFormatter>().ToList();
-            FormatterSelectorVisible = List.Count > 1;
-            FormatterModeSelectionVisible = true;
-            if (List.Count == 0)
+            AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
+            CurrentPlugin = AvailablePlugins.FirstOrDefault();
+            SelectedMode = ConversionModes.FirstOrDefault();
+
+
+            FormatterSelectorVisible = CurrentPlugin is not null;
+            FormatterModeSelectionVisible = FormatterSelectorVisible;
+            if (CurrentPlugin is null)
             {
                 FormatterModeSelectionVisible = false;
                 StatusString += "Missing plugins for conversion!";
             }
 
+            this.pluginManager = pluginManager;
             this.interactionService = interactionService;
             this.applicationService = applicationService;
-            /**
-CurrentFile = string.Empty;
-CurrentMode = 0;
-CurrentFormatter = 0;
-*/
 
             /**
             view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
@@ -268,18 +174,29 @@ CurrentFormatter = 0;
             */
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanOpenFile))]
         public async void OpenFile()
         {
-            //@TODO: Replace filter with proper one!
-            var data = await applicationService.OpenFileAsync(new() { new FileDialogFilter() {
-            Extensions =  new List<string>()
+            var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            if (plugin is null)
             {
-                "txt"
-            },
-            Name = "txt-Files"
-            }}
-            );
+                return;
+            }
+            var data = await applicationService.OpenFileAsync(new() { CreatePluginFileFilter(plugin) });
+
+            CurrentFile = data;
+        }
+
+        private static FileDialogFilter CreatePluginFileFilter(IFormatter? plugin)
+        {
+            return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
+        }
+
+        public bool CanOpenFile()
+        {
+            return CurrentPlugin is not null
+                   && SelectedMode is not null
+                   && pluginManager.LoadPlugin<IFormatter>(CurrentPlugin) is not null;
         }
 
         [RelayCommand]
@@ -292,6 +209,46 @@ CurrentFormatter = 0;
         public void OpenUrl(string url)
         {
             interactionService.OpenWebsite(url);
+        }
+
+
+        [RelayCommand(CanExecute = nameof(CanConvertFile))]
+        public async void ConvertFile()
+        {
+            var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            if (plugin is null || SelectedMode is null)
+            {
+                return;
+            }
+            List<FileDialogFilter> fitlers = new() { CreatePluginFileFilter(plugin) };
+            var saveFile = await applicationService.SaveFileAsync(fitlers);
+            if (saveFile is null)
+            {
+                return;
+            }
+
+            plugin.StatusChanged += (_, e) =>
+            {
+                StatusString = $"Status: {e.Message}";
+            };
+
+            bool success = SelectedMode.Value switch
+            {
+                ModesEnum.Flat => plugin.ConvertToFlat(CurrentFile, saveFile),
+                ModesEnum.Formatted => plugin.ConvertToFormatted(CurrentFile, saveFile),
+                _ => false
+            };
+
+        }
+
+        public bool CanConvertFile()
+        {
+            bool modeAndConverterSelected = SelectedMode is not null && CurrentPlugin is not null;
+            bool fileIsExisting = File.Exists(CurrentFile);
+            ;
+            return modeAndConverterSelected
+                && fileIsExisting
+                && pluginManager.LoadPlugin<IFormatter>(CurrentPlugin) is not null;
         }
 
         /// <summary>
@@ -340,6 +297,7 @@ CurrentFormatter = 0;
             command.Executed += UpdateExecuted_Executed;
             //ExecuteAsyncCommand(command, null);
         }
+
 
         /// <summary>
         /// Show information if there is an update

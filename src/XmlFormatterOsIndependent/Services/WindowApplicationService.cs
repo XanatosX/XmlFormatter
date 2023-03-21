@@ -45,4 +45,19 @@ public class WindowApplicationService : IWindowApplicationService
         string[] data = await openFile.ShowAsync(mainWindow) ?? Array.Empty<string>();
         return data;
     }
+
+    public async Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters)
+    {
+        SaveFileDialog saveFile = new SaveFileDialog()
+        {
+            Filters = fileFilters
+        };
+
+        var mainWindow = await WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage());
+        if (mainWindow is null)
+        {
+            return null;
+        }
+        return await saveFile.ShowAsync(mainWindow);
+    }
 }

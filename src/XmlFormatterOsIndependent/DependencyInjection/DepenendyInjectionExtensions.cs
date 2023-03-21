@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PluginFramework.Interfaces.Manager;
+using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,15 @@ using XmlFormatterOsIndependent.Views;
 namespace XmlFormatterOsIndependent.DependencyInjection;
 internal static class DepenendyInjectionExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection collection)
+    public static IServiceCollection AddPluginFramwork(this IServiceCollection collection)
     {
         return collection.AddSingleton<IPluginManager, DefaultManager>()
-                         .AddSingleton<ISettingsManager, SettingsManager>()
+                         .AddSingleton<IPluginLoadStrategy, PluginFolder>();
+    }
+
+    public static IServiceCollection AddServices(this IServiceCollection collection)
+    {
+        return collection.AddSingleton<ISettingsManager, SettingsManager>()
                          .AddSingleton<IVersionManager, VersionManager>()
                          .AddSingleton<IVersionConvertStrategy, DefaultStringConvertStrategy>()
                          .AddSingleton<IVersionRecieverStrategy, LocalVersionRecieverStrategy>()
