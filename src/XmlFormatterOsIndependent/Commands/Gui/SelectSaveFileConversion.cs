@@ -58,7 +58,7 @@ namespace XmlFormatterOsIndependent.Commands.Gui
 
             SaveFileConversionData dataSet = parameter as SaveFileConversionData;
 
-            string fileName = fileConversionFunction(dataSet.InputFile,dataSet.Mode);
+            string fileName = fileConversionFunction(dataSet.InputFile, dataSet.Mode);
             base.Execute(new SaveFileData(fileName, GetCurrentFilter(dataSet.PluginMeta)));
 
         }
