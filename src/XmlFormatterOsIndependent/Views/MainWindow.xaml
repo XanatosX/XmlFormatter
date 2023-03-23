@@ -45,7 +45,7 @@
           <MenuItem Command="{Binding CloseApplicationCommand}" Header="_Exit"></MenuItem>
         </MenuItem>
         <MenuItem Header="_Help">
-          <MenuItem Command="{Binding SearchForUpdate}" Header="Check for update"></MenuItem>
+          <MenuItem Command="{Binding SearchForUpdateCommand}" Header="Check for update"></MenuItem>
           <MenuItem Command="{Binding OpenPluginCommand}" Header="Plugins"></MenuItem>
           <Separator></Separator>
           <MenuItem Header="About" Command="{Binding OpenAboutCommand}"></MenuItem>

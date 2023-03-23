@@ -22,7 +22,7 @@ namespace XmlFormatterOsIndependent.Commands
             DefaultManagerFactory factory = new DefaultManagerFactory();
             IVersionManager versionManager = factory.GetVersionManager();
 
-            data = await versionManager.RemoteVersionIsNewer();
+            data = await versionManager.RemoteVersionIsNewerAsync();
             ExecutionDone();
         }
 

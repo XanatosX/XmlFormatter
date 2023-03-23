@@ -6,7 +6,7 @@ namespace XmlFormatterOsIndependent.Models
     /// <summary>
     /// Class to store information for the groups on the plugin tree
     /// </summary>
-    class PluginTreeViewGroup
+    public class PluginTreeViewGroup
     {
         /// <summary>
         /// The name to display

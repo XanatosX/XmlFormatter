@@ -12,16 +12,21 @@ using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
+using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Views;
+using static CommunityToolkit.Mvvm.ComponentModel.__Internals.__TaskExtensions.TaskAwaitableWithoutEndValidation;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -80,6 +85,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         public bool FormatterModeSelectionVisible { get; }
 
         private readonly IPluginManager pluginManager;
+        private readonly IVersionManager versionManager;
         private readonly IIOInteractionService interactionService;
         private readonly IWindowApplicationService applicationService;
 
@@ -92,17 +98,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="pluginManager">The plugin manager to use</param>
         public MainWindowViewModel(ISettingsManager settingsManager,
                                    IPluginManager pluginManager,
+                                   IVersionManager versionManager,
                                    IPathService pathService,
                                    IIOInteractionService interactionService,
                                    IWindowApplicationService applicationService) // ViewContainer view, 
                                                                                  //: base(settingsManager, pluginManager)
         {
-            /**
-            OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
-            OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
-            OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
-            OpenPluginCommand = new OpenWindowCommand(typeof(PluginManagerWindow), view.GetParent());
-            */
             ConversionModes = new List<ModeSelection>();
             foreach (ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
             {
@@ -131,6 +132,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
 
             this.pluginManager = pluginManager;
+            this.versionManager = versionManager;
             this.interactionService = interactionService;
             this.applicationService = applicationService;
 
@@ -295,70 +297,48 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Search if there is an update
         /// </summary>
-        public void SearchForUpdate()
+        [RelayCommand]
+        public async void SearchForUpdate()
         {
-            IDataCommand command = new CheckForUpdateCommand();
-            command.Executed += UpdateExecuted_Executed;
-            //ExecuteAsyncCommand(command, null);
+            var compare = await versionManager.RemoteVersionIsNewerAsync();
+            var topWindow = applicationService.GetTopMostWindow();
+            if (compare is null || topWindow is null)
+            {
+                return;
+            }
+
+            string title = "Version is up to date";
+            string content = "You version is up to date";
+            ButtonEnum buttons = ButtonEnum.Ok;
+
+            MessageBoxStandardParams parameter = new MessageBoxStandardParams();
+            if (compare.GitHubIsNewer)
+            {
+                title = "Update Available";
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendFormat(
+                    "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
+                    Environment.NewLine,
+                    compare.LocalVersion,
+                    compare.GitHubVersion
+                    );
+                content = stringBuilder.ToString();
+                buttons = ButtonEnum.YesNo;
+            }
+            parameter.ContentTitle = title;
+            parameter.ContentMessage = content;
+            parameter.ButtonDefinitions = buttons;
+            IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
+            var buttonResult = await window.ShowDialog(topWindow);
+            if (buttonResult == ButtonResult.Yes)
+            {
+                UpdateApplication();
+            }
         }
 
-
-        /// <summary>
-        /// Show information if there is an update
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The arguments of the event</param>
-        private void UpdateExecuted_Executed(object sender, EventArgs e)
+        private void UpdateApplication()
         {
-            if (sender is CheckForUpdateCommand updateCommand)
-            {
-                IDataCommand themeCommand = new GetThemeCommand();
-                //ExecuteCommand(themeCommand, settingsManager);
 
-                VersionCompare versionInfo = updateCommand.GetData<VersionCompare>();
-                string title = "Version is up to date";
-                string content = "You version is up to date";
-
-                MessageBoxStandardParams parameter = new MessageBoxStandardParams()
-                {
-                    Icon = Icon.Info
-                };
-
-                if (themeCommand.IsExecuted() && themeCommand.GetData<ThemeEnum>() == ThemeEnum.Dark)
-                {
-                    parameter.Style = Style.DarkMode;
-                }
-
-                ButtonEnum buttons = ButtonEnum.Ok;
-                if (versionInfo.GitHubIsNewer)
-                {
-                    title = "Update Available";
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.AppendFormat(
-                        "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
-                        Environment.NewLine,
-                        versionInfo.LocalVersion,
-                        versionInfo.GitHubVersion
-                        );
-                    content = stringBuilder.ToString();
-                    buttons = ButtonEnum.YesNo;
-                }
-                parameter.ContentTitle = title;
-                parameter.ContentMessage = content;
-                parameter.ButtonDefinitions = buttons;
-
-                IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
-                //TaskAwaiter<ButtonResult> awaiter = window.ShowDialog(view.GetWindow()).GetAwaiter();
-                //awaiter.OnCompleted(() =>
-                //{
-                //ButtonResult buttonResult = awaiter.GetResult();
-                //if (buttonResult == ButtonResult.Yes)
-                //{
-                //ICommand command = new UpdateApplicationCommand();
-                //ExecuteCommand(command, new UpdateApplicationData(pluginManager, settingsManager, versionInfo));
-                //}
-                //});
-            }
         }
     }
 }

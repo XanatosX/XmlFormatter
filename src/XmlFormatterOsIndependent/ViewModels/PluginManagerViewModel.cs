@@ -1,8 +1,10 @@
 ﻿using PluginFramework.DataContainer;
+using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Linq;
+using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
@@ -14,7 +16,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// Window to list all the plugin data
     /// </summary>
-    class PluginManagerViewModel : ViewModelBase
+    public class PluginManagerViewModel : ViewModelBase
     {
         /// <summary>
         /// Is the information panel to the right visible
@@ -55,8 +57,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(DefaultManagerFactory managerFactory) //ViewContainer viewContainer, 
-            : base(managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
+        public PluginManagerViewModel(ISettingsManager settingsManager, IPluginManager pluginManager) //ViewContainer viewContainer, 
+            : base(settingsManager, pluginManager)
         {
             PanelVisible = false;
             OpenPluginCommand = new GetPluginInformationCommand(pluginManager);

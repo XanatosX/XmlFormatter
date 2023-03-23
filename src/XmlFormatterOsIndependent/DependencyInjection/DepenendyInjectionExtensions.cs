@@ -41,6 +41,9 @@ internal static class DepenendyInjectionExtensions
     }
     public static IServiceCollection AddViewModels(this IServiceCollection collection)
     {
-        return collection.AddTransient<MainWindowViewModel>();
+        return collection.AddTransient<MainWindowViewModel>()
+                         .AddTransient<PluginManagerViewModel>()
+                         .AddTransient<AboutWindowViewModel>()
+                         .AddTransient<SettingsWindowViewModel>();
     }
 }

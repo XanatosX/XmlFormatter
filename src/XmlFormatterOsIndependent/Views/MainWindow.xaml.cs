@@ -1,9 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
-using System.Linq;
 using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Model.Messages;
 

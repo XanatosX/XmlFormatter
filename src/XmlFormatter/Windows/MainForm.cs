@@ -97,7 +97,7 @@ namespace XmlFormatter.Windows
             defaultStatus = "Status: ";
             IVersionManagerFactory factory = new VersionManagerFactory();
             IVersionManager versionManager = factory.GetVersionManager();
-            TaskAwaiter<Version> currentVersion = versionManager.GetLocalVersion().GetAwaiter();
+            TaskAwaiter<Version> currentVersion = versionManager.GetLocalVersionAsync().GetAwaiter();
             currentVersion.OnCompleted(() =>
             {
                 string stringVersion = versionManager.GetStringVersion(currentVersion.GetResult());
@@ -465,7 +465,7 @@ namespace XmlFormatter.Windows
             IVersionManagerFactory factory = new VersionManagerFactory();
             IVersionManager manager = factory.GetVersionManager();
             manager.Error += Manager_Error;
-            VersionCompare versionCompare = await manager.RemoteVersionIsNewer();
+            VersionCompare versionCompare = await manager.RemoteVersionIsNewerAsync();
 
             bool forceShow = false;
 

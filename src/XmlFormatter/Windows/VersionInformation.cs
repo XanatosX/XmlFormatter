@@ -38,7 +38,7 @@ namespace XmlFormatter.Windows
         {
             VersionManagerFactory factory = new VersionManagerFactory();
             IVersionManager manager = factory.GetVersionManager();
-            TaskAwaiter<Version> awaiter = manager.GetLocalVersion().GetAwaiter();
+            TaskAwaiter<Version> awaiter = manager.GetLocalVersionAsync().GetAwaiter();
             awaiter.OnCompleted(() =>
             {
                 Version version = awaiter.GetResult();

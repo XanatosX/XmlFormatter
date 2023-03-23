@@ -28,7 +28,7 @@ namespace XmlFormatterModel.Update.Strategies
         }
 
         /// <inheritdoc/>
-        public async Task<List<IRelease>> GetReleases()
+        public async Task<List<IRelease>> GetReleasesAsync()
         {
             List<IRelease> returnReleases = new List<IRelease>();
             GitHubClient client = new GitHubClient(new ProductHeaderValue("XanatosX"));
@@ -41,9 +41,9 @@ namespace XmlFormatterModel.Update.Strategies
         }
 
         /// <inheritdoc/>
-        public async Task<IRelease> GetLatestRelease()
+        public async Task<IRelease> GetLatestReleaseAsync()
         {
-            List<IRelease> releases = await GetReleases();
+            List<IRelease> releases = await GetReleasesAsync();
             if (releases.Count == 0)
             {
                 EventHandler<BaseEventArgs> handler = Error;
@@ -57,10 +57,10 @@ namespace XmlFormatterModel.Update.Strategies
         }
 
         /// <inheritdoc/>
-        public async Task<Version> GetVersion(IVersionConvertStrategy convertStrategy)
+        public async Task<Version> GetVersionAsync(IVersionConvertStrategy convertStrategy)
         {
             Version gitHubVersion = null;
-            IRelease latestRelease = await GetLatestRelease();
+            IRelease latestRelease = await GetLatestReleaseAsync();
             if (latestRelease != null)
             {
                 string version = regex.Match(latestRelease.TagName).Value;

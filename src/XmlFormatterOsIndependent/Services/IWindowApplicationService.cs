@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace XmlFormatterOsIndependent.Services;
 public interface IWindowApplicationService
 {
+    Window? GetMainWindow();
+
     void CloseApplication();
     bool CloseActiveWindow();
 

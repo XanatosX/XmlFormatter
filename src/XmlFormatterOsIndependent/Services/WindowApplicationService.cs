@@ -20,6 +20,10 @@ public class WindowApplicationService : IWindowApplicationService
     {
         this.injectionResolverService = injectionResolverService;
     }
+    public Window? GetMainWindow()
+    {
+        return WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage()).Response.Result;
+    }
 
     public bool CloseActiveWindow()
     {
@@ -48,6 +52,7 @@ public class WindowApplicationService : IWindowApplicationService
     {
         return GetAllWindows().Where(window => window.IsActive && window.IsEnabled)
                               .SortByZIndex()
+                              .Select(data => data as Window)
                               .OfType<Window>()
                               .FirstOrDefault();
     }

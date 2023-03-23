@@ -7,25 +7,22 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class SettingsWindow : Window, IParentSetable
+    public class SettingsWindow : Window
     {
-        private Window parent;
-
-        public SettingsWindow()
+        public SettingsWindow() : this(null)
         {
-            this.InitializeComponent();
+
         }
 
-        public void SetParent(Window parent)
+        public SettingsWindow(SettingsWindowViewModel? settingsWindowView)
         {
-            this.parent = parent;
+            this.InitializeComponent();
+            DataContext = settingsWindowView;
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            //DefaultManagerFactory managerFactory = new DefaultManagerFactory();
-            //DataContext = new SettingsWindowViewModel(new ViewContainer(this, parent), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
         }
     }
 }

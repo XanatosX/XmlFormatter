@@ -1,27 +1,22 @@
-﻿using PluginFramework.DataContainer;
+﻿using CommunityToolkit.Mvvm.Input;
+using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
     /// <summary>
     /// View model class for the settings window
     /// </summary>
-    internal class SettingsWindowViewModel : ViewModelBase
+    public partial class SettingsWindowViewModel : ViewModelBase
     {
-
-        /// <summary>
-        /// Command to close a specific window
-        /// </summary>
-        public ICommand CloseWindowCommand { get; }
 
         /// <summary>
         /// A list with all the update strategies
@@ -97,6 +92,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// The setting scope of this application
         /// </summary>
         private readonly ISettingScope applicationScope;
+        private readonly IWindowApplicationService applicationService;
 
         /// <summary>
         /// Create a new instance of this view
@@ -104,10 +100,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view for this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager) //ViewContainer view, 
+        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager, IWindowApplicationService applicationService)
             : base(settingsManager, pluginManager)
         {
-            CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
+
             if (this.settingsManager == null || this.pluginManager == null)
             {
                 return;
@@ -122,6 +118,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                 this.settingsManager.AddScope(applicationScope);
             }
             LoadSettings();
+            this.applicationService = applicationService;
         }
 
         /// <summary>
@@ -167,6 +164,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             ISettingPair settingPair = applicationScope.GetSetting(name);
             return settingPair == null ? default : settingPair.GetValue<T>();
+        }
+
+        [RelayCommand]
+        public void CloseWindow()
+        {
+            applicationService.CloseActiveWindow();
         }
 
         /// <summary>
