@@ -2,7 +2,6 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic;
 using XmlFormatterOsIndependent.DependencyInjection;
 using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;

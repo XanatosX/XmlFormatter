@@ -21,6 +21,7 @@ using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
+using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -29,21 +30,6 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// </summary>
     public partial class MainWindowViewModel : ObservableObject
     {
-        /// <summary>
-        /// Command to open the plugin window
-        /// </summary>
-        public ICommand OpenPluginCommand { get; }
-
-        /// <summary>
-        /// Command to open the about window
-        /// </summary>
-        public ICommand OpenAboutCommand { get; }
-
-        /// <summary>
-        /// Command to open the settings window
-        /// </summary>
-        public ITriggerCommand OpenSettingsCommand { get; }
-
         /// <summary>
         /// The modes you could convert to
         /// </summary>
@@ -76,8 +62,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
         private string? currentFile;
-
-
 
         /// <summary>
         /// Private text of the status string
@@ -150,6 +134,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.interactionService = interactionService;
             this.applicationService = applicationService;
 
+            availablePlugins ??= new List<PluginMetaData>();
+
             /**
             view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
             {
@@ -200,9 +186,27 @@ namespace XmlFormatterOsIndependent.ViewModels
         }
 
         [RelayCommand]
+        public void OpenPlugin()
+        {
+            applicationService.OpenNewWindow<PluginManagerWindow>();
+        }
+
+        [RelayCommand]
+        public void OpenAbout()
+        {
+            applicationService.OpenNewWindow<AboutWindow>();
+        }
+
+        [RelayCommand]
+        public void OpenSettings()
+        {
+            applicationService.OpenNewWindow<SettingsWindow>();
+        }
+
+        [RelayCommand]
         public void CloseApplication()
         {
-            applicationService.CloseAplication();
+            applicationService.CloseApplication();
         }
 
         [RelayCommand]

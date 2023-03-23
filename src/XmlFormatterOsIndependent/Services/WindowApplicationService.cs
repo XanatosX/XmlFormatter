@@ -1,8 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterOsIndependent.Model.Messages;
@@ -10,14 +14,42 @@ using XmlFormatterOsIndependent.Model.Messages;
 namespace XmlFormatterOsIndependent.Services;
 public class WindowApplicationService : IWindowApplicationService
 {
-    public void CloseActiveWindow()
+    private readonly IDependecyInjectionResolverService injectionResolverService;
+
+    public WindowApplicationService(IDependecyInjectionResolverService injectionResolverService)
     {
-        throw new NotImplementedException();
+        this.injectionResolverService = injectionResolverService;
     }
 
-    public void CloseAplication()
+    public bool CloseActiveWindow()
+    {
+        var topMost = GetTopMostWindow();
+        topMost?.Close();
+        return topMost?.IsActive ?? false;
+    }
+
+    public void CloseApplication()
     {
         WeakReferenceMessenger.Default.Send(new CloseApplicationMessage());
+    }
+
+    public IEnumerable<Window> GetAllWindows()
+    {
+        IEnumerable<Window> windows = Enumerable.Empty<Window>();
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopApp)
+        {
+            windows = desktopApp.Windows;
+        }
+
+        return windows;
+    }
+
+    public Window? GetTopMostWindow()
+    {
+        return GetAllWindows().Where(window => window.IsActive && window.IsEnabled)
+                              .SortByZIndex()
+                              .OfType<Window>()
+                              .FirstOrDefault();
     }
 
     public Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters)
@@ -44,6 +76,28 @@ public class WindowApplicationService : IWindowApplicationService
         }
         string[] data = await openFile.ShowAsync(mainWindow) ?? Array.Empty<string>();
         return data;
+    }
+
+    public async Task<Unit> OpenNewWindow(Window window)
+    {
+        var mainWindow = await WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage());
+        if (mainWindow is null)
+        {
+            return Unit.Default;
+        }
+        await window.ShowDialog(mainWindow);
+        return Unit.Default;
+    }
+
+    public async Task<Unit> OpenNewWindow<T>() where T : Window
+    {
+        var window = injectionResolverService.GetService<T>() as Window;
+        if (window is null)
+        {
+            return Unit.Default;
+        }
+        return await OpenNewWindow(window);
+
     }
 
     public async Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters)

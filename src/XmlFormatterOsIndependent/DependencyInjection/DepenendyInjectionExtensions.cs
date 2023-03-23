@@ -2,11 +2,6 @@
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
@@ -33,13 +28,16 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<IVersionRecieverStrategy, GitHubVersionRecieverStrategy>()
                          .AddSingleton<IPathService, PathService>()
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
-                         .AddSingleton<IWindowApplicationService, WindowApplicationService>();
-
+                         .AddSingleton<IWindowApplicationService, WindowApplicationService>()
+                         .AddSingleton<IDependecyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider));
     }
 
     public static IServiceCollection AddViews(this IServiceCollection collection)
     {
-        return collection.AddTransient<MainWindow>();
+        return collection.AddTransient<MainWindow>()
+                         .AddTransient<PluginManagerWindow>()
+                         .AddTransient<AboutWindow>()
+                         .AddTransient<SettingsWindow>();
     }
     public static IServiceCollection AddViewModels(this IServiceCollection collection)
     {
