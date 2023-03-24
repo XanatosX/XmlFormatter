@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace XmlFormatterModel.Setting
 {
@@ -27,13 +28,22 @@ namespace XmlFormatterModel.Setting
         /// </summary>
         private ISettingSaveProvider saveProvider;
 
+
+        public SettingsManager(IPersistentFactory persistentFactory, ISettingLoadProvider loadProvider, ISettingSaveProvider saveProvider)
+        {
+            this.persistentFactory = persistentFactory;
+            this.loadProvider = loadProvider;
+            this.saveProvider = saveProvider;
+            scopes = new List<ISettingScope>();
+        }
+
         /// <summary>
         /// Create a new empty instance of this manager
         /// </summary>
-        public SettingsManager()
+        public SettingsManager() : this(null, null, null)
         {
-            scopes = new List<ISettingScope>();
         }
+
 
         /// <inheritdoc/>
         public void SetPersistendFactory(IPersistentFactory factory)

@@ -9,7 +9,7 @@ namespace XMLFormatterModel.Setting.InputOutput
     /// <summary>
     /// Xml loader provider
     /// </summary>
-    class XmlLoaderProvider : ISettingLoadProvider
+    public class XmlLoaderProvider : ISettingLoadProvider
     {
         /// <inheritdoc/>
         public List<ISettingScope> LoadSettings(string filePath)

@@ -45,6 +45,15 @@
     <AvaloniaResource Update="Views\PluginManagerWindow.xaml">
       <Generator></Generator>
     </AvaloniaResource>
+    <Compile Update="Properties\Properties.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Properties.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Properties\Properties.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Update="Views\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

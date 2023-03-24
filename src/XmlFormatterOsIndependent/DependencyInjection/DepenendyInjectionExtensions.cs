@@ -2,9 +2,11 @@
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
+using System.Linq;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
+using XMLFormatterModel.Setting.InputOutput;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Update;
 using XmlFormatterOsIndependent.ViewModels;
@@ -22,14 +24,24 @@ internal static class DepenendyInjectionExtensions
     public static IServiceCollection AddServices(this IServiceCollection collection)
     {
         return collection.AddSingleton<ISettingsManager, SettingsManager>()
-                         .AddSingleton<IVersionManager, VersionManager>()
+                         .AddSingleton<IVersionManager, VersionManager>(provider =>
+                         {
+                             var dataSet = provider.GetServices<IVersionRecieverStrategy>();
+                             IVersionRecieverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionRecieverStrategy);
+                             IVersionRecieverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionRecieverStrategy); ;
+                             return new VersionManager(provider.GetRequiredService<IVersionConvertStrategy>(), localVersion, remoteVersion);
+                         })
                          .AddSingleton<IVersionConvertStrategy, DefaultStringConvertStrategy>()
                          .AddSingleton<IVersionRecieverStrategy, LocalVersionRecieverStrategy>()
                          .AddSingleton<IVersionRecieverStrategy, GitHubVersionRecieverStrategy>()
                          .AddSingleton<IPathService, PathService>()
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
-                         .AddSingleton<IDependecyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider));
+                         .AddSingleton<IDependecyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
+                         .AddSingleton<IPersistentFactory, XmlProviderFactory>()
+                         .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
+                         .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()
+                         .AddSingleton<ApplicationUpdateService>();
     }
 
     public static IServiceCollection AddViews(this IServiceCollection collection)

@@ -84,8 +84,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
 
+        private readonly ISettingsManager settingsManager;
         private readonly IPluginManager pluginManager;
         private readonly IVersionManager versionManager;
+        private readonly ApplicationUpdateService updateService;
+        private readonly IPathService pathService;
         private readonly IIOInteractionService interactionService;
         private readonly IWindowApplicationService applicationService;
 
@@ -99,6 +102,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         public MainWindowViewModel(ISettingsManager settingsManager,
                                    IPluginManager pluginManager,
                                    IVersionManager versionManager,
+                                   ApplicationUpdateService updateService,
                                    IPathService pathService,
                                    IIOInteractionService interactionService,
                                    IWindowApplicationService applicationService) // ViewContainer view, 
@@ -131,8 +135,11 @@ namespace XmlFormatterOsIndependent.ViewModels
                 StatusString += "Missing plugins for conversion!";
             }
 
+            this.settingsManager = settingsManager;
             this.pluginManager = pluginManager;
             this.versionManager = versionManager;
+            this.updateService = updateService;
+            this.pathService = pathService;
             this.interactionService = interactionService;
             this.applicationService = applicationService;
 
@@ -332,13 +339,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             var buttonResult = await window.ShowDialog(topWindow);
             if (buttonResult == ButtonResult.Yes)
             {
-                UpdateApplication();
+                bool update = updateService.UpdateApplication(compare);
             }
-        }
-
-        private void UpdateApplication()
-        {
-
         }
     }
 }
