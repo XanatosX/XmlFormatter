@@ -2,6 +2,7 @@
 using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
@@ -23,6 +24,7 @@ using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Views;
@@ -40,10 +42,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
 
-        /// <summary>
-        /// Text for the text box
-        /// </summary>
-        public string TextBoxText { get; }
 
         [ObservableProperty]
         private List<PluginMetaData> availablePlugins;
@@ -67,6 +65,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
         private string? currentFile;
+
+        [ObservableProperty]
+        private bool directAppMenuVisible;
 
         /// <summary>
         /// Private text of the status string
@@ -118,9 +119,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 settingsManager.Save(pathService.GetSettingsFile());
             }
-
-            TextBoxText = "Selected file path";
-            StatusString = "Status: ";
+            StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
             CurrentPlugin = AvailablePlugins.FirstOrDefault();
@@ -132,7 +131,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             if (CurrentPlugin is null)
             {
                 FormatterModeSelectionVisible = false;
-                StatusString += "Missing plugins for conversion!";
+                StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, "Missing plugins for conversion!");
             }
 
             this.settingsManager = settingsManager;
@@ -142,8 +141,14 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.pathService = pathService;
             this.interactionService = interactionService;
             this.applicationService = applicationService;
-
             availablePlugins ??= new List<PluginMetaData>();
+
+            var operationSystem = WeakReferenceMessenger.Default.Send(new GetOsPlatformMessage());
+            DirectAppMenuVisible = true;
+            if (operationSystem?.Response == Model.OperationSystemEnum.MacOS)
+            {
+                DirectAppMenuVisible = false;
+            }
 
             /**
             view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
@@ -242,7 +247,7 @@ namespace XmlFormatterOsIndependent.ViewModels
 
             plugin.StatusChanged += (_, e) =>
             {
-                StatusString = $"Status: {e.Message}";
+                StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, e.Message);
             };
 
             bool success = SelectedMode.Value switch

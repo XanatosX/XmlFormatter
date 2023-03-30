@@ -117,19 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Asset_LinuxFilter" xml:space="preserve">
-    <value>LinuxAvalonia</value>
+  <data name="MainWindow_Load" xml:space="preserve">
+    <value>Load</value>
   </data>
-  <data name="Asset_MacOsFilter" xml:space="preserve">
-    <value>DarwinAvalonia</value>
+  <data name="MainWindow_Menu_About" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="Asset_WindowsFilter" xml:space="preserve">
-    <value>WindowsAvalonia</value>
+  <data name="MainWindow_Menu_Exit" xml:space="preserve">
+    <value>Exit</value>
   </data>
-  <data name="GitHub_Issue" xml:space="preserve">
-    <value>https://github.com/XanatosX/XmlFormatter/issues</value>
+  <data name="MainWindow_Menu_File" xml:space="preserve">
+    <value>File</value>
   </data>
-  <data name="GitHub_Project" xml:space="preserve">
-    <value>https://github.com/XanatosX/XmlFormatter</value>
+  <data name="MainWindow_Menu_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="MainWindow_Menu_OpenSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MainWindow_Menu_Plugins" xml:space="preserve">
+    <value>Plugins</value>
+  </data>
+  <data name="MainWindow_Menu_ReportIssue" xml:space="preserve">
+    <value>Report Issue</value>
+  </data>
+  <data name="MainWindow_Menu_Update" xml:space="preserve">
+    <value>Check for update</value>
+  </data>
+  <data name="MainWindow_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="MainWindow_SelectFilePath" xml:space="preserve">
+    <value>Select file path for formatting</value>
+  </data>
+  <data name="MainWindow_Status_Template" xml:space="preserve">
+    <value>Status: {0}</value>
   </data>
 </root>

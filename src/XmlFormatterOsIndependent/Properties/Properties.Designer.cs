@@ -22,7 +22,7 @@ namespace XmlFormatterOsIndependent.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Properties {
+    public class Properties {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace XmlFormatterOsIndependent.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XmlFormatterOsIndependent.Properties.Properties", typeof(Properties).Assembly);
@@ -51,7 +51,7 @@ namespace XmlFormatterOsIndependent.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace XmlFormatterOsIndependent.Properties {
         /// <summary>
         ///   Looks up a localized string similar to LinuxAvalonia.
         /// </summary>
-        internal static string Asset_LinuxFilter {
+        public static string Asset_LinuxFilter {
             get {
                 return ResourceManager.GetString("Asset_LinuxFilter", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace XmlFormatterOsIndependent.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DarwinAvalonia.
         /// </summary>
-        internal static string Asset_MacOsFilter {
+        public static string Asset_MacOsFilter {
             get {
                 return ResourceManager.GetString("Asset_MacOsFilter", resourceCulture);
             }
@@ -81,9 +81,27 @@ namespace XmlFormatterOsIndependent.Properties {
         /// <summary>
         ///   Looks up a localized string similar to WindowsAvalonia.
         /// </summary>
-        internal static string Asset_WindowsFilter {
+        public static string Asset_WindowsFilter {
             get {
                 return ResourceManager.GetString("Asset_WindowsFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://github.com/XanatosX/XmlFormatter/issues.
+        /// </summary>
+        public static string GitHub_Issue {
+            get {
+                return ResourceManager.GetString("GitHub_Issue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://github.com/XanatosX/XmlFormatter.
+        /// </summary>
+        public static string GitHub_Project {
+            get {
+                return ResourceManager.GetString("GitHub_Project", resourceCulture);
             }
         }
     }
