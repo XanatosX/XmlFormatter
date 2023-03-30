@@ -67,7 +67,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         private string? currentFile;
 
         [ObservableProperty]
-        private bool directAppMenuVisible;
+        private bool useNativeMenu;
 
         /// <summary>
         /// Private text of the status string
@@ -144,10 +144,9 @@ namespace XmlFormatterOsIndependent.ViewModels
             availablePlugins ??= new List<PluginMetaData>();
 
             var operationSystem = WeakReferenceMessenger.Default.Send(new GetOsPlatformMessage());
-            DirectAppMenuVisible = true;
             if (operationSystem?.Response == Model.OperationSystemEnum.MacOS)
             {
-                DirectAppMenuVisible = false;
+                UseNativeMenu = true;
             }
 
             /**

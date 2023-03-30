@@ -34,7 +34,7 @@
     </NativeMenu>
   </NativeMenu.Menu>
   <StackPanel Spacing="5" Margin="0,0,0,5">
-    <DockPanel IsVisible="{Binding DirectAppMenuVisible}">
+    <DockPanel IsVisible="{Binding !UseNativeMenu}">
       <Menu DockPanel.Dock="Top">
         <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_File}">
           <!--<MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>-->
