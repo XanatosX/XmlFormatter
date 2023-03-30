@@ -1,5 +1,6 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
+using System;
 using XmlFormatterOsIndependent.EventArg;
 
 namespace XmlFormatterOsIndependent.Commands
@@ -7,6 +8,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Command to use for getting the plugin information
     /// </summary>
+    [Obsolete]
     class GetPluginInformationCommand : BaseTriggerCommand
     {
         /// <summary>

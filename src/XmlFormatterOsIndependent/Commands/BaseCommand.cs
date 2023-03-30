@@ -8,6 +8,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Base command for the ICommand interface
     /// </summary>
+    [Obsolete]
     abstract class BaseCommand : ICommand
     {
         /// <inheritdoc/>

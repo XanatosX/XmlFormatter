@@ -10,6 +10,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Switch the style of the current window
     /// </summary>
+    [Obsolete]
     class SwitchStyleCommand : ICommand
     {
         /// <summary>
