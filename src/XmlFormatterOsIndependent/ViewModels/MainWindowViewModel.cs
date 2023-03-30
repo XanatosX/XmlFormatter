@@ -13,22 +13,15 @@ using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
 using System.Text;
-using System.Windows.Input;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
-using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Views;
-using static CommunityToolkit.Mvvm.ComponentModel.__Internals.__TaskExtensions.TaskAwaitableWithoutEndValidation;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -149,28 +142,28 @@ namespace XmlFormatterOsIndependent.ViewModels
                 UseNativeMenu = true;
             }
 
-            /**
-            view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
+            WeakReferenceMessenger.Default.Register<IsDragDropFileValidMessage>(this, (_, data) =>
             {
-                if (!CheckDragDropFile(data))
-                {
-                    data.DragEffects = DragDropEffects.None;
-                    return;
-                }
-
-                data.DragEffects = DragDropEffects.Copy;
-            });
-
-            view.Current.AddHandler(DragDrop.DropEvent, (sender, data) =>
-            {
-                if (!CheckDragDropFile(data))
+                if (data.HasReceivedResponse)
                 {
                     return;
                 }
+                if (string.IsNullOrEmpty(data.FileName) || !File.Exists(data.FileName))
+                {
+                    data.Reply(false);
+                    return;
+                }
 
-                CurrentFile = data.Data.GetFileNames().First();
+                var info = new FileInfo(data.FileName);
+                var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+                bool valid = info.Exists && plugin?.Extension.ToLower() == info.Extension.Replace(".", string.Empty).ToLower();
+                data.Reply(valid);
             });
-            */
+
+            WeakReferenceMessenger.Default.Register<DragDropFileChanged>(this, (_, data) =>
+            {
+                CurrentFile = data.Value;
+            });
         }
 
         [RelayCommand(CanExecute = nameof(CanOpenFile))]
@@ -292,18 +285,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
             return true;
         }
-
-        /// <inheritdoc>/>
-        //protected override void IsOsX()
-        //{
-        /**
-        Window parent = view.Current;
-        parent.FindControl<DockPanel>("WindowDock").IsVisible = false;
-        parent.Height = parent.Height - 35;
-        parent.MinHeight = parent.Height;
-        parent.MaxHeight = parent.Height;
-        */
-        //}
 
         /// <summary>
         /// Search if there is an update
