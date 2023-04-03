@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -175,8 +174,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                 return;
             }
             var data = await applicationService.OpenFileAsync(new() { CreatePluginFileFilter(plugin) });
-
-            CurrentFile = data;
+            CurrentFile = data ?? CurrentFile;
         }
 
         private static FileDialogFilter CreatePluginFileFilter(IFormatter? plugin)
@@ -255,35 +253,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             bool modeAndConverterSelected = SelectedMode is not null && CurrentPlugin is not null;
             bool fileIsExisting = File.Exists(CurrentFile);
-            ;
+            IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            bool formatIsAllowed = fileIsExisting && new FileInfo(CurrentFile!).Extension.Replace(".", string.Empty) == formatter.Extension;
             return modeAndConverterSelected
                 && fileIsExisting
-                && pluginManager.LoadPlugin<IFormatter>(CurrentPlugin) is not null;
-        }
-
-        /// <summary>
-        /// Check if the file which was dragged dropped into is correct
-        /// </summary>
-        /// <param name="data">The dataset to check</param>
-        /// <returns>True if the file is valid</returns>
-        private bool CheckDragDropFile(DragEventArgs data)
-        {
-            //IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
-            IFormatter currentFormatter = null;
-            IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
-            if (currentFormatter == null
-                || files.Count == 0
-                || files.Count > 1)
-            {
-                return false;
-            }
-            string firstFile = files.First();
-            FileInfo info = new FileInfo(firstFile);
-            if (info.Extension.Replace(".", string.Empty) != currentFormatter.Extension)
-            {
-                return false;
-            }
-            return true;
+                && formatIsAllowed
+                && formatter is not null;
         }
 
         /// <summary>
