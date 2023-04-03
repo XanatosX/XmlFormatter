@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
-using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.ViewModels
