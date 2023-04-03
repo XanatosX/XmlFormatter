@@ -23,11 +23,13 @@ public class DependecyInjectionResolverService : IDependecyInjectionResolverServ
         this.provider = provider;
     }
 
+    /// <inheritdoc/>
     public T? GetService<T>() where T : class
     {
         return provider.GetService<T>();
     }
 
+    /// <inheritdoc/>
     public IEnumerable<T> GetServices<T>() where T : class
     {
         return provider.GetServices<T>();
