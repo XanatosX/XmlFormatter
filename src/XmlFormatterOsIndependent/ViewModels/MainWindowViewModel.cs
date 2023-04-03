@@ -58,6 +58,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
         private string? currentFile;
 
+        /// <summary>
+        /// Use the native menur of the os
+        /// </summary>
         [ObservableProperty]
         private bool useNativeMenu;
 
@@ -77,12 +80,34 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
 
+        /// <summary>
+        /// The settings manager to use
+        /// </summary>
         private readonly ISettingsManager settingsManager;
+
+        /// <summary>
+        /// The plugin manager used for loading the data
+        /// </summary>
         private readonly IPluginManager pluginManager;
+
+        /// <summary>
+        /// The version manager used to get version information
+        /// </summary>
         private readonly IVersionManager versionManager;
+
+        /// <summary>
+        /// The service used to update the application
+        /// </summary>
         private readonly ApplicationUpdateService updateService;
-        private readonly IPathService pathService;
+
+        /// <summary>
+        /// Service used to interaction with the io of the system
+        /// </summary>
         private readonly IIOInteractionService interactionService;
+
+        /// <summary>
+        /// Service used for the everything related to windows
+        /// </summary>
         private readonly IWindowApplicationService applicationService;
 
 
@@ -98,14 +123,20 @@ namespace XmlFormatterOsIndependent.ViewModels
                                    ApplicationUpdateService updateService,
                                    IPathService pathService,
                                    IIOInteractionService interactionService,
-                                   IWindowApplicationService applicationService) // ViewContainer view, 
-                                                                                 //: base(settingsManager, pluginManager)
+                                   IWindowApplicationService applicationService)
         {
-            ConversionModes = new List<ModeSelection>();
-            foreach (ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
-            {
-                ConversionModes.Add(new ModeSelection(value.ToString(), value));
-            }
+            this.settingsManager = settingsManager;
+            this.pluginManager = pluginManager;
+            this.versionManager = versionManager;
+            this.updateService = updateService;
+            this.interactionService = interactionService;
+            this.applicationService = applicationService;
+
+            ConversionModes = Enum.GetValues(typeof(ModesEnum))
+                                  .Cast<ModesEnum>()
+                                  .OfType<ModesEnum>()
+                                  .Select(item => new ModeSelection(item.ToString(), item))
+                                  .ToList();
 
             if (!File.Exists(pathService.GetSettingsFile()))
             {
@@ -117,7 +148,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentPlugin = AvailablePlugins.FirstOrDefault();
             SelectedMode = ConversionModes.FirstOrDefault();
 
-
             FormatterSelectorVisible = CurrentPlugin is not null;
             FormatterModeSelectionVisible = FormatterSelectorVisible;
             if (CurrentPlugin is null)
@@ -126,20 +156,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                 StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, "Missing plugins for conversion!");
             }
 
-            this.settingsManager = settingsManager;
-            this.pluginManager = pluginManager;
-            this.versionManager = versionManager;
-            this.updateService = updateService;
-            this.pathService = pathService;
-            this.interactionService = interactionService;
-            this.applicationService = applicationService;
-            availablePlugins ??= new List<PluginMetaData>();
-
             var operationSystem = WeakReferenceMessenger.Default.Send(new GetOsPlatformMessage());
-            if (operationSystem?.Response == Model.OperationSystemEnum.MacOS)
-            {
-                UseNativeMenu = true;
-            }
+            UseNativeMenu = operationSystem?.Response == Model.OperationSystemEnum.MacOS;
 
             WeakReferenceMessenger.Default.Register<IsDragDropFileValidMessage>(this, (_, data) =>
             {
