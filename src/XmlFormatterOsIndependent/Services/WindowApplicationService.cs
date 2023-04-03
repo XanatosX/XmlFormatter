@@ -7,24 +7,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
-using System.Text;
 using System.Threading.Tasks;
 using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Services;
+
+/// <summary>
+/// Default implementation of the <see cref="IWindowApplicationService"/>
+/// </summary>
 public class WindowApplicationService : IWindowApplicationService
 {
+    /// <summary>
+    /// The resolver service used to load the windows
+    /// </summary>
     private readonly IDependecyInjectionResolverService injectionResolverService;
 
+    /// <summary>
+    /// Create a new instance of the service
+    /// </summary>
+    /// <param name="injectionResolverService">The resolver service used to load the windows</param>
     public WindowApplicationService(IDependecyInjectionResolverService injectionResolverService)
     {
         this.injectionResolverService = injectionResolverService;
     }
+
+    /// <inheritdoc/>
     public Window? GetMainWindow()
     {
         return WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage()).Response.Result;
     }
 
+    /// <inheritdoc/>
     public bool CloseActiveWindow()
     {
         var topMost = GetTopMostWindow();
@@ -32,11 +45,13 @@ public class WindowApplicationService : IWindowApplicationService
         return topMost?.IsActive ?? false;
     }
 
+    /// <inheritdoc/>
     public void CloseApplication()
     {
         WeakReferenceMessenger.Default.Send(new CloseApplicationMessage());
     }
 
+    /// <inheritdoc/>
     public IEnumerable<Window> GetAllWindows()
     {
         IEnumerable<Window> windows = Enumerable.Empty<Window>();
@@ -48,6 +63,7 @@ public class WindowApplicationService : IWindowApplicationService
         return windows;
     }
 
+    /// <inheritdoc/>
     public Window? GetTopMostWindow()
     {
         return GetAllWindows().Where(window => window.IsActive && window.IsEnabled)
@@ -57,6 +73,7 @@ public class WindowApplicationService : IWindowApplicationService
                               .FirstOrDefault();
     }
 
+    /// <inheritdoc/>
     public Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters)
     {
         return Task.Run(async () =>
@@ -66,6 +83,7 @@ public class WindowApplicationService : IWindowApplicationService
         });
     }
 
+    /// <inheritdoc/>
     public async Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FileDialogFilter> fileFilters)
     {
         OpenFileDialog openFile = new OpenFileDialog()
@@ -83,6 +101,7 @@ public class WindowApplicationService : IWindowApplicationService
         return data;
     }
 
+    /// <inheritdoc/>
     public async Task<Unit> OpenNewWindow(Window window)
     {
         var mainWindow = await WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage());
@@ -94,6 +113,7 @@ public class WindowApplicationService : IWindowApplicationService
         return Unit.Default;
     }
 
+    /// <inheritdoc/>
     public async Task<Unit> OpenNewWindow<T>() where T : Window
     {
         var window = injectionResolverService.GetService<T>() as Window;
@@ -105,6 +125,7 @@ public class WindowApplicationService : IWindowApplicationService
 
     }
 
+    /// <inheritdoc/>
     public async Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters)
     {
         SaveFileDialog saveFile = new SaveFileDialog()

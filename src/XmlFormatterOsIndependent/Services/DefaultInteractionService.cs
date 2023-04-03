@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XmlFormatterOsIndependent.Services;
+
+/// <summary>
+/// Default implementation of the <see cref="IIOInteractionService"/>
+/// </summary>
 public class DefaultInteractionService : IIOInteractionService
 {
+    /// <inheritdoc/>
     public bool OpenWebsite(string url)
     {
         try
