@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -210,7 +211,7 @@ namespace XmlFormatter.Windows
         private void SetupFormatterSelection()
         {
             CB_Formatter.Items.Clear();
-            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>();
+            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>().ToList();
             foreach (PluginMetaData metaData in formatters)
             {
                 CB_Formatter.Items.Add(new ComboboxPluginItem(metaData));

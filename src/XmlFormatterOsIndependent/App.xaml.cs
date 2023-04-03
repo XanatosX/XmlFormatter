@@ -46,6 +46,11 @@ namespace XmlFormatterOsIndependent
             });
         }
 
+        /// <summary>
+        /// Method to create the service collection
+        /// Including all the services, views and model views
+        /// </summary>
+        /// <returns>A useable service collection</returns>
         private IServiceCollection CreateServiceCollection()
         {
             return new ServiceCollection().AddPluginFramwork()

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using XmlFormatter.DataContainer;
@@ -109,7 +110,7 @@ namespace XmlFormatter.Windows
                 LV_Hotfolders.Items.Add(item);
             }
 
-            List<PluginMetaData> updatePlugins = pluginManager.ListPlugins<IUpdateStrategy>();
+            List<PluginMetaData> updatePlugins = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
 
             foreach (PluginMetaData metaData in updatePlugins)
             {

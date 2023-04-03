@@ -4,6 +4,7 @@ using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using XmlFormatterModel.Setting;
 
@@ -87,7 +88,7 @@ namespace XmlFormatter.Windows
         /// <param name="node">The root node to create the plugins in</param>
         private void AddPluginsOfType<T>(TreeNode node) where T : IPluginOverhead
         {
-            List<PluginMetaData> pluginMetas = pluginManager.ListPlugins<T>();
+            List<PluginMetaData> pluginMetas = pluginManager.ListPlugins<T>().ToList();
             foreach (PluginMetaData metaData in pluginMetas)
             {
                 TreeNode selectedPlugin = new TreeNode(metaData.Information.Name)
