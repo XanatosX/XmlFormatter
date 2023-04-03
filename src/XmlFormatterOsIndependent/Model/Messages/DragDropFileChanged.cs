@@ -1,11 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XmlFormatterOsIndependent.Model.Messages;
+
+/// <summary>
+/// Message to tell the application that a file was dropped on the app and should be updated
+/// </summary>
 internal class DragDropFileChanged : ValueChangedMessage<string?>
 {
     public DragDropFileChanged(string? value) : base(value)

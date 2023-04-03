@@ -1,12 +1,11 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Messaging.Messages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XmlFormatterOsIndependent.Model.Messages;
+
+/// <summary>
+/// Message to request the current main window of the application
+/// </summary>
 internal class RequestMainWindowMessage : AsyncRequestMessage<Window?>
 {
 }

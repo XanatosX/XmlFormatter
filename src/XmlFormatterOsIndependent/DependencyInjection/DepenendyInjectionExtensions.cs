@@ -13,14 +13,28 @@ using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.DependencyInjection;
+
+/// <summary>
+/// Extension class to provide methods for dependency injection
+/// </summary>
 internal static class DepenendyInjectionExtensions
 {
+    /// <summary>
+    /// Add all the plugins required from the framework
+    /// </summary>
+    /// <param name="collection">The collection to add the dependencies to</param>
+    /// <returns>An extended collection</returns>
     public static IServiceCollection AddPluginFramwork(this IServiceCollection collection)
     {
         return collection.AddSingleton<IPluginManager, DefaultManager>()
                          .AddSingleton<IPluginLoadStrategy, PluginFolder>();
     }
 
+    /// <summary>
+    /// Add all the service to the dependency collection
+    /// </summary>
+    /// <param name="collection">The collection to add the dependencies to</param>
+    /// <returns>An extended collection</returns>
     public static IServiceCollection AddServices(this IServiceCollection collection)
     {
         return collection.AddSingleton<ISettingsManager, SettingsManager>()
@@ -44,6 +58,11 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<ApplicationUpdateService>();
     }
 
+    /// <summary>
+    /// Add the views to the dependency collection
+    /// </summary>
+    /// <param name="collection">The collection to add the dependencies to</param>
+    /// <returns>An extended collection</returns>
     public static IServiceCollection AddViews(this IServiceCollection collection)
     {
         return collection.AddTransient<MainWindow>()
@@ -51,6 +70,12 @@ internal static class DepenendyInjectionExtensions
                          .AddTransient<AboutWindow>()
                          .AddTransient<SettingsWindow>();
     }
+
+    /// <summary>
+    /// Add the view models to the dependency collection
+    /// </summary>
+    /// <param name="collection">The collection to add the dependencies to</param>
+    /// <returns>An extended collection</returns>
     public static IServiceCollection AddViewModels(this IServiceCollection collection)
     {
         return collection.AddTransient<MainWindowViewModel>()
