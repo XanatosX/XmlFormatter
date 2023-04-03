@@ -183,6 +183,9 @@ namespace XmlFormatterOsIndependent.ViewModels
             });
         }
 
+        /// <summary>
+        /// Open a file for the currently selected formatter plugin
+        /// </summary>
         [RelayCommand(CanExecute = nameof(CanOpenFile))]
         public async void OpenFile()
         {
@@ -200,6 +203,10 @@ namespace XmlFormatterOsIndependent.ViewModels
             return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
         }
 
+        /// <summary>
+        /// Check if it is currently possible to open a file and set it for conversion
+        /// </summary>
+        /// <returns>True if open file is enabled</returns>
         public bool CanOpenFile()
         {
             return CurrentPlugin is not null
@@ -207,37 +214,56 @@ namespace XmlFormatterOsIndependent.ViewModels
                    && pluginManager.LoadPlugin<IFormatter>(CurrentPlugin) is not null;
         }
 
+        /// <summary>
+        /// Open the plugin manager window of the application
+        /// </summary>
         [RelayCommand]
         public void OpenPlugin()
         {
             applicationService.OpenNewWindow<PluginManagerWindow>();
         }
 
+        /// <summary>
+        /// Open the about window of the application
+        /// </summary>
         [RelayCommand]
         public void OpenAbout()
         {
             applicationService.OpenNewWindow<AboutWindow>();
         }
 
+        /// <summary>
+        /// Open the settings window of the application
+        /// </summary>
         [RelayCommand]
         public void OpenSettings()
         {
             applicationService.OpenNewWindow<SettingsWindow>();
         }
 
+        /// <summary>
+        /// Close the application
+        /// </summary>
         [RelayCommand]
         public void CloseApplication()
         {
             applicationService.CloseApplication();
         }
 
+        /// <summary>
+        /// Open an web url on the system default browser
+        /// </summary>
+        /// <param name="url">The url to open</param>
         [RelayCommand]
         public void OpenUrl(string url)
         {
             interactionService.OpenWebsite(url);
         }
 
-
+        /// <summary>
+        /// Convert the current file with the current plugin and mode.
+        /// Save the data to a new file
+        /// </summary>
         [RelayCommand(CanExecute = nameof(CanConvertFile))]
         public async void ConvertFile()
         {
@@ -267,6 +293,10 @@ namespace XmlFormatterOsIndependent.ViewModels
 
         }
 
+        /// <summary>
+        /// Check if the file can be converted
+        /// </summary>
+        /// <returns>True if the conversion can be done</returns>
         public bool CanConvertFile()
         {
             bool modeAndConverterSelected = SelectedMode is not null && CurrentPlugin is not null;
