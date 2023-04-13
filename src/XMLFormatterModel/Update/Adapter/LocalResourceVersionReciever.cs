@@ -14,19 +14,19 @@ namespace XmlFormatterModel.Update.Adapter
         public event EventHandler<BaseEventArgs> Error;
 
         /// <inheritdoc/>
-        public Task<IRelease> GetLatestRelease()
+        public Task<IRelease> GetLatestReleaseAsync()
         {
             return default;
         }
 
         /// <inheritdoc/>
-        public Task<List<IRelease>> GetReleases()
+        public Task<List<IRelease>> GetReleasesAsync()
         {
             return default;
         }
 
         /// <inheritdoc/>
-        public Task<Version> GetVersion(IVersionConvertStrategy convertStrategy)
+        public Task<Version> GetVersionAsync(IVersionConvertStrategy convertStrategy)
         {
             Assembly assembly = GetAssembly();
             string versionString = "0.0.0";

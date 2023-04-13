@@ -8,6 +8,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Get the theme of the application
     /// </summary>
+    [Obsolete]
     internal class GetThemeCommand : BaseDataCommand
     {
         /// <summary>

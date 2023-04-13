@@ -1,5 +1,7 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
@@ -8,23 +10,16 @@ using PluginFramework.DataContainer;
 using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
-using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Windows.Input;
 using XmlFormatterModel.Setting;
-using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.Commands.Conversion;
-using XmlFormatterOsIndependent.Commands.Gui;
-using XmlFormatterOsIndependent.Commands.SystemCommands;
-using XmlFormatterOsIndependent.DataSets;
-using XmlFormatterOsIndependent.Enums;
-using XmlFormatterOsIndependent.EventArg;
+using XmlFormatterModel.Update;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -32,136 +27,48 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    public class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel : ObservableObject
     {
-        /// <summary>
-        /// Command to open the plugin window
-        /// </summary>
-        public ICommand OpenPluginCommand { get; }
-
-        /// <summary>
-        /// Command to open the about window
-        /// </summary>
-        public ICommand OpenAboutCommand { get; }
-
-        /// <summary>
-        /// Command to open the settings window
-        /// </summary>
-        public ITriggerCommand OpenSettingsCommand { get; }
-
-        /// <summary>
-        /// Close this window
-        /// </summary>
-        public ICommand CloseWindowCommand { get; }
-
-        /// <summary>
-        /// Command to open a file to be formatted
-        /// </summary>
-        public ITriggerCommand OpenFileCommand { get; }
-
-        /// <summary>
-        /// Command to convert and save the files
-        /// </summary>
-        public ITriggerCommand ConvertFileCommand { get; }
-
-        /// <summary>
-        /// Open external link
-        /// </summary>
-        public ICommand OpenUrl { get; }
-
         /// <summary>
         /// The modes you could convert to
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
 
-        /// <summary>
-        /// Text for the text box
-        /// </summary>
-        public string TextBoxText { get; }
 
-        /// <summary>
-        /// List of all the formatting plugins
-        /// </summary>
-        public List<PluginMetaData> List { get; }
+        [ObservableProperty]
+        private List<PluginMetaData> availablePlugins;
 
-        /// <summary>
-        /// Current selected plugin
-        /// </summary>
-        public PluginMetaData CurrentPlugin
-        {
-            get => currentPlugin;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentPlugin, value);
-                OpenFileCommand?.DataHasChanged();
-                ConvertFileCommand?.DataHasChanged();
-            }
-        }
         /// <summary>
         /// Private storage for current selected plugin
         /// </summary>
-        private PluginMetaData currentPlugin;
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
+        private PluginMetaData? currentPlugin;
 
-        /// <summary>
-        /// Current text on the status string
-        /// </summary>
-        public string StatusString
-        {
-            get => statusString;
-            set => this.RaiseAndSetIfChanged(ref statusString, value);
-        }
-        /// <summary>
-        /// Private text of the status string
-        /// </summary>
-        private string statusString;
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
+        private ModeSelection? selectedMode;
 
-        /// <summary>
-        /// Current index of the selected formatter
-        /// </summary>
-        public int CurrentFormatter
-        {
-            get => currentFormatter;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentFormatter, value);
-                ConvertFileCommand?.DataHasChanged();
-                CurrentFile = string.Empty;
-            }
-        }
-        /// <summary>
-        /// Private index of the selected formatter
-        /// </summary>
-        private int currentFormatter;
-
-        /// <summary>
-        /// The currently selected conversion mode
-        /// </summary>
-        public int CurrentMode
-        {
-            get => currentMode;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref currentMode, value);
-                ConvertFileCommand?.DataHasChanged();
-            }
-        }
-        /// <summary>
-        /// Private currently selected conversion mode
-        /// </summary>
-        private int currentMode;
-
-        /// <summary>
-        /// The currently selected file
-        /// </summary>
-        public string CurrentFile
-        {
-            get => currentFile;
-            set => this.RaiseAndSetIfChanged(ref currentFile, value);
-        }
         /// <summary>
         /// Private currently selected file
         /// </summary>
-        private string currentFile;
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
+        private string? currentFile;
+
+        /// <summary>
+        /// Use the native menur of the os
+        /// </summary>
+        [ObservableProperty]
+        private bool useNativeMenu;
+
+        /// <summary>
+        /// Private text of the status string
+        /// </summary>
+        [ObservableProperty]
+        private string? statusString;
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -174,179 +81,273 @@ namespace XmlFormatterOsIndependent.ViewModels
         public bool FormatterModeSelectionVisible { get; }
 
         /// <summary>
+        /// The settings manager to use
+        /// </summary>
+        private readonly ISettingsManager settingsManager;
+
+        /// <summary>
+        /// The plugin manager used for loading the data
+        /// </summary>
+        private readonly IPluginManager pluginManager;
+
+        /// <summary>
+        /// The version manager used to get version information
+        /// </summary>
+        private readonly IVersionManager versionManager;
+
+        /// <summary>
+        /// The service used to update the application
+        /// </summary>
+        private readonly ApplicationUpdateService updateService;
+
+        /// <summary>
+        /// Service used to interaction with the io of the system
+        /// </summary>
+        private readonly IIOInteractionService interactionService;
+
+        /// <summary>
+        /// Service used for the everything related to windows
+        /// </summary>
+        private readonly IWindowApplicationService applicationService;
+
+
+        /// <summary>
         /// Create a new instance of this main window viewer
         /// </summary>
         /// <param name="view">The view of this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public MainWindowViewModel(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
-            : base(view, settingsManager, pluginManager)
+        public MainWindowViewModel(ISettingsManager settingsManager,
+                                   IPluginManager pluginManager,
+                                   IVersionManager versionManager,
+                                   ApplicationUpdateService updateService,
+                                   IPathService pathService,
+                                   IIOInteractionService interactionService,
+                                   IWindowApplicationService applicationService)
         {
-            CloseWindowCommand = new CloseWindowCommand(view.GetWindow());
-            OpenAboutCommand = new OpenWindowCommand(typeof(AboutWindow), view.GetParent());
-            OpenSettingsCommand = new OpenWindowCommand(typeof(SettingsWindow), view.GetParent());
-            OpenSettingsCommand.ContinueWith += (sender, data) => ChangeTheme();
-            OpenPluginCommand = new OpenWindowCommand(typeof(PluginManagerWindow), view.GetParent());
-            OpenFileCommand = new OpenConversionFileCommand(view.Parent, pluginManager);
-            OpenFileCommand.ContinueWith += (sender, data) =>
+            this.settingsManager = settingsManager;
+            this.pluginManager = pluginManager;
+            this.versionManager = versionManager;
+            this.updateService = updateService;
+            this.interactionService = interactionService;
+            this.applicationService = applicationService;
+
+            ConversionModes = Enum.GetValues(typeof(ModesEnum))
+                                  .Cast<ModesEnum>()
+                                  .OfType<ModesEnum>()
+                                  .Select(item => new ModeSelection(item.ToString(), item))
+                                  .ToList();
+
+            if (!File.Exists(pathService.GetSettingsFile()))
             {
-                if (data is FileSelectedArg selectedArg)
-                {
-                    CurrentFile = selectedArg.SelectedFile;
-                }
-            };
-            ConvertFileCommand = new ConvertFileCommand(view.GetParent(), pluginManager, (sender, data) => {
-                StatusString = "Status: " + data.Message;
-            });
-            ConversionModes = new List<ModeSelection>();
-            foreach(ModesEnum value in (ModesEnum[])Enum.GetValues(typeof(ModesEnum)))
-            {
-                ConversionModes.Add(new ModeSelection(value.ToString(), value));
+                settingsManager.Save(pathService.GetSettingsFile());
             }
-            OpenUrl = new OpenBrowserUrl();
+            StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
-            if (!File.Exists(settingsPath))
-            {
-                settingsManager.Save(settingsPath);
-            }
+            AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
+            CurrentPlugin = AvailablePlugins.FirstOrDefault();
+            SelectedMode = ConversionModes.FirstOrDefault();
 
-            TextBoxText = "Selected file path";
-            statusString = "Status: ";
-
-            List = this.pluginManager.ListPlugins<IFormatter>();
-            FormatterSelectorVisible = List.Count > 1;
-            FormatterModeSelectionVisible = true;
-            if (List.Count == 0)
+            FormatterSelectorVisible = CurrentPlugin is not null;
+            FormatterModeSelectionVisible = FormatterSelectorVisible;
+            if (CurrentPlugin is null)
             {
                 FormatterModeSelectionVisible = false;
-                statusString += "Missing plugins for conversion!";
+                StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, "Missing plugins for conversion!");
             }
 
-            CurrentFile = string.Empty;
-            CurrentMode = 0;
-            CurrentFormatter = 0;
+            var operationSystem = WeakReferenceMessenger.Default.Send(new GetOsPlatformMessage());
+            UseNativeMenu = operationSystem?.Response == Model.OperationSystemEnum.MacOS;
 
-            view.Current.AddHandler(DragDrop.DragOverEvent, (sender, data) =>
+            WeakReferenceMessenger.Default.Register<IsDragDropFileValidMessage>(this, (_, data) =>
             {
-                if (!CheckDragDropFile(data))
+                if (data.HasReceivedResponse)
                 {
-                    data.DragEffects = DragDropEffects.None;
+                    return;
+                }
+                if (string.IsNullOrEmpty(data.FileName) || !File.Exists(data.FileName))
+                {
+                    data.Reply(false);
                     return;
                 }
 
-                data.DragEffects = DragDropEffects.Copy;
+                var info = new FileInfo(data.FileName);
+                var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+                bool valid = info.Exists && plugin?.Extension.ToLower() == info.Extension.Replace(".", string.Empty).ToLower();
+                data.Reply(valid);
             });
 
-            view.Current.AddHandler(DragDrop.DropEvent, (sender, data) =>
+            WeakReferenceMessenger.Default.Register<DragDropFileChanged>(this, (_, data) =>
             {
-                if (!CheckDragDropFile(data))
-                {
-                    return;
-                }
-
-                CurrentFile = data.Data.GetFileNames().First();
+                CurrentFile = data.Value;
             });
         }
 
         /// <summary>
-        /// Check if the file which was dragged dropped into is correct
+        /// Open a file for the currently selected formatter plugin
         /// </summary>
-        /// <param name="data">The dataset to check</param>
-        /// <returns>True if the file is valid</returns>
-        private bool CheckDragDropFile(DragEventArgs data)
+        [RelayCommand(CanExecute = nameof(CanOpenFile))]
+        public async void OpenFile()
         {
-            IFormatter currentFormatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
-            IReadOnlyList<string> files = (List<string>)data.Data.GetFileNames();
-            if (currentFormatter == null
-                || files.Count == 0
-                || files.Count > 1)
+            var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            if (plugin is null)
             {
-                return false;
+                return;
             }
-            string firstFile = files.First();
-            FileInfo info = new FileInfo(firstFile);
-            if (info.Extension.Replace(".", string.Empty) != currentFormatter.Extension)
-            {
-                return false;
-            }
-            return true;
+            var data = await applicationService.OpenFileAsync(new() { CreatePluginFileFilter(plugin) });
+            CurrentFile = data ?? CurrentFile;
         }
 
-        /// <inheritdoc>/>
-        protected override void IsOsX()
+        private static FileDialogFilter CreatePluginFileFilter(IFormatter? plugin)
         {
-            Window parent = view.Current;
-            parent.FindControl<DockPanel>("WindowDock").IsVisible = false;
-            parent.Height = parent.Height - 35;
-            parent.MinHeight = parent.Height;
-            parent.MaxHeight = parent.Height;
+            return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
+        }
+
+        /// <summary>
+        /// Check if it is currently possible to open a file and set it for conversion
+        /// </summary>
+        /// <returns>True if open file is enabled</returns>
+        public bool CanOpenFile()
+        {
+            return CurrentPlugin is not null
+                   && SelectedMode is not null
+                   && pluginManager.LoadPlugin<IFormatter>(CurrentPlugin) is not null;
+        }
+
+        /// <summary>
+        /// Open the plugin manager window of the application
+        /// </summary>
+        [RelayCommand]
+        public void OpenPlugin()
+        {
+            applicationService.OpenNewWindow<PluginManagerWindow>();
+        }
+
+        /// <summary>
+        /// Open the about window of the application
+        /// </summary>
+        [RelayCommand]
+        public void OpenAbout()
+        {
+            applicationService.OpenNewWindow<AboutWindow>();
+        }
+
+        /// <summary>
+        /// Open the settings window of the application
+        /// </summary>
+        [RelayCommand]
+        public void OpenSettings()
+        {
+            applicationService.OpenNewWindow<SettingsWindow>();
+        }
+
+        /// <summary>
+        /// Close the application
+        /// </summary>
+        [RelayCommand]
+        public void CloseApplication()
+        {
+            applicationService.CloseApplication();
+        }
+
+        /// <summary>
+        /// Open an web url on the system default browser
+        /// </summary>
+        /// <param name="url">The url to open</param>
+        [RelayCommand]
+        public void OpenUrl(string url)
+        {
+            interactionService.OpenWebsite(url);
+        }
+
+        /// <summary>
+        /// Convert the current file with the current plugin and mode.
+        /// Save the data to a new file
+        /// </summary>
+        [RelayCommand(CanExecute = nameof(CanConvertFile))]
+        public async void ConvertFile()
+        {
+            var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            if (plugin is null || SelectedMode is null)
+            {
+                return;
+            }
+            List<FileDialogFilter> fitlers = new() { CreatePluginFileFilter(plugin) };
+            var saveFile = await applicationService.SaveFileAsync(fitlers);
+            if (saveFile is null)
+            {
+                return;
+            }
+
+            plugin.StatusChanged += (_, e) =>
+            {
+                StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, e.Message);
+            };
+
+            bool success = SelectedMode.Value switch
+            {
+                ModesEnum.Flat => plugin.ConvertToFlat(CurrentFile, saveFile),
+                ModesEnum.Formatted => plugin.ConvertToFormatted(CurrentFile, saveFile),
+                _ => false
+            };
+
+        }
+
+        /// <summary>
+        /// Check if the file can be converted
+        /// </summary>
+        /// <returns>True if the conversion can be done</returns>
+        public bool CanConvertFile()
+        {
+            bool modeAndConverterSelected = SelectedMode is not null && CurrentPlugin is not null;
+            bool fileIsExisting = File.Exists(CurrentFile);
+            IFormatter formatter = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
+            bool formatIsAllowed = fileIsExisting && new FileInfo(CurrentFile!).Extension.Replace(".", string.Empty) == formatter.Extension;
+            return modeAndConverterSelected
+                && fileIsExisting
+                && formatIsAllowed
+                && formatter is not null;
         }
 
         /// <summary>
         /// Search if there is an update
         /// </summary>
-        public void SearchForUpdate()
+        [RelayCommand]
+        public async void SearchForUpdate()
         {
-            IDataCommand command = new CheckForUpdateCommand();
-            command.Executed += UpdateExecuted_Executed;
-            ExecuteAsyncCommand(command, null);
-        }
-
-        /// <summary>
-        /// Show information if there is an update
-        /// </summary>
-        /// <param name="sender">The sender of the event</param>
-        /// <param name="e">The arguments of the event</param>
-        private void UpdateExecuted_Executed(object sender, EventArgs e)
-        {
-            if (sender is CheckForUpdateCommand updateCommand)
+            var compare = await versionManager.RemoteVersionIsNewerAsync();
+            var topWindow = applicationService.GetTopMostWindow();
+            if (compare is null || topWindow is null)
             {
-                IDataCommand themeCommand = new GetThemeCommand();
-                ExecuteCommand(themeCommand, settingsManager);
+                return;
+            }
 
-                VersionCompare versionInfo = updateCommand.GetData<VersionCompare>();
-                string title = "Version is up to date";
-                string content = "You version is up to date";
+            string title = "Version is up to date";
+            string content = "You version is up to date";
+            ButtonEnum buttons = ButtonEnum.Ok;
 
-                MessageBoxStandardParams parameter = new MessageBoxStandardParams()
-                {
-                    Icon = Icon.Info
-                };
-
-                if (themeCommand.IsExecuted() && themeCommand.GetData<ThemeEnum>() == ThemeEnum.Dark)
-                {
-                    parameter.Style = Style.DarkMode;
-                }
-
-                ButtonEnum buttons = ButtonEnum.Ok;
-                if (versionInfo.GitHubIsNewer)
-                {
-                    title = "Update Available";
-                    StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.AppendFormat(
-                        "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
-                        Environment.NewLine,
-                        versionInfo.LocalVersion,
-                        versionInfo.GitHubVersion
-                        );
-                    content = stringBuilder.ToString();
-                    buttons = ButtonEnum.YesNo;
-                }
-                parameter.ContentTitle = title;
-                parameter.ContentMessage = content;
-                parameter.ButtonDefinitions = buttons;
-
-                IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
-                TaskAwaiter<ButtonResult> awaiter = window.ShowDialog(view.GetWindow()).GetAwaiter();
-                awaiter.OnCompleted(() =>
-                {
-                    ButtonResult buttonResult = awaiter.GetResult();
-                    if (buttonResult == ButtonResult.Yes)
-                    {
-                        ICommand command = new UpdateApplicationCommand();
-                        ExecuteCommand(command, new UpdateApplicationData(pluginManager, settingsManager, versionInfo));
-                    }
-                });
+            MessageBoxStandardParams parameter = new MessageBoxStandardParams();
+            if (compare.GitHubIsNewer)
+            {
+                title = "Update Available";
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendFormat(
+                    "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
+                    Environment.NewLine,
+                    compare.LocalVersion,
+                    compare.GitHubVersion
+                    );
+                content = stringBuilder.ToString();
+                buttons = ButtonEnum.YesNo;
+            }
+            parameter.ContentTitle = title;
+            parameter.ContentMessage = content;
+            parameter.ButtonDefinitions = buttons;
+            IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
+            var buttonResult = await window.ShowDialog(topWindow);
+            if (buttonResult == ButtonResult.Yes)
+            {
+                bool update = updateService.UpdateApplication(compare);
             }
         }
     }

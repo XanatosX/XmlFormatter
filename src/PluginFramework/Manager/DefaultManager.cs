@@ -40,44 +40,51 @@ namespace PluginFramework.Manager
         /// <summary>
         /// Create a new instance of this plugin manager
         /// </summary>
-        public DefaultManager()
+        [Obsolete]
+        public DefaultManager() : this(null)
+        {
+        }
+
+        public DefaultManager(IPluginLoadStrategy loadStrategy)
         {
             plugins = new List<PluginMetaData>();
             loadedTypes = new List<Type>();
             cachedPlugins = new Dictionary<Type, IPluginOverhead>();
             nextId = 0;
+            this.defaultStrategy = loadStrategy;
         }
 
         /// <inheritdoc/>
+        [Obsolete]
         public void SetDefaultLoadStrategy(IPluginLoadStrategy loadStrategy)
         {
             defaultStrategy = loadStrategy ?? defaultStrategy;
         }
 
         /// <inheritdoc/>
-        public List<PluginMetaData> ListPlugins<T>() where T : IPluginOverhead
+        public IEnumerable<PluginMetaData> ListPlugins<T>() where T : IPluginOverhead
         {
             return ListPlugins<T>(false);
         }
 
         /// <inheritdoc/>
-        public List<PluginMetaData> ListPlugins<T>(bool reload) where T : IPluginOverhead
+        public IEnumerable<PluginMetaData> ListPlugins<T>(bool reload) where T : IPluginOverhead
         {
             return ListPlugins<T>(defaultStrategy, false);
         }
 
         /// <inheritdoc/>
-        public List<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy) where T : IPluginOverhead
+        public IEnumerable<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy) where T : IPluginOverhead
         {
             return ListPlugins<T>(loadStrategy, false);
         }
 
         /// <inheritdoc/>
-        public List<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy, bool reload) where T : IPluginOverhead
+        public IEnumerable<PluginMetaData> ListPlugins<T>(IPluginLoadStrategy loadStrategy, bool reload) where T : IPluginOverhead
         {
             if (loadStrategy == null)
             {
-                return null;
+                return Enumerable.Empty<PluginMetaData>();
             }
 
             LoadPluginsOfType<T>(loadStrategy, reload);

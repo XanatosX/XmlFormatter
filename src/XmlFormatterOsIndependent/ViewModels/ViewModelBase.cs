@@ -18,6 +18,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The current view of this model
         /// </summary>
+        [Obsolete]
         protected readonly ViewContainer view;
 
         /// <summary>
@@ -38,7 +39,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        public ViewModelBase() : this(null, null, null)
+        [Obsolete]
+        public ViewModelBase() : this(null, null)
         {
 
         }
@@ -49,7 +51,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view for this model</param>
         /// <param name="settingsManager">The settings manager for this model</param>
         /// <param name="pluginManager">The plugin manager for this model</param>
-        public ViewModelBase(ViewContainer view, ISettingsManager settingsManager, IPluginManager pluginManager)
+        public ViewModelBase(ISettingsManager settingsManager, IPluginManager pluginManager) //ViewContainer view, 
         {
             this.view = view;
             this.settingsManager = settingsManager;

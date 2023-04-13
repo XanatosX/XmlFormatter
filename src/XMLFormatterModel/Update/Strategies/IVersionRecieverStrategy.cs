@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace XmlFormatterModel.Update.Strategies
 {
- 
+
     /// <summary>
     /// Interface to recieve version from different sources
     /// </summary>
@@ -21,18 +21,18 @@ namespace XmlFormatterModel.Update.Strategies
         /// </summary>
         /// <param name="convertStrategy">The strategy to use to build the version class from string</param>
         /// <returns>An async task which will get you the version</returns>
-        Task<Version> GetVersion(IVersionConvertStrategy convertStrategy);
+        Task<Version> GetVersionAsync(IVersionConvertStrategy convertStrategy);
 
         /// <summary>
         /// Get all the releases of the target
         /// </summary>
         /// <returns>A list with all the releases</returns>
-        Task<List<IRelease>> GetReleases();
+        Task<List<IRelease>> GetReleasesAsync();
 
         /// <summary>
         /// Get the latest release of the target
         /// </summary>
         /// <returns>The latest release</returns>
-        Task<IRelease> GetLatestRelease();
+        Task<IRelease> GetLatestReleaseAsync();
     }
 }

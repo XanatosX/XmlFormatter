@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>XmlFormatter</AssemblyName>
     <ApplicationIcon>XmlFormatterIcon.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="**\*.xaml.cs">
@@ -29,10 +30,12 @@
     <EmbeddedResource Include="Version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.2" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.2" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.2" />
-    <PackageReference Include="MessageBox.Avalonia" Version="1.1.1" />
+    <PackageReference Include="Avalonia" Version="0.10.19" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.19" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.18" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
@@ -42,6 +45,24 @@
     <AvaloniaResource Update="Views\PluginManagerWindow.xaml">
       <Generator></Generator>
     </AvaloniaResource>
+    <Compile Update="Properties\Properties.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Properties.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Properties\Properties.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Properties.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Update="Views\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

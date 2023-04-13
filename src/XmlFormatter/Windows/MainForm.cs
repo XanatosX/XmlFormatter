@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -97,7 +98,7 @@ namespace XmlFormatter.Windows
             defaultStatus = "Status: ";
             IVersionManagerFactory factory = new VersionManagerFactory();
             IVersionManager versionManager = factory.GetVersionManager();
-            TaskAwaiter<Version> currentVersion = versionManager.GetLocalVersion().GetAwaiter();
+            TaskAwaiter<Version> currentVersion = versionManager.GetLocalVersionAsync().GetAwaiter();
             currentVersion.OnCompleted(() =>
             {
                 string stringVersion = versionManager.GetStringVersion(currentVersion.GetResult());
@@ -210,7 +211,7 @@ namespace XmlFormatter.Windows
         private void SetupFormatterSelection()
         {
             CB_Formatter.Items.Clear();
-            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>();
+            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>().ToList();
             foreach (PluginMetaData metaData in formatters)
             {
                 CB_Formatter.Items.Add(new ComboboxPluginItem(metaData));
@@ -465,7 +466,7 @@ namespace XmlFormatter.Windows
             IVersionManagerFactory factory = new VersionManagerFactory();
             IVersionManager manager = factory.GetVersionManager();
             manager.Error += Manager_Error;
-            VersionCompare versionCompare = await manager.RemoteVersionIsNewer();
+            VersionCompare versionCompare = await manager.RemoteVersionIsNewerAsync();
 
             bool forceShow = false;
 

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using XmlFormatter.DataContainer;
@@ -109,7 +110,7 @@ namespace XmlFormatter.Windows
                 LV_Hotfolders.Items.Add(item);
             }
 
-            List<PluginMetaData> updatePlugins = pluginManager.ListPlugins<IUpdateStrategy>();
+            List<PluginMetaData> updatePlugins = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
 
             foreach (PluginMetaData metaData in updatePlugins)
             {
@@ -275,7 +276,7 @@ namespace XmlFormatter.Windows
 
             Version settingVersion = versionManager.ConvertStringToVersion(storedVersion);
             Version lowVersion = versionManager.ConvertStringToVersion(lowestVersion);
-            TaskAwaiter<Version> awaiter = versionManager.GetLocalVersion().GetAwaiter();
+            TaskAwaiter<Version> awaiter = versionManager.GetLocalVersionAsync().GetAwaiter();
             awaiter.OnCompleted(() =>
             {
                 Version highVersion = awaiter.GetResult();

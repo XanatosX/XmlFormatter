@@ -20,13 +20,13 @@ namespace XmlFormatterModel.Update
         /// Get the version of the remote instance
         /// </summary>
         /// <returns>The remote version</returns>
-        Task<Version> GetRemoteVersion();
+        Task<Version> GetRemoteVersionAsync();
 
         /// <summary>
         /// Get the version of the local instance
         /// </summary>
         /// <returns>The local version</returns>
-        Task<Version> GetLocalVersion();
+        Task<Version> GetLocalVersionAsync();
 
         /// <summary>
         /// Convert the given string to a proper version class
@@ -46,6 +46,6 @@ namespace XmlFormatterModel.Update
         /// Tells you if the remote version is newer
         /// </summary>
         /// <returns>A version compare instance with additional information</returns>
-        Task<VersionCompare> RemoteVersionIsNewer();
+        Task<VersionCompare> RemoteVersionIsNewerAsync();
     }
 }

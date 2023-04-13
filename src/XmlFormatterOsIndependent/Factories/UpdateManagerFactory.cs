@@ -1,4 +1,5 @@
-﻿using XmlFormatterModel.Update;
+﻿using System;
+using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
 
 namespace XmlFormatterOsIndependent.Update
@@ -6,6 +7,7 @@ namespace XmlFormatterOsIndependent.Update
     /// <summary>
     /// This class will create you a valid update manager
     /// </summary>
+    [Obsolete]
     public class UpdateManagerFactory : IVersionManagerFactory
     {
         /// <summary>

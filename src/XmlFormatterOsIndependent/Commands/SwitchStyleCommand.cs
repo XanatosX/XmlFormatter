@@ -10,6 +10,7 @@ namespace XmlFormatterOsIndependent.Commands
     /// <summary>
     /// Switch the style of the current window
     /// </summary>
+    [Obsolete]
     class SwitchStyleCommand : ICommand
     {
         /// <summary>
@@ -53,10 +54,11 @@ namespace XmlFormatterOsIndependent.Commands
             if (parameter is ThemeSwitchData data)
             {
                 StyleInclude styleToUse = data.Theme == ThemeEnum.Dark ? dark : light;
-                Window window = data.View.GetWindow();
-                var styles = window.Styles;
-                styles.Clear();
-                styles.Add(styleToUse);
+                //@TODO: Fix
+                //Window window = data.View.GetWindow();
+                //var styles = window.Styles;
+                //styles.Clear();
+                //styles.Add(styleToUse);
             }
         }
     }

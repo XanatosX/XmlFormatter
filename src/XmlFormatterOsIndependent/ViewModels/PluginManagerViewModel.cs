@@ -1,11 +1,12 @@
 ﻿using PluginFramework.DataContainer;
+using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
 using ReactiveUI;
 using System.Collections.Generic;
+using System.Linq;
+using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Commands;
-using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.EventArg;
-using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Models;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -13,7 +14,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// Window to list all the plugin data
     /// </summary>
-    class PluginManagerViewModel : ViewModelBase
+    public class PluginManagerViewModel : ViewModelBase
     {
         /// <summary>
         /// Is the information panel to the right visible
@@ -28,10 +29,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// The current plugin information to display
         /// </summary>
-        public PluginInformation PluginInformation 
-        { 
-            get => pluginInformation; 
-            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value); 
+        public PluginInformation PluginInformation
+        {
+            get => pluginInformation;
+            private set => this.RaiseAndSetIfChanged(ref pluginInformation, value);
         }
 
         /// <summary>
@@ -54,8 +55,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(ViewContainer viewContainer, DefaultManagerFactory managerFactory)
-            : base(viewContainer, managerFactory.GetSettingsManager(), managerFactory.GetPluginManager())
+        public PluginManagerViewModel(ISettingsManager settingsManager, IPluginManager pluginManager) //ViewContainer viewContainer, 
+            : base(settingsManager, pluginManager)
         {
             PanelVisible = false;
             OpenPluginCommand = new GetPluginInformationCommand(pluginManager);
@@ -70,12 +71,12 @@ namespace XmlFormatterOsIndependent.ViewModels
             PluginGroups = new List<PluginTreeViewGroup>();
             PluginTreeViewGroup formatterGroup = new PluginTreeViewGroup("Formatter");
             PluginTreeViewGroup updaterGroup = new PluginTreeViewGroup("Updater");
-            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>();
+            List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>().ToList();
             foreach (PluginMetaData formatter in formatters)
             {
                 formatterGroup.Add(new PluginTreeViewItem(formatter, Enums.PluginType.Formatter));
             }
-            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>();
+            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
             foreach (PluginMetaData updater in updaters)
             {
                 updaterGroup.Add(new PluginTreeViewItem(updater, Enums.PluginType.Updater));

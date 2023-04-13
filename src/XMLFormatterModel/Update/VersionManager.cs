@@ -70,24 +70,24 @@ namespace XmlFormatterModel.Update
         }
 
         /// <inheritdoc/>
-        public Task<Version> GetRemoteVersion()
+        public Task<Version> GetRemoteVersionAsync()
         {
-            return remoteReciever.GetVersion(versionConvert);
+            return remoteReciever.GetVersionAsync(versionConvert);
         }
 
         /// <inheritdoc/>
-        public Task<Version> GetLocalVersion()
+        public Task<Version> GetLocalVersionAsync()
         {
-            return localReciever.GetVersion(versionConvert);
+            return localReciever.GetVersionAsync(versionConvert);
         }
 
         /// <inheritdoc/>
-        public async Task<VersionCompare> RemoteVersionIsNewer()
+        public async Task<VersionCompare> RemoteVersionIsNewerAsync()
         {
-            Version remoteVersion = await GetRemoteVersion();
-            Version localVersion = await GetLocalVersion();
+            Version remoteVersion = await GetRemoteVersionAsync();
+            Version localVersion = await GetLocalVersionAsync();
             int compareResult = localVersion.CompareTo(remoteVersion);
-            IRelease latestRelease = await remoteReciever.GetLatestRelease();
+            IRelease latestRelease = await remoteReciever.GetLatestReleaseAsync();
 
             return new VersionCompare(compareResult < 0, localVersion, remoteVersion, latestRelease);
         }

@@ -8,7 +8,7 @@ namespace XMLFormatterModel.Setting.InputOutput
     /// <summary>
     /// Xml saver provider
     /// </summary>
-    class XmlSaverProvider : ISettingSaveProvider
+    public class XmlSaverProvider : ISettingSaveProvider
     {
         /// <inheritdoc/>
         public bool SaveSettings(ISettingsManager settingsManager, string filePath)

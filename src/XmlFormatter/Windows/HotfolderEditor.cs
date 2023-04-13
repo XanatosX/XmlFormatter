@@ -5,6 +5,7 @@ using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using XmlFormatter.DataContainer;
 using XMLFormatterModel.Hotfolder;
@@ -68,7 +69,7 @@ namespace XmlFormatter.Windows
         /// <param name="e">Event arguments</param>
         private void HotfolderEditor_Load(object sender, EventArgs e)
         {
-            List<PluginMetaData> pluginsMetaData = PluginManager.ListPlugins<IFormatter>();
+            List<PluginMetaData> pluginsMetaData = PluginManager.ListPlugins<IFormatter>().ToList();
 
             foreach (PluginMetaData metaData in pluginsMetaData)
             {

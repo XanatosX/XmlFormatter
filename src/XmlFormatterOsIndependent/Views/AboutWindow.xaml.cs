@@ -9,17 +9,20 @@ namespace XmlFormatterOsIndependent.Views
 {
     public class AboutWindow : Window
     {
-        public AboutWindow()
+        public AboutWindow() : this(null)
+        {
+
+        }
+
+        public AboutWindow(AboutWindowViewModel? aboutWindowView)
         {
             this.InitializeComponent();
+            DataContext = aboutWindowView;
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            DefaultManagerFactory managerFactory = new DefaultManagerFactory();
-
-            DataContext = new AboutWindowViewModel(new ViewContainer(this, this), managerFactory.GetSettingsManager(), managerFactory.GetPluginManager());
         }
     }
 }
