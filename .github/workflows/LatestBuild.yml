@@ -7,7 +7,9 @@ on:
 
 env:
   DEBUG: false
+  REF_CHECKOUT_BRANCH: develop
   RELEASE_NAME: Recent nightly build
+
 jobs:
    createWinFormsBuild:
      name: Create Windows forms build
@@ -277,5 +279,6 @@ jobs:
         run: |
           gh release create Develop-${{ GITHUB.RUN_NUMBER }} \
             --title "${{ env.RELEASE_NAME }} [${{ GITHUB.RUN_NUMBER }}]" --target ${{ env.REF_CHECKOUT_BRANCH }} \
-            --generate-notes --prerelease ${parameters}  --notes "Recent version of the develop branch, ready for testing" \
-            ${{ env.RELEASE_ARTIFACT_FOLDER }}/*.* --discussion-category "Releases"
+            --generate-notes --prerelease --notes "Recent version of the develop branch, ready for testing" \
+            ./release/*.zip
+## --discussion-category "Releases"
