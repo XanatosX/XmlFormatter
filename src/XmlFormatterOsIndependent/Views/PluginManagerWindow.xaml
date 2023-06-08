@@ -38,7 +38,7 @@
           </DataTemplate>
         </TreeView.DataTemplates>
       </TreeView>
-     <ContentControl Grid.Column="1" Content="{Binding VisibleView}" IsVisible="{Binding PanelVisible}"/>
+      <ContentControl Grid.Column="1" Content="{Binding VisibleView}" IsVisible="{Binding PanelVisible}"/>
     </Grid>
   </DockPanel>
 </Window>
