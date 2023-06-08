@@ -263,6 +263,9 @@ jobs:
      needs: ["createWinFormsZip", "createAvaloniaZipWindows", "createAvaloniaZipLinux", "createAvaloniaZipDarwin"]
      runs-on: ubuntu-latest
      steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ env.REF_CHECKOUT_BRANCH }}
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
