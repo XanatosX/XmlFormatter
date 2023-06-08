@@ -20,6 +20,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private bool panelVisible;
 
+        [ObservableProperty]
+        public ObservableObject visibleView;
+
         /// <summary>
         /// Private plugin information which should be displayed
         /// </summary>
@@ -60,7 +63,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         public void OpenPlugin(PluginInformation pluginInformation)
         {
             PanelVisible = true;
-            PluginInformation = pluginInformation;
+            VisibleView = new PluginInformationViewModel();
+            //PluginInformation = pluginInformation;
         }
     }
 }
