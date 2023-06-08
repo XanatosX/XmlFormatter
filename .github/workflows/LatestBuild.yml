@@ -273,6 +273,7 @@ jobs:
         run: |
           mkdir ./release
           mv dist/*/*.zip ./release
+          ls ./release
       - name: Create release and upload artifacts
         env:
           GH_TOKEN: ${{ github.token }}
