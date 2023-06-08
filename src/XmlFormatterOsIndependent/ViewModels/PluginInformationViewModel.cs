@@ -1,12 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PluginFramework.DataContainer;
 
 namespace XmlFormatterOsIndependent.ViewModels;
-internal class PluginInformationViewModel : ObservableObject
+internal partial class PluginInformationViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private string author;
+
+    [ObservableProperty]
+    private string name;
+
+    [ObservableProperty]
+    private string version;
+
+    [ObservableProperty]
+    private string description;
+
+    public PluginInformationViewModel(PluginInformation pluginInformation)
+    {
+        Author = pluginInformation.Author;
+        Name = pluginInformation.Name;
+        Version = pluginInformation.Version.ToString();
+        Description = pluginInformation.Description;
+    }
 }

@@ -11,7 +11,8 @@
         x:Class="XmlFormatterOsIndependent.Views.PluginManagerWindow"
         Icon="/Assets/PluginIcon.ico"
         Name="Root"
-        Title="PluginManagerWindow">
+		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
+        Title="{x:Static p:Resources.PluginManagerWindow_Title}">
   <DockPanel>
     <Grid>
       <Grid.ColumnDefinitions>

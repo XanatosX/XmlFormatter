@@ -20,14 +20,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private bool panelVisible;
 
-        [ObservableProperty]
-        public ObservableObject visibleView;
-
         /// <summary>
-        /// Private plugin information which should be displayed
+        /// The view to display the current plugin information
         /// </summary>
         [ObservableProperty]
-        private PluginInformation pluginInformation;
+        public ObservableObject? visibleView;
 
         /// <summary>
         /// The groups for the plugins to be shown in the tree view
@@ -46,25 +43,30 @@ namespace XmlFormatterOsIndependent.ViewModels
             PluginTreeViewGroup formatterGroup = new PluginTreeViewGroup("Formatter");
             PluginTreeViewGroup updaterGroup = new PluginTreeViewGroup("Updater");
             List<PluginMetaData> formatters = pluginManager.ListPlugins<IFormatter>().ToList();
+            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
+
             foreach (PluginMetaData formatter in formatters)
             {
                 formatterGroup.Add(new PluginTreeViewItem(formatter, Enums.PluginType.Formatter));
             }
-            List<PluginMetaData> updaters = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
             foreach (PluginMetaData updater in updaters)
             {
                 updaterGroup.Add(new PluginTreeViewItem(updater, Enums.PluginType.Updater));
             }
+
             PluginGroups.Add(formatterGroup);
             PluginGroups.Add(updaterGroup);
         }
 
+        /// <summary>
+        /// Method to open a given plugin
+        /// </summary>
+        /// <param name="pluginInformation">The plugin information to open</param>
         [RelayCommand]
         public void OpenPlugin(PluginInformation pluginInformation)
         {
             PanelVisible = true;
-            VisibleView = new PluginInformationViewModel();
-            //PluginInformation = pluginInformation;
+            VisibleView = new PluginInformationViewModel(pluginInformation);
         }
     }
 }

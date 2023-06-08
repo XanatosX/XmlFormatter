@@ -153,4 +153,19 @@
   <data name="MainWindow_Status_Template" xml:space="preserve">
     <value>Status: {0}</value>
   </data>
+  <data name="PluginInformationView_Author_Colon" xml:space="preserve">
+    <value>Author:</value>
+  </data>
+  <data name="PluginInformationView_Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="PluginInformationView_Name_Colon" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="PluginInformationView_Version_Colon" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="PluginManagerWindow_Title" xml:space="preserve">
+    <value>Plugin Manager</value>
+  </data>
 </root>

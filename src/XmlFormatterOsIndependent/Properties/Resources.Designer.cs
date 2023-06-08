@@ -167,5 +167,50 @@ namespace XmlFormatterOsIndependent.Properties {
                 return ResourceManager.GetString("MainWindow_Status_Template", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author:.
+        /// </summary>
+        public static string PluginInformationView_Author_Colon {
+            get {
+                return ResourceManager.GetString("PluginInformationView_Author_Colon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string PluginInformationView_Description {
+            get {
+                return ResourceManager.GetString("PluginInformationView_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        public static string PluginInformationView_Name_Colon {
+            get {
+                return ResourceManager.GetString("PluginInformationView_Name_Colon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version:.
+        /// </summary>
+        public static string PluginInformationView_Version_Colon {
+            get {
+                return ResourceManager.GetString("PluginInformationView_Version_Colon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin Manager.
+        /// </summary>
+        public static string PluginManagerWindow_Title {
+            get {
+                return ResourceManager.GetString("PluginManagerWindow_Title", resourceCulture);
+            }
+        }
     }
 }
