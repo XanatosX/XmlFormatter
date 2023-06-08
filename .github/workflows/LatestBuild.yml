@@ -5,6 +5,9 @@ on:
     branches:
       - develop
 
+env:
+  DEBUG: false
+  RELEASE_NAME: Recent nightly build
 jobs:
    createWinFormsBuild:
      name: Create Windows forms build
@@ -264,94 +267,15 @@ jobs:
           path: dist
       - name: Read folder content
         run: ls -la dist
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Move Artifacts to release folder
+        run: |
+          mkdir ./release
+          mv dist/*/*.zip ./release
+      - name: Create release and upload artifacts
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}-${{ GITHUB.RUN_NUMBER }}
-          release_name: Latest unstable
-          body: You cannot update this version from within the application!
-          draft: false
-          prerelease: true
-      - name: Upload WinForm XmlFormatter zip
-        id: upload-win-form-formatter-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/WinFormZipArtifact/LatestDevelopment_WinFormsXmlFormatter.zip
-          asset_name: LatestDevelopment_WinFormsXmlFormatter.zip
-          asset_content_type: application/zip
-      - name: Upload WinForm JsonPlugin zip
-        id: upload-win-form-json-plugin-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/WinFormZipArtifact/LatestDevelopment_WinFormsJsonPlugin.zip
-          asset_name: LatestDevelopment_WinFormsJsonPlugin.zip
-          asset_content_type: application/zip
-      - name: Upload Windows Avalonia XmlFormatter zip
-        id: upload-avalonia-windows-formatter-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/WindowsAvaloniaZipArtifact/LatestDevelopment_WindowsAvaloniaXmlFormatter.zip
-          asset_name: LatestDevelopment_WindowsAvaloniaXmlFormatter.zip
-          asset_content_type: application/zip
-      - name: Upload Windows Avalonia JsonPlugin zip
-        id: upload-avalonia-windows-json-plugin-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/WindowsAvaloniaZipArtifact/LatestDevelopment_WindowsAvaloniaJsonPlugin.zip
-          asset_name: LatestDevelopment_WindowsAvaloniaJsonPlugin.zip
-          asset_content_type: application/zip
-      - name: Upload Linux Avalonia XmlFormatter zip
-        id: upload-avalonia-linux-formatter-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/LinuxAvaloniaZipArtifact/LatestDevelopment_LinuxAvaloniaXmlFormatter.zip
-          asset_name: LatestDevelopment_LinuxAvaloniaXmlFormatter.zip
-          asset_content_type: application/zip
-      - name: Upload Linux Avalonia JsonPlugin zip
-        id: upload-avalonia-linux-json-plugin-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/LinuxAvaloniaZipArtifact/LatestDevelopment_LinuxAvaloniaJsonPlugin.zip
-          asset_name: LatestDevelopment_LinuxAvaloniaJsonPlugin.zip
-          asset_content_type: application/zip
-      - name: Upload Darwin Avalonia XmlFormatter zip
-        id: upload-avalonia-darwin-formatter-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/DarwinAvaloniaZipArtifact/LatestDevelopment_DarwinAvaloniaXmlFormatter.zip
-          asset_name: LatestDevelopment_DarwinAvaloniaXmlFormatter.zip
-          asset_content_type: application/zip
-      - name: Upload Darwin Avalonia JsonPlugin zip
-        id: upload-avalonia-darwin-json-plugin-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/DarwinAvaloniaZipArtifact/LatestDevelopment_DarwinAvaloniaJsonPlugin.zip
-          asset_name: LatestDevelopment_DarwinAvaloniaJsonPlugin.zip
-          asset_content_type: application/zip
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create Develop-${{ GITHUB.RUN_NUMBER }} \
+            --title "${{ env.RELEASE_NAME }} [${{ GITHUB.RUN_NUMBER }}]" --target ${{ env.REF_CHECKOUT_BRANCH }} \
+            --generate-notes --prerelease ${parameters}  --notes "Recent version of the develop branch, ready for testing" \
+            ${{ env.RELEASE_ARTIFACT_FOLDER }}/*.* --discussion-category "Releases"
