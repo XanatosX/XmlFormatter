@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using XmlFormatterModel.Enums;
 using XmlFormatterModel.Update.Strategies;
 
 namespace XmlFormatterModel.Update.Adapter
 {
     public abstract class LocalResourceVersionReciever : IVersionRecieverStrategy
     {
+        /// <inheritdoc/>
+        public ScopeEnum Scope => ScopeEnum.Local;
+
         /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> Error;
 

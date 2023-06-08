@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XmlFormatterModel.Enums;
 using XmlFormatterModel.Update.Strategies;
 using XmlFormatterOsIndependent.Update;
 
@@ -24,7 +25,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <inheritdoc>
         public AboutWindowViewModel(IEnumerable<IVersionRecieverStrategy> recieverStrategies)
         {
-            IVersionRecieverStrategy? localVersionRecieverStrategy = recieverStrategies.FirstOrDefault(strategy => strategy is LocalVersionRecieverStrategy);
+            IVersionRecieverStrategy? localVersionRecieverStrategy = recieverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionRecieverStrategy?.GetVersionAsync(new DefaultStringConvertStrategy());
             versionTask?.Wait();
 
