@@ -3,7 +3,7 @@
     /// <summary>
     /// Enum with all the available themes
     /// </summary>
-    internal enum ThemeEnum
+    public enum ThemeEnum
     {
         Light,
         Dark

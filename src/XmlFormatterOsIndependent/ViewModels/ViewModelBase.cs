@@ -1,12 +1,9 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using ReactiveUI;
 using System;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
 using XmlFormatterModel.Setting;
-using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.DataSets;
-using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -61,62 +58,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             settingsPath += System.IO.Path.DirectorySeparatorChar + "settings.set";
 
             settingsManager.Load(settingsPath);
-            ChangeTheme();
-            DoOSSpecific();
-        }
-
-        /// <summary>
-        /// Do something os specific
-        /// </summary>
-        protected virtual void DoOSSpecific()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                IsWindowsOs();
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                IsLinuxOs();
-            }
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                IsOsX();
-            }
-        }
-
-        /// <summary>
-        /// This system is a osx system
-        /// </summary>
-        protected virtual void IsOsX()
-        {
-
-        }
-
-        /// <summary>
-        /// This system is a linux system
-        /// </summary>
-        protected virtual void IsLinuxOs()
-        {
-
-        }
-
-        /// <summary>
-        /// This system is a windows system
-        /// </summary>
-        protected virtual void IsWindowsOs()
-        {
-
-        }
-
-        /// <summary>
-        /// Change the theme for this window
-        /// </summary>
-        protected void ChangeTheme()
-        {
-            IDataCommand themeCommand = new GetThemeCommand();
-            ExecuteCommand(themeCommand, this.settingsManager);
-            ICommand themeSwitchCommand = new SwitchStyleCommand();
-            ExecuteCommand(themeSwitchCommand, new ThemeSwitchData(view, themeCommand.GetData<ThemeEnum>()));
         }
 
         /// <summary>
@@ -124,24 +65,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         /// <param name="command">The command to execute</param>
         /// <param name="parameter">The parameter to use</param>
+        [Obsolete]
         protected void ExecuteCommand(ICommand command, object parameter)
         {
             if (command.CanExecute(parameter))
             {
                 command.Execute(parameter);
-            }
-        }
-
-        /// <summary>
-        /// Execute a async command
-        /// </summary>
-        /// <param name="command">The command to use</param>
-        /// <param name="parameter">The parameter to use</param>
-        protected void ExecuteAsyncCommand(IDataCommand command, object parameter)
-        {
-            if (command.CanExecute(parameter))
-            {
-                command.AsyncExecute(parameter);
             }
         }
     }

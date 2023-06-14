@@ -18,9 +18,17 @@ namespace JsonPlugin
         public JsonFormatter()
             : base(
                   "json",
-                  new PluginInformation("Json formatter", "This plugin will convert json files", "XanatosX", new Version(1, 0))
+                  new PluginInformation(
+                      "Json formatter",
+                      "This plugin will convert json files",
+                      "XanatosX",
+                      new Version(1, 1),
+                      "https://github.com/XanatosX",
+                      "https://github.com/XanatosX/XmlFormatter"
+                      )
                   )
         {
+            Information.SetMarkdownDescription(LoadFromEmbeddedResource("JsonPlugin.Resources.Description.md"));
         }
 
         /// <inheritdoc/>

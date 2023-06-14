@@ -5,21 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Updating\DownloadGitHubDescription.txt" />
-    <None Remove="Assets\Updating\OpenGitHubDescription.txt" />
+    <None Remove="Resources\XmlFormatterDescription.md" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Updating\DownloadGitHubDescription.txt" />
-    <EmbeddedResource Include="Assets\Updating\OpenGitHubDescription.txt" />
+    <EmbeddedResource Include="Resources\DownloadGitHubDescription.md" />
+    <EmbeddedResource Include="Resources\OpenGitHubDescription.md" />
+    <EmbeddedResource Include="Resources\XmlFormatterDescription.md" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Formatter\" />
   </ItemGroup>
 
 </Project>

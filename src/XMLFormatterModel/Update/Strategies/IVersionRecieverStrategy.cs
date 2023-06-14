@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using XmlFormatterModel.Enums;
 
 namespace XmlFormatterModel.Update.Strategies
 {
@@ -15,6 +16,11 @@ namespace XmlFormatterModel.Update.Strategies
         /// Event if there was any error while reciving the version
         /// </summary>
         event EventHandler<BaseEventArgs> Error;
+
+        /// <summary>
+        /// The scope for the reciever strategy
+        /// </summary>
+        ScopeEnum Scope { get; }
 
         /// <summary>
         /// Get the version of the target

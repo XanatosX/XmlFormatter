@@ -132,7 +132,15 @@ namespace XmlFormatter.Windows
 
             foreach (SettingPair settingPair in resourceScope.GetSettings())
             {
-                Properties.Settings.Default[settingPair.Name] = settingPair.Value;
+                try
+                {
+                    Properties.Settings.Default[settingPair.Name] = settingPair.Value;
+                }
+                catch (Exception)
+                {
+                    // Prevent crash even if shit happens
+                }
+
             }
 
             pluginManager = new DefaultManager();

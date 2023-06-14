@@ -3,7 +3,10 @@ using PluginFramework.Enums;
 using PluginFramework.EventMessages;
 using PluginFramework.Interfaces.PluginTypes;
 using System;
+using System.Data;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace PluginFramework.Formatter
 {
@@ -106,6 +109,34 @@ namespace PluginFramework.Formatter
             }
 
             return readable;
+        }
+
+        /// <summary>
+        /// Method to load information from an resource embeeded into the plugin
+        /// </summary>
+        /// <param name="resourcePath">The path to the embedded resource</param>
+        /// <returns>The content of the resource or an empty string if nothing was found</returns>
+        protected string LoadFromEmbeddedResource(string resourcePath)
+        {
+            string returnData = string.Empty;
+            Assembly assembly = Assembly.GetCallingAssembly();
+            if (assembly is null || string.IsNullOrEmpty(resourcePath))
+            {
+                return returnData;
+            }
+            using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
+            {
+                if (stream != null)
+                {
+                    using (var reader = new StreamReader(stream))
+                    {
+                        returnData = reader.ReadToEnd();
+                    }
+                }
+            }
+
+
+            return returnData;
         }
     }
 }

@@ -55,6 +55,8 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<IPersistentFactory, XmlProviderFactory>()
                          .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
                          .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()
+                         .AddSingleton<IUrlService, HyperlinkAdapterUrlService>()
+                         .AddSingleton<IThemeService, ThemeService>()
                          .AddSingleton<ApplicationUpdateService>();
     }
 

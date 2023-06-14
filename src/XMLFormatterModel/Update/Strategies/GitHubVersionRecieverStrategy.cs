@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using XmlFormatterModel.Enums;
 using XmlFormatterModel.Update.Adapter;
 
 namespace XmlFormatterModel.Update.Strategies
@@ -15,8 +16,14 @@ namespace XmlFormatterModel.Update.Strategies
     public class GitHubVersionRecieverStrategy : IVersionRecieverStrategy
     {
         /// <inheritdoc/>
+        public ScopeEnum Scope => ScopeEnum.Remote;
+
+        /// <inheritdoc/>
         public event EventHandler<BaseEventArgs> Error;
 
+        /// <summary>
+        /// The regex used to correctly extract the version number
+        /// </summary>
         private readonly Regex regex;
 
         /// <summary>
