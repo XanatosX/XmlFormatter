@@ -17,9 +17,16 @@ internal partial class PluginInformationViewModel : ObservableObject
     [ObservableProperty]
     private string name;
 
+    /// <summary>
+    /// THe project url to open
+    /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ProjectUrlPresent))]
     private string projectUrl;
+
+    /// <summary>
+    /// Is there an url present for the project, which is valid
+    /// </summary>
     public bool ProjectUrlPresent => IsValidUrl(ProjectUrl);
 
     /// <summary>
@@ -28,10 +35,16 @@ internal partial class PluginInformationViewModel : ObservableObject
     [ObservableProperty]
     private string author;
 
+    /// <summary>
+    /// The url to the authors page
+    /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(AuthorLinkPresent))]
     public string authorUrl;
 
+    /// <summary>
+    /// Is there an url for the author presend, which is valid
+    /// </summary>
     public bool AuthorLinkPresent => IsValidUrl(AuthorUrl);
 
     /// <summary>
