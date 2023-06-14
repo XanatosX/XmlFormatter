@@ -19,7 +19,7 @@ namespace XmlFormatterOsIndependent.Views
                 Close();
             });
 
-            WeakReferenceMessenger.Default.Register<RequestMainWindowMessage>(this, async (_, e) =>
+            WeakReferenceMessenger.Default.Register<RequestMainWindowMessage>(this, (_, e) =>
             {
                 e.Reply(this);
             });
