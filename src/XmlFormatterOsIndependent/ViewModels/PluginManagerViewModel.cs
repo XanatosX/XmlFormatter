@@ -6,6 +6,7 @@ using PluginFramework.Interfaces.PluginTypes;
 using System.Collections.Generic;
 using System.Linq;
 using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -25,6 +26,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         [ObservableProperty]
         public ObservableObject? visibleView;
+        private readonly IUrlService urlService;
 
         /// <summary>
         /// The groups for the plugins to be shown in the tree view
@@ -36,8 +38,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(IPluginManager pluginManager) //ViewContainer viewContainer, 
+        public PluginManagerViewModel(IPluginManager pluginManager, IUrlService urlService) //ViewContainer viewContainer, 
         {
+            this.urlService = urlService;
+
             PanelVisible = false;
             PluginGroups = new List<PluginTreeViewGroup>();
             PluginTreeViewGroup formatterGroup = new PluginTreeViewGroup("Formatter");
@@ -66,7 +70,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         public void OpenPlugin(PluginInformation pluginInformation)
         {
             PanelVisible = true;
-            VisibleView = new PluginInformationViewModel(pluginInformation);
+            VisibleView = new PluginInformationViewModel(pluginInformation, urlService);
         }
     }
 }

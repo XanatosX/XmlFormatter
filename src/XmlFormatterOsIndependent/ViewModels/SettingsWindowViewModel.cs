@@ -93,6 +93,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private readonly ISettingScope applicationScope;
         private readonly IWindowApplicationService applicationService;
+        private readonly IThemeService themeService;
 
         /// <summary>
         /// Create a new instance of this view
@@ -100,7 +101,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view for this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager, IWindowApplicationService applicationService)
+        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager, IWindowApplicationService applicationService, IThemeService themeService)
             : base(settingsManager, pluginManager)
         {
 
@@ -119,6 +120,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
             LoadSettings();
             this.applicationService = applicationService;
+            this.themeService = themeService;
         }
 
         /// <summary>
@@ -187,6 +189,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             searchUpdate.SetValue(CheckUpdateOnStart);
             updater.SetValue(Updater.Type.ToString());
             themeMode.SetValue(theme.ToString());
+
+            themeService.ChangeTheme(theme);
 
             applicationScope.AddSetting(askClose);
             applicationScope.AddSetting(searchUpdate);

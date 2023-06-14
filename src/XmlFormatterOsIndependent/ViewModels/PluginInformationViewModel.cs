@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using HyperText.Avalonia.Extensions;
 using PluginFramework.DataContainer;
+using System;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;
 
@@ -14,11 +17,22 @@ internal partial class PluginInformationViewModel : ObservableObject
     [ObservableProperty]
     private string name;
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(ProjectUrlPresent))]
+    private string projectUrl;
+    public bool ProjectUrlPresent => IsValidUrl(ProjectUrl);
+
     /// <summary>
     /// The author of the plugin
     /// </summary>
     [ObservableProperty]
     private string author;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(AuthorLinkPresent))]
+    public string authorUrl;
+
+    public bool AuthorLinkPresent => IsValidUrl(AuthorUrl);
 
     /// <summary>
     /// The version of the plugin
@@ -31,20 +45,25 @@ internal partial class PluginInformationViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private string description;
+    private readonly IUrlService urlService;
 
     /// <summary>
     /// Create a new instance of this class
     /// </summary>
     /// <param name="pluginInformation">The plugin information to use</param>
-    public PluginInformationViewModel(PluginInformation pluginInformation)
+    public PluginInformationViewModel(PluginInformation pluginInformation, IUrlService urlService)
     {
+        this.urlService = urlService;
+
         Name = pluginInformation.Name;
         Author = pluginInformation.Author;
         string major = ConvertToVersion(pluginInformation.Version.Major);
         string minor = ConvertToVersion(pluginInformation.Version.Minor);
         string build = ConvertToVersion(pluginInformation.Version.Build);
         Version = $"{major}.{minor}.{build}";
-        Description = pluginInformation.Description;
+        Description = pluginInformation.MarkdownDescription;
+        AuthorUrl = pluginInformation.AuthorUrl;
+        ProjectUrl = pluginInformation.ProjectUrl;
     }
 
     /// <summary>
@@ -55,5 +74,9 @@ internal partial class PluginInformationViewModel : ObservableObject
     private string ConvertToVersion(int number)
     {
         return number < 0 ? "0" : number.ToString();
+    }
+    private bool IsValidUrl(string authorUrl)
+    {
+        return urlService.IsValidUrl(authorUrl);
     }
 }

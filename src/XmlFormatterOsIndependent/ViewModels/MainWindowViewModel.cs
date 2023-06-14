@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Text;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
+using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
@@ -123,7 +125,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                    ApplicationUpdateService updateService,
                                    IPathService pathService,
                                    IIOInteractionService interactionService,
-                                   IWindowApplicationService applicationService)
+                                   IWindowApplicationService applicationService,
+                                   IThemeService themeService)
         {
             this.settingsManager = settingsManager;
             this.pluginManager = pluginManager;
@@ -142,6 +145,11 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 settingsManager.Save(pathService.GetSettingsFile());
             }
+            settingsManager.Load(pathService.GetSettingsFile());
+            var settings = settingsManager.GetScope("Default");
+            string themeString = settings.GetSetting("Theme").GetValue<string>();
+            Enum.TryParse(themeString, out ThemeEnum value);
+            themeService.ChangeTheme(value);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
