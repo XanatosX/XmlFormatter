@@ -1,6 +1,4 @@
-﻿using CorePlugin.Assets;
-using Octokit;
-using PluginFramework.DataContainer;
+﻿using PluginFramework.DataContainer;
 using PluginFramework.Update;
 using System;
 using System.Diagnostics;

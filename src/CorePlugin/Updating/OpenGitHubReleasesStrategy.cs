@@ -1,5 +1,4 @@
-﻿using CorePlugin.Assets;
-using PluginFramework.DataContainer;
+﻿using PluginFramework.DataContainer;
 using PluginFramework.Update;
 using PluginFramework.Utils;
 using System;
