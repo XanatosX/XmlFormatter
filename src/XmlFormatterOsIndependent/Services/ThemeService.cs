@@ -4,8 +4,13 @@ using System.Linq;
 using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.Services;
+
+/// <summary>
+/// Default implementation for the theme service
+/// </summary>
 internal class ThemeService : IThemeService
 {
+    /// <inheritdoc/>
     public void ChangeTheme(ThemeEnum newTheme)
     {
         FluentThemeMode theme = newTheme switch
@@ -18,6 +23,7 @@ internal class ThemeService : IThemeService
         ChangeTheme(theme);
     }
 
+    /// <inheritdoc/>
     public void ChangeTheme(FluentThemeMode fluentTheme)
     {
         var app = Application.Current;
