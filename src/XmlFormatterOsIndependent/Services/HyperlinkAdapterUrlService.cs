@@ -2,8 +2,13 @@
 using System;
 
 namespace XmlFormatterOsIndependent.Services;
+
+/// <summary>
+/// Adapter class which uses the HyperText Avalonia nuget to open links
+/// </summary>
 internal class HyperlinkAdapterUrlService : IUrlService
 {
+    /// <inheritdoc>/>
     public bool IsValidUrl(string url)
     {
         //@Note Copied from https://github.com/AvaloniaUtils/HyperText.Avalonia/blob/master/HyperText.Avalonia/Extensions/OpenUrl.cs#L9
@@ -13,6 +18,7 @@ internal class HyperlinkAdapterUrlService : IUrlService
         return tmp.Scheme == Uri.UriSchemeHttp || tmp.Scheme == Uri.UriSchemeHttps;
     }
 
+    /// <inheritdoc>/>
     public void OpenUrl(string url)
     {
         //@Note Using HyperText Avalonia https://github.com/AvaloniaUtils/HyperText.Avalonia
