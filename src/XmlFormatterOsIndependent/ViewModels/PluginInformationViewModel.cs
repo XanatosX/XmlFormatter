@@ -75,8 +75,14 @@ internal partial class PluginInformationViewModel : ObservableObject
     {
         return number < 0 ? "0" : number.ToString();
     }
-    private bool IsValidUrl(string authorUrl)
+
+    /// <summary>
+    /// Check if a given url is valid
+    /// </summary>
+    /// <param name="url">The url to check</param>
+    /// <returns>True if the url is valid</returns>
+    private bool IsValidUrl(string url)
     {
-        return urlService.IsValidUrl(authorUrl);
+        return urlService.IsValidUrl(url);
     }
 }
