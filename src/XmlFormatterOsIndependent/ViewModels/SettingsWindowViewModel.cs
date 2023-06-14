@@ -1,12 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
-using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using XmlFormatterModel.Setting;
-using XmlFormatterOsIndependent.Commands;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Services;
 
@@ -15,7 +16,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model class for the settings window
     /// </summary>
-    public partial class SettingsWindowViewModel : ViewModelBase
+    public partial class SettingsWindowViewModel : ObservableObject
     {
 
         /// <summary>
@@ -24,74 +25,41 @@ namespace XmlFormatterOsIndependent.ViewModels
         public List<PluginMetaData> List { get; }
 
         /// <summary>
-        /// Ask before closing setting 
-        /// </summary>
-        public bool AskBeforeClosing
-        {
-            get => askBeforeClosing;
-            set => this.RaiseAndSetIfChanged(ref askBeforeClosing, value);
-        }
-        /// <summary>
         /// Private acces for ask before closing setting
         /// </summary>
+        [ObservableProperty]
         private bool askBeforeClosing;
 
         /// <summary>
-        /// The selected theme index
-        /// </summary>
-        public int ThemeMode
-        {
-            get => themeMode;
-            set => this.RaiseAndSetIfChanged(ref themeMode, value);
-        }
-        /// <summary>
         /// Private selected theme index
         /// </summary>
+        [ObservableProperty]
         private int themeMode;
 
         /// <summary>
-        /// Check for updates on start
-        /// </summary>
-        public bool CheckUpdateOnStart
-        {
-            get => checkUpdateOnStart;
-            set => this.RaiseAndSetIfChanged(ref checkUpdateOnStart, value);
-        }
-        /// <summary>
         /// Private check for updates on start
         /// </summary>
+        [ObservableProperty]
         private bool checkUpdateOnStart;
 
         /// <summary>
-        /// The current updater to use
-        /// </summary>
-        public PluginMetaData Updater
-        {
-            get => updater;
-            set => this.RaiseAndSetIfChanged(ref updater, value);
-        }
-        /// <summary>
         /// Private updater to use
         /// </summary>
+        [ObservableProperty]
         private PluginMetaData updater;
 
         /// <summary>
-        /// Index of the selected updater
-        /// </summary>
-        public int UpdaterIndex
-        {
-            get => updaterIndex;
-            set => this.RaiseAndSetIfChanged(ref updaterIndex, value);
-        }
-        /// <summary>
         /// Private index of the selected updater
         /// </summary>
+        [ObservableProperty]
         private int updaterIndex;
 
         /// <summary>
         /// The setting scope of this application
         /// </summary>
         private readonly ISettingScope applicationScope;
+        private readonly ISettingsManager settingsManager;
+        private readonly IPathService pathService;
         private readonly IWindowApplicationService applicationService;
         private readonly IThemeService themeService;
 
@@ -101,26 +69,33 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view for this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public SettingsWindowViewModel(ISettingsManager settingsManager, IPluginManager pluginManager, IWindowApplicationService applicationService, IThemeService themeService)
-            : base(settingsManager, pluginManager)
+        public SettingsWindowViewModel(
+            ISettingsManager settingsManager,
+            IPathService pathService,
+            IPluginManager pluginManager,
+            IWindowApplicationService applicationService,
+            IThemeService themeService)
         {
+            this.settingsManager = settingsManager;
+            this.pathService = pathService;
+            this.applicationService = applicationService;
+            this.themeService = themeService;
 
-            if (this.settingsManager == null || this.pluginManager == null)
+            if (settingsManager == null || pluginManager == null)
             {
                 return;
             }
-            this.settingsManager.Load(settingsPath);
-            applicationScope = this.settingsManager.GetScope("Default");
+            settingsManager.Load(pathService.GetSettingsFile());
+            applicationScope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
             List = pluginManager.ListPlugins<IUpdateStrategy>().ToList();
 
             if (applicationScope == null)
             {
-                applicationScope = new SettingScope("Default");
-                this.settingsManager.AddScope(applicationScope);
+                applicationScope = new SettingScope(Properties.Properties.Setting_Default_Scope);
+                settingsManager.AddScope(applicationScope);
             }
             LoadSettings();
-            this.applicationService = applicationService;
-            this.themeService = themeService;
+
         }
 
         /// <summary>
@@ -128,13 +103,16 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private void LoadSettings()
         {
-            AskBeforeClosing = GetSettingsValue<bool>("AskBeforeClosing");
-            CheckUpdateOnStart = GetSettingsValue<bool>("SearchUpdateOnStartup");
-            IDataCommand getTheme = new GetThemeCommand();
-            ExecuteCommand(getTheme, settingsManager);
-            ThemeMode = (int)getTheme.GetData<ThemeEnum>();
+            AskBeforeClosing = GetSettingsValue<bool>(Properties.Properties.Setting_Ask_Before_Closing_Key);
+            CheckUpdateOnStart = GetSettingsValue<bool>(Properties.Properties.Setting_Search_Update_On_Startup_Key);
 
-            string updater = GetSettingsValue<string>("UpdateStrategy");
+            var scope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
+            string mode = scope.GetSetting(Properties.Properties.Setting_Theme_Key)?.GetValue<string>() ?? ThemeEnum.Light.ToString();
+            Enum.TryParse(typeof(ThemeEnum), mode, out var theme);
+
+            ThemeMode = (int)(theme ?? ThemeEnum.Light);
+
+            string updater = GetSettingsValue<string>(Properties.Properties.Setting_Update_Strategy_Key);
             int updaterToUse = -1;
             if (List.Count > 0)
             {
@@ -181,10 +159,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             ThemeEnum theme = ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark;
 
-            ISettingPair askClose = new SettingPair("AskBeforeClosing");
-            ISettingPair searchUpdate = new SettingPair("SearchUpdateOnStartup");
-            ISettingPair updater = new SettingPair("UpdateStrategy");
-            ISettingPair themeMode = new SettingPair("Theme");
+            ISettingPair askClose = new SettingPair(Properties.Properties.Setting_Ask_Before_Closing_Key);
+            ISettingPair searchUpdate = new SettingPair(Properties.Properties.Setting_Search_Update_On_Startup_Key);
+            ISettingPair updater = new SettingPair(Properties.Properties.Setting_Update_Strategy_Key);
+            ISettingPair themeMode = new SettingPair(Properties.Properties.Setting_Theme_Key);
             askClose.SetValue(AskBeforeClosing);
             searchUpdate.SetValue(CheckUpdateOnStart);
             updater.SetValue(Updater.Type.ToString());
@@ -196,7 +174,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             applicationScope.AddSetting(searchUpdate);
             applicationScope.AddSetting(updater);
             applicationScope.AddSetting(themeMode);
-            settingsManager.Save(settingsPath);
+            settingsManager.Save(pathService.GetSettingsFile());
             CloseWindowCommand.Execute(null);
         }
     }

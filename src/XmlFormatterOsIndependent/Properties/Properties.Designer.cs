@@ -104,5 +104,50 @@ namespace XmlFormatterOsIndependent.Properties {
                 return ResourceManager.GetString("GitHub_Project", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AskBeforeClosing.
+        /// </summary>
+        public static string Setting_Ask_Before_Closing_Key {
+            get {
+                return ResourceManager.GetString("Setting_Ask_Before_Closing_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        public static string Setting_Default_Scope {
+            get {
+                return ResourceManager.GetString("Setting_Default_Scope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SearchUpdateOnStartup.
+        /// </summary>
+        public static string Setting_Search_Update_On_Startup_Key {
+            get {
+                return ResourceManager.GetString("Setting_Search_Update_On_Startup_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string Setting_Theme_Key {
+            get {
+                return ResourceManager.GetString("Setting_Theme_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UpdateStrategy.
+        /// </summary>
+        public static string Setting_Update_Strategy_Key {
+            get {
+                return ResourceManager.GetString("Setting_Update_Strategy_Key", resourceCulture);
+            }
+        }
     }
 }
