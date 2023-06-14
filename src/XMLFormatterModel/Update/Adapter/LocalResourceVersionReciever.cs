@@ -9,6 +9,9 @@ using XmlFormatterModel.Update.Strategies;
 
 namespace XmlFormatterModel.Update.Adapter
 {
+    /// <summary>
+    /// Implementation of the version reciever strategy to get the local version of the application
+    /// </summary>
     public abstract class LocalResourceVersionReciever : IVersionRecieverStrategy
     {
         /// <inheritdoc/>
