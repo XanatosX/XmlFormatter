@@ -21,11 +21,8 @@ namespace CorePlugin.Updating
         /// </summary>
         public DownloadGitHubReleaseStrategy()
         {
-            ResourceLoader loader = new ResourceLoader();
-
-            string description = loader.LoadResource("Updating.DownloadGitHubDescription.txt");
             Information = new PluginInformation("Download GitHub releases",
-                                                description,
+                                                "Download the github release as zip and open the file",
                                                 "XanatosX",
                                                 new Version(1, 1, 1),
                                                 "https://github.com/XanatosX",

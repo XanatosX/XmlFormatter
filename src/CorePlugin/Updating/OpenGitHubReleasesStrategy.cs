@@ -22,12 +22,9 @@ namespace CorePlugin.Updating
         /// </summary>
         public OpenGitHubReleasesStrategy()
         {
-            ResourceLoader loader = new ResourceLoader();
-
-            string description = loader.LoadResource("Updating.OpenGitHubDescription.txt");
             Information = new PluginInformation(
                 "Open GitHub releases",
-                description,
+                "Open the latest github release in the browser",
                 "XanatosX",
                 new Version(1, 1, 3),
                 "https://github.com/XanatosX",
