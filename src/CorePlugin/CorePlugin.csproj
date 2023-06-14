@@ -5,13 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\Updating\DownloadGitHubDescription.txt" />
-    <None Remove="Assets\Updating\OpenGitHubDescription.txt" />
+    <Compile Remove="Assets\Formatter\**" />
+    <EmbeddedResource Remove="Assets\Formatter\**" />
+    <None Remove="Assets\Formatter\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Assets\Updating\DownloadGitHubDescription.txt" />
-    <EmbeddedResource Include="Assets\Updating\OpenGitHubDescription.txt" />
+    <None Remove="Assets\Updating\DownloadGitHubDescription.txt" />
+    <None Remove="Assets\Updating\OpenGitHubDescription.txt" />
+    <None Remove="Resources\XmlFormatterDescription.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\DownloadGitHubDescription.md" />
+    <EmbeddedResource Include="Resources\OpenGitHubDescription.md" />
+    <EmbeddedResource Include="Resources\XmlFormatterDescription.md" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assets\Formatter\" />
+    <Folder Include="Assets\Updating\" />
   </ItemGroup>
 
 </Project>

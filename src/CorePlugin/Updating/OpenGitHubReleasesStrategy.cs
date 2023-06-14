@@ -25,7 +25,14 @@ namespace CorePlugin.Updating
             ResourceLoader loader = new ResourceLoader();
 
             string description = loader.LoadResource("Updating.OpenGitHubDescription.txt");
-            Information = new PluginInformation("Open GitHub releases", description, "XanatosX", new Version(1, 1, 2));
+            Information = new PluginInformation(
+                "Open GitHub releases",
+                description,
+                "XanatosX",
+                new Version(1, 1, 3),
+                "https://github.com/XanatosX",
+                "https://github.com/XanatosX/XmlFormatter");
+            Information.SetMarkdownDescription(LoadFromEmbeddedResource("CorePlugin.Resources.OpenGitHubDescription.md"));
             urlOpener = new UrlOpener();
         }
 

@@ -7,6 +7,7 @@ namespace CorePlugin.Assets
     /// <summary>
     /// Class to use for load embedded resources
     /// </summary>
+    [Obsolete]
     internal class ResourceLoader
     {
         /// <summary>
