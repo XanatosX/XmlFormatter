@@ -5,50 +5,37 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="XmlFormatterOsIndependent.Views.SettingsWindow"
         Icon="/Assets/XmlFormatterSettingsIcon.ico"
-        Title="Settings"
+        Title="{x:Static p:Resources.SettingsWindow_Title}"
         SizeToContent="WidthAndHeight"
+		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
         CanResize="False">
   <StackPanel Margin="0,0,0,5">
+	  <!--
+	  This pars will be placed inside of the backup tab
     <DockPanel>
       <Menu>
         <MenuItem Header="_Export Settings"></MenuItem>
         <MenuItem Header="_Import Settings"></MenuItem>
       </Menu>
     </DockPanel>
-    <TabControl>
-      <TabItem Header="Application">
-        <StackPanel>
-          <Border BorderBrush="Gray" BorderThickness="1" Margin="5,10,5,0">
-            <StackPanel Margin="5,0,0,0">
-              <TextBlock HorizontalAlignment="Left" Background="{Binding $parent[6].Background}" Margin="5,-10,0,0" Text="Application Settings"></TextBlock>
-              <CheckBox Margin="0,5,0,5" Content="Ask before Closing" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
-              <ComboBox Margin="0,0,5,5" SelectedIndex="{Binding ThemeMode}">
-                <ComboBoxItem Content="Light"></ComboBoxItem>
-                <ComboBoxItem Content="Dark"></ComboBoxItem>
-              </ComboBox>
-            </StackPanel>
-          </Border>
-          <Border BorderBrush="Gray" BorderThickness="1" Margin="5,10,5,0">
-            <StackPanel Margin="5,0,5,0">
-              <TextBlock HorizontalAlignment="Left" Background="{Binding $parent[6].Background}" Margin="5,-10,0,0" Text="Updating"></TextBlock>
-              <CheckBox Margin="0,5,0,5" Content="Check for update on startup" IsChecked="{Binding CheckUpdateOnStart}"></CheckBox>
-              <ComboBox Margin="0,0,0,5" Items="{Binding List}" SelectedItem="{Binding Updater}" SelectedIndex="{Binding UpdaterIndex}">
-                <ComboBox.ItemTemplate>
-                  <DataTemplate>
-                    <TextBlock Text="{Binding Information.Name}"></TextBlock>
-                  </DataTemplate>
-                </ComboBox.ItemTemplate>
-              </ComboBox>
-            </StackPanel>
-          </Border>
-        </StackPanel>
+	    -->
+    <TabControl TabStripPlacement="Left">
+	 <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsEnabled="False">
+		 <ContentControl Content="{Binding SettingsBackupContent}"/>
+	 </TabItem>
+      <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}">
+		  <ContentControl Content="{Binding ApplicationSettingsContent}"/>
       </TabItem>
-      <TabItem IsEnabled="False" Header="Logging"></TabItem>
-      <TabItem IsEnabled="False" Header="Hotfolder"></TabItem>
+      <TabItem IsEnabled="False" Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}">
+		  <ContentControl Content="{Binding LoggingContent}"/>
+	  </TabItem>
+      <TabItem IsEnabled="False" Header="{x:Static p:Resources.SettingsWindow_Tab_Hotfolder}">
+		  <ContentControl Content="{Binding HotfolderContent}"/>
+	  </TabItem>
     </TabControl>
     <Grid ColumnDefinitions="*,5*,*" Margin="5,5,5,0">
-      <Button Grid.Column="0" Command="{Binding SaveAndClose}">Save and close</Button>
-      <Button Grid.Column="2" Command="{Binding CloseWindowCommand}">Cancel</Button>
-    </Grid>
+		<Button Grid.Column="0" Command="{Binding SaveAndClose}" Content="{x:Static p:Resources.SettingsWindow_SaveAndClose}"/>
+        <Button Grid.Column="2" Command="{Binding CloseWindowCommand}" Content="{x:Static p:Resources.SettingsWindow_Close}"/>
+	</Grid>
   </StackPanel>
 </Window>

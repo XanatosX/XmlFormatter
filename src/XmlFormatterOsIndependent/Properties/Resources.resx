@@ -168,4 +168,25 @@
   <data name="PluginManagerWindow_Title" xml:space="preserve">
     <value>Plugin Manager</value>
   </data>
+  <data name="SettingsWindow_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsWindow_SaveAndClose" xml:space="preserve">
+    <value>Save and Close</value>
+  </data>
+  <data name="SettingsWindow_Tab_Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="SettingsWindow_Tab_Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="SettingsWindow_Tab_Hotfolder" xml:space="preserve">
+    <value>Hotfolder</value>
+  </data>
+  <data name="SettingsWindow_Tab_Logging" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="SettingsWindow_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

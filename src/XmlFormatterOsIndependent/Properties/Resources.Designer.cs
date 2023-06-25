@@ -212,5 +212,68 @@ namespace XmlFormatterOsIndependent.Properties {
                 return ResourceManager.GetString("PluginManagerWindow_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string SettingsWindow_Close {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save and Close.
+        /// </summary>
+        public static string SettingsWindow_SaveAndClose {
+            get {
+                return ResourceManager.GetString("SettingsWindow_SaveAndClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string SettingsWindow_Tab_Application {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string SettingsWindow_Tab_Backup {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Backup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotfolder.
+        /// </summary>
+        public static string SettingsWindow_Tab_Hotfolder {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Hotfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logging.
+        /// </summary>
+        public static string SettingsWindow_Tab_Logging {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Logging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsWindow_Title {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Title", resourceCulture);
+            }
+        }
     }
 }
