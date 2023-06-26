@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.Interfaces.PluginTypes;
@@ -7,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;
@@ -35,15 +38,16 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private bool checkUpdateOnStart;
+    private readonly IThemeService themeService;
+    private readonly SettingFacadeService settingFacadeService;
 
-    private readonly ISettingScope applicationScope;
-    private readonly ISettingsManager settingsManager;
-
-    public ApplicationSettingsViewModel(ISettingsManager settingsManager,
-            IPathService pathService,
-            IPluginManager pluginManager)
+    public ApplicationSettingsViewModel(
+            IThemeService themeService,
+            IPluginManager pluginManager,
+            SettingFacadeService settingFacadeService)
     {
-        this.settingsManager = settingsManager;
+        this.themeService = themeService;
+        this.settingFacadeService = settingFacadeService;
 
         AvailableUpdaters = pluginManager.ListPlugins<IUpdateStrategy>()
                                          .OfType<PluginMetaData>()
@@ -51,35 +55,47 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
                                          .ToList();
 
         Updater = AvailableUpdaters.FirstOrDefault();
-        applicationScope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
 
-        LoadSettings();
+        var settings = settingFacadeService.GetSettings(true) ?? new ApplicationSettings();
+
+        AskBeforeClosing = settings.AskBeforeClosing;
+        CheckUpdateOnStart = settings.CheckForUpdatesOnStartup;
+        if (settings.Updater is not null)
+        {
+            Updater = AvailableUpdaters?.FirstOrDefault(item => item.UpdaterType == settings.Updater.Type);
+        }
+
+        ThemeMode = (int)settings.Theme;
+
+        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, data) => SaveSettings(data));
+
+        PropertyChanged += (_, data) =>
+        {
+            if (data.PropertyName == nameof(ThemeMode))
+            {
+                themeService.ChangeTheme(ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark);
+            }
+        };
     }
 
-    private void LoadSettings()
+    private void SaveSettings(SaveSettingsWindowMessage message)
     {
-        AskBeforeClosing = GetSettingsValue<bool>(Properties.Properties.Setting_Ask_Before_Closing_Key);
-        CheckUpdateOnStart = GetSettingsValue<bool>(Properties.Properties.Setting_Search_Update_On_Startup_Key);
+        settingFacadeService.UpdateSettings(settings =>
+        {
+            settings.AskBeforeClosing = AskBeforeClosing;
+            settings.CheckForUpdatesOnStartup = CheckUpdateOnStart;
+            settings.Theme = ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark;
+            settings.Updater = Updater?.MetaData;
+        });
 
-        var scope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
-        string mode = scope.GetSetting(Properties.Properties.Setting_Theme_Key)?.GetValue<string>() ?? ThemeEnum.Light.ToString();
-        Enum.TryParse(typeof(ThemeEnum), mode, out var theme);
-
-        ThemeMode = (int)(theme ?? ThemeEnum.Light);
-        string storedUpdater = GetSettingsValue<string>(Properties.Properties.Setting_Update_Strategy_Key);
-
-        Updater = AvailableUpdaters?.FirstOrDefault(item => item.UpdaterType.ToString() == storedUpdater);
+        ThemeEnum themeToUse = settingFacadeService.GetSettings()?.Theme ?? ThemeEnum.Light;
+        themeService.ChangeTheme(themeToUse);
     }
 
-    /// <summary>
-    /// Get a specific settings value
-    /// </summary>
-    /// <typeparam name="T">Type of the value to get</typeparam>
-    /// <param name="name">Name of the value to get</param>
-    /// <returns>The value casted to the given type</returns>
-    private T GetSettingsValue<T>(string name)
+    ~ApplicationSettingsViewModel()
     {
-        ISettingPair settingPair = applicationScope.GetSetting(name);
-        return settingPair == null ? default : settingPair.GetValue<T>();
+        WeakReferenceMessenger.Default.UnregisterAll(this);
     }
+
+
 }

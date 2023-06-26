@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PluginFramework.Interfaces.Manager;
-using XmlFormatterModel.Setting;
+using CommunityToolkit.Mvvm.Messaging;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -24,7 +24,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         private ObservableObject? hotfolderContent;
 
         private readonly IWindowApplicationService applicationService;
-        private readonly IThemeService themeService;
 
         /// <summary>
         /// Create a new instance of this view
@@ -34,11 +33,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="pluginManager">The plugin manager to use</param>
         public SettingsWindowViewModel(
             IWindowApplicationService applicationService,
-            IThemeService themeService,
             IDependecyInjectionResolverService resolverService)
         {
             this.applicationService = applicationService;
-            this.themeService = themeService;
 
             applicationSettingsContent = resolverService.GetService<ApplicationSettingsViewModel>();
         }
@@ -54,27 +51,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public void SaveAndClose()
         {
-            /**
-            * @TODO: Mode this into the ApplicationSettingsViewModel Triggered via message!
-            ThemeEnum theme = ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark;
-
-            ISettingPair askClose = new SettingPair(Properties.Properties.Setting_Ask_Before_Closing_Key);
-            ISettingPair searchUpdate = new SettingPair(Properties.Properties.Setting_Search_Update_On_Startup_Key);
-            ISettingPair updater = new SettingPair(Properties.Properties.Setting_Update_Strategy_Key);
-            ISettingPair themeMode = new SettingPair(Properties.Properties.Setting_Theme_Key);
-            askClose.SetValue(AskBeforeClosing);
-            searchUpdate.SetValue(CheckUpdateOnStart);
-            updater.SetValue(Updater.Type.ToString());
-            themeMode.SetValue(theme.ToString());
-
-            themeService.ChangeTheme(theme);
-            applicationScope.AddSetting(askClose);
-            applicationScope.AddSetting(searchUpdate);
-            applicationScope.AddSetting(updater);
-            applicationScope.AddSetting(themeMode);
-            settingsManager.Save(pathService.GetSettingsFile());
-
-            */
+            WeakReferenceMessenger.Default.Send(new SaveSettingsWindowMessage(true));
             CloseWindowCommand.Execute(null);
         }
     }
