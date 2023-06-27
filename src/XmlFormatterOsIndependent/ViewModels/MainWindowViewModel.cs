@@ -147,7 +147,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
             settingsManager.Load(pathService.GetSettingsFile());
             var settings = settingsManager.GetScope("Default");
-            string themeString = settings.GetSetting("Theme").GetValue<string>();
+            string themeString = settings?.GetSetting("Theme")?.GetValue<string>() ?? ThemeEnum.Light.ToString();
             Enum.TryParse(themeString, out ThemeEnum value);
             themeService.ChangeTheme(value);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
