@@ -9,13 +9,38 @@ using XmlFormatterOsIndependent.Model;
 
 namespace XmlFormatterOsIndependent.Services;
 
+/// <summary>
+/// Facade class to simplify working with the fixed application settings
+/// </summary>
 internal class SettingFacadeService
 {
+    /// <summary>
+    /// The settings manager to use
+    /// </summary>
     private readonly ISettingsManager settingsManager;
-    private readonly IPathService pathService;
-    private readonly IPluginManager pluginManager;
-    private ApplicationSettings? settings;
 
+    /// <summary>
+    /// The path service used to get the path to the save file
+    /// </summary>
+    private readonly IPathService pathService;
+
+    /// <summary>
+    /// The pluging manager used to load available plugins
+    /// </summary>
+    private readonly IPluginManager pluginManager;
+
+    /// <summary>
+    /// Current instance of the application settings,
+    /// this is working as a cache
+    /// </summary>
+    private ApplicationSettings? settingsCache;
+
+    /// <summary>
+    /// Create a new instance of this class
+    /// </summary>
+    /// <param name="settingsManager">The settings manager to use for saving and loading of settings</param>
+    /// <param name="pathService">The path service to use which does provide the path to the settings file</param>
+    /// <param name="pluginManager">The plugin manager used to check for loaded plugins</param>
     public SettingFacadeService(
         ISettingsManager settingsManager,
         IPathService pathService,
@@ -26,19 +51,32 @@ internal class SettingFacadeService
         this.pluginManager = pluginManager;
     }
 
+    /// <summary>
+    /// Get the current application settings, does return cache if data was already loaded
+    /// </summary>
+    /// <returns>The application settings or null if loading did fail</returns>
     public ApplicationSettings? GetSettings() => GetSettings(false);
 
+    /// <summary>
+    /// Get the current application settings, allows to force reload them drom disc
+    /// </summary>
+    /// <param name="forceReload">Should the settings be loaded even if the are loaded in the cache</param>
+    /// <returns>The application settings or null if loading did fail</returns>
     public ApplicationSettings? GetSettings(bool forceReload)
     {
-        bool settingsMissing = settings is null;
-        settings ??= LoadSettings();
-        if (forceReload && settingsMissing)
+        bool settingWasLoaded = settingsCache is not null;
+        settingsCache ??= LoadSettings();
+        if (forceReload && settingWasLoaded)
         {
-            settings = LoadSettings();
+            settingsCache = LoadSettings();
         }
-        return settings;
+        return settingsCache;
     }
 
+    /// <summary>
+    /// Load the settings and parse them into a application settings class
+    /// </summary>
+    /// <returns>If loading was successful a valid application settings class will be returned</returns>
     private ApplicationSettings? LoadSettings()
     {
         settingsManager.Load(pathService.GetSettingsFile());
@@ -81,6 +119,11 @@ internal class SettingFacadeService
         return settingPair == null ? default : settingPair.GetValue<T>();
     }
 
+    /// <summary>
+    /// Update the setting for the application
+    /// </summary>
+    /// <param name="updateSettings">The update action</param>
+    /// <returns>The updated settings if saving was completed successfully</returns>
     public ApplicationSettings? UpdateSettings(Action<ApplicationSettings> updateSettings)
     {
         ApplicationSettings? loadedSettings = GetSettings(true);
@@ -93,6 +136,11 @@ internal class SettingFacadeService
         return loadedSettings;
     }
 
+    /// <summary>
+    /// Save the given settings to the disc
+    /// </summary>
+    /// <param name="settings">The settings which should be saved</param>
+    /// <returns>The newly saved settings</returns>
     public ApplicationSettings SaveSettings(ApplicationSettings settings)
     {
         ISettingPair askClose = new SettingPair(Properties.Properties.Setting_Ask_Before_Closing_Key);

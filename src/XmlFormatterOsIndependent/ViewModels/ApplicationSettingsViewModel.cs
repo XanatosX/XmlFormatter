@@ -6,7 +6,6 @@ using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using XmlFormatterModel.Setting;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
@@ -15,23 +14,35 @@ using XmlFormatterOsIndependent.Services;
 namespace XmlFormatterOsIndependent.ViewModels;
 internal partial class ApplicationSettingsViewModel : ObservableObject
 {
+    /// <summary>
+    /// A list with all the available updaters
+    /// </summary>
     [ObservableProperty]
     private List<PluginMetaDataViewModel> availableUpdaters;
 
+    /// <summary>
+    /// The currently selected updater
+    /// </summary>
     [ObservableProperty]
     private PluginMetaDataViewModel? updater;
+
+    /// <summary>
+    /// A list with all the themes to choose from
+    /// </summary>
+    [ObservableProperty]
+    private List<string> themes;
+
+    /// <summary>
+    /// The currently selected theme
+    /// </summary>
+    [ObservableProperty]
+    private string selectedTheme;
 
     /// <summary>
     /// Private acces for ask before closing setting
     /// </summary>
     [ObservableProperty]
     private bool askBeforeClosing;
-
-    /// <summary>
-    /// Private selected theme index
-    /// </summary>
-    [ObservableProperty]
-    private int themeMode;
 
     /// <summary>
     /// Private check for updates on start
@@ -65,26 +76,36 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             Updater = AvailableUpdaters?.FirstOrDefault(item => item.UpdaterType == settings.Updater.Type);
         }
 
-        ThemeMode = (int)settings.Theme;
+        Themes = Enum.GetValues<ThemeEnum>()
+                     .Select(theme => theme.ToString())
+                     .ToList();
+        selectedTheme = settings.Theme.ToString();
 
-        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, data) => SaveSettings(data));
+        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, _) => SaveSettings());
 
         PropertyChanged += (_, data) =>
         {
-            if (data.PropertyName == nameof(ThemeMode))
+            if (data.PropertyName == nameof(SelectedTheme))
             {
-                themeService.ChangeTheme(ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark);
+                ThemeEnum currentTheme = ThemeEnum.Light;
+                Enum.TryParse(SelectedTheme, out currentTheme);
+                themeService.ChangeTheme(currentTheme);
             }
         };
     }
 
-    private void SaveSettings(SaveSettingsWindowMessage message)
+    /// <summary>
+    /// Save the settings for the application data
+    /// </summary>
+    private void SaveSettings()
     {
         settingFacadeService.UpdateSettings(settings =>
         {
             settings.AskBeforeClosing = AskBeforeClosing;
             settings.CheckForUpdatesOnStartup = CheckUpdateOnStart;
-            settings.Theme = ThemeMode == 0 ? ThemeEnum.Light : ThemeEnum.Dark;
+            ThemeEnum currentTheme = ThemeEnum.Light;
+            Enum.TryParse(SelectedTheme, out currentTheme);
+            settings.Theme = currentTheme;
             settings.Updater = Updater?.MetaData;
         });
 
@@ -92,6 +113,9 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
         themeService.ChangeTheme(themeToUse);
     }
 
+    /// <summary>
+    /// Destructor for this user view, this is required to enforce unregister of message hook
+    /// </summary>
     ~ApplicationSettingsViewModel()
     {
         WeakReferenceMessenger.Default.UnregisterAll(this);

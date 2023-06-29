@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationSettingsView_AskBeforeClosing" xml:space="preserve">
+    <value>Ask before closing</value>
+  </data>
+  <data name="ApplicationSettingsView_AskBeforeClosing_Tip" xml:space="preserve">
+    <value>Does show a confirmation popup if enabled and you want to close the application</value>
+  </data>
+  <data name="ApplicationSettingsView_CheckForUpdateOnStartup" xml:space="preserve">
+    <value>Check for updates on startup</value>
+  </data>
+  <data name="ApplicationSettingsView_CheckForUpdateOnStartup_Tip" xml:space="preserve">
+    <value>Does check if there is new version of the application available as soon as the application starts.</value>
+  </data>
+  <data name="ApplicationSettingsView_Theme_Tip" xml:space="preserve">
+    <value>The Theme to display the application with</value>
+  </data>
+  <data name="ApplicationSettingsView_Updater_Tip" xml:space="preserve">
+    <value>The updater used to download the update for the application.</value>
+  </data>
   <data name="MainWindow_Load" xml:space="preserve">
     <value>Load</value>
   </data>

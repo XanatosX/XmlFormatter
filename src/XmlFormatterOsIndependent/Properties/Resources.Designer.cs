@@ -61,6 +61,60 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask before closing.
+        /// </summary>
+        public static string ApplicationSettingsView_AskBeforeClosing {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_AskBeforeClosing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does show a confirmation popup if enabled and you want to close the application.
+        /// </summary>
+        public static string ApplicationSettingsView_AskBeforeClosing_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_AskBeforeClosing_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates on startup.
+        /// </summary>
+        public static string ApplicationSettingsView_CheckForUpdateOnStartup {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_CheckForUpdateOnStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does check if there is new version of the application available as soon as the application starts..
+        /// </summary>
+        public static string ApplicationSettingsView_CheckForUpdateOnStartup_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_CheckForUpdateOnStartup_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Theme to display the application with.
+        /// </summary>
+        public static string ApplicationSettingsView_Theme_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_Theme_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The updater used to download the update for the application..
+        /// </summary>
+        public static string ApplicationSettingsView_Updater_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_Updater_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load.
         /// </summary>
         public static string MainWindow_Load {

@@ -23,7 +23,7 @@
 	 <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsEnabled="False">
 		 <ContentControl Content="{Binding SettingsBackupContent}"/>
 	 </TabItem>
-      <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}">
+      <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}" IsSelected="True">
 		  <ContentControl Content="{Binding ApplicationSettingsContent}"/>
       </TabItem>
       <TabItem IsEnabled="False" Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}">
