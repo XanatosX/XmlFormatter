@@ -6,36 +6,32 @@
         x:Class="XmlFormatterOsIndependent.Views.SettingsWindow"
         Icon="/Assets/XmlFormatterSettingsIcon.ico"
         Title="{x:Static p:Resources.SettingsWindow_Title}"
+		MinHeight="200"
+		MinWidth="400"
         SizeToContent="WidthAndHeight"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
         CanResize="False">
-  <StackPanel Margin="0,0,0,5">
-	  <!--
-	  This pars will be placed inside of the backup tab
-    <DockPanel>
-      <Menu>
-        <MenuItem Header="_Export Settings"></MenuItem>
-        <MenuItem Header="_Import Settings"></MenuItem>
-      </Menu>
-    </DockPanel>
-	    -->
-    <TabControl TabStripPlacement="Left">
-	 <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsEnabled="False">
-		 <ContentControl Content="{Binding SettingsBackupContent}"/>
-	 </TabItem>
-      <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}" IsSelected="True">
-		  <ContentControl Content="{Binding ApplicationSettingsContent}"/>
-      </TabItem>
-      <TabItem IsEnabled="False" Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}">
-		  <ContentControl Content="{Binding LoggingContent}"/>
-	  </TabItem>
-      <TabItem IsEnabled="False" Header="{x:Static p:Resources.SettingsWindow_Tab_Hotfolder}">
-		  <ContentControl Content="{Binding HotfolderContent}"/>
-	  </TabItem>
-    </TabControl>
-    <Grid ColumnDefinitions="*,5*,*" Margin="5,5,5,0">
-		<Button Grid.Column="0" Command="{Binding SaveAndClose}" Content="{x:Static p:Resources.SettingsWindow_SaveAndClose}"/>
-        <Button Grid.Column="2" Command="{Binding CloseWindowCommand}" Content="{x:Static p:Resources.SettingsWindow_Close}"/>
+	<Grid RowDefinitions="Auto, *">
+      <StackPanel Margin="0,0,0,5">
+        <TabControl TabStripPlacement="Left">
+	     <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsVisible="{Binding SettingsBackupContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+		     <ContentControl Content="{Binding SettingsBackupContent}"/>
+	     </TabItem>
+          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}" IsSelected="True" IsVisible="{Binding ApplicationSettingsContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+		      <ContentControl Content="{Binding ApplicationSettingsContent}"/>
+          </TabItem>
+          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}" IsVisible="{Binding LoggingContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+		      <ContentControl Content="{Binding LoggingContent}"/>
+	      </TabItem>
+          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Hotfolder}" IsVisible="{Binding HotfolderContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+		      <ContentControl Content="{Binding HotfolderContent}"/>
+	      </TabItem>
+        </TabControl>
+	  </StackPanel>
+	  <DockPanel VerticalAlignment="Bottom" Grid.Row="1" Margin="5,0,5,5">
+		  <Button DockPanel.Dock="Left" Command="{Binding SaveAndClose}" Content="{x:Static p:Resources.SettingsWindow_SaveAndClose}"/>
+		  <Button DockPanel.Dock="Right" Command="{Binding CloseWindowCommand}" Content="{x:Static p:Resources.SettingsWindow_Close}"/>
+		  <TextBlock DockPanel.Dock="Right"/>
+	  </DockPanel>
 	</Grid>
-  </StackPanel>
 </Window>

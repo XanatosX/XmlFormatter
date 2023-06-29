@@ -37,6 +37,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             this.applicationService = applicationService;
 
+            settingsBackupContent = resolverService.GetService<ApplicationSettingsBackupViewModel>();
             applicationSettingsContent = resolverService.GetService<ApplicationSettingsViewModel>();
         }
 

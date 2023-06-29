@@ -72,7 +72,8 @@ internal static class DepenendyInjectionExtensions
                          .AddTransient<PluginManagerWindow>()
                          .AddTransient<AboutWindow>()
                          .AddTransient<SettingsWindow>()
-                         .AddTransient<ApplicationSettingsView>();
+                         .AddTransient<ApplicationSettingsView>()
+                         .AddTransient<ApplicationSettingsBackupView>();
     }
 
     /// <summary>
@@ -86,6 +87,7 @@ internal static class DepenendyInjectionExtensions
                          .AddTransient<PluginManagerViewModel>()
                          .AddTransient<AboutWindowViewModel>()
                          .AddTransient<SettingsWindowViewModel>()
-                         .AddTransient<ApplicationSettingsViewModel>();
+                         .AddTransient<ApplicationSettingsViewModel>()
+                         .AddTransient<ApplicationSettingsBackupViewModel>();
     }
 }
