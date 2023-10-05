@@ -197,6 +197,12 @@ jobs:
           zip -r $LINUX_ARTIFACT_NAME.zip ./*
           mv $LINUX_ARTIFACT_NAME.zip ../
           rm -rf ./../$LINUX_ARTIFACT_NAME
+      - name: Zip Dawrin build
+        run: |
+          cd ./$RELEASE_ARTIFACT_FOLDER/$DARWIN_ARTIFACT_NAME
+          zip -r $DARWIN_ARTIFACT_NAME.zip ./*
+          mv $DARWIN_ARTIFACT_NAME.zip ../
+          rm -rf ./../$DARWIN_ARTIFACT_NAME
       - name: display artifacts folder content
         if: ${{ env.DEBUG == 'true' }}
         run: ls -la $RELEASE_ARTIFACT_FOLDER
