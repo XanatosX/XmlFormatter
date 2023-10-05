@@ -64,25 +64,10 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
                                          .OfType<PluginMetaData>()
                                          .Select(entry => new PluginMetaDataViewModel(entry))
                                          .ToList();
-
-        Updater = AvailableUpdaters.FirstOrDefault();
-
-        var settings = settingFacadeService.GetSettings(true) ?? new ApplicationSettings();
-
-        AskBeforeClosing = settings.AskBeforeClosing;
-        CheckUpdateOnStart = settings.CheckForUpdatesOnStartup;
-        if (settings.Updater is not null)
-        {
-            Updater = AvailableUpdaters?.FirstOrDefault(item => item.UpdaterType == settings.Updater.Type);
-        }
-
         Themes = Enum.GetValues<ThemeEnum>()
                      .Select(theme => theme.ToString())
                      .ToList();
-        selectedTheme = settings.Theme.ToString();
-
-        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, _) => SaveSettings());
-
+        Updater = AvailableUpdaters.FirstOrDefault();
         PropertyChanged += (_, data) =>
         {
             if (data.PropertyName == nameof(SelectedTheme))
@@ -92,6 +77,30 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
                 themeService.ChangeTheme(currentTheme);
             }
         };
+
+        SetSettingsFromApplicationSetting(settingFacadeService.GetSettings(true) ?? new ApplicationSettings());
+
+        WeakReferenceMessenger.Default.Register<SettingsImportedMessage>(this, (_, data) => SetSettingsFromApplicationSetting(data.Value));
+        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, _) => SaveSettings());
+    }
+
+    /// <summary>
+    /// This method will set all the setting entries into the correct field
+    /// </summary>
+    /// <param name="applicationSettings">The application settings to load</param>
+    private void SetSettingsFromApplicationSetting(ApplicationSettings applicationSettings)
+    {
+        if (applicationSettings is null)
+        {
+            return;
+        }
+        AskBeforeClosing = applicationSettings.AskBeforeClosing;
+        CheckUpdateOnStart = applicationSettings.CheckForUpdatesOnStartup;
+        SelectedTheme = applicationSettings.Theme.ToString();
+        if (applicationSettings.Updater is not null)
+        {
+            Updater = AvailableUpdaters?.FirstOrDefault(item => item.UpdaterType == applicationSettings.Updater.Type);
+        }
     }
 
     /// <summary>

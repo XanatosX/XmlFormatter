@@ -20,13 +20,13 @@ public class WindowApplicationService : IWindowApplicationService
     /// <summary>
     /// The resolver service used to load the windows
     /// </summary>
-    private readonly IDependecyInjectionResolverService injectionResolverService;
+    private readonly IDependencyInjectionResolverService injectionResolverService;
 
     /// <summary>
     /// Create a new instance of the service
     /// </summary>
     /// <param name="injectionResolverService">The resolver service used to load the windows</param>
-    public WindowApplicationService(IDependecyInjectionResolverService injectionResolverService)
+    public WindowApplicationService(IDependencyInjectionResolverService injectionResolverService)
     {
         this.injectionResolverService = injectionResolverService;
     }

@@ -115,6 +115,60 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export Settings.
+        /// </summary>
+        public static string BackupSettingsView_Export {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Export failed, because no file was selected or the settings could not be loaded.
+        /// </summary>
+        public static string BackupSettingsView_ExportFailed {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporting the settings was successful.
+        /// </summary>
+        public static string BackupSettingsView_ExportingSettingWasSuccessful {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ExportingSettingWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Settings.
+        /// </summary>
+        public static string BackupSettingsView_Import {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not load setting for import, please check the selected file.
+        /// </summary>
+        public static string BackupSettingsView_ImportedSettingNotLoaded {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ImportedSettingNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importing the setting was successful.
+        /// </summary>
+        public static string BackupSettingsView_ImportingSettingWasSuccessful {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ImportingSettingWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load.
         /// </summary>
         public static string MainWindow_Load {

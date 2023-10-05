@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace XmlFormatterOsIndependent.Services;
-public interface IDependecyInjectionResolverService
+public interface IDependencyInjectionResolverService
 {
     /// <summary>
     /// Get a service from the service provider

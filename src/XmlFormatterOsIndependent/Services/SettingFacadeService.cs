@@ -25,7 +25,7 @@ internal class SettingFacadeService
     private readonly IPathService pathService;
 
     /// <summary>
-    /// The pluging manager used to load available plugins
+    /// The plugin manager used to load available plugins
     /// </summary>
     private readonly IPluginManager pluginManager;
 
@@ -58,7 +58,7 @@ internal class SettingFacadeService
     public ApplicationSettings? GetSettings() => GetSettings(false);
 
     /// <summary>
-    /// Get the current application settings, allows to force reload them drom disc
+    /// Get the current application settings, allows to force reload them from disc
     /// </summary>
     /// <param name="forceReload">Should the settings be loaded even if the are loaded in the cache</param>
     /// <returns>The application settings or null if loading did fail</returns>
@@ -73,14 +73,35 @@ internal class SettingFacadeService
         return settingsCache;
     }
 
+/// <summary>
+    /// Get the current application settings, allows to force reload them from disc
+    /// </summary>
+    /// <param name="path">The path to load the settings from</param>
+    /// <returns>The application settings or null if loading did fail</returns>
+    public ApplicationSettings? GetSettings(string path)
+    {
+        bool settingWasLoaded = settingsCache is not null;
+        return LoadSettings(path);
+    }
+
     /// <summary>
     /// Load the settings and parse them into a application settings class
     /// </summary>
     /// <returns>If loading was successful a valid application settings class will be returned</returns>
-    private ApplicationSettings? LoadSettings()
+    private ApplicationSettings? LoadSettings() => LoadSettings(pathService.GetSettingsFile());
+
+        /// <summary>
+    /// Load the settings and parse them into a application settings class
+    /// </summary>
+    /// <returns>If loading was successful a valid application settings class will be returned</returns>
+    private ApplicationSettings? LoadSettings(string path)
     {
-        settingsManager.Load(pathService.GetSettingsFile());
-        ISettingScope applicationScope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
+        settingsManager.Load(path);
+        ISettingScope? applicationScope = settingsManager.GetScope(Properties.Properties.Setting_Default_Scope);
+        if (applicationScope is null)
+        {
+            return null;
+        }
 
         bool askBeforeClosing = GetSettingsValue<bool>(applicationScope, Properties.Properties.Setting_Ask_Before_Closing_Key);
         bool checkUpdateOnStart = GetSettingsValue<bool>(applicationScope, Properties.Properties.Setting_Search_Update_On_Startup_Key);
@@ -141,7 +162,15 @@ internal class SettingFacadeService
     /// </summary>
     /// <param name="settings">The settings which should be saved</param>
     /// <returns>The newly saved settings</returns>
-    public ApplicationSettings SaveSettings(ApplicationSettings settings)
+    public ApplicationSettings SaveSettings(ApplicationSettings settings)=> SaveSettings(settings, pathService.GetSettingsFile());
+
+    /// <summary>
+    /// Save the given settings to the disc
+    /// </summary>
+    /// <param name="settings">The settings which should be saved</param>
+    /// <param name="path">The path to save the setting to</param>
+    /// <returns>The newly saved settings</returns>
+    public ApplicationSettings SaveSettings(ApplicationSettings settings, string path)
     {
         ISettingPair askClose = new SettingPair(Properties.Properties.Setting_Ask_Before_Closing_Key);
         ISettingPair searchUpdate = new SettingPair(Properties.Properties.Setting_Search_Update_On_Startup_Key);
@@ -159,8 +188,7 @@ internal class SettingFacadeService
         applicationScope.AddSetting(updater);
         applicationScope.AddSetting(themeMode);
 
-
-        settingsManager.Save(pathService.GetSettingsFile());
+        settingsManager.Save(path);
         return settings;
     }
 

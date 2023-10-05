@@ -7,7 +7,7 @@ namespace XmlFormatterOsIndependent.Services;
 /// <summary>
 /// Service to resolve dependencies
 /// </summary>
-public class DependecyInjectionResolverService : IDependecyInjectionResolverService
+public class DependecyInjectionResolverService : IDependencyInjectionResolverService
 {
     /// <summary>
     /// THe internal service provider 

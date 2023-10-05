@@ -33,7 +33,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="pluginManager">The plugin manager to use</param>
         public SettingsWindowViewModel(
             IWindowApplicationService applicationService,
-            IDependecyInjectionResolverService resolverService)
+            IDependencyInjectionResolverService resolverService)
         {
             this.applicationService = applicationService;
 

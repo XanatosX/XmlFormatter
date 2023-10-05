@@ -51,7 +51,7 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<IPathService, PathService>()
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
-                         .AddSingleton<IDependecyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
+                         .AddSingleton<IDependencyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
                          .AddSingleton<IPersistentFactory, XmlProviderFactory>()
                          .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
                          .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()
