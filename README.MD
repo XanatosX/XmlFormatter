@@ -4,13 +4,16 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e5160ad2aa1641f3af76a100c0d042f0)](https://www.codacy.com/gh/XanatosX/XmlFormatter/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=XanatosX/XmlFormatter&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FXanatosX%2FXmlFormatter?ref=badge_shield)
 
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+
 This project is a lightweight tool to convert xml files from a flat to a formatted format or the other way round.
 
 ## How to "install" this application
 
 ### Pre-Requirements
 
-You will need the .NET Framework 4.7 or newer installed on your machine. This is installed on default on Windows 10.
+You will need the .NET Framework 6.0 or newer installed on your machine. This is installed on default on Windows 10.
 
 ### Installation
 
@@ -21,7 +24,7 @@ You will need the .NET Framework 4.7 or newer installed on your machine. This is
    * You do not need the `LICENSE` file.
 3. Start the unzipped `XmlFormatter.exe` file.
 
-This application is portable, just copy the zip content to a portable disk.
+This application is portable, just copy the zip content to a portable disk. This does not include the settings of the application. They are stored on the user directory for the moment.
 
 ## How to use this application
 
