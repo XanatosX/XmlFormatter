@@ -51,7 +51,7 @@ namespace JsonPlugin
         /// <param name="inputFilePath">The input file to convert</param>
         /// <param name="outputName">The output file to generate</param>
         /// <param name="options">The save options to use</param>
-        private async void FormatFile(string inputFilePath, string outputName, bool Indent)
+        private async void FormatFile(string inputFilePath, string outputName, bool indent)
         {
             if (!IsFileReadableWriteable(inputFilePath, outputName))
             {
@@ -85,7 +85,7 @@ namespace JsonPlugin
             {
                 try
                 {
-                    string writeableData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
+                    string writeableData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = indent });
                     File.WriteAllText(outputName, writeableData);
                     return true;
                 }
