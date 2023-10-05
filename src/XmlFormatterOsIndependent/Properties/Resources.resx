@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationSettingsView_AskBeforeClosing" xml:space="preserve">
+    <value>Ask before closing</value>
+  </data>
+  <data name="ApplicationSettingsView_AskBeforeClosing_Tip" xml:space="preserve">
+    <value>Does show a confirmation popup if enabled and you want to close the application</value>
+  </data>
+  <data name="ApplicationSettingsView_CheckForUpdateOnStartup" xml:space="preserve">
+    <value>Check for updates on startup</value>
+  </data>
+  <data name="ApplicationSettingsView_CheckForUpdateOnStartup_Tip" xml:space="preserve">
+    <value>Does check if there is new version of the application available as soon as the application starts.</value>
+  </data>
+  <data name="ApplicationSettingsView_Theme_Tip" xml:space="preserve">
+    <value>The Theme to display the application with</value>
+  </data>
+  <data name="ApplicationSettingsView_Updater_Tip" xml:space="preserve">
+    <value>The updater used to download the update for the application.</value>
+  </data>
+  <data name="BackupSettingsView_Export" xml:space="preserve">
+    <value>Export Settings</value>
+  </data>
+  <data name="BackupSettingsView_Import" xml:space="preserve">
+    <value>Import Settings</value>
+  </data>
   <data name="MainWindow_Load" xml:space="preserve">
     <value>Load</value>
   </data>
@@ -167,5 +191,38 @@
   </data>
   <data name="PluginManagerWindow_Title" xml:space="preserve">
     <value>Plugin Manager</value>
+  </data>
+  <data name="SettingsWindow_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SettingsWindow_SaveAndClose" xml:space="preserve">
+    <value>Save and Close</value>
+  </data>
+  <data name="SettingsWindow_Tab_Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="SettingsWindow_Tab_Backup" xml:space="preserve">
+    <value>Backup</value>
+  </data>
+  <data name="SettingsWindow_Tab_Hotfolder" xml:space="preserve">
+    <value>Hotfolder</value>
+  </data>
+  <data name="SettingsWindow_Tab_Logging" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="SettingsWindow_Title" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="BackupSettingsView_ExportFailed" xml:space="preserve">
+    <value>The Export failed, because no file was selected or the settings could not be loaded</value>
+  </data>
+  <data name="BackupSettingsView_ImportedSettingNotLoaded" xml:space="preserve">
+    <value>Could not load setting for import, please check the selected file</value>
+  </data>
+  <data name="BackupSettingsView_ExportingSettingWasSuccessful" xml:space="preserve">
+    <value>Exporting the settings was successful</value>
+  </data>
+  <data name="BackupSettingsView_ImportingSettingWasSuccessful" xml:space="preserve">
+    <value>Importing the setting was successful</value>
   </data>
 </root>

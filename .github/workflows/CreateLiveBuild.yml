@@ -6,56 +6,14 @@ on:
      - '*.*.*'
 
 jobs:
-   createWinFormsBuild:
-     name: Create Windows forms build
-     runs-on: windows-latest
-     steps:
-       - name: Clone repository
-         uses: actions/checkout@v2
-       - name: Get release tag
-         run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-       - name: Check release version
-         run: echo ${{ env.RELEASE_VERSION }}
-       - name: Install nuget
-         uses: nuget/setup-nuget@v1
-       - name: Nuget restore
-         run: nuget restore
-         shell: powershell
-       - name: Setup msbuild
-         uses: microsoft/setup-msbuild@v1.0.2
-       - name: Prepare version
-         run: echo ${{ env.RELEASE_VERSION }} | Out-File -FilePath .\src\XmlFormatter\Version.txt -Encoding utf8
-       - name: Check version file
-         run: Get-Content -Path .\src\XmlFormatter\Version.txt
-       - name: Build project
-         run: | 
-           msbuild .\src\XmlFormatter\XmlFormatter.csproj /t:Build /p:Configuration=Release
-           msbuild .\src\JsonPlugin\JsonPlugin.csproj /t:Build /p:Configuration=Release
-           msbuild .\src\CorePlugin\CorePlugin.csproj /t:Build /p:Configuration=Release
-         shell: powershell
-       - name: Move artifact files
-         run: |
-           mkdir upload-artifacts\
-           mkdir plugins\
-           mv .\src\CorePlugin\bin\Release\netstandard2.0\CorePlugin.dll plugins\
-           mv .\src\JsonPlugin\bin\Release\netstandard2.0\JsonPlugin.dll plugins\
-           mv .\src\JsonPlugin\bin\Release\netstandard2.0\Newtonsoft.Json.dll plugins\
-           mv .\src\XmlFormatter\bin\Release\** upload-artifacts\
-           mv LICENSE upload-artifacts\
-           mv README.md upload-artifacts\
-       - name: Upload build artifact
-         uses: actions/upload-artifact@v2
-         with:
-          name: WinFormBuildArtifact
-          path: |
-            upload-artifacts/
-            plugins/
    createAvaloniaBuildWindows:
      name: Create Avalonia build for Windows
      runs-on: windows-latest
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
@@ -93,6 +51,8 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
@@ -130,6 +90,8 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
@@ -161,37 +123,6 @@ jobs:
           path: |
             upload-artifacts/
             plugins/
-   createWinFormsZip:
-     name: Create WinForm zip
-     needs: ["createWinFormsBuild"]
-     runs-on: ubuntu-latest
-     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: WinFormBuildArtifact
-          path: dist
-      - name: Prepare Formatter
-        run: |
-           mkdir dist/upload-artifacts/Plugins
-           mv dist/plugins/CorePlugin.dll dist/upload-artifacts/Plugins
-      - name: Create zips
-        run: |
-           cd dist/upload-artifacts
-           zip -r LatestDevelopment_WinFormsXmlFormatter.zip .
-           cd ../plugins/
-           zip -r LatestDevelopment_WinFormsJsonPlugin.zip .
-      - name: Move artifact
-        run: |
-           mkdir upload-artifacts/
-           mv dist/upload-artifacts/LatestDevelopment_WinFormsXmlFormatter.zip upload-artifacts/
-           mv dist/plugins/LatestDevelopment_WinFormsJsonPlugin.zip upload-artifacts/
-      - name: Upload WinForms build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: WinFormZipArtifact
-          path: |
-            upload-artifacts/
    createAvaloniaZipWindows:
      name: Create Avalonia Windows zip
      needs: ["createAvaloniaBuildWindows"]
@@ -287,7 +218,7 @@ jobs:
             upload-artifacts/
    uploadRelease:
      name: Upload releases
-     needs: ["createWinFormsZip", "createAvaloniaZipWindows", "createAvaloniaZipLinux", "createAvaloniaZipDarwin"]
+     needs: ["createAvaloniaZipWindows", "createAvaloniaZipLinux", "createAvaloniaZipDarwin"]
      runs-on: ubuntu-latest
      steps:
       - name: Download artifacts
@@ -309,16 +240,6 @@ jobs:
           body: You cannot update this version from within the application!
           draft: true
           prerelease: true
-      - name: Upload WinForm XmlFormatter zip
-        id: upload-win-form-formatter-zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/WinFormZipArtifact/LatestDevelopment_WinFormsXmlFormatter.zip
-          asset_name: LatestDevelopment_WinFormsXmlFormatter.zip
-          asset_content_type: application/zip
       - name: Upload WinForm JsonPlugin zip
         id: upload-win-form-json-plugin-zip
         uses: actions/upload-release-asset@v1

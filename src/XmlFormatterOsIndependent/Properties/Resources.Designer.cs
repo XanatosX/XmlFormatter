@@ -61,6 +61,114 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ask before closing.
+        /// </summary>
+        public static string ApplicationSettingsView_AskBeforeClosing {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_AskBeforeClosing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does show a confirmation popup if enabled and you want to close the application.
+        /// </summary>
+        public static string ApplicationSettingsView_AskBeforeClosing_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_AskBeforeClosing_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for updates on startup.
+        /// </summary>
+        public static string ApplicationSettingsView_CheckForUpdateOnStartup {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_CheckForUpdateOnStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Does check if there is new version of the application available as soon as the application starts..
+        /// </summary>
+        public static string ApplicationSettingsView_CheckForUpdateOnStartup_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_CheckForUpdateOnStartup_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Theme to display the application with.
+        /// </summary>
+        public static string ApplicationSettingsView_Theme_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_Theme_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The updater used to download the update for the application..
+        /// </summary>
+        public static string ApplicationSettingsView_Updater_Tip {
+            get {
+                return ResourceManager.GetString("ApplicationSettingsView_Updater_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export Settings.
+        /// </summary>
+        public static string BackupSettingsView_Export {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Export failed, because no file was selected or the settings could not be loaded.
+        /// </summary>
+        public static string BackupSettingsView_ExportFailed {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ExportFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exporting the settings was successful.
+        /// </summary>
+        public static string BackupSettingsView_ExportingSettingWasSuccessful {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ExportingSettingWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Settings.
+        /// </summary>
+        public static string BackupSettingsView_Import {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not load setting for import, please check the selected file.
+        /// </summary>
+        public static string BackupSettingsView_ImportedSettingNotLoaded {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ImportedSettingNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importing the setting was successful.
+        /// </summary>
+        public static string BackupSettingsView_ImportingSettingWasSuccessful {
+            get {
+                return ResourceManager.GetString("BackupSettingsView_ImportingSettingWasSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load.
         /// </summary>
         public static string MainWindow_Load {
@@ -210,6 +318,69 @@ namespace XmlFormatterOsIndependent.Properties {
         public static string PluginManagerWindow_Title {
             get {
                 return ResourceManager.GetString("PluginManagerWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string SettingsWindow_Close {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save and Close.
+        /// </summary>
+        public static string SettingsWindow_SaveAndClose {
+            get {
+                return ResourceManager.GetString("SettingsWindow_SaveAndClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string SettingsWindow_Tab_Application {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Backup.
+        /// </summary>
+        public static string SettingsWindow_Tab_Backup {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Backup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotfolder.
+        /// </summary>
+        public static string SettingsWindow_Tab_Hotfolder {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Hotfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logging.
+        /// </summary>
+        public static string SettingsWindow_Tab_Logging {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Tab_Logging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string SettingsWindow_Title {
+            get {
+                return ResourceManager.GetString("SettingsWindow_Title", resourceCulture);
             }
         }
     }

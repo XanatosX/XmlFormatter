@@ -51,13 +51,14 @@ internal static class DepenendyInjectionExtensions
                          .AddSingleton<IPathService, PathService>()
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
-                         .AddSingleton<IDependecyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
+                         .AddSingleton<IDependencyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
                          .AddSingleton<IPersistentFactory, XmlProviderFactory>()
                          .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
                          .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()
                          .AddSingleton<IUrlService, HyperlinkAdapterUrlService>()
                          .AddSingleton<IThemeService, ThemeService>()
-                         .AddSingleton<ApplicationUpdateService>();
+                         .AddSingleton<ApplicationUpdateService>()
+                         .AddSingleton<SettingFacadeService>();
     }
 
     /// <summary>
@@ -70,7 +71,9 @@ internal static class DepenendyInjectionExtensions
         return collection.AddTransient<MainWindow>()
                          .AddTransient<PluginManagerWindow>()
                          .AddTransient<AboutWindow>()
-                         .AddTransient<SettingsWindow>();
+                         .AddTransient<SettingsWindow>()
+                         .AddTransient<ApplicationSettingsView>()
+                         .AddTransient<ApplicationSettingsBackupView>();
     }
 
     /// <summary>
@@ -83,6 +86,8 @@ internal static class DepenendyInjectionExtensions
         return collection.AddTransient<MainWindowViewModel>()
                          .AddTransient<PluginManagerViewModel>()
                          .AddTransient<AboutWindowViewModel>()
-                         .AddTransient<SettingsWindowViewModel>();
+                         .AddTransient<SettingsWindowViewModel>()
+                         .AddTransient<ApplicationSettingsViewModel>()
+                         .AddTransient<ApplicationSettingsBackupViewModel>();
     }
 }

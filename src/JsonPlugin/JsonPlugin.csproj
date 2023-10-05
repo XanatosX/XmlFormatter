@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
   </ItemGroup>
+
+  <Target Condition="'$(Configuration)' == 'Debug'" Name="CopyAfterBuild" AfterTargets="Build">
+		<Copy SourceFiles="$(OutDir)JsonPlugin.dll" DestinationFolder="$(ProjectDir)../XmlFormatterOsIndependent/bin/$(Configuration)/$(TargetFramework)/$(PlatformShortName)/plugins" SkipUnchangedFiles="false" />
+	</Target>
 
 </Project>

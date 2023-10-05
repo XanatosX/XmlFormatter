@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
+             x:Class="XmlFormatterOsIndependent.Views.ApplicationSettingsView">
+	<StackPanel>
+			<StackPanel Margin="5,0,0,0">
+				<CheckBox Margin="0,5,0,5" Content="{x:Static p:Resources.ApplicationSettingsView_AskBeforeClosing}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_AskBeforeClosing_Tip}" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
+				<ComboBox Margin="0,0,5,5" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Theme_Tip}" Items="{Binding Themes}" SelectedItem="{Binding SelectedTheme}"/>
+			</StackPanel>
+			<StackPanel Margin="5,0,5,0">
+				<CheckBox Margin="0,5,0,5" Content="{x:Static p:Resources.ApplicationSettingsView_CheckForUpdateOnStartup}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_CheckForUpdateOnStartup_Tip}" IsChecked="{Binding CheckUpdateOnStart}"></CheckBox>
+				<ComboBox Margin="0,0,0,5" Items="{Binding AvailableUpdaters}" SelectedItem="{Binding Updater}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Updater_Tip}"/>
+			</StackPanel>
+	</StackPanel>
+</UserControl>
