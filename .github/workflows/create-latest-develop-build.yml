@@ -175,7 +175,7 @@ jobs:
   create-release:
     name: Create GitHub Release
     if: needs.check-for-changes.outputs.should-run == 'true' 
-    needs: ["create-linux-build", "create-windows-build"]
+    needs: ["create-linux-build", "create-windows-build", "create-darwin-build"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
