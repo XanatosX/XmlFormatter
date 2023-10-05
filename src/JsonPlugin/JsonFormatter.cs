@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
-using PluginFramework.DataContainer;
+﻿using PluginFramework.DataContainer;
 using PluginFramework.Formatter;
 using System;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace JsonPlugin
@@ -34,14 +34,14 @@ namespace JsonPlugin
         /// <inheritdoc/>
         public override bool ConvertToFlat(string filePath, string outputName)
         {
-            FormatFile(filePath, outputName, Formatting.None);
+            FormatFile(filePath, outputName, false);
             return true;
         }
 
         /// <inheritdoc/>
         public override bool ConvertToFormatted(string filePath, string outputName)
         {
-            FormatFile(filePath, outputName, Formatting.Indented);
+            FormatFile(filePath, outputName, true);
             return true;
         }
 
@@ -51,7 +51,7 @@ namespace JsonPlugin
         /// <param name="inputFilePath">The input file to convert</param>
         /// <param name="outputName">The output file to generate</param>
         /// <param name="options">The save options to use</param>
-        private async void FormatFile(string inputFilePath, string outputName, Formatting formatting)
+        private async void FormatFile(string inputFilePath, string outputName, bool Indent)
         {
             if (!IsFileReadableWriteable(inputFilePath, outputName))
             {
@@ -60,13 +60,12 @@ namespace JsonPlugin
             }
 
             FireEvent("Loading", "Loading ...");
-            object data = await Task<object>.Run(() =>
+            dynamic? data = await Task.Run(() =>
             {
-                object returnData = null;
+                dynamic? returnData = null;
                 try
                 {
-
-                    returnData = JsonConvert.DeserializeObject(File.ReadAllText(inputFilePath));
+                    returnData = JsonSerializer.Deserialize<dynamic>(File.ReadAllText(inputFilePath));
                 }
                 catch (Exception)
                 {
@@ -76,7 +75,7 @@ namespace JsonPlugin
                 return returnData;
             });
 
-            if (data == null)
+            if (data is null)
             {
                 return;
             }
@@ -86,7 +85,7 @@ namespace JsonPlugin
             {
                 try
                 {
-                    string writeableData = JsonConvert.SerializeObject(data, formatting);
+                    string writeableData = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
                     File.WriteAllText(outputName, writeableData);
                     return true;
                 }

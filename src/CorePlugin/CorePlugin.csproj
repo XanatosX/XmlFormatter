@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,5 +18,9 @@
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
   </ItemGroup>
+
+  <Target Condition="'$(Configuration)' == 'Debug'" Name="CopyAfterBuild" AfterTargets="Build">
+		<Copy SourceFiles="$(OutDir)CorePlugin.dll" DestinationFolder="$(ProjectDir)../XmlFormatterOsIndependent/bin/$(Configuration)/$(TargetFramework)/$(PlatformShortName)/plugins" SkipUnchangedFiles="false" />
+	</Target>
 
 </Project>
