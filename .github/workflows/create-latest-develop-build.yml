@@ -209,7 +209,7 @@ jobs:
           zip -r $DARWIN_ARTIFACT_NAME.zip ./*
           mv $DARWIN_ARTIFACT_NAME.zip ../
           rm -rf ./../$DARWIN_ARTIFACT_NAME
-      - name: display artifacts folder content
+      - name: Display artifacts folder content
         if: ${{ env.DEBUG == 'true' }}
         run: ls -la $RELEASE_ARTIFACT_FOLDER
       - name: Create release and upload artifacts (DEBUG)
