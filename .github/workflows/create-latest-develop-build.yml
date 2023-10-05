@@ -163,7 +163,7 @@ jobs:
     - name: Publish Plugin
       run: dotnet publish ${{ env.APPLICATION_CORE_PLUGIN_PROJECT_PATH }} -r osx-x64 -c Release -o ${{ env.PLUGIN_PUBLISH_FOLDER }} /p:DebugType=None /p:DebugSymbols=false -p:Version=0.0.0
     - name: Publish JSON Plugin
-      run: dotnet publish ${{ env.APPLICATION_CORE_PLUGIN_PROJECT_PATH }} -r osx-x64 -c Release -o ${{ env.PLUGIN_PUBLISH_FOLDER }} /p:DebugType=None /p:DebugSymbols=false -p:Version=0.0.0
+      run: dotnet publish ${{ env.APPLICATION_JSON_PLUGIN_PROJECT_PATH }} -r osx-x64 -c Release -o ${{ env.PLUGIN_PUBLISH_FOLDER }} /p:DebugType=None /p:DebugSymbols=false -p:Version=0.0.0
     - name: Show content for debug
       if: ${{ env.DEBUG == 'true' }}
       run: ls
