@@ -12,6 +12,8 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
@@ -49,6 +51,8 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
@@ -86,6 +90,8 @@ jobs:
      steps:
        - name: Clone repository
          uses: actions/checkout@v2
+         with:
+          lfs: true
        - name: Get release tag
          run: echo "RELEASE_VERSION=$(($env:GITHUB_REF -split '/')[-1] -replace ' ','')" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
        - name: Check release version
