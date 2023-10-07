@@ -7,10 +7,12 @@ namespace XmlFormatter.Infrastructure.Repositories;
 public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, new()
 {
     private readonly SettingsOptions settingsOptions;
+    private readonly JsonSerializerOptions options;
 
-    public JsonSettingRepository(SettingsOptions settingsOptions)
+    public JsonSettingRepository(SettingsOptions settingsOptions, JsonSerializerOptions options)
     {
         this.settingsOptions = settingsOptions;
+        this.options = options;
     }
 
     public T? CreateOrLoad()
@@ -35,7 +37,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         {
             try
             {
-                returnData = JsonSerializer.Deserialize<T>(fileStream);
+                returnData = JsonSerializer.Deserialize<T>(fileStream, options);
 
             }
             catch (System.Exception)
@@ -61,7 +63,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         {
             using (FileStream fileStream = new FileStream(settingsOptions.GetSettingPath(), FileMode.Create, FileAccess.Write))
             {
-                JsonSerializer.Serialize(fileStream, settings);
+                JsonSerializer.Serialize(fileStream, settings, options);
             }
         }
         catch (System.Exception ex)

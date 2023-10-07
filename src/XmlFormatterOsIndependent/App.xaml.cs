@@ -11,6 +11,8 @@ using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;
 using XmlFormatter.Application;
 using XmlFormatter.Infrastructure;
+using System.Text.Json;
+using XmlFormatterOsIndependent.Serializer;
 
 namespace XmlFormatterOsIndependent
 {
@@ -54,13 +56,19 @@ namespace XmlFormatterOsIndependent
         /// <returns>A useable service collection</returns>
         private IServiceCollection CreateServiceCollection()
         {
-            return new ServiceCollection().AddInfrastructure()
-                                          .AddApplication()
-                                          .AddConfigurations()
-                                          .AddPluginFramework()
-                                          .AddServices()
-                                          .AddViews()
-                                          .AddViewModels();
+            var collection = new ServiceCollection().AddApplication()
+                                                    .AddConfigurations()
+                                                    .AddPluginFramework()
+                                                    .AddConverters()
+                                                    .AddServices()
+                                                    .AddViews()
+                                                    .AddViewModels();
+
+            var provider = collection.BuildServiceProvider();
+            
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(provider.GetRequiredService<PluginMetaDataSerializer>());
+            return collection.AddInfrastructure(options);
         }
 
         public override void OnFrameworkInitializationCompleted()

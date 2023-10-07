@@ -10,6 +10,7 @@ using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
 using XMLFormatterModel.Setting.InputOutput;
+using XmlFormatterOsIndependent.Serializer;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Update;
 using XmlFormatterOsIndependent.ViewModels;
@@ -22,6 +23,11 @@ namespace XmlFormatterOsIndependent.DependencyInjection;
 /// </summary>
 internal static class DependencyInjectionExtensions
 {
+    public static IServiceCollection AddConverters(this IServiceCollection collection)
+    {
+        return collection.AddSingleton<PluginMetaDataSerializer>();
+    }
+
     public static IServiceCollection AddConfigurations(this IServiceCollection collection)
     {
         return collection.AddSingleton(_ => {
