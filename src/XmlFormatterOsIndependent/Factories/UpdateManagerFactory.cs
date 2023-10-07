@@ -33,8 +33,8 @@ namespace XmlFormatterOsIndependent.Update
             {
                 manager = new VersionManager(
                 new DefaultStringConvertStrategy(),
-                new LocalVersionRecieverStrategy(),
-                new GitHubVersionRecieverStrategy());
+                new LocalVersionReceiverStrategy(),
+                new GitHubVersionReceiverStrategy());
             }
             return manager;
         }

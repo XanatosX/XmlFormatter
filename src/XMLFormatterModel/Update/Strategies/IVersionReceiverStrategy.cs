@@ -8,17 +8,17 @@ namespace XmlFormatterModel.Update.Strategies
 {
 
     /// <summary>
-    /// Interface to recieve version from different sources
+    /// Interface to receive version from different sources
     /// </summary>
-    public interface IVersionRecieverStrategy
+    public interface IVersionReceiverStrategy
     {
         /// <summary>
-        /// Event if there was any error while reciving the version
+        /// Event if there was any error while receiving the version
         /// </summary>
         event EventHandler<BaseEventArgs> Error;
 
         /// <summary>
-        /// The scope for the reciever strategy
+        /// The scope for the receiver strategy
         /// </summary>
         ScopeEnum Scope { get; }
 

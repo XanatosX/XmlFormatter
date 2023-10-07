@@ -23,10 +23,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Create a new instance of this class
         /// </summary>
         /// <inheritdoc>
-        public AboutWindowViewModel(IEnumerable<IVersionRecieverStrategy> recieverStrategies)
+        public AboutWindowViewModel(IEnumerable<IVersionReceiverStrategy> receiverStrategies)
         {
-            IVersionRecieverStrategy? localVersionRecieverStrategy = recieverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
-            Task<Version>? versionTask = localVersionRecieverStrategy?.GetVersionAsync(new DefaultStringConvertStrategy());
+            IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
+            Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(new DefaultStringConvertStrategy());
             versionTask?.Wait();
 
             Version version = versionTask?.Result ?? new Version(0, 0, 0, 0);

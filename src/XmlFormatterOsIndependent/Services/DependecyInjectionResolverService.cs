@@ -7,7 +7,7 @@ namespace XmlFormatterOsIndependent.Services;
 /// <summary>
 /// Service to resolve dependencies
 /// </summary>
-public class DependecyInjectionResolverService : IDependencyInjectionResolverService
+public class DependencyInjectionResolverService : IDependencyInjectionResolverService
 {
     /// <summary>
     /// THe internal service provider 
@@ -18,7 +18,7 @@ public class DependecyInjectionResolverService : IDependencyInjectionResolverSer
     /// Create a new instance of the service
     /// </summary>
     /// <param name="provider">The internal provider used for the requests</param>
-    public DependecyInjectionResolverService(IServiceProvider provider)
+    public DependencyInjectionResolverService(IServiceProvider provider)
     {
         this.provider = provider;
     }

@@ -53,7 +53,7 @@ namespace XmlFormatterOsIndependent
         /// <returns>A useable service collection</returns>
         private IServiceCollection CreateServiceCollection()
         {
-            return new ServiceCollection().AddPluginFramwork()
+            return new ServiceCollection().AddPluginFramework()
                                           .AddServices()
                                           .AddViews()
                                           .AddViewModels();

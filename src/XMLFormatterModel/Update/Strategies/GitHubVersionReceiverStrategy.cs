@@ -13,7 +13,7 @@ namespace XmlFormatterModel.Update.Strategies
     /// <summary>
     /// Get the newest version from GitHub
     /// </summary>
-    public class GitHubVersionRecieverStrategy : IVersionRecieverStrategy
+    public class GitHubVersionReceiverStrategy : IVersionReceiverStrategy
     {
         /// <inheritdoc/>
         public ScopeEnum Scope => ScopeEnum.Remote;
@@ -29,7 +29,7 @@ namespace XmlFormatterModel.Update.Strategies
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        public GitHubVersionRecieverStrategy()
+        public GitHubVersionReceiverStrategy()
         {
             regex = new Regex(@"([0-9]{1,}.[0-9]{1,}.[0-9]{1,})");
         }

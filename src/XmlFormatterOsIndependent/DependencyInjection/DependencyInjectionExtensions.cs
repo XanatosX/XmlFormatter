@@ -17,14 +17,14 @@ namespace XmlFormatterOsIndependent.DependencyInjection;
 /// <summary>
 /// Extension class to provide methods for dependency injection
 /// </summary>
-internal static class DepenendyInjectionExtensions
+internal static class DependencyInjectionExtensions
 {
     /// <summary>
     /// Add all the plugins required from the framework
     /// </summary>
     /// <param name="collection">The collection to add the dependencies to</param>
     /// <returns>An extended collection</returns>
-    public static IServiceCollection AddPluginFramwork(this IServiceCollection collection)
+    public static IServiceCollection AddPluginFramework(this IServiceCollection collection)
     {
         return collection.AddSingleton<IPluginManager, DefaultManager>()
                          .AddSingleton<IPluginLoadStrategy, PluginFolder>();
@@ -40,18 +40,18 @@ internal static class DepenendyInjectionExtensions
         return collection.AddSingleton<ISettingsManager, SettingsManager>()
                          .AddSingleton<IVersionManager, VersionManager>(provider =>
                          {
-                             var dataSet = provider.GetServices<IVersionRecieverStrategy>();
-                             IVersionRecieverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionRecieverStrategy);
-                             IVersionRecieverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionRecieverStrategy); ;
+                             var dataSet = provider.GetServices<IVersionReceiverStrategy>();
+                             IVersionReceiverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionReceiverStrategy);
+                             IVersionReceiverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionReceiverStrategy); ;
                              return new VersionManager(provider.GetRequiredService<IVersionConvertStrategy>(), localVersion, remoteVersion);
                          })
                          .AddSingleton<IVersionConvertStrategy, DefaultStringConvertStrategy>()
-                         .AddSingleton<IVersionRecieverStrategy, LocalVersionRecieverStrategy>()
-                         .AddSingleton<IVersionRecieverStrategy, GitHubVersionRecieverStrategy>()
+                         .AddSingleton<IVersionReceiverStrategy, LocalVersionReceiverStrategy>()
+                         .AddSingleton<IVersionReceiverStrategy, GitHubVersionReceiverStrategy>()
                          .AddSingleton<IPathService, PathService>()
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
-                         .AddSingleton<IDependencyInjectionResolverService, DependecyInjectionResolverService>(provider => new DependecyInjectionResolverService(provider))
+                         .AddSingleton<IDependencyInjectionResolverService, DependencyInjectionResolverService>(provider => new DependencyInjectionResolverService(provider))
                          .AddSingleton<IPersistentFactory, XmlProviderFactory>()
                          .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
                          .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()

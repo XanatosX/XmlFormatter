@@ -12,7 +12,7 @@ namespace XmlFormatterModel.Update.Adapter
     /// <summary>
     /// Implementation of the version reciever strategy to get the local version of the application
     /// </summary>
-    public abstract class LocalResourceVersionReciever : IVersionRecieverStrategy
+    public abstract class LocalResourceVersionReceiver : IVersionReceiverStrategy
     {
         /// <inheritdoc/>
         public ScopeEnum Scope => ScopeEnum.Local;

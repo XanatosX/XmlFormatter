@@ -17,14 +17,14 @@ namespace XmlFormatterModel.Update
         private readonly IVersionConvertStrategy versionConvert;
 
         /// <summary>
-        /// The reciever to get the local version
+        /// The receiver to get the local version
         /// </summary>
-        private readonly IVersionRecieverStrategy localReciever;
+        private readonly IVersionReceiverStrategy localReciever;
 
         /// <summary>
-        /// The reciever to get the remote version
+        /// The receiver to get the remote version
         /// </summary>
-        private readonly IVersionRecieverStrategy remoteReciever;
+        private readonly IVersionReceiverStrategy remoteReciever;
 
         /// <summary>
         /// Error event if something went wrong
@@ -37,7 +37,7 @@ namespace XmlFormatterModel.Update
         /// <param name="versionConvert">The strategy to use for version class to string converting</param>
         /// <param name="localReciever">The reciever to use to get local version</param>
         /// <param name="remoteReciever">The reciever to use to get remote version</param>
-        public VersionManager(IVersionConvertStrategy versionConvert, IVersionRecieverStrategy localReciever, IVersionRecieverStrategy remoteReciever)
+        public VersionManager(IVersionConvertStrategy versionConvert, IVersionReceiverStrategy localReciever, IVersionReceiverStrategy remoteReciever)
         {
             this.versionConvert = versionConvert;
             this.localReciever = localReciever;
