@@ -23,7 +23,7 @@ internal static class DependencyInjection
                          {
                              var dataSet = provider.GetServices<IVersionReceiverStrategy>();
                              IVersionReceiverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionReceiverStrategy);
-                             IVersionReceiverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionReceiverStrategy); ;
+                             IVersionReceiverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionReceiverStrategy);
                              return new VersionManager(provider.GetRequiredService<IVersionConvertStrategy>(), localVersion, remoteVersion);
                          })
                          .AddSingleton<IVersionConvertStrategy, DefaultStringConvertStrategy>()
