@@ -6,112 +6,61 @@ namespace XMLFormatterModel.Hotfolder
     /// <summary>
     /// This class is a default hotfolder configuration
     /// </summary>
-    public class HotfolderContainer : IHotfolder
+    public class Hotfolder
     {
-        /// <inheritdoc/>
-        public ModesEnum Mode
-        {
-            get => mode;
-            set => mode = value;
-        }
-
         /// <summary>
-        /// The mode to use for formatting
+        /// The mode to use for this hotfolder
         /// </summary>
-        private ModesEnum mode;
-
-        /// <inheritdoc/>
-        public IFormatter FormatterToUse => formatterToUse;
+        public ModesEnum Mode { get; set; }
 
         /// <summary>
         /// The formatter to use
         /// </summary>
-        private readonly IFormatter formatterToUse;
-
-        /// <inheritdoc/>
-        public string WatchedFolder
-        {
-            get => watchedFolder;
-            set => watchedFolder = value;
-        }
+        public IFormatter FormatterToUse { get; }
 
         /// <summary>
-        /// The folder which is getting watched
+        /// The folder to watch
         /// </summary>
-        private string watchedFolder;
-
-        /// <inheritdoc/>
-        public string Filter
-        {
-            get => filter;
-            set => filter = value;
-        }
+        public string WatchedFolder { get; set; }
 
         /// <summary>
-        /// The filter to use in the watched folder
+        /// The filter to use for the input files
         /// </summary>
-        private string filter;
-
-        /// <inheritdoc/>
-        public string OutputFolder
-        {
-            get => outputFolder;
-            set => outputFolder = value;
-        }
+        public string Filter { get; set; }
 
         /// <summary>
-        /// The output folder to save the new file in
+        /// The folder to write the output to
         /// </summary>
-        private string outputFolder;
-
-        /// <inheritdoc/>
-        public string OutputFileScheme
-        {
-            get => outputFileScheme;
-            set => outputFileScheme = value;
-        }
+        public string OutputFolder { get; set; }
 
         /// <summary>
-        /// The scheme of the output file
+        /// The scheme of the output file name
         /// </summary>
-        private string outputFileScheme;
-
-        /// <inheritdoc/>
-        public bool OnRename
-        {
-            get => onRename;
-            set => onRename = value;
-        }
+        public string OutputFileScheme { get; set; }
 
         /// <summary>
-        /// Should we trigger on rename as well
+        /// Should be triggered on rename as well
         /// </summary>
-        private bool onRename;
-
-        /// <inheritdoc/>
-        public bool RemoveOld
-        {
-            get => removeOld;
-            set => removeOld = value;
-        }
+        public bool OnRename { get; set; }
 
         /// <summary>
-        /// Should we delete the old file
+        /// Should we keep the input file
         /// </summary>
-        private bool removeOld;
+        public bool RemoveOld { get; set; }
+
 
         /// <summary>
         /// Create a new instance of the hotfolder configuration
         /// </summary>
         /// <param name="formatter">The formatter class to use</param>
         /// <param name="watchedFolder">The hotfolder to watch</param>
-        public HotfolderContainer(IFormatter formatter, string watchedFolder)
+        public Hotfolder(IFormatter formatter, string watchedFolder)
         {
-            formatterToUse = formatter;
-            this.watchedFolder = watchedFolder;
-            filter = "*.*";
-            outputFolder = this.watchedFolder + "\\output";
-            outputFileScheme = "{inputfile}_{format}.{extension}";
+            FormatterToUse = formatter;
+            WatchedFolder = watchedFolder;
+            Filter = "*.*";
+            OutputFolder = WatchedFolder + "\\output";
+            OutputFileScheme = "{inputfile}_{format}.{extension}";
         }
     }
 }
