@@ -6,6 +6,7 @@ using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XmlFormatter.Application;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
@@ -50,16 +51,15 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
     [ObservableProperty]
     private bool checkUpdateOnStart;
     private readonly IThemeService themeService;
-    private readonly SettingFacadeService settingFacadeService;
+    private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
     public ApplicationSettingsViewModel(
             IThemeService themeService,
             IPluginManager pluginManager,
-            SettingFacadeService settingFacadeService)
+            ISettingsRepository<ApplicationSettings> settingsRepository)
     {
         this.themeService = themeService;
-        this.settingFacadeService = settingFacadeService;
-
+        this.settingsRepository = settingsRepository;
         AvailableUpdaters = pluginManager.ListPlugins<IUpdateStrategy>()
                                          .OfType<PluginMetaData>()
                                          .Select(entry => new PluginMetaDataViewModel(entry))
@@ -78,7 +78,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             }
         };
 
-        SetSettingsFromApplicationSetting(settingFacadeService.GetSettings(true) ?? new ApplicationSettings());
+        SetSettingsFromApplicationSetting(settingsRepository.CreateOrLoad() ?? new ApplicationSettings());
 
         WeakReferenceMessenger.Default.Register<SettingsImportedMessage>(this, (_, data) => SetSettingsFromApplicationSetting(data.Value));
         WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, _) => SaveSettings());
@@ -108,8 +108,12 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
     /// </summary>
     private void SaveSettings()
     {
-        settingFacadeService.UpdateSettings(settings =>
+        var updatedSettings = settingsRepository.Update(settings =>
         {
+            if (settings is null)
+            {
+                return;
+            }
             settings.AskBeforeClosing = AskBeforeClosing;
             settings.CheckForUpdatesOnStartup = CheckUpdateOnStart;
             ThemeEnum currentTheme = ThemeEnum.Light;
@@ -118,7 +122,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             settings.Updater = Updater?.MetaData;
         });
 
-        ThemeEnum themeToUse = settingFacadeService.GetSettings()?.Theme ?? ThemeEnum.Light;
+        ThemeEnum themeToUse = updatedSettings?.Theme ?? ThemeEnum.Light;
         themeService.ChangeTheme(themeToUse);
     }
 
