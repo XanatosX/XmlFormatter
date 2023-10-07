@@ -40,7 +40,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
     private string selectedTheme;
 
     /// <summary>
-    /// Private acces for ask before closing setting
+    /// Private access for ask before closing setting
     /// </summary>
     [ObservableProperty]
     private bool askBeforeClosing;
@@ -77,7 +77,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
                 themeService.ChangeTheme(currentTheme);
             }
         };
-
+        SelectedTheme = ThemeEnum.Light.ToString();
         SetSettingsFromApplicationSetting(settingsRepository.CreateOrLoad() ?? new ApplicationSettings());
 
         WeakReferenceMessenger.Default.Register<SettingsImportedMessage>(this, (_, data) => SetSettingsFromApplicationSetting(data.Value));

@@ -17,7 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using XmlFormatter.Application;
-using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
@@ -31,7 +30,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    public partial class MainWindowViewModel : ObservableObject
+    internal partial class MainWindowViewModel : ObservableObject
     {
         /// <summary>
         /// The modes you could convert to
@@ -84,6 +83,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
 
+        /// <summary>
+        /// The repository to use for loading application settings
+        /// </summary>
         private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
         /// <summary>
@@ -111,14 +113,17 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private readonly IWindowApplicationService applicationService;
 
-
         /// <summary>
         /// Create a new instance of this main window viewer
         /// </summary>
-        /// <param name="view">The view of this model</param>
-        /// <param name="settingsManager">The settings manager to use</param>
+        /// <param name="settingsRepository">The settings repository to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        internal MainWindowViewModel(ISettingsRepository<ApplicationSettings> settingsRepository,
+        /// <param name="versionManager">The version manager to use</param>
+        /// <param name="updateService">The update service to use</param>
+        /// <param name="interactionService">The interaction service to use</param>
+        /// <param name="applicationService">The application service to use</param>
+        /// <param name="themeService">The theme service to use</param>
+        public MainWindowViewModel(ISettingsRepository<ApplicationSettings> settingsRepository,
                                      IPluginManager pluginManager,
                                      IVersionManager versionManager,
                                      ApplicationUpdateService updateService,
@@ -197,7 +202,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFile = data ?? CurrentFile;
         }
 
-        private static FileDialogFilter CreatePluginFileFilter(IFormatter? plugin)
+        private static FileDialogFilter CreatePluginFileFilter(IFormatter plugin)
         {
             return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
         }
