@@ -4,12 +4,13 @@ using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Runtime.InteropServices;
 using XmlFormatterOsIndependent.DependencyInjection;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;
+using XmlFormatter.Application;
+using XmlFormatter.Infrastructure;
 
 namespace XmlFormatterOsIndependent
 {
@@ -53,7 +54,10 @@ namespace XmlFormatterOsIndependent
         /// <returns>A useable service collection</returns>
         private IServiceCollection CreateServiceCollection()
         {
-            return new ServiceCollection().AddPluginFramework()
+            return new ServiceCollection().AddInfrastructure()
+                                          .AddApplication()
+                                          .AddConfigurations()
+                                          .AddPluginFramework()
                                           .AddServices()
                                           .AddViews()
                                           .AddViewModels();

@@ -6,7 +6,7 @@
     public interface IPersistentFactory
     {
         /// <summary>
-        /// Create and return the loading prodiver to use
+        /// Create and return the loading provider to use
         /// </summary>
         /// <returns>A loading provider which can be used to load files</returns>
         ISettingLoadProvider CreateLoader();

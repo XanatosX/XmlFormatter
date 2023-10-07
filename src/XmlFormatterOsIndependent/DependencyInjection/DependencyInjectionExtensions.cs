@@ -2,7 +2,10 @@
 using PluginFramework.Interfaces.Manager;
 using PluginFramework.LoadStrategies;
 using PluginFramework.Manager;
+using System;
+using System.IO;
 using System.Linq;
+using XmlFormatter.Infrastructure.Configuration;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
@@ -19,6 +22,14 @@ namespace XmlFormatterOsIndependent.DependencyInjection;
 /// </summary>
 internal static class DependencyInjectionExtensions
 {
+    public static IServiceCollection AddConfigurations(this IServiceCollection collection)
+    {
+        return collection.AddSingleton(_ => {
+            string settingsPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            return new SettingsOptions(Path.Combine(settingsPath, "XmlFormatter"), "settings.json");
+        });
+    }
+
     /// <summary>
     /// Add all the plugins required from the framework
     /// </summary>

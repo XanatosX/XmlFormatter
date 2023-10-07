@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace XmlFormatterModel.Setting
 {
     /// <summary>
     /// This class is the default settings manager
     /// </summary>
+    [Obsolete("Please use the repository Instead")]
     public class SettingsManager : ISettingsManager
     {
         /// <summary>

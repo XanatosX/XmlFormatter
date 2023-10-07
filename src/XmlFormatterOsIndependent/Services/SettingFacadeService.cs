@@ -12,6 +12,7 @@ namespace XmlFormatterOsIndependent.Services;
 /// <summary>
 /// Facade class to simplify working with the fixed application settings
 /// </summary>
+[Obsolete("User the settings repository instead")]
 internal class SettingFacadeService
 {
     /// <summary>

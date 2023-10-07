@@ -11,20 +11,20 @@ internal class ApplicationSettings
     /// <summary>
     /// Should we check for updates on startup
     /// </summary>
-    public bool CheckForUpdatesOnStartup;
+    public bool CheckForUpdatesOnStartup { get; set; }
 
     /// <summary>
     /// Show a confirmation dialog if the application is getting closed
     /// </summary>
-    public bool AskBeforeClosing;
+    public bool AskBeforeClosing { get; set; }
 
     /// <summary>
     /// The current updater to use with the application
     /// </summary>
-    public PluginMetaData? Updater;
+    public PluginMetaData? Updater { get; set; }
 
     /// <summary>
     /// The current theme for the application
     /// </summary>
-    public ThemeEnum Theme;
+    public ThemeEnum Theme { get; set; }
 }
