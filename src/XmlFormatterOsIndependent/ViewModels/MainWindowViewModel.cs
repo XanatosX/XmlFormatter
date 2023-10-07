@@ -16,9 +16,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using XmlFormatter.Application;
 using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
@@ -82,10 +84,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
 
-        /// <summary>
-        /// The settings manager to use
-        /// </summary>
-        private readonly ISettingsManager settingsManager;
+        private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
         /// <summary>
         /// The plugin manager used for loading the data
@@ -119,16 +118,15 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="view">The view of this model</param>
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public MainWindowViewModel(ISettingsManager settingsManager,
-                                   IPluginManager pluginManager,
-                                   IVersionManager versionManager,
-                                   ApplicationUpdateService updateService,
-                                   IPathService pathService,
-                                   IIOInteractionService interactionService,
-                                   IWindowApplicationService applicationService,
-                                   IThemeService themeService)
+        internal MainWindowViewModel(ISettingsRepository<ApplicationSettings> settingsRepository,
+                                     IPluginManager pluginManager,
+                                     IVersionManager versionManager,
+                                     ApplicationUpdateService updateService,
+                                     IIOInteractionService interactionService,
+                                     IWindowApplicationService applicationService,
+                                     IThemeService themeService)
         {
-            this.settingsManager = settingsManager;
+            this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
             this.versionManager = versionManager;
             this.updateService = updateService;
@@ -141,15 +139,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                   .Select(item => new ModeSelection(item.ToString(), item))
                                   .ToList();
 
-            if (!File.Exists(pathService.GetSettingsFile()))
-            {
-                settingsManager.Save(pathService.GetSettingsFile());
-            }
-            settingsManager.Load(pathService.GetSettingsFile());
-            var settings = settingsManager.GetScope("Default");
-            string themeString = settings?.GetSetting("Theme")?.GetValue<string>() ?? ThemeEnum.Light.ToString();
-            Enum.TryParse(themeString, out ThemeEnum value);
-            themeService.ChangeTheme(value);
+            var settingFile = settingsRepository.CreateOrLoad();
+            themeService.ChangeTheme(settingFile?.Theme ?? ThemeEnum.Light);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
