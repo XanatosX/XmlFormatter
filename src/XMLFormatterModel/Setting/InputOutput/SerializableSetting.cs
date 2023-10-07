@@ -16,7 +16,7 @@
         public string Value;
 
         /// <summary>
-        /// Public access to the type the value should be castet to
+        /// Public access to the type the value should be casted to
         /// </summary>
         public string Type;
     }

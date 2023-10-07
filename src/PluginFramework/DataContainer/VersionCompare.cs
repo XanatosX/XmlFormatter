@@ -6,13 +6,13 @@ using XmlFormatterModel.Update;
 namespace PluginFramework.DataContainer
 {
     /// <summary>
-    /// This data container class which will combine different informations.
+    /// This data container class which will combine different information.
     /// This class will tell you which version is newer and what versions are present
     /// </summary>
     public class VersionCompare
     {
         /// <summary>
-        /// Readonly acces if the GitHub version is newer
+        /// Readonly access if the GitHub version is newer
         /// </summary>
         public bool GitHubIsNewer { get; }
 

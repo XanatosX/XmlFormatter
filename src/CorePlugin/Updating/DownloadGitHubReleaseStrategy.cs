@@ -10,7 +10,7 @@ using XmlFormatterModel.Update;
 namespace CorePlugin.Updating
 {
     /// <summary>
-    /// This class descripes the download from GitHub strategy
+    /// This class describes the download from GitHub strategy
     /// </summary>
     class DownloadGitHubReleaseStrategy : BaseUpdate
     {
@@ -39,8 +39,8 @@ namespace CorePlugin.Updating
                 foreach (IReleaseAsset release in versionInformation.Assets.FindAll(assetFilter))
                 {
                     string localFile = tempFolder;
-                    string[] splittet = release.DownloadUrl.Split('/');
-                    localFile += splittet.Last();
+                    string[] splitted = release.DownloadUrl.Split('/');
+                    localFile += splitted.Last();
                     if (File.Exists(localFile))
                     {
                         try

@@ -3,7 +3,7 @@
 namespace PluginFramework.Interfaces.PluginTypes
 {
     /// <summary>
-    /// Represents the overhead of a plugin this interface needs to be extend for all managable plugins
+    /// Represents the overhead of a plugin this interface needs to be extend for all manageable plugins
     /// </summary>
     public interface IPluginOverhead
     {

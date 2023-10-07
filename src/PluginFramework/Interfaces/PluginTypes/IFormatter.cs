@@ -37,7 +37,7 @@ namespace PluginFramework.Interfaces.PluginTypes
         bool ConvertToFlat(string filePath, string outputName);
 
         /// <summary>
-        /// Convert the given file to a formattet format
+        /// Convert the given file to a formatted format
         /// </summary>
         /// <param name="filePath">The path to the file to convert</param>
         /// <param name="outputName">The path to the output file</param>

@@ -62,7 +62,7 @@ namespace PluginFramework.LoadStrategies
                 }
                 catch (Exception)
                 {
-                    //We just try to instanciate the plugin otherwise we ignore it and don't add it to the list
+                    //We just try to instantiate the plugin otherwise we ignore it and don't add it to the list
                 }
             }
             return returnList;

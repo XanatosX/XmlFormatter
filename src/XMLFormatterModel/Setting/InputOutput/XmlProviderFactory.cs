@@ -3,7 +3,7 @@
 namespace XMLFormatterModel.Setting.InputOutput
 {
     /// <summary>
-    /// Return classes for xml serialisation
+    /// Return classes for xml serialization
     /// </summary>
     public class XmlProviderFactory : IPersistentFactory
     {

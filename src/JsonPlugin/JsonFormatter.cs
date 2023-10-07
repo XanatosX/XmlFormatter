@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace JsonPlugin
 {
     /// <summary>
-    /// A foramtter to convert json files
+    /// A formatter to convert json files
     /// </summary>
     public class JsonFormatter : BaseFormatter
     {

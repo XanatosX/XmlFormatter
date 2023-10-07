@@ -30,7 +30,7 @@ namespace PluginFramework.Update
         }
 
         /// <summary>
-        /// Create a new intsance of this base plugin calss
+        /// Create a new instance of this base plugin class
         /// </summary>
         /// <param name="information">The plugin information to use</param>
         public BaseUpdate(PluginInformation information)
@@ -48,7 +48,7 @@ namespace PluginFramework.Update
         public abstract bool Update(VersionCompare versionInformation, Predicate<IReleaseAsset> assetFilter);
 
         /// <summary>
-        /// Method to load information from an resource embeeded into the plugin
+        /// Method to load information from an resource embedded into the plugin
         /// </summary>
         /// <param name="resourcePath">The path to the embedded resource</param>
         /// <returns>The content of the resource or an empty string if nothing was found</returns>

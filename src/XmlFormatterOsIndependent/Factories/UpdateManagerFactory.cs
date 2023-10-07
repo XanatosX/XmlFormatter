@@ -13,15 +13,7 @@ namespace XmlFormatterOsIndependent.Update
         /// <summary>
         /// The version manager
         /// </summary>
-        private IVersionManager manager;
-
-        /// <summary>
-        /// Create a new instance of this class
-        /// </summary>
-        public UpdateManagerFactory()
-        {
-            manager = null;
-        }
+        private IVersionManager? manager;
 
         /// <summary>
         /// Get the version manager to use
@@ -29,13 +21,10 @@ namespace XmlFormatterOsIndependent.Update
         /// <returns>The correct version manager</returns>
         public IVersionManager GetVersionManager()
         {
-            if (manager == null)
-            {
-                manager = new VersionManager(
+            manager ??= new VersionManager(
                 new DefaultStringConvertStrategy(),
                 new LocalVersionReceiverStrategy(),
                 new GitHubVersionReceiverStrategy());
-            }
             return manager;
         }
     }

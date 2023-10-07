@@ -102,7 +102,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <inheritdoc/>
         public bool AddHotfolder(IHotfolder newHotfolder)
         {
-            if (IsSameWatcherRegisterd(newHotfolder))
+            if (IsSameWatcherRegistered(newHotfolder))
             {
                 return false;
             }
@@ -164,11 +164,11 @@ namespace XMLFormatterModel.Hotfolder
         }
 
         /// <summary>
-        /// Is there already an identical watcher registerec
+        /// Is there already an identical watcher registered
         /// </summary>
         /// <param name="hotfolder">The new hotfolder config to check</param>
         /// <returns>True if there is already an identical active configuration</returns>
-        private bool IsSameWatcherRegisterd(IHotfolder hotfolder)
+        private bool IsSameWatcherRegistered(IHotfolder hotfolder)
         {
             return hotfolders.Keys.ToList().Find(currentHotfolder =>
             {
@@ -220,23 +220,23 @@ namespace XMLFormatterModel.Hotfolder
                     tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
                     LogMessage("Current task stack " + tasks.Count);
                 }
-                PerformeTasks();
+                PerformTasks();
             }
         }
 
         /// <summary>
-        /// Performe all the stacked tasks
+        /// Perform all the stacked tasks
         /// </summary>
-        private void PerformeTasks()
+        private void PerformTasks()
         {
-            PerformeTasks(string.Empty);
+            PerformTasks(string.Empty);
         }
 
         /// <summary>
-        /// Performe all the stacked tasks
+        /// Perform all the stacked tasks
         /// </summary>
         /// <param name="currentFile">The current file triggering the function</param>
-        private void PerformeTasks(string currentFile)
+        private void PerformTasks(string currentFile)
         {
             if (!locked)
             {
@@ -251,7 +251,7 @@ namespace XMLFormatterModel.Hotfolder
                     }
                     if (tasks.Count > 0)
                     {
-                        PerformeTasks();
+                        PerformTasks();
                     }
                 });
             }

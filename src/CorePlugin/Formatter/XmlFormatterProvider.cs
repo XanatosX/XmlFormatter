@@ -56,9 +56,9 @@ namespace CorePlugin.Formatter
             }
 
             FireEvent("Loading", "Loading ...");
-            XElement fileToConvert = await Task<XElement>.Run(() =>
+            XElement? fileToConvert = await Task<XElement>.Run(() =>
             {
-                XElement returnElement;
+                XElement? returnElement;
                 try
                 {
                     returnElement = XElement.Load(inputFilePath);

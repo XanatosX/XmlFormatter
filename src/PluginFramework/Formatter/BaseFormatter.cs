@@ -112,7 +112,7 @@ namespace PluginFramework.Formatter
         }
 
         /// <summary>
-        /// Method to load information from an resource embeeded into the plugin
+        /// Method to load information from an resource embedded into the plugin
         /// </summary>
         /// <param name="resourcePath">The path to the embedded resource</param>
         /// <returns>The content of the resource or an empty string if nothing was found</returns>

@@ -39,7 +39,7 @@ namespace XMLFormatterModel.Hotfolder
         string OutputFileScheme { get; set; }
 
         /// <summary>
-        /// Should be triggerd on rename as well
+        /// Should be triggered on rename as well
         /// </summary>
         bool OnRename { get; set; }
 
