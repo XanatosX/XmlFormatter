@@ -1,6 +1,4 @@
-﻿using PluginFramework.Enums;
-using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
+﻿using PluginFramework.Interfaces.Manager;
 using System;
 using System.Collections.Generic;
 using XMLFormatterModel.Hotfolder;
@@ -10,12 +8,9 @@ namespace XmlFormatterModel.Setting.Hotfolder
     /// <summary>
     /// This class is a helper to load the hotfolder configuration
     /// </summary>
+    [Obsolete]
     public class HotfolderExtension
     {
-        /// <summary>
-        /// The settings manager to use
-        /// </summary>
-        private readonly ISettingsManager settingsManager;
 
         /// <summary>
         /// Plugin manager to use
@@ -26,9 +21,8 @@ namespace XmlFormatterModel.Setting.Hotfolder
         /// Create a new instance of this extension class
         /// </summary>
         /// <param name="settingsManager">The settings manager to use</param>
-        public HotfolderExtension(ISettingsManager settingsManager, IPluginManager pluginManager)
+        public HotfolderExtension(IPluginManager pluginManager)
         {
-            this.settingsManager = settingsManager;
             this.pluginManager = pluginManager;
         }
 
@@ -39,6 +33,9 @@ namespace XmlFormatterModel.Setting.Hotfolder
         public List<IHotfolder> GetHotFoldersFromSettings()
         {
             List<IHotfolder> hotfoldersToReturn = new List<IHotfolder>();
+            return new();
+            //TODO Fix code!
+            /**
             ISettingScope settingScope = settingsManager.GetScope("Hotfolder");
             if (settingScope == null)
             {
@@ -61,6 +58,7 @@ namespace XmlFormatterModel.Setting.Hotfolder
             }
 
             return hotfoldersToReturn;
+            */
         }
     }
 }

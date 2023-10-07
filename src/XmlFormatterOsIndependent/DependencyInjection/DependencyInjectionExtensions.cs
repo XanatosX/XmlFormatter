@@ -6,10 +6,8 @@ using System;
 using System.IO;
 using System.Linq;
 using XmlFormatter.Infrastructure.Configuration;
-using XmlFormatterModel.Setting;
 using XmlFormatterModel.Update;
 using XmlFormatterModel.Update.Strategies;
-using XMLFormatterModel.Setting.InputOutput;
 using XmlFormatterOsIndependent.Serializer;
 using XmlFormatterOsIndependent.Services;
 using XmlFormatterOsIndependent.Update;
@@ -54,8 +52,7 @@ internal static class DependencyInjectionExtensions
     /// <returns>An extended collection</returns>
     public static IServiceCollection AddServices(this IServiceCollection collection)
     {
-        return collection.AddSingleton<ISettingsManager, SettingsManager>()
-                         .AddSingleton<IVersionManager, VersionManager>(provider =>
+        return collection.AddSingleton<IVersionManager, VersionManager>(provider =>
                          {
                              var dataSet = provider.GetServices<IVersionReceiverStrategy>();
                              IVersionReceiverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionReceiverStrategy);
@@ -69,9 +66,6 @@ internal static class DependencyInjectionExtensions
                          .AddSingleton<IIOInteractionService, DefaultInteractionService>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
                          .AddSingleton<IDependencyInjectionResolverService, DependencyInjectionResolverService>(provider => new DependencyInjectionResolverService(provider))
-                         .AddSingleton<IPersistentFactory, XmlProviderFactory>()
-                         .AddSingleton<ISettingLoadProvider, XmlLoaderProvider>()
-                         .AddSingleton<ISettingSaveProvider, XmlSaverProvider>()
                          .AddSingleton<IUrlService, HyperlinkAdapterUrlService>()
                          .AddSingleton<IThemeService, ThemeService>()
                          .AddSingleton<ApplicationUpdateService>();
