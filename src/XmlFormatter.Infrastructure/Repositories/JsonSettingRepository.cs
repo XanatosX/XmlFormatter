@@ -4,9 +4,20 @@ using XmlFormatter.Infrastructure.Configuration;
 
 namespace XmlFormatter.Infrastructure.Repositories;
 
+/// <summary>
+/// Implementation of the settings repository by saving it as json files
+/// </summary>
+/// <typeparam name="T">The type of data to be saved as settings</typeparam>
 public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, new()
 {
+    /// <summary>
+    /// The options for the settings folders
+    /// </summary>
     private readonly SettingsOptions settingsOptions;
+
+    /// <summary>
+    /// The settings options used for serialization
+    /// </summary>
     private readonly JsonSerializerOptions options;
 
     public JsonSettingRepository(SettingsOptions settingsOptions, JsonSerializerOptions options)
