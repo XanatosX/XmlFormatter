@@ -11,7 +11,7 @@ namespace XmlFormatterModel.Setting
         /// Set the factory to get the loading and savings providers
         /// </summary>
         /// <param name="factory">The factory to use</param>
-        void SetPersistendFactory(IPersistentFactory factory);
+        void SetPersistentFactory(IPersistentFactory factory);
 
         /// <summary>
         /// Add a new scope to this manager. If the name already exist the old will be overwritten.
@@ -46,7 +46,7 @@ namespace XmlFormatterModel.Setting
 
         /// <summary>
         /// Save every scope in this manager to a file
-        /// You need to set the persistend factory first!
+        /// You need to set the persisted factory first!
         /// </summary>
         /// <param name="filePath">The file path to save the data to</param>
         /// <returns>True if saving was successful</returns>

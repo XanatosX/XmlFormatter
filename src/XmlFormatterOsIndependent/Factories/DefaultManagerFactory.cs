@@ -19,19 +19,19 @@ namespace XmlFormatterOsIndependent.Factories
     internal class DefaultManagerFactory
     {
         /// <summary>
-        /// The factory used to create the version managment
+        /// The factory used to create the version management
         /// </summary>
-        private IVersionManagerFactory versionManagerFactory;
+        private IVersionManagerFactory? versionManagerFactory;
 
         /// <summary>
         /// The plugin manager to use
         /// </summary>
-        private IPluginManager pluginManager;
+        private IPluginManager? pluginManager;
 
         /// <summary>
         /// The settings manager to use
         /// </summary>
-        private ISettingsManager settingsManager;
+        private ISettingsManager? settingsManager;
 
         /// <summary>
         /// Get the current plugin manager
@@ -42,11 +42,11 @@ namespace XmlFormatterOsIndependent.Factories
             if (pluginManager == null)
             {
                 pluginManager = new DefaultManager();
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder = new();
 
 
-                FileInfo folderInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-                string folder = folderInfo.DirectoryName;
+                FileInfo folderInfo = new (Assembly.GetExecutingAssembly().Location);
+                string folder = folderInfo.DirectoryName ?? string.Empty;
                 builder.AppendFormat("{0}{1}Plugins{1}", folder, Path.DirectorySeparatorChar);
                 pluginManager.SetDefaultLoadStrategy(new PluginFolder(builder.ToString()));
             }
@@ -63,7 +63,7 @@ namespace XmlFormatterOsIndependent.Factories
             if (settingsManager == null)
             {
                 settingsManager = new SettingsManager();
-                settingsManager.SetPersistendFactory(new XmlProviderFactory());
+                settingsManager.SetPersistentFactory(new XmlProviderFactory());
             }
             return settingsManager;
         }
@@ -74,10 +74,7 @@ namespace XmlFormatterOsIndependent.Factories
         /// <returns>The version manager to use</returns>
         public IVersionManager GetVersionManager()
         {
-            if (versionManagerFactory == null)
-            {
-                versionManagerFactory = new UpdateManagerFactory();
-            }
+            versionManagerFactory ??= new UpdateManagerFactory();
             return versionManagerFactory.GetVersionManager();
         }
     }

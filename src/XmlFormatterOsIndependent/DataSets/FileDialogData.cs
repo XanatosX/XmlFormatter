@@ -24,7 +24,7 @@ namespace XmlFormatterOsIndependent.DataSets
         public string DefaultFileName { get; }
 
         /// <summary>
-        /// Create a nes intance this this class
+        /// Create a new instance this this class
         /// </summary>
         /// <param name="view">The parent window of the new dialog</param>
         /// <param name="filter">The filter to use for the dialog</param>
@@ -33,7 +33,7 @@ namespace XmlFormatterOsIndependent.DataSets
         }
 
         /// <summary>
-        /// Create a nes intance this this class
+        /// Create a new instance this this class
         /// </summary>
         /// <param name="view">The parent window of the new dialog</param>
         /// <param name="filter">The filter to use for the dialog</param>

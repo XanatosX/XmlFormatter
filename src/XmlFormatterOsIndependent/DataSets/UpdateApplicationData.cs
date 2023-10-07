@@ -10,9 +10,9 @@ namespace XmlFormatterOsIndependent.DataSets
     internal class UpdateApplicationData
     {
         /// <summary>
-        /// The plugin managment data required
+        /// The plugin management data required
         /// </summary>
-        public PluginManagmentData PluginManagmentData { get; }
+        public PluginManagementData PluginManagementData { get; }
 
         /// <summary>
         /// The version compare data required for updating
@@ -26,7 +26,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// <param name="settingsManager">The settings manager to use</param>
         /// <param name="compare">The compare class to use</param>
         public UpdateApplicationData(IPluginManager pluginManager, ISettingsManager settingsManager, VersionCompare compare)
-            : this(new PluginManagmentData(pluginManager, settingsManager), compare)
+            : this(new PluginManagementData(pluginManager, settingsManager), compare)
         {
 
         }
@@ -34,11 +34,11 @@ namespace XmlFormatterOsIndependent.DataSets
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        /// <param name="managmentData">The plugin managment data class</param>
+        /// <param name="managementData">The plugin management data class</param>
         /// <param name="compare">The compare class to use</param>
-        public UpdateApplicationData(PluginManagmentData managmentData, VersionCompare compare)
+        public UpdateApplicationData(PluginManagementData managementData, VersionCompare compare)
         {
-            PluginManagmentData = managmentData;
+            PluginManagementData = managementData;
             VersionCompare = compare;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace XmlFormatterModel.Setting
 {
@@ -46,7 +45,7 @@ namespace XmlFormatterModel.Setting
 
 
         /// <inheritdoc/>
-        public void SetPersistendFactory(IPersistentFactory factory)
+        public void SetPersistentFactory(IPersistentFactory factory)
         {
             persistentFactory = factory;
             loadProvider = null;

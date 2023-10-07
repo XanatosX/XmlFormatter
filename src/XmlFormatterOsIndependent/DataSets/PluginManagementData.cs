@@ -6,7 +6,7 @@ namespace XmlFormatterOsIndependent.DataSets
     /// <summary>
     /// Data container to manage plugin data
     /// </summary>
-    internal class PluginManagmentData
+    internal class PluginManagementData
     {
         /// <summary>
         /// The plugin manager to use for loading and listing
@@ -23,7 +23,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// </summary>
         /// <param name="pluginManager">The plugin manager to use</param>
         /// <param name="settingsManager">The settings manager to use</param>
-        public PluginManagmentData(IPluginManager pluginManager, ISettingsManager settingsManager)
+        public PluginManagementData(IPluginManager pluginManager, ISettingsManager settingsManager)
         {
             PluginManager = pluginManager;
             SettingsManager = settingsManager;

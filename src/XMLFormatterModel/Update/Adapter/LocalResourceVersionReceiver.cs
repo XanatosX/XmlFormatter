@@ -10,7 +10,7 @@ using XmlFormatterModel.Update.Strategies;
 namespace XmlFormatterModel.Update.Adapter
 {
     /// <summary>
-    /// Implementation of the version reciever strategy to get the local version of the application
+    /// Implementation of the version receiver strategy to get the local version of the application
     /// </summary>
     public abstract class LocalResourceVersionReceiver : IVersionReceiverStrategy
     {
@@ -55,7 +55,7 @@ namespace XmlFormatterModel.Update.Adapter
         protected abstract string GetResourcePath();
 
         /// <summary>
-        /// Get the correct assemly to load the resource from
+        /// Get the correct assembly to load the resource from
         /// </summary>
         /// <returns>The correct assembly</returns>
         protected abstract Assembly GetAssembly();

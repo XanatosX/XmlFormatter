@@ -19,12 +19,12 @@ namespace XmlFormatterModel.Update
         /// <summary>
         /// The receiver to get the local version
         /// </summary>
-        private readonly IVersionReceiverStrategy localReciever;
+        private readonly IVersionReceiverStrategy localReceiver;
 
         /// <summary>
         /// The receiver to get the remote version
         /// </summary>
-        private readonly IVersionReceiverStrategy remoteReciever;
+        private readonly IVersionReceiverStrategy remoteReceiver;
 
         /// <summary>
         /// Error event if something went wrong
@@ -35,24 +35,24 @@ namespace XmlFormatterModel.Update
         /// Create a new instance of this class
         /// </summary>
         /// <param name="versionConvert">The strategy to use for version class to string converting</param>
-        /// <param name="localReciever">The reciever to use to get local version</param>
-        /// <param name="remoteReciever">The reciever to use to get remote version</param>
-        public VersionManager(IVersionConvertStrategy versionConvert, IVersionReceiverStrategy localReciever, IVersionReceiverStrategy remoteReciever)
+        /// <param name="localReceiver">The receiver to use to get local version</param>
+        /// <param name="remoteReceiver">The receiver to use to get remote version</param>
+        public VersionManager(IVersionConvertStrategy versionConvert, IVersionReceiverStrategy localReceiver, IVersionReceiverStrategy remoteReceiver)
         {
             this.versionConvert = versionConvert;
-            this.localReciever = localReciever;
-            this.remoteReciever = remoteReciever;
+            this.localReceiver = localReceiver;
+            this.remoteReceiver = remoteReceiver;
 
-            this.remoteReciever.Error += Reciever_Error;
-            this.localReciever.Error += Reciever_Error;
+            this.remoteReceiver.Error += Receiver_Error;
+            this.localReceiver.Error += Receiver_Error;
         }
 
         /// <summary>
-        /// Event if any of the recievers did throw one
+        /// Event if any of the receivers did throw one
         /// </summary>
         /// <param name="sender">The event sender</param>
         /// <param name="e">The event arguments</param>
-        private void Reciever_Error(object sender, BaseEventArgs e)
+        private void Receiver_Error(object sender, BaseEventArgs e)
         {
             ThrowError(e);
         }
@@ -72,13 +72,13 @@ namespace XmlFormatterModel.Update
         /// <inheritdoc/>
         public Task<Version> GetRemoteVersionAsync()
         {
-            return remoteReciever.GetVersionAsync(versionConvert);
+            return remoteReceiver.GetVersionAsync(versionConvert);
         }
 
         /// <inheritdoc/>
         public Task<Version> GetLocalVersionAsync()
         {
-            return localReciever.GetVersionAsync(versionConvert);
+            return localReceiver.GetVersionAsync(versionConvert);
         }
 
         /// <inheritdoc/>
@@ -87,7 +87,7 @@ namespace XmlFormatterModel.Update
             Version remoteVersion = await GetRemoteVersionAsync();
             Version localVersion = await GetLocalVersionAsync();
             int compareResult = localVersion.CompareTo(remoteVersion);
-            IRelease latestRelease = await remoteReciever.GetLatestReleaseAsync();
+            IRelease latestRelease = await remoteReceiver.GetLatestReleaseAsync();
 
             return new VersionCompare(compareResult < 0, localVersion, remoteVersion, latestRelease);
         }
