@@ -1,5 +1,4 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Interfaces.PluginTypes;
+﻿using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace XmlFormatterOsIndependent.DataSets
 {

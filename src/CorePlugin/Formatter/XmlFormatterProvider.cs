@@ -1,8 +1,8 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Formatter;
+﻿using PluginFramework.Formatter;
 using System;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace CorePlugin.Formatter
 {

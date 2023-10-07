@@ -2,11 +2,11 @@
 using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using XmlFormatter.Application;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;

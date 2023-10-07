@@ -1,9 +1,9 @@
 ﻿using PluginFramework.DataContainer;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.IO;
 using System.Reflection;
-using XmlFormatterModel.Update;
+using XmlFormatter.Domain.PluginFeature;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace PluginFramework.Update
 {

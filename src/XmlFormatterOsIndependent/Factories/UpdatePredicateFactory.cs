@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using XmlFormatterModel.Update;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace XmlFormatterOsIndependent.Factories
 {

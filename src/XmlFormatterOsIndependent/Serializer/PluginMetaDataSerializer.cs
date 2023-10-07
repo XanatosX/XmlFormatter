@@ -4,7 +4,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
+using XmlFormatter.Domain.PluginFeature.FormatterFeature;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace XmlFormatterOsIndependent.Serializer;
 

@@ -1,5 +1,5 @@
 ﻿using PluginFramework.DataContainer;
-using PluginFramework.Enums;
+using XmlFormatter.Domain.Enums;
 
 namespace XmlFormatterOsIndependent.DataSets.Files
 {

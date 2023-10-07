@@ -1,7 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using HyperText.Avalonia.Extensions;
-using PluginFramework.DataContainer;
-using System;
+using XmlFormatter.Domain.PluginFeature;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;

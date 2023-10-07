@@ -1,12 +1,9 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Enums;
-using PluginFramework.EventMessages;
-using PluginFramework.Interfaces.PluginTypes;
-using System;
-using System.Data;
+﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using XmlFormatter.Domain.Enums;
+using XmlFormatter.Domain.PluginFeature;
+using XmlFormatter.Domain.PluginFeature.FormatterFeature;
 
 namespace PluginFramework.Formatter
 {

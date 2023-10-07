@@ -1,9 +1,9 @@
 ﻿using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.Manager
 {

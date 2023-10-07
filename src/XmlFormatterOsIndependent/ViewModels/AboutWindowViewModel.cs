@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using XmlFormatterModel.Enums;
+using XmlFormatter.Domain.Enums;
 using XmlFormatterModel.Update.Strategies;
 using XmlFormatterOsIndependent.Update;
 

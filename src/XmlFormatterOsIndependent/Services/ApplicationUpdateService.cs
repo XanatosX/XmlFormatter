@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using XmlFormatter.Application;
-using XmlFormatterModel.Update;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 

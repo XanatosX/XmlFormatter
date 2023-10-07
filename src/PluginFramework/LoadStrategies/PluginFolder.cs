@@ -1,10 +1,10 @@
 ﻿using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.LoadStrategies
 {

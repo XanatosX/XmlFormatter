@@ -1,9 +1,9 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Formatter;
+﻿using PluginFramework.Formatter;
 using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace JsonPlugin
 {

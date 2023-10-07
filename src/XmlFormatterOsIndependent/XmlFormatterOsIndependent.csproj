@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
-    <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj" />
     <ProjectReference Include="..\XmlFormatter.Application\XmlFormatter.Application.csproj" />
     <ProjectReference Include="..\XmlFormatter.Infrastructure\XmlFormatter.Infrastructure.csproj" />
   </ItemGroup>
