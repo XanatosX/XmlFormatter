@@ -1,7 +1,7 @@
 ﻿using PluginFramework.Enums;
 using PluginFramework.Interfaces.PluginTypes;
 
-namespace XMLFormatterModel.Hotfolder
+namespace XmlFormatterModel.HotfolderFeature
 {
     /// <summary>
     /// This class is a default hotfolder configuration

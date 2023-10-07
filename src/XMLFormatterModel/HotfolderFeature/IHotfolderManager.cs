@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using XMLFormatterModel.Hotfolder;
 
-namespace XmlFormatterModel.Hotfolder
+namespace XmlFormatterModel.HotfolderFeature
 {
     /// <summary>
     /// This interface will define a hotfolder manager
@@ -13,20 +12,20 @@ namespace XmlFormatterModel.Hotfolder
         /// </summary>
         /// <param name="newHotfolder"></param>
         /// <returns></returns>
-        bool AddHotfolder(IHotfolder newHotfolder);
+        bool AddHotfolder(Hotfolder newHotfolder);
 
         /// <summary>
         /// Remove a hotfolder from the configuration
         /// </summary>
         /// <param name="hotfolderToRemove">The hotfolder to remove</param>
         /// <returns>True if removing was successful</returns>
-        bool RemoveHotfolder(IHotfolder hotfolderToRemove);
+        bool RemoveHotfolder(Hotfolder hotfolderToRemove);
 
         /// <summary>
         /// Get all the hotfolders in the manager
         /// </summary>
         /// <returns>A list with all the hotfolder configurations</returns>
-        List<IHotfolder> GetHotfolders();
+        List<Hotfolder> GetHotfolders();
 
         /// <summary>
         /// Remove all the hotfolders from the configuration

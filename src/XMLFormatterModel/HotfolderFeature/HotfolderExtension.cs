@@ -1,9 +1,8 @@
 ﻿using PluginFramework.Interfaces.Manager;
 using System;
 using System.Collections.Generic;
-using XMLFormatterModel.Hotfolder;
 
-namespace XmlFormatterModel.Setting.Hotfolder
+namespace XmlFormatterModel.HotfolderFeature
 {
     /// <summary>
     /// This class is a helper to load the hotfolder configuration
@@ -11,7 +10,6 @@ namespace XmlFormatterModel.Setting.Hotfolder
     [Obsolete]
     public class HotfolderExtension
     {
-
         /// <summary>
         /// Plugin manager to use
         /// </summary>
@@ -30,9 +28,9 @@ namespace XmlFormatterModel.Setting.Hotfolder
         /// Get the hot folders from the settings
         /// </summary>
         /// <returns>A list with all the hot folders</returns>
-        public List<IHotfolder> GetHotFoldersFromSettings()
+        public List<Hotfolder> GetHotFoldersFromSettings()
         {
-            List<IHotfolder> hotfoldersToReturn = new List<IHotfolder>();
+            List<Hotfolder> hotfoldersToReturn = new List<Hotfolder>();
             return new();
             //TODO Fix code!
             /**

@@ -6,11 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using XmlFormatterModel.Enums;
-using XmlFormatterModel.Hotfolder;
-using XmlFormatterModel.Logging;
 
-namespace XMLFormatterModel.Hotfolder
+namespace XmlFormatterModel.HotfolderFeature
 {
     /// <summary>
     /// A default hotfolder manager
@@ -20,7 +17,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <summary>
         /// All the hotfolder configurations and there file watcher
         /// </summary>
-        private readonly Dictionary<IHotfolder, FileSystemWatcher> hotfolders;
+        private readonly Dictionary<Hotfolder, FileSystemWatcher> hotfolders;
 
         /// <summary>
         /// How often should we try to read the file
@@ -57,7 +54,7 @@ namespace XMLFormatterModel.Hotfolder
         /// </summary>
         public HotfolderManager(ILogger<HotfolderManager> logger)
         {
-            hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
+            hotfolders = new Dictionary<Hotfolder, FileSystemWatcher>();
             tasks = new List<HotfolderTask>();
             readAttempts = 25;
             sleepTime = 200;
@@ -67,7 +64,7 @@ namespace XMLFormatterModel.Hotfolder
 
 
         /// <inheritdoc/>
-        public bool AddHotfolder(IHotfolder newHotfolder)
+        public bool AddHotfolder(Hotfolder newHotfolder)
         {
             if (IsSameWatcherRegistered(newHotfolder))
             {
@@ -121,7 +118,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <param name="filter">The filter used by the watcher</param>
         /// <returns>The hotfolder</returns>
         /// //
-        private IHotfolder GetHotfolderByWatchedFolder(string watchedFolder, string filter)
+        private Hotfolder GetHotfolderByWatchedFolder(string watchedFolder, string filter)
         {
             return hotfolders.Keys.ToList().Find((currentHotfolder) =>
             {
@@ -134,7 +131,7 @@ namespace XMLFormatterModel.Hotfolder
         /// </summary>
         /// <param name="hotfolder">The new hotfolder config to check</param>
         /// <returns>True if there is already an identical active configuration</returns>
-        private bool IsSameWatcherRegistered(IHotfolder hotfolder)
+        private bool IsSameWatcherRegistered(Hotfolder hotfolder)
         {
             return hotfolders.Keys.ToList().Find(currentHotfolder =>
             {
@@ -170,7 +167,7 @@ namespace XMLFormatterModel.Hotfolder
             if (sender is FileSystemWatcher watcher)
             {
                 FileInfo fileInfo = new FileInfo(e.FullPath);
-                IHotfolder hotfolder = GetHotfolderByWatchedFolder(fileInfo.DirectoryName, watcher.Filter);
+                Hotfolder hotfolder = GetHotfolderByWatchedFolder(fileInfo.DirectoryName, watcher.Filter);
                 if (hotfolder == null || lastInput == e.FullPath)
                 {
                     return;
@@ -184,7 +181,7 @@ namespace XMLFormatterModel.Hotfolder
                     logger.LogInformation($"Converter {hotfolder.FormatterToUse}");
                     lastInput = e.FullPath;
                     tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
-                    logger.LogInformation($"Current task stack {tasks.Count}" );
+                    logger.LogInformation($"Current task stack {tasks.Count}");
                 }
                 PerformTasks();
             }
@@ -259,7 +256,7 @@ namespace XMLFormatterModel.Hotfolder
         /// </summary>
         /// <param name="hotfolderConfig">The hotfolder configuration to use</param>
         /// <param name="inputFile">The file used as input</param>
-        private void ConvertFile(IHotfolder hotfolderConfig, string inputFile)
+        private void ConvertFile(Hotfolder hotfolderConfig, string inputFile)
         {
             bool success = false;
             for (int i = 0; i < readAttempts; i++)
@@ -299,7 +296,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <param name="hotfolderConfig">The hotfolder configuration to use</param>
         /// <param name="inputFileInfo">The name of the input file</param>
         /// <returns>The output path of the file /returns>
-        private string GetOutputFilePath(IHotfolder hotfolderConfig, FileInfo inputFileInfo)
+        private string GetOutputFilePath(Hotfolder hotfolderConfig, FileInfo inputFileInfo)
         {
             string returnString = hotfolderConfig.OutputFileScheme;
             string fileName = inputFileInfo.Name.Replace(inputFileInfo.Extension, "");
@@ -314,18 +311,18 @@ namespace XMLFormatterModel.Hotfolder
         }
 
         /// <inheritdoc/>
-        public List<IHotfolder> GetHotfolders()
+        public List<Hotfolder> GetHotfolders()
         {
             return hotfolders.Keys.ToList();
         }
 
         /// <inheritdoc/>
-        public bool RemoveHotfolder(IHotfolder hotfolderToRemove)
+        public bool RemoveHotfolder(Hotfolder hotfolderToRemove)
         {
             logger.LogInformation("Removing hotfolder ");
             logger.LogInformation($"Watched folder: {hotfolderToRemove.WatchedFolder}");
             logger.LogInformation($"Output folder: {hotfolderToRemove.OutputFolder}");
-            logger.LogInformation($"Mode: {hotfolderToRemove.Mode}" );
+            logger.LogInformation($"Mode: {hotfolderToRemove.Mode}");
             logger.LogInformation($"Formatter {hotfolderToRemove.FormatterToUse}");
             if (!hotfolders.ContainsKey(hotfolderToRemove))
             {
