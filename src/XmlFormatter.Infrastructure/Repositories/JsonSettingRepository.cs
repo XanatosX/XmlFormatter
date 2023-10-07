@@ -33,7 +33,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
             return LoadSettings();
         }
 
-        T? settings = new T();
+        T? settings = new();
         if (settings is null)
         {
             return default;
@@ -77,7 +77,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
                 JsonSerializer.Serialize(fileStream, settings, options);
             }
         }
-        catch (System.Exception ex)
+        catch (System.Exception)
         {
             //TODO Add code in case of failure
         }
