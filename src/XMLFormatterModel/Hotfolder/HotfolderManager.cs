@@ -1,4 +1,5 @@
-﻿using PluginFramework.EventMessages;
+﻿using Microsoft.Extensions.Logging;
+using PluginFramework.EventMessages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +15,7 @@ namespace XMLFormatterModel.Hotfolder
     /// <summary>
     /// A default hotfolder manager
     /// </summary>
-    public class HotfolderManager : IHotfolderManager, ILoggable
+    public class HotfolderManager : IHotfolderManager
     {
         /// <summary>
         /// All the hotfolder configurations and there file watcher
@@ -37,14 +38,14 @@ namespace XMLFormatterModel.Hotfolder
         private readonly List<HotfolderTask> tasks;
 
         /// <summary>
+        /// The logger to use
+        /// </summary>
+        private readonly ILogger<HotfolderManager> logger;
+
+        /// <summary>
         /// Is the conversion currently locked
         /// </summary>
         private bool locked;
-
-        /// <summary>
-        /// Logging manager to use
-        /// </summary>
-        private ILoggingManager loggingManager;
 
         /// <summary>
         /// The last file which was converted
@@ -54,48 +55,14 @@ namespace XMLFormatterModel.Hotfolder
         /// <summary>
         /// Create a new instance of this manager class
         /// </summary>
-        public HotfolderManager()
+        public HotfolderManager(ILogger<HotfolderManager> logger)
         {
             hotfolders = new Dictionary<IHotfolder, FileSystemWatcher>();
             tasks = new List<HotfolderTask>();
             readAttempts = 25;
             sleepTime = 200;
-        }
+            this.logger = logger;
 
-        /// <inheritdoc/>
-        public void SetLoggingManager(ILoggingManager loggingManager)
-        {
-            this.loggingManager = loggingManager;
-        }
-
-        /// <summary>
-        /// This method will allow you to log a message
-        /// </summary>
-        /// <param name="message">The message to log</param>
-        private void LogMessage(string message)
-        {
-            if (loggingManager == null)
-            {
-                return;
-            }
-            LoggingMessage loggingMessage = new LoggingMessage(LogScopesEnum.Hotfolder, this, message);
-
-            loggingManager.LogMessage(loggingMessage);
-        }
-
-        /// <summary>
-        /// This method will allow you to log a message
-        /// </summary>
-        /// <param name="message">The message to log</param>
-        private void LogMessage(object sender, string message)
-        {
-            if (loggingManager == null)
-            {
-                return;
-            }
-            LoggingMessage loggingMessage = new LoggingMessage(LogScopesEnum.Hotfolder, sender, message);
-
-            loggingManager.LogMessage(loggingMessage);
         }
 
 
@@ -122,19 +89,18 @@ namespace XMLFormatterModel.Hotfolder
             {
                 watcher.Renamed += Watcher_Changed;
             }
-            LogMessage("Adding new hotfolder ");
-            LogMessage("Watched folder: " + newHotfolder.WatchedFolder);
-            LogMessage("Output folder: " + newHotfolder.OutputFolder);
-            LogMessage("Mode: " + newHotfolder.Mode);
+            logger.LogInformation("Adding new hotfolder");
+            logger.LogInformation($"Watched folder: {newHotfolder.WatchedFolder}");
+            logger.LogInformation($"Output folder: {newHotfolder.OutputFolder}");
+            logger.LogInformation($"Mode: {newHotfolder.Mode}");
             if (newHotfolder.FormatterToUse != null)
             {
-                LogMessage("Formatter " + newHotfolder.FormatterToUse.ToString());
+                logger.LogInformation($"Formatter: {newHotfolder.FormatterToUse}");
                 newHotfolder.FormatterToUse.StatusChanged += FormatterToUse_StatusChanged;
                 hotfolders.Add(newHotfolder, watcher);
                 return true;
             }
-
-            LogMessage("Formatter: Could not be found! Maybe the plugin was deleted?");
+            logger.LogInformation("Formatter: Could not be found! Maybe the plugin was deleted?");
             return false;
         }
 
@@ -145,7 +111,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <param name="e">The data of the event</param>
         private void FormatterToUse_StatusChanged(object sender, BaseEventArgs e)
         {
-            LogMessage(sender, "Convert status: " + e.Message);
+            logger.LogInformation($"[{sender}]Convert status: {e.Message}");
         }
 
         /// <summary>
@@ -211,14 +177,14 @@ namespace XMLFormatterModel.Hotfolder
                 }
                 if (tasks.Find((data) => { return data.InputFile == e.FullPath; }) == null)
                 {
-                    LogMessage("Adding new convert task");
-                    LogMessage("Input " + e.FullPath);
-                    LogMessage("Output folder " + hotfolder.OutputFolder);
-                    LogMessage("Mode " + hotfolder.Mode);
-                    LogMessage("Converter " + hotfolder.FormatterToUse.ToString());
+                    logger.LogInformation("Adding new convert task");
+                    logger.LogInformation($"Input {e.FullPath}");
+                    logger.LogInformation($"Output folder {hotfolder.OutputFolder}");
+                    logger.LogInformation($"Mode {hotfolder.Mode}");
+                    logger.LogInformation($"Converter {hotfolder.FormatterToUse}");
                     lastInput = e.FullPath;
                     tasks.Add(new HotfolderTask(e.FullPath, hotfolder));
-                    LogMessage("Current task stack " + tasks.Count);
+                    logger.LogInformation($"Current task stack {tasks.Count}" );
                 }
                 PerformTasks();
             }
@@ -278,11 +244,11 @@ namespace XMLFormatterModel.Hotfolder
                 return true;
             }
 
-            LogMessage("Working on " + tasksToDo.Count + " tasks");
+            logger.LogInformation($"Working on {tasksToDo.Count} tasks");
 
             foreach (HotfolderTask task in tasksToDo)
             {
-                LogMessage("Start task " + task.InputFile);
+                logger.LogInformation($"Start task {task.InputFile}");
                 ConvertFile(task.Configuration, task.InputFile);
             }
             return await AsyncConvertFiles();
@@ -356,11 +322,11 @@ namespace XMLFormatterModel.Hotfolder
         /// <inheritdoc/>
         public bool RemoveHotfolder(IHotfolder hotfolderToRemove)
         {
-            LogMessage("Removing hotfolder ");
-            LogMessage("Watched folder: " + hotfolderToRemove.WatchedFolder);
-            LogMessage("Output folder: " + hotfolderToRemove.OutputFolder);
-            LogMessage("Mode: " + hotfolderToRemove.Mode);
-            LogMessage("Formatter " + hotfolderToRemove.FormatterToUse.ToString());
+            logger.LogInformation("Removing hotfolder ");
+            logger.LogInformation($"Watched folder: {hotfolderToRemove.WatchedFolder}");
+            logger.LogInformation($"Output folder: {hotfolderToRemove.OutputFolder}");
+            logger.LogInformation($"Mode: {hotfolderToRemove.Mode}" );
+            logger.LogInformation($"Formatter {hotfolderToRemove.FormatterToUse}");
             if (!hotfolders.ContainsKey(hotfolderToRemove))
             {
                 return false;
@@ -377,7 +343,7 @@ namespace XMLFormatterModel.Hotfolder
         /// <inheritdoc/>
         public void ResetManager()
         {
-            LogMessage("Clearing hotfolders");
+            logger.LogInformation("Clearing hotfolders");
             hotfolders.Clear();
         }
     }

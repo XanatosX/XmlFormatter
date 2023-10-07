@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using XmlFormatterOsIndependent.DependencyInjection;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.ViewModels;
@@ -57,12 +56,7 @@ namespace XmlFormatterOsIndependent
         private IServiceCollection CreateServiceCollection()
         {
             var collection = new ServiceCollection().AddApplication()
-                                                    .AddConfigurations()
-                                                    .AddPluginFramework()
-                                                    .AddConverters()
-                                                    .AddServices()
-                                                    .AddViews()
-                                                    .AddViewModels();
+                                                    .AddPresentation();
 
             var provider = collection.BuildServiceProvider();
             
