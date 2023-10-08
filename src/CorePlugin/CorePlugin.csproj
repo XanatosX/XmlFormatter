@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <Target Condition="'$(Configuration)' == 'Debug'" Name="CopyAfterBuild" AfterTargets="Build">
-		<Copy SourceFiles="$(OutDir)CorePlugin.dll" DestinationFolder="$(ProjectDir)../XmlFormatterOsIndependent/bin/$(Configuration)/$(TargetFramework)/$(PlatformShortName)/plugins" SkipUnchangedFiles="false" />
+		<Copy SourceFiles="$(OutDir)CorePlugin.dll" DestinationFolder="$(ProjectDir)../XmlFormatterOsIndependent/bin/$(Configuration)/$(TargetFramework)/$(PlatformShortName)/Plugins" SkipUnchangedFiles="false" />
 	</Target>
 
 </Project>

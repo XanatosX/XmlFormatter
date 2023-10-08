@@ -1,8 +1,5 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using XmlFormatterOsIndependent.DataSets;
-using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views

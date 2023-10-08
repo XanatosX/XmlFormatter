@@ -1,8 +1,8 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Formatter;
+﻿using PluginFramework.Formatter;
 using System;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace CorePlugin.Formatter
 {
@@ -56,9 +56,9 @@ namespace CorePlugin.Formatter
             }
 
             FireEvent("Loading", "Loading ...");
-            XElement fileToConvert = await Task<XElement>.Run(() =>
+            XElement? fileToConvert = await Task<XElement>.Run(() =>
             {
-                XElement returnElement;
+                XElement? returnElement;
                 try
                 {
                     returnElement = XElement.Load(inputFilePath);

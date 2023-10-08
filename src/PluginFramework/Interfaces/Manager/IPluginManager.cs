@@ -1,6 +1,6 @@
 ﻿using PluginFramework.DataContainer;
-using PluginFramework.Interfaces.PluginTypes;
 using System.Collections.Generic;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.Interfaces.Manager
 {
@@ -10,7 +10,7 @@ namespace PluginFramework.Interfaces.Manager
     public interface IPluginManager
     {
         /// <summary>
-        /// Set a default load stratedy which is getting used if you do not provide one
+        /// Set a default load strategy which is getting used if you do not provide one
         /// </summary>
         /// <param name="loadStrategy">The default load strategy to set</param>
         void SetDefaultLoadStrategy(IPluginLoadStrategy loadStrategy);

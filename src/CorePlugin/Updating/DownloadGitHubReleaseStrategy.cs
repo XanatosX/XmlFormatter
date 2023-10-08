@@ -1,16 +1,16 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Update;
+﻿using PluginFramework.Update;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using XmlFormatterModel.Update;
+using XmlFormatter.Domain.PluginFeature;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace CorePlugin.Updating
 {
     /// <summary>
-    /// This class descripes the download from GitHub strategy
+    /// This class describes the download from GitHub strategy
     /// </summary>
     class DownloadGitHubReleaseStrategy : BaseUpdate
     {
@@ -39,8 +39,8 @@ namespace CorePlugin.Updating
                 foreach (IReleaseAsset release in versionInformation.Assets.FindAll(assetFilter))
                 {
                     string localFile = tempFolder;
-                    string[] splittet = release.DownloadUrl.Split('/');
-                    localFile += splittet.Last();
+                    string[] splitted = release.DownloadUrl.Split('/');
+                    localFile += splitted.Last();
                     if (File.Exists(localFile))
                     {
                         try

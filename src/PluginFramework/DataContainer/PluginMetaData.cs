@@ -1,4 +1,5 @@
 ﻿using System;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.DataContainer
 {

@@ -3,7 +3,6 @@ using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Linq;
-using XmlFormatterOsIndependent.Factories;
 using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Views

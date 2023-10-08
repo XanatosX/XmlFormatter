@@ -1,8 +1,8 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Update;
+﻿using PluginFramework.Update;
 using PluginFramework.Utils;
 using System;
-using XmlFormatterModel.Update;
+using XmlFormatter.Domain.PluginFeature;
+using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
 namespace CorePlugin.Updating
 {
