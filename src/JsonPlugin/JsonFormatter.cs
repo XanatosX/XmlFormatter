@@ -1,14 +1,14 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Formatter;
+﻿using PluginFramework.Formatter;
 using System;
 using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace JsonPlugin
 {
     /// <summary>
-    /// A foramtter to convert json files
+    /// A formatter to convert json files
     /// </summary>
     public class JsonFormatter : BaseFormatter
     {

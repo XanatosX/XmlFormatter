@@ -1,10 +1,10 @@
 ﻿using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.LoadStrategies
 {
@@ -62,7 +62,7 @@ namespace PluginFramework.LoadStrategies
                 }
                 catch (Exception)
                 {
-                    //We just try to instanciate the plugin otherwise we ignore it and don't add it to the list
+                    //We just try to instantiate the plugin otherwise we ignore it and don't add it to the list
                 }
             }
             return returnList;

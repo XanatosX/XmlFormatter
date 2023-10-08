@@ -6,7 +6,7 @@ namespace XmlFormatterOsIndependent.Update
     /// <summary>
     /// Strategy to use to get the local version
     /// </summary>
-    internal class LocalVersionRecieverStrategy : LocalResourceVersionReciever
+    internal class LocalVersionReceiverStrategy : LocalResourceVersionReceiver
     { 
         /// <inheritdoc/>
         protected override Assembly GetAssembly()

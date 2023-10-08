@@ -38,10 +38,12 @@
     <PackageReference Include="Markdown.Avalonia.Tight" Version="0.10.14" />
     <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PluginFramework\PluginFramework.csproj" />
-    <ProjectReference Include="..\XMLFormatterModel\XmlFormatterModel.csproj" />
+    <ProjectReference Include="..\XmlFormatter.Application\XmlFormatter.Application.csproj" />
+    <ProjectReference Include="..\XmlFormatter.Infrastructure\XmlFormatter.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <AvaloniaResource Update="Views\PluginManagerWindow.xaml">

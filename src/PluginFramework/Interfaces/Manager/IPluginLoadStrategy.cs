@@ -1,5 +1,5 @@
-﻿using PluginFramework.Interfaces.PluginTypes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using XmlFormatter.Domain.PluginFeature;
 
 namespace PluginFramework.Interfaces.Manager
 {

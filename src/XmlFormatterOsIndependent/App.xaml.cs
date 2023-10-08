@@ -4,12 +4,14 @@ using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Runtime.InteropServices;
-using XmlFormatterOsIndependent.DependencyInjection;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.ViewModels;
 using XmlFormatterOsIndependent.Views;
+using XmlFormatter.Application;
+using XmlFormatter.Infrastructure;
+using System.Text.Json;
+using XmlFormatterOsIndependent.Serializer;
 
 namespace XmlFormatterOsIndependent
 {
@@ -53,10 +55,14 @@ namespace XmlFormatterOsIndependent
         /// <returns>A useable service collection</returns>
         private IServiceCollection CreateServiceCollection()
         {
-            return new ServiceCollection().AddPluginFramwork()
-                                          .AddServices()
-                                          .AddViews()
-                                          .AddViewModels();
+            var collection = new ServiceCollection().AddApplication()
+                                                    .AddPresentation();
+
+            var provider = collection.BuildServiceProvider();
+            
+            var options = new JsonSerializerOptions();
+            options.Converters.Add(provider.GetRequiredService<PluginMetaDataSerializer>());
+            return collection.AddInfrastructure(options);
         }
 
         public override void OnFrameworkInitializationCompleted()

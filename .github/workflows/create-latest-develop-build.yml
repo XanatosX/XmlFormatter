@@ -13,7 +13,7 @@ env:
   APPLICATION_CORE_PLUGIN_PROJECT_PATH: .\src\CorePlugin\CorePlugin.csproj
   APPLICATION_JSON_PLUGIN_PROJECT_PATH: .\src\JsonPlugin\JsonPlugin.csproj
   APPLICATION_PUBLISH_FOLDER: ./publish
-  PLUGIN_PUBLISH_FOLDER: ./publish/plugins
+  PLUGIN_PUBLISH_FOLDER: ./publish/Plugins
   WINDOWS_ARTIFACT_NAME: WindowsBuildArtifact_x64
   LINUX_ARTIFACT_NAME: LinuxBuildArtifact_x64
   DARWIN_ARTIFACT_NAME: DarwinBuildArtifact_x64

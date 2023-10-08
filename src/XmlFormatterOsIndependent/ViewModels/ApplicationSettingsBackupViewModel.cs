@@ -3,6 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using XmlFormatter.Application;
+using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Services;
 
@@ -16,10 +20,7 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     [ObservableProperty]
     private string currentMessage;
 
-    /// <summary>
-    /// Service used to load and save settings
-    /// </summary>
-    private readonly SettingFacadeService settingFacade;
+    private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
     /// <summary>
     /// Service used to open save file or open file dialogs
@@ -27,11 +28,11 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     private readonly IWindowApplicationService windowService;
 
     public ApplicationSettingsBackupViewModel(
-        SettingFacadeService settingFacadeService,
+        ISettingsRepository<ApplicationSettings> settingsRepository,
         IWindowApplicationService windowService)
     {
         CurrentMessage = string.Empty;
-        settingFacade = settingFacadeService;
+        this.settingsRepository = settingsRepository;
         this.windowService = windowService;
     }
 
@@ -43,16 +44,28 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     public async void ExportSettings()
     {
         var file = await windowService.SaveFileAsync(new List<FileDialogFilter>{
-            new() { Name = "Xml", Extensions = new List<string>{ "xml" } }
+            new() { Name = "Json", Extensions = new List<string>{ "json" } }
         });
-        var settings = settingFacade.GetSettings();
+        var settings = settingsRepository.CreateOrLoad();
         if (string.IsNullOrEmpty(file) || settings is null)
         {
             CurrentMessage = Properties.Resources.BackupSettingsView_ExportFailed;
             return;
         }
+        bool savingSuccessful = true;
+        try
+        {
+            using (FileStream fileStream = new(file, FileMode.Create, FileAccess.Write))
+            {
+                JsonSerializer.Serialize(fileStream, settings);
+            }
+        }
+        catch (System.Exception)
+        {
+            savingSuccessful = false;
+        }
 
-        if (settingFacade.SaveSettings(settings, file) is not null)
+        if (savingSuccessful)
         {
             CurrentMessage = Properties.Resources.BackupSettingsView_ExportingSettingWasSuccessful;
         }
@@ -66,21 +79,33 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     public async void ImportSettings()
     {
         var file = await windowService.OpenFileAsync(new List<FileDialogFilter>{
-            new() { Name = "Xml", Extensions = new List<string>{ "xml" } }
+            new() { Name = "Json", Extensions = new List<string>{ "json" } }
         });
         if (file is null)
         {
             //@Todo popup would be nice
             return;
         }
-        var loadedSettings = settingFacade.GetSettings(file);
+        ApplicationSettings? loadedSettings = null;
+        try
+        {
+            using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
+            {
+                loadedSettings = JsonSerializer.Deserialize<ApplicationSettings>(fileStream);
+            }
+        }
+        catch (System.Exception)
+        {
+        }
+
+        
         if (loadedSettings is null)
         {
             CurrentMessage = Properties.Resources.BackupSettingsView_ImportedSettingNotLoaded;
             //@Todo popup would be nice
             return;
         }
-        if (settingFacade.SaveSettings(loadedSettings) is not null)
+        if (settingsRepository.Update(loadedSettings) is not null)
         {
             CurrentMessage = Properties.Resources.BackupSettingsView_ImportingSettingWasSuccessful;
             WeakReferenceMessenger.Default.Send(new SettingsImportedMessage(loadedSettings));

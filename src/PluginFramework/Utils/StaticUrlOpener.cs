@@ -29,7 +29,7 @@ namespace PluginFramework.Utils
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
-        /// <param name="url">The url which should be openend</param>
+        /// <param name="url">The url which should be opened</param>
         public StaticUrlOpener(Uri url) : this(url.ToString())
         {
         }

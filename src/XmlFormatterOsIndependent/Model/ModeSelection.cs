@@ -1,4 +1,4 @@
-﻿using PluginFramework.Enums;
+﻿using XmlFormatter.Domain.Enums;
 
 namespace XmlFormatterOsIndependent.Models
 {

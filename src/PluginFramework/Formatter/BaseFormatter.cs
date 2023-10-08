@@ -1,12 +1,9 @@
-﻿using PluginFramework.DataContainer;
-using PluginFramework.Enums;
-using PluginFramework.EventMessages;
-using PluginFramework.Interfaces.PluginTypes;
-using System;
-using System.Data;
+﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using XmlFormatter.Domain.Enums;
+using XmlFormatter.Domain.PluginFeature;
+using XmlFormatter.Domain.PluginFeature.FormatterFeature;
 
 namespace PluginFramework.Formatter
 {
@@ -112,7 +109,7 @@ namespace PluginFramework.Formatter
         }
 
         /// <summary>
-        /// Method to load information from an resource embeeded into the plugin
+        /// Method to load information from an resource embedded into the plugin
         /// </summary>
         /// <param name="resourcePath">The path to the embedded resource</param>
         /// <returns>The content of the resource or an empty string if nothing was found</returns>

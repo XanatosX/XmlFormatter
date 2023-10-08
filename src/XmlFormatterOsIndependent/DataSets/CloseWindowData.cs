@@ -30,7 +30,7 @@ namespace XmlFormatterOsIndependent.DataSets
         /// Create a new instance of this class
         /// </summary>
         /// <param name="view">The window to close</param>
-        /// <param name="askBeforeClose">As before closind</param>
+        /// <param name="askBeforeClose">Ask before closing</param>
         public CloseWindowData(Window view, bool askBeforeClose)
         {
             Window = view;

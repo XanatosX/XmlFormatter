@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -8,17 +7,19 @@ using MessageBox.Avalonia.BaseWindows.Base;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using PluginFramework.DataContainer;
-using PluginFramework.Enums;
 using PluginFramework.Interfaces.Manager;
-using PluginFramework.Interfaces.PluginTypes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using XmlFormatterModel.Setting;
-using XmlFormatterModel.Update;
+using XmlFormatter.Application;
+using XmlFormatter.Application.Services;
+using XmlFormatter.Application.Services.UpdateFeature;
+using XmlFormatter.Domain.Enums;
+using XmlFormatter.Domain.PluginFeature.FormatterFeature;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
 using XmlFormatterOsIndependent.Services;
@@ -29,7 +30,7 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    public partial class MainWindowViewModel : ObservableObject
+    internal partial class MainWindowViewModel : ObservableObject
     {
         /// <summary>
         /// The modes you could convert to
@@ -83,9 +84,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         public bool FormatterModeSelectionVisible { get; }
 
         /// <summary>
-        /// The settings manager to use
+        /// The repository to use for loading application settings
         /// </summary>
-        private readonly ISettingsManager settingsManager;
+        private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
         /// <summary>
         /// The plugin manager used for loading the data
@@ -105,34 +106,36 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Service used to interaction with the io of the system
         /// </summary>
-        private readonly IIOInteractionService interactionService;
+        private readonly IUrlService urlService;
 
         /// <summary>
         /// Service used for the everything related to windows
         /// </summary>
         private readonly IWindowApplicationService applicationService;
 
-
         /// <summary>
         /// Create a new instance of this main window viewer
         /// </summary>
-        /// <param name="view">The view of this model</param>
-        /// <param name="settingsManager">The settings manager to use</param>
+        /// <param name="settingsRepository">The settings repository to use</param>
         /// <param name="pluginManager">The plugin manager to use</param>
-        public MainWindowViewModel(ISettingsManager settingsManager,
-                                   IPluginManager pluginManager,
-                                   IVersionManager versionManager,
-                                   ApplicationUpdateService updateService,
-                                   IPathService pathService,
-                                   IIOInteractionService interactionService,
-                                   IWindowApplicationService applicationService,
-                                   IThemeService themeService)
+        /// <param name="versionManager">The version manager to use</param>
+        /// <param name="updateService">The update service to use</param>
+        /// <param name="urlService">The interaction service to use</param>
+        /// <param name="applicationService">The application service to use</param>
+        /// <param name="themeService">The theme service to use</param>
+        public MainWindowViewModel(ISettingsRepository<ApplicationSettings> settingsRepository,
+                                     IPluginManager pluginManager,
+                                     IVersionManager versionManager,
+                                     ApplicationUpdateService updateService,
+                                     IUrlService urlService,
+                                     IWindowApplicationService applicationService,
+                                     IThemeService themeService)
         {
-            this.settingsManager = settingsManager;
+            this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
             this.versionManager = versionManager;
             this.updateService = updateService;
-            this.interactionService = interactionService;
+            this.urlService = urlService;
             this.applicationService = applicationService;
 
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
@@ -141,15 +144,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                   .Select(item => new ModeSelection(item.ToString(), item))
                                   .ToList();
 
-            if (!File.Exists(pathService.GetSettingsFile()))
-            {
-                settingsManager.Save(pathService.GetSettingsFile());
-            }
-            settingsManager.Load(pathService.GetSettingsFile());
-            var settings = settingsManager.GetScope("Default");
-            string themeString = settings?.GetSetting("Theme")?.GetValue<string>() ?? ThemeEnum.Light.ToString();
-            Enum.TryParse(themeString, out ThemeEnum value);
-            themeService.ChangeTheme(value);
+            var settingFile = settingsRepository.CreateOrLoad();
+            themeService.ChangeTheme(settingFile?.Theme ?? ThemeEnum.Light);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
@@ -206,7 +202,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFile = data ?? CurrentFile;
         }
 
-        private static FileDialogFilter CreatePluginFileFilter(IFormatter? plugin)
+        private static FileDialogFilter CreatePluginFileFilter(IFormatter plugin)
         {
             return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
         }
@@ -265,7 +261,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand]
         public void OpenUrl(string url)
         {
-            interactionService.OpenWebsite(url);
+
+            urlService.OpenUrl(url);
         }
 
         /// <summary>
