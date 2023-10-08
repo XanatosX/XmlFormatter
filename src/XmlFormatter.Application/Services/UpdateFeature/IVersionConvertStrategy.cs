@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XmlFormatterModel.Update
+﻿namespace XmlFormatter.Application.Services.UpdateFeature
 {
     /// <summary>
     /// This interface describes the strategy to convert

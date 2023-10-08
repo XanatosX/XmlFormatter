@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
+using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
-namespace XmlFormatterModel.Update
+namespace XmlFormatter.Infrastructure.Services.UpdaterFeature
 {
     /// <summary>
     /// Default update manager

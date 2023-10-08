@@ -1,4 +1,4 @@
-﻿namespace XmlFormatterModel.Update
+﻿namespace XmlFormatter.Application.Services.UpdateFeature
 {
     /// <summary>
     /// Create a new version manager

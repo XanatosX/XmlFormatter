@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
+using XmlFormatter.Application.Services;
+using XmlFormatter.Application.Services.UpdateFeature;
+using XmlFormatter.Infrastructure.Services.UpdaterFeature.Strategy;
 using XmlFormatterModel.Update;
-using XmlFormatterModel.Update.Strategies;
 using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.Services;
@@ -19,18 +20,7 @@ internal static class DependencyInjection
     /// <returns>An extended collection</returns>
     public static IServiceCollection AddServices(this IServiceCollection collection)
     {
-        return collection.AddSingleton<IVersionManager, VersionManager>(provider =>
-                         {
-                             var dataSet = provider.GetServices<IVersionReceiverStrategy>();
-                             IVersionReceiverStrategy? localVersion = dataSet.FirstOrDefault(data => data is LocalVersionReceiverStrategy);
-                             IVersionReceiverStrategy? remoteVersion = dataSet.FirstOrDefault(data => data is GitHubVersionReceiverStrategy);
-                             return new VersionManager(provider.GetRequiredService<IVersionConvertStrategy>(), localVersion, remoteVersion);
-                         })
-                         .AddSingleton<IVersionConvertStrategy, DefaultStringConvertStrategy>()
-                         .AddSingleton<IVersionReceiverStrategy, LocalVersionReceiverStrategy>()
-                         .AddSingleton<IVersionReceiverStrategy, GitHubVersionReceiverStrategy>()
-                         .AddSingleton<IPathService, PathService>()
-                         .AddSingleton<IIOInteractionService, DefaultInteractionService>()
+        return collection.AddSingleton<IVersionReceiverStrategy, LocalVersionReceiverStrategy>()
                          .AddSingleton<IWindowApplicationService, WindowApplicationService>()
                          .AddSingleton<IDependencyInjectionResolverService, DependencyInjectionResolverService>(provider => new DependencyInjectionResolverService(provider))
                          .AddSingleton<IUrlService, HyperlinkAdapterUrlService>()

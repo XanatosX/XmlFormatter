@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using XmlFormatter.Application.Services;
 using XmlFormatter.Domain.PluginFeature;
-using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;
 

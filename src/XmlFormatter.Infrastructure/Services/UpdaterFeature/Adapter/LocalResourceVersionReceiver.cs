@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
-using XmlFormatterModel.Update.Strategies;
 
 namespace XmlFormatterModel.Update.Adapter
 {

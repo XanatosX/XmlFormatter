@@ -14,9 +14,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using XmlFormatter.Application;
+using XmlFormatter.Application.Services;
+using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature.FormatterFeature;
-using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
@@ -105,7 +106,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <summary>
         /// Service used to interaction with the io of the system
         /// </summary>
-        private readonly IIOInteractionService interactionService;
+        private readonly IUrlService urlService;
 
         /// <summary>
         /// Service used for the everything related to windows
@@ -119,14 +120,14 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="pluginManager">The plugin manager to use</param>
         /// <param name="versionManager">The version manager to use</param>
         /// <param name="updateService">The update service to use</param>
-        /// <param name="interactionService">The interaction service to use</param>
+        /// <param name="urlService">The interaction service to use</param>
         /// <param name="applicationService">The application service to use</param>
         /// <param name="themeService">The theme service to use</param>
         public MainWindowViewModel(ISettingsRepository<ApplicationSettings> settingsRepository,
                                      IPluginManager pluginManager,
                                      IVersionManager versionManager,
                                      ApplicationUpdateService updateService,
-                                     IIOInteractionService interactionService,
+                                     IUrlService urlService,
                                      IWindowApplicationService applicationService,
                                      IThemeService themeService)
         {
@@ -134,7 +135,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.pluginManager = pluginManager;
             this.versionManager = versionManager;
             this.updateService = updateService;
-            this.interactionService = interactionService;
+            this.urlService = urlService;
             this.applicationService = applicationService;
 
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
@@ -260,7 +261,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand]
         public void OpenUrl(string url)
         {
-            interactionService.OpenWebsite(url);
+
+            urlService.OpenUrl(url);
         }
 
         /// <summary>

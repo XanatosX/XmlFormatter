@@ -1,7 +1,6 @@
-﻿using System;
-using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
+﻿using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
-namespace XmlFormatterModel.Update
+namespace XmlFormatter.Application.Services.UpdateFeature
 {
     /// <summary>
     /// This interface defines how a application updater should look like

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
-using XmlFormatterModel.Update.Strategies;
 
-namespace XmlFormatterModel.Update
+namespace XmlFormatter.Infrastructure.Services.UpdateFeature
 {
     /// <summary>
     /// Create a new version manager

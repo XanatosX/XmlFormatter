@@ -4,11 +4,11 @@ using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using System.Collections.Generic;
 using System.Linq;
+using XmlFormatter.Application.Services;
 using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.FormatterFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 using XmlFormatterOsIndependent.Models;
-using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {

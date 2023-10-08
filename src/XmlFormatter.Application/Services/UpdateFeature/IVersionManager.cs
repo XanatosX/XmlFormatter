@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using XmlFormatter.Domain.PluginFeature;
+﻿using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
-namespace XmlFormatterModel.Update
+namespace XmlFormatter.Application.Services.UpdateFeature
 {
     /// <summary>
     /// This interface represents a version manager

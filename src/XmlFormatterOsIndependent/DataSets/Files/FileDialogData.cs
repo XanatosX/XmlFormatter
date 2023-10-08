@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using System.Collections.Generic;
 
-namespace XmlFormatterOsIndependent.DataSets
+namespace XmlFormatterOsIndependent.DataSets.Files
 {
     /// <summary>
     /// Data class for file dialogs

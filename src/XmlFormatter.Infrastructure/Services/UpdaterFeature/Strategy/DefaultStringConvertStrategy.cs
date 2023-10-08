@@ -1,8 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using XmlFormatter.Application.Services.UpdateFeature;
 
-namespace XmlFormatterModel.Update.Strategies
+namespace XmlFormatter.Infrastructure.Services.UpdaterFeature.Strategy
 {
     /// <summary>
     /// This class will convert the strings in a simple way

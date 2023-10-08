@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
+using XmlFormatterOsIndependent.Services;
 
-namespace XmlFormatterOsIndependent.Services;
+namespace XmlFormatter.Application.Services;
 
 /// <summary>
 /// Service to resolve dependencies

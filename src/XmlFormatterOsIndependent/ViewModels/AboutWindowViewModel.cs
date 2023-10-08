@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
-using XmlFormatterModel.Update.Strategies;
+using XmlFormatter.Infrastructure.Services.UpdaterFeature.Strategy;
 using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -23,10 +24,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Create a new instance of this class
         /// </summary>
         /// <inheritdoc>
-        public AboutWindowViewModel(IEnumerable<IVersionReceiverStrategy> receiverStrategies)
+        public AboutWindowViewModel(IEnumerable<IVersionReceiverStrategy> receiverStrategies, IVersionConvertStrategy versionConvertStrategy)
         {
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
-            Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(new DefaultStringConvertStrategy());
+            Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();
 
             Version version = versionTask?.Result ?? new Version(0, 0, 0, 0);

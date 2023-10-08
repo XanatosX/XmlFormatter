@@ -1,4 +1,4 @@
-﻿namespace XmlFormatterOsIndependent.Services;
+﻿namespace XmlFormatter.Application.Services;
 
 /// <summary>
 /// Service interface to validate and open links in the default browser

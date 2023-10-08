@@ -5,7 +5,7 @@ using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
 
-namespace XmlFormatterModel.Update.Strategies
+namespace XmlFormatter.Application.Services.UpdateFeature
 {
 
     /// <summary>

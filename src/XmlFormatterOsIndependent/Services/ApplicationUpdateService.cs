@@ -26,24 +26,16 @@ internal class ApplicationUpdateService
     private readonly IPluginManager pluginManager;
 
     /// <summary>
-    /// The path service used to request the settings file
-    /// </summary>
-    private readonly IPathService pathService;
-
-    /// <summary>
     /// Create a new instance of the application update service
     /// </summary>
     /// <param name="settingsManager">The settings manager used for getting the application settings</param>
     /// <param name="pluginManager">The plugin manager used for working with the update plugins</param>
     /// <param name="pathService">The path service used to check the settings file</param>
     public ApplicationUpdateService(ISettingsRepository<ApplicationSettings> settingsRepository,
-                                    IPluginManager pluginManager,
-                                    IPathService pathService)
+                                    IPluginManager pluginManager)
     {
         this.settingsRepository = settingsRepository;
-
         this.pluginManager = pluginManager;
-        this.pathService = pathService;
     }
 
     /// <summary>
