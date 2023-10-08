@@ -70,6 +70,15 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to XmlFormatterOsIndependent.Resources.ThirdPartyApps.json.
+        /// </summary>
+        public static string AboutWindow_Tab_General_ThirdPartyApps_File {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General_ThirdPartyApps_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LinuxAvalonia.
         /// </summary>
         public static string Asset_LinuxFilter {

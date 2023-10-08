@@ -120,6 +120,9 @@
   <data name="AboutWindow_Tab_General_Description_File" xml:space="preserve">
     <value>XmlFormatterOsIndependent.Resources.AppDescription.md</value>
   </data>
+  <data name="AboutWindow_Tab_General_ThirdPartyApps_File" xml:space="preserve">
+    <value>XmlFormatterOsIndependent.Resources.ThirdPartyApps.json</value>
+  </data>
   <data name="Asset_LinuxFilter" xml:space="preserve">
     <value>LinuxAvalonia</value>
   </data>

@@ -21,6 +21,7 @@
     <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
     <None Remove="Resources\AppDescription.md" />
+    <None Remove="Resources\ThirdPartyApps.json" />
     <None Remove="Views\PluginManagerWindow.xaml" />
     <None Remove="XmlFormatterIcon.ico" />
   </ItemGroup>
@@ -29,12 +30,13 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppDescription.md" />
+    <EmbeddedResource Include="Resources\ThirdPartyApps.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.21" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.21" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.21" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="HyperText.Avalonia" Version="1.0.0" />
     <PackageReference Include="Markdown.Avalonia.Tight" Version="0.10.14" />
     <PackageReference Include="MessageBox.Avalonia" Version="2.1.0" />

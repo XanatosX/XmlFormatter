@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="XmlFormatterOsIndependent.Views.ThirdPartyAppView">
+	<Panel Margin="10">
+		<StackPanel Orientation="Horizontal" Spacing="15">
+			<controls:Hyperlink Alias="{Binding Name}" Url="{Binding Url}" IsVisible="{Binding Url, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+			<TextBlock Text="{Binding Name}" IsVisible="{Binding Url, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+			<TextBlock Text="{Binding Version}"/>
+			<controls:Hyperlink Alias="{Binding License}" Url="{Binding LicenseUrl}" IsVisible="{Binding LicenseUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+			<TextBlock Text="{Binding License}" IsVisible="{Binding LicenseUrl, Converter={x:Static StringConverters.IsNullOrEmpty}}"/>
+		</StackPanel>
+	</Panel>
+</UserControl>

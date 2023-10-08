@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Octokit",
+    "version": "8.0.1",
+    "license": "MIT",
+    "licenseUrl": "https://github.com/octokit/octokit.net/blob/main/LICENSE.txt",
+    "url": "https://github.com/octokit/octokit.net"
+  },
+  {
+    "name": "HyperText.Avalonia",
+    "version": "1.0.0",
+    "license": "-",
+    "licenseUrl": "",
+    "url": "https://www.nuget.org/packages/HyperText.Avalonia/"
+  },
+  {
+    "name": "Markdown.Avalonia.Tight",
+    "version": "1.0.0",
+    "license": "MIT",
+    "licenseUrl": "https://github.com/whistyun/Markdown.Avalonia/blob/master/LICENSE.txt",
+    "url": "https://github.com/whistyun/Markdown.Avalonia"
+  },
+  {
+    "name": "MessageBox.Avalonia",
+    "version": "2.1.0",
+    "license": "MIT",
+    "licenseUrl": "https://github.com/AvaloniaCommunity/MessageBox.Avalonia/blob/master/LICENSE",
+    "url": "https://github.com/AvaloniaCommunity/MessageBox.Avalonia"
+  }
+]

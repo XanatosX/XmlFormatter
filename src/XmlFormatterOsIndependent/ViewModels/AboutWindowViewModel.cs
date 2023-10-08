@@ -5,9 +5,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
+using XmlFormatterOsIndependent.Model;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
@@ -29,6 +31,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         public string? description;
 
         /// <summary>
+        /// A list with third party apps
+        /// </summary>
+        [ObservableProperty]
+        public IReadOnlyList<ThirdPartyAppViewModel> thirdPartyApps;
+
+        /// <summary>
         /// Create a new instance of this class
         /// </summary>
         /// <inheritdoc>
@@ -46,6 +54,24 @@ namespace XmlFormatterOsIndependent.ViewModels
             var assembly = Assembly.GetExecutingAssembly();
             Description = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
 
+            string? thirdPartyAppData = GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_ThirdPartyApps_File, assembly);
+            if (thirdPartyAppData is null)
+            {
+                return;
+            }
+            List<ThirdPartyApp> apps = new();
+            try
+            {
+                apps = JsonSerializer.Deserialize<List<ThirdPartyApp>>(thirdPartyAppData) ?? new();
+            }
+            catch (System.Exception)
+            {
+                //Third party app loading did fail
+            }
+            ThirdPartyApps = apps.Where(app => !string.IsNullOrEmpty(app.Name))
+                                 .OrderBy(app => app.Name)
+                                 .Select(app => new ThirdPartyAppViewModel(app))
+                                 .ToList();
         }
 
         /// <summary>
@@ -83,7 +109,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 using (Stream? stream = assembly.GetManifestResourceStream(filename))
                 {
-                    if (stream is not null)                        
+                    if (stream is not null)
                     {
                         using (StreamReader reader = new StreamReader(stream))
                         {

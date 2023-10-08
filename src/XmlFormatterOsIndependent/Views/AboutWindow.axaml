@@ -15,7 +15,7 @@
         Width="670"
         MaxWidth="670">
     <TabControl Padding="10">
-      <TabItem Header="General">
+      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_General}">
         <Grid ColumnDefinitions="*, 3*" RowDefinitions="Auto">
 			<DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 				<Image Source="/Assets/XmlFormatterIcon.ico" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40"/>
@@ -35,29 +35,10 @@
 					</StackPanel>
 				</Panel>
 			</Grid>
-			<!--
-			<StackPanel Grid.Column="0">
-            <TextBlock>Version:</TextBlock>
-            <TextBlock>Maintainer:</TextBlock>
-            <TextBlock>License:</TextBlock>
-            <TextBlock>Project:</TextBlock>
-          </StackPanel>
-          <StackPanel Grid.Column="1" Margin="15,0,0,0">
-            <TextBlock Text="{Binding Version}"></TextBlock>
-            <TextBlock>XanatosX</TextBlock>
-            <TextBlock Classes="link" Text="MIT">
-            </TextBlock>
-            <TextBlock Classes="link">https://github.com/XanatosX/XmlFormatter</TextBlock>
-          </StackPanel>
-			-->
         </Grid>
       </TabItem>
-      <TabItem Header="Third Party">
-        <StackPanel>
-          <ListBox>
-            <ListBoxItem Content="Octokit"></ListBoxItem>
-          </ListBox>
-        </StackPanel>
+      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_ThirdParty}">
+		  <ItemsControl Items="{Binding ThirdPartyApps}"/>
       </TabItem>
     </TabControl>
 </Window>
