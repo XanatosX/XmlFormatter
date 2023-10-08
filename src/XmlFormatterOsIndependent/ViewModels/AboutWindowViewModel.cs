@@ -5,7 +5,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Resources;
 using System.Threading.Tasks;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
@@ -49,6 +48,11 @@ namespace XmlFormatterOsIndependent.ViewModels
 
         }
 
+        /// <summary>
+        /// Get the description based on the current culture
+        /// </summary>
+        /// <param name="assembly">The assembly to load the file from</param>
+        /// <returns>The description string or null if nothing was found</returns>
         private string? GetLanguageDependedDescription(Assembly assembly)
         {
             var name = CultureInfo.CurrentCulture.ThreeLetterISOLanguageName;
@@ -56,11 +60,22 @@ namespace XmlFormatterOsIndependent.ViewModels
             return GetDataFromResourceFile(fileName, assembly);
         }
 
+        /// <summary>
+        /// Get the fallback description
+        /// </summary>
+        /// <param name="assembly">The assembly to load the file from</param>
+        /// <returns>The description string or null if nothing was found</returns>
         private string? GetBackupDependedDescription(Assembly assembly)
         {
             return GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_Description_File, assembly);
         }
 
+        /// <summary>
+        /// Load a resource file from the given resource
+        /// </summary>
+        /// <param name="filename">The path to the resoruce file</param>
+        /// <param name="assembly">The assembly to load the file from</param>
+        /// <returns>The file content or an null string if nothing was found</returns>
         private string? GetDataFromResourceFile(string filename, Assembly assembly)
         {
             string? returnString = null;
