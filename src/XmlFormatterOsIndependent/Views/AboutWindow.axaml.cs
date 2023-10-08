@@ -4,7 +4,7 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class AboutWindow : Window
+    internal class AboutWindow : Window
     {
         public AboutWindow() : this(null)
         {

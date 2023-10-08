@@ -61,6 +61,51 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string AboutWindow_Tab_General {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discuss.
+        /// </summary>
+        public static string AboutWindow_Tab_General_Discuss {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General_Discuss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get Help.
+        /// </summary>
+        public static string AboutWindow_Tab_General_GetHelp {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General_GetHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Third Party.
+        /// </summary>
+        public static string AboutWindow_Tab_ThirdParty {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_ThirdParty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xml Formatter.
+        /// </summary>
+        public static string Application_Name {
+            get {
+                return ResourceManager.GetString("Application_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ask before closing.
         /// </summary>
         public static string ApplicationSettingsView_AskBeforeClosing {

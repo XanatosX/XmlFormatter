@@ -20,15 +20,11 @@
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
-    <None Remove="Resources\AppDescription.md" />
     <None Remove="Views\PluginManagerWindow.xaml" />
     <None Remove="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XmlFormatterIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\AppDescription.md" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.21" />
@@ -71,6 +67,9 @@
     <None Update="Views\SettingsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
   <Target Name="MakeMyDir" AfterTargets="Build">
