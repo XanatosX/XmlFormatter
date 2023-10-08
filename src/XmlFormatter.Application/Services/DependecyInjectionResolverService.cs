@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatter.Application.Services;
 

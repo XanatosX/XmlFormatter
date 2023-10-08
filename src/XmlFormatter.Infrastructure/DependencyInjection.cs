@@ -10,8 +10,16 @@ using XmlFormatterModel.Update.Strategies;
 
 namespace XmlFormatter.Infrastructure;
 
+/// <summary>
+/// Class to inject the dependencies for the infrastructure library
+/// </summary>
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Add the infrastructure dependencies to the application
+    /// </summary>
+    /// <param name="collection">The collection to add tp</param>
+    /// <returns>The edited collection</returns>
     public static IServiceCollection AddInfrastructure(this IServiceCollection collection, JsonSerializerOptions? options)
     {
         return collection.AddSingleton(_ => options ?? new())

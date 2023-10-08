@@ -20,12 +20,18 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
     /// </summary>
     private readonly JsonSerializerOptions options;
 
+    /// <summary>
+    /// Create a new instance for this class
+    /// </summary>
+    /// <param name="settingsOptions">The settings option to use for finding the setting file</param>
+    /// <param name="options">The conversion options to use</param>
     public JsonSettingRepository(SettingsOptions settingsOptions, JsonSerializerOptions options)
     {
         this.settingsOptions = settingsOptions;
         this.options = options;
     }
 
+    /// <inheritdoc/>
     public T? CreateOrLoad()
     {
         if (File.Exists(settingsOptions.GetSettingPath()))
@@ -41,6 +47,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         return Update(settings);
     }
 
+    /// <inheritdoc/>
     private T? LoadSettings()
     {
         T? returnData = default;
@@ -59,11 +66,13 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         return returnData;
     }
 
+    /// <inheritdoc/>
     public async Task<T?> CreateOrLoadAsync()
     {
         return await Task.Run(() => CreateOrLoad());
     }
 
+    /// <inheritdoc/>
     public T? Update(T settings)
     {
         if (!Directory.Exists(settingsOptions.SettingDirectory))
@@ -85,6 +94,7 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         return CreateOrLoad();
     }
 
+    /// <inheritdoc/>
     public T? Update(Action<T?> settingActions)
     {
         T? settings = CreateOrLoad();
@@ -97,11 +107,13 @@ public class JsonSettingRepository<T> : ISettingsRepository<T> where T : class, 
         return Update(settings);
     }
 
+    /// <inheritdoc/>
     public Task<T?> UpdateAsync(T settings)
     {
         return Task.Run(() => Update(settings));
     }
 
+    /// <inheritdoc/>
     public Task<T?> UpdateAsync(Action<T?> settingActions)
     {
         return Task.Run(() => Update(settingActions));
