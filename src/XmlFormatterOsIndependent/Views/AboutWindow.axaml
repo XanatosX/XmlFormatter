@@ -1,0 +1,44 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="XmlFormatterOsIndependent.Views.AboutWindow"
+		xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
+		xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
+		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
+        Title="Version Information"
+        CanResize="False"
+		SizeToContent="Height"
+        MinHeight="120"
+        MinWidth="670"
+        Width="670"
+        MaxWidth="670">
+    <TabControl Padding="10">
+      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_General}">
+        <Grid ColumnDefinitions="*, 3*" RowDefinitions="Auto">
+			<DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+				<Image Source="/Assets/XmlFormatterIcon.ico" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40"/>
+			</DockPanel>
+			<Grid Grid.Column="1" ColumnDefinitions="32, *" RowDefinitions="Auto, Auto">
+				<Panel Grid.Column="0" Grid.ColumnSpan="2">
+				    <TextBlock Text="{x:Static p:Resources.Application_Name}" FontSize="30"/>
+				</Panel>
+				<Panel Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
+					<StackPanel Spacing="5">
+					    <TextBlock Text="{Binding Version}"/>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_Discuss}" Url="{x:Static p:Properties.GitHub_Discuss}"/>
+							<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_GetHelp}" Url="{x:Static p:Properties.GitHub_Issue}"/>
+						</StackPanel>
+						<md:MarkdownScrollViewer Markdown="{Binding Description}"/>
+					</StackPanel>
+				</Panel>
+			</Grid>
+        </Grid>
+      </TabItem>
+      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_ThirdParty}">
+		  <ItemsControl Items="{Binding ThirdPartyApps}"/>
+      </TabItem>
+    </TabControl>
+</Window>

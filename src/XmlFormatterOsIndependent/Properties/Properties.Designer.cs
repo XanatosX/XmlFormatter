@@ -61,6 +61,24 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to XmlFormatterOsIndependent.Resources.AppDescription.md.
+        /// </summary>
+        public static string AboutWindow_Tab_General_Description_File {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General_Description_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XmlFormatterOsIndependent.Resources.ThirdPartyApps.json.
+        /// </summary>
+        public static string AboutWindow_Tab_General_ThirdPartyApps_File {
+            get {
+                return ResourceManager.GetString("AboutWindow_Tab_General_ThirdPartyApps_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LinuxAvalonia.
         /// </summary>
         public static string Asset_LinuxFilter {
@@ -88,6 +106,15 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://github.com/XanatosX/XmlFormatter/discussions.
+        /// </summary>
+        public static string GitHub_Discuss {
+            get {
+                return ResourceManager.GetString("GitHub_Discuss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/XanatosX/XmlFormatter/issues.
         /// </summary>
         public static string GitHub_Issue {
@@ -102,51 +129,6 @@ namespace XmlFormatterOsIndependent.Properties {
         public static string GitHub_Project {
             get {
                 return ResourceManager.GetString("GitHub_Project", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to AskBeforeClosing.
-        /// </summary>
-        public static string Setting_Ask_Before_Closing_Key {
-            get {
-                return ResourceManager.GetString("Setting_Ask_Before_Closing_Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        public static string Setting_Default_Scope {
-            get {
-                return ResourceManager.GetString("Setting_Default_Scope", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SearchUpdateOnStartup.
-        /// </summary>
-        public static string Setting_Search_Update_On_Startup_Key {
-            get {
-                return ResourceManager.GetString("Setting_Search_Update_On_Startup_Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Theme.
-        /// </summary>
-        public static string Setting_Theme_Key {
-            get {
-                return ResourceManager.GetString("Setting_Theme_Key", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to UpdateStrategy.
-        /// </summary>
-        public static string Setting_Update_Strategy_Key {
-            get {
-                return ResourceManager.GetString("Setting_Update_Strategy_Key", resourceCulture);
             }
         }
     }

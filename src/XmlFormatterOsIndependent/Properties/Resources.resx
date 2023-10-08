@@ -225,4 +225,19 @@
   <data name="BackupSettingsView_ImportingSettingWasSuccessful" xml:space="preserve">
     <value>Importing the setting was successful</value>
   </data>
+  <data name="Application_Name" xml:space="preserve">
+    <value>Xml Formatter</value>
+  </data>
+  <data name="AboutWindow_Tab_General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="AboutWindow_Tab_General_Discuss" xml:space="preserve">
+    <value>Discuss</value>
+  </data>
+  <data name="AboutWindow_Tab_General_GetHelp" xml:space="preserve">
+    <value>Get Help</value>
+  </data>
+  <data name="AboutWindow_Tab_ThirdParty" xml:space="preserve">
+    <value>Third Party</value>
+  </data>
 </root>

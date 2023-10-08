@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutWindow_Tab_General_Description_File" xml:space="preserve">
+    <value>XmlFormatterOsIndependent.Resources.AppDescription.md</value>
+  </data>
+  <data name="AboutWindow_Tab_General_ThirdPartyApps_File" xml:space="preserve">
+    <value>XmlFormatterOsIndependent.Resources.ThirdPartyApps.json</value>
+  </data>
   <data name="Asset_LinuxFilter" xml:space="preserve">
     <value>LinuxAvalonia</value>
   </data>
@@ -126,25 +132,13 @@
   <data name="Asset_WindowsFilter" xml:space="preserve">
     <value>WindowsAvalonia</value>
   </data>
+  <data name="GitHub_Discuss" xml:space="preserve">
+    <value>https://github.com/XanatosX/XmlFormatter/discussions</value>
+  </data>
   <data name="GitHub_Issue" xml:space="preserve">
     <value>https://github.com/XanatosX/XmlFormatter/issues</value>
   </data>
   <data name="GitHub_Project" xml:space="preserve">
     <value>https://github.com/XanatosX/XmlFormatter</value>
-  </data>
-  <data name="Setting_Ask_Before_Closing_Key" xml:space="preserve">
-    <value>AskBeforeClosing</value>
-  </data>
-  <data name="Setting_Default_Scope" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="Setting_Search_Update_On_Startup_Key" xml:space="preserve">
-    <value>SearchUpdateOnStartup</value>
-  </data>
-  <data name="Setting_Theme_Key" xml:space="preserve">
-    <value>Theme</value>
-  </data>
-  <data name="Setting_Update_Strategy_Key" xml:space="preserve">
-    <value>UpdateStrategy</value>
   </data>
 </root>

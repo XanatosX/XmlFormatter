@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature;
@@ -33,16 +34,9 @@ namespace XmlFormatterModel.Update.Adapter
         public Task<Version> GetVersionAsync(IVersionConvertStrategy convertStrategy)
         {
             Assembly assembly = GetAssembly();
-            string versionString = "0.0.0";
-            using (Stream stream = assembly.GetManifestResourceStream(GetResourcePath()))
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    versionString = reader.ReadLine();
-                }
-            }
+            var versionInfo = FileVersionInfo.GetVersionInfo(assembly.Location).FileVersion;
 
-            return Task.Run(() => convertStrategy.ConvertStringToVersion(versionString));
+            return Task.Run(() => convertStrategy.ConvertStringToVersion(versionInfo ?? "0.0.0"));
         }
 
         /// <summary>
