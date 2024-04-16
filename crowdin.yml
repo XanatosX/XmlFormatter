@@ -1,0 +1,3 @@
+files:
+  - source: /src/XmlFormatterOsIndependent/Properties/Resources.resx
+    translation: //src/XmlFormatterOsIndependent/Properties/%file_name%.%two_letters_code%.%file_extension%
