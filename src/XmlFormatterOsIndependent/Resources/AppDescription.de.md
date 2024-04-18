@@ -1,5 +1,5 @@
-This Application is based on the [MIT](https://github.com/XanatosX/XmlFormatter/blob/master/LICENSE) license. The app does use plugin to convert structured files into a human readable or flat format.
+Diese Applikation ist unter der [MIT](https://github.com/XanatosX/XmlFormatter/blob/master/LICENSE) Lizenz lizenziert. Die Applikation nutzt Plugins um strukturierte Dateien in ein von Menschen lesbares Format oder minimales zu konvertieren.
 
-I do develop this as a hobby in my spare time so do not expect bugs to be fixed immediately. Feel free to create issues or discuss about the release by using the links above. If you want to participate feel free to assign you an issue and try to solve it.
+Ich entwickele das Programm als Hobby in meiner Freizeit, deshalb kann sein, dass Fehler nicht direkt behoben werden. Gerne können Probleme, welcher innerhalb der Applikation gefunden werden gemeldet werden. Außerdem kann über aktuelle Releases diskutiert werden. Die Links hierfür sind oben zu finden. Möchtest du mithelfen das Programm weiterzuentwickeln kannst du dir gerne gemeldete Probleme anschauen und versuchen diese zu lösen.
 
-Thank you for using this tool.
+Vielen Dank das du dieses Tool benutzt.
