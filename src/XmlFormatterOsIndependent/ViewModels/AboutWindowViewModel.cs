@@ -107,7 +107,6 @@ namespace XmlFormatterOsIndependent.ViewModels
             string? returnString = null;
             try
             {
-                var names = assembly.GetManifestResourceNames();
                 using (Stream? stream = assembly.GetManifestResourceStream(filename))
                 {
                     if (stream is not null)
