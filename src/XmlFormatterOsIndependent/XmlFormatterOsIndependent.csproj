@@ -20,6 +20,7 @@
     <None Remove="Assets\HotfolderIcon.ico" />
     <None Remove="Assets\PluginIcon.ico" />
     <None Remove="Assets\XmlFormatterSettingsIcon.ico" />
+    <None Remove="Resources\AppDescription*.md" />
     <None Remove="Resources\AppDescription.md" />
     <None Remove="Resources\ThirdPartyApps.json" />
     <None Remove="Views\PluginManagerWindow.xaml" />
@@ -29,7 +30,7 @@
     <Content Include="XmlFormatterIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AppDescription.md" />
+    <EmbeddedResource Include="Resources\AppDescription*.md" WithCulture="false"/>
     <EmbeddedResource Include="Resources\ThirdPartyApps.json" />
   </ItemGroup>
   <ItemGroup>

@@ -81,7 +81,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <returns>The description string or null if nothing was found</returns>
         private string? GetLanguageDependedDescription(Assembly assembly)
         {
-            var name = CultureInfo.CurrentCulture.ThreeLetterISOLanguageName;
+            var name = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
             string fileName = Properties.Properties.AboutWindow_Tab_General_Description_File.Replace(".md", $".{name}.md");
             return GetDataFromResourceFile(fileName, assembly);
         }
@@ -107,6 +107,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             string? returnString = null;
             try
             {
+                var names = assembly.GetManifestResourceNames();
                 using (Stream? stream = assembly.GetManifestResourceStream(filename))
                 {
                     if (stream is not null)
