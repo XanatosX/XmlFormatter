@@ -115,7 +115,7 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Does show a confirmation popup if enabled and you want to close the application.
+        ///   Looks up a localized string similar to If enabled this does show a confirmation popup if you want to close the application.
         /// </summary>
         public static string ApplicationSettingsView_AskBeforeClosing_Tip {
             get {
@@ -142,7 +142,7 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Theme to display the application with.
+        ///   Looks up a localized string similar to The theme to display the application with.
         /// </summary>
         public static string ApplicationSettingsView_Theme_Tip {
             get {
@@ -169,7 +169,7 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Export failed, because no file was selected or the settings could not be loaded.
+        ///   Looks up a localized string similar to The export failed, because no file was selected or the settings could not be loaded.
         /// </summary>
         public static string BackupSettingsView_ExportFailed {
             get {
@@ -322,6 +322,24 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flat.
+        /// </summary>
+        public static string Mode_Flat {
+            get {
+                return ResourceManager.GetString("Mode_Flat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Formatted.
+        /// </summary>
+        public static string Mode_Formatted {
+            get {
+                return ResourceManager.GetString("Mode_Formatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Author:.
         /// </summary>
         public static string PluginInformationView_Author_Colon {
@@ -426,6 +444,24 @@ namespace XmlFormatterOsIndependent.Properties {
         public static string SettingsWindow_Title {
             get {
                 return ResourceManager.GetString("SettingsWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dark.
+        /// </summary>
+        public static string Theme_Dark {
+            get {
+                return ResourceManager.GetString("Theme_Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        public static string Theme_Light {
+            get {
+                return ResourceManager.GetString("Theme_Light", resourceCulture);
             }
         }
     }

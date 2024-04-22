@@ -129,7 +129,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                      ApplicationUpdateService updateService,
                                      IUrlService urlService,
                                      IWindowApplicationService applicationService,
-                                     IThemeService themeService)
+                                     IThemeService themeService,
+                                     ResourceTranslationService resourceTranslationService)
         {
             this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
@@ -141,7 +142,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
                                   .Cast<ModesEnum>()
                                   .OfType<ModesEnum>()
-                                  .Select(item => new ModeSelection(item.ToString(), item))
+                                  .Select(item => new ModeSelection(resourceTranslationService.GetTranslation($"Mode_{item}") ?? item.ToString(), item))
                                   .ToList();
 
             var settingFile = settingsRepository.CreateOrLoad();

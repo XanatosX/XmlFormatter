@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,70 +118,70 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationSettingsView_AskBeforeClosing" xml:space="preserve">
-    <value>Ask before closing</value>
+    <value>Vor dem Beenden fragen</value>
   </data>
   <data name="ApplicationSettingsView_AskBeforeClosing_Tip" xml:space="preserve">
-    <value>If enabled this does show a confirmation popup if you want to close the application</value>
+    <value>Zeigt, wenn aktiviert, ein Dialog zur Bestätigung an, ob die Anwendung geschlossen werden soll</value>
   </data>
   <data name="ApplicationSettingsView_CheckForUpdateOnStartup" xml:space="preserve">
-    <value>Check for updates on startup</value>
+    <value>Beim Start nach Updates suchen</value>
   </data>
   <data name="ApplicationSettingsView_CheckForUpdateOnStartup_Tip" xml:space="preserve">
-    <value>Does check if there is new version of the application available as soon as the application starts.</value>
+    <value>Prüft, ob es eine neue Version der Anwendung gibt, sobald die Anwendung startet.</value>
   </data>
   <data name="ApplicationSettingsView_Theme_Tip" xml:space="preserve">
-    <value>The theme to display the application with</value>
+    <value>Das Thema, mit dem die Anwendung angezeigt werden soll</value>
   </data>
   <data name="ApplicationSettingsView_Updater_Tip" xml:space="preserve">
-    <value>The updater used to download the update for the application.</value>
+    <value>Der Updater, mit dem das Update für die Anwendung heruntergeladen wurde.</value>
   </data>
   <data name="BackupSettingsView_Export" xml:space="preserve">
-    <value>Export Settings</value>
+    <value>Einstellungen exportieren</value>
   </data>
   <data name="BackupSettingsView_Import" xml:space="preserve">
-    <value>Import Settings</value>
+    <value>Einstellungen importieren</value>
   </data>
   <data name="MainWindow_Load" xml:space="preserve">
-    <value>Load</value>
+    <value>Laden</value>
   </data>
   <data name="MainWindow_Menu_About" xml:space="preserve">
-    <value>About</value>
+    <value>Über</value>
   </data>
   <data name="MainWindow_Menu_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>Beenden</value>
   </data>
   <data name="MainWindow_Menu_File" xml:space="preserve">
-    <value>File</value>
+    <value>Datei</value>
   </data>
   <data name="MainWindow_Menu_Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Hilfe</value>
   </data>
   <data name="MainWindow_Menu_OpenSettings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
   </data>
   <data name="MainWindow_Menu_Plugins" xml:space="preserve">
     <value>Plugins</value>
   </data>
   <data name="MainWindow_Menu_ReportIssue" xml:space="preserve">
-    <value>Report Issue</value>
+    <value>Fehler melden</value>
   </data>
   <data name="MainWindow_Menu_Update" xml:space="preserve">
-    <value>Check for update</value>
+    <value>Nach Updates suchen</value>
   </data>
   <data name="MainWindow_Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Speichern</value>
   </data>
   <data name="MainWindow_SelectFilePath" xml:space="preserve">
-    <value>Select file path for formatting</value>
+    <value>Dateipfad für die Formatierung auswählen</value>
   </data>
   <data name="MainWindow_Status_Template" xml:space="preserve">
     <value>Status: {0}</value>
   </data>
   <data name="PluginInformationView_Author_Colon" xml:space="preserve">
-    <value>Author:</value>
+    <value>Autor:</value>
   </data>
   <data name="PluginInformationView_Description" xml:space="preserve">
-    <value>Description</value>
+    <value>Beschreibung</value>
   </data>
   <data name="PluginInformationView_Name_Colon" xml:space="preserve">
     <value>Name:</value>
@@ -190,16 +190,16 @@
     <value>Version:</value>
   </data>
   <data name="PluginManagerWindow_Title" xml:space="preserve">
-    <value>Plugin Manager</value>
+    <value>Plugin-Manager</value>
   </data>
   <data name="SettingsWindow_Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Schließen</value>
   </data>
   <data name="SettingsWindow_SaveAndClose" xml:space="preserve">
-    <value>Save and Close</value>
+    <value>Speichern und schließen</value>
   </data>
   <data name="SettingsWindow_Tab_Application" xml:space="preserve">
-    <value>Application</value>
+    <value>Anwendung</value>
   </data>
   <data name="SettingsWindow_Tab_Backup" xml:space="preserve">
     <value>Backup</value>
@@ -211,45 +211,33 @@
     <value>Logging</value>
   </data>
   <data name="SettingsWindow_Title" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
   </data>
   <data name="BackupSettingsView_ExportFailed" xml:space="preserve">
-    <value>The export failed, because no file was selected or the settings could not be loaded</value>
+    <value>Export fehlgeschlagen, da keine Datei ausgewählt wurde oder die Einstellungen nicht geladen werden konnten</value>
   </data>
   <data name="BackupSettingsView_ImportedSettingNotLoaded" xml:space="preserve">
-    <value>Could not load setting for import, please check the selected file</value>
+    <value>Konnte die Einstellung für den Import nicht laden, bitte überprüfen Sie die ausgewählte Datei</value>
   </data>
   <data name="BackupSettingsView_ExportingSettingWasSuccessful" xml:space="preserve">
-    <value>Exporting the settings was successful</value>
+    <value>Export der Einstellungen war erfolgreich</value>
   </data>
   <data name="BackupSettingsView_ImportingSettingWasSuccessful" xml:space="preserve">
-    <value>Importing the setting was successful</value>
+    <value>Import der Einstellung war erfolgreich</value>
   </data>
   <data name="Application_Name" xml:space="preserve">
     <value>Xml Formatter</value>
   </data>
   <data name="AboutWindow_Tab_General" xml:space="preserve">
-    <value>General</value>
+    <value>Allgemein</value>
   </data>
   <data name="AboutWindow_Tab_General_Discuss" xml:space="preserve">
-    <value>Discuss</value>
+    <value>Diskutieren</value>
   </data>
   <data name="AboutWindow_Tab_General_GetHelp" xml:space="preserve">
-    <value>Get Help</value>
+    <value>Hilfe erhalten</value>
   </data>
   <data name="AboutWindow_Tab_ThirdParty" xml:space="preserve">
-    <value>Third Party</value>
-  </data>
-  <data name="Mode_Flat" xml:space="preserve">
-    <value>Flat</value>
-  </data>
-  <data name="Mode_Formatted" xml:space="preserve">
-    <value>Formatted</value>
-  </data>
-  <data name="Theme_Dark" xml:space="preserve">
-    <value>Dark</value>
-  </data>
-  <data name="Theme_Light" xml:space="preserve">
-    <value>Light</value>
+    <value>Drittanbieter</value>
   </data>
 </root>
