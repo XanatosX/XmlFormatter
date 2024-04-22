@@ -121,7 +121,7 @@
     <value>Ask before closing</value>
   </data>
   <data name="ApplicationSettingsView_AskBeforeClosing_Tip" xml:space="preserve">
-    <value>Does show a confirmation popup if enabled and you want to close the application</value>
+    <value>If enabled this does show a confirmation popup if you want to close the application</value>
   </data>
   <data name="ApplicationSettingsView_CheckForUpdateOnStartup" xml:space="preserve">
     <value>Check for updates on startup</value>
@@ -130,7 +130,7 @@
     <value>Does check if there is new version of the application available as soon as the application starts.</value>
   </data>
   <data name="ApplicationSettingsView_Theme_Tip" xml:space="preserve">
-    <value>The Theme to display the application with</value>
+    <value>The theme to display the application with</value>
   </data>
   <data name="ApplicationSettingsView_Updater_Tip" xml:space="preserve">
     <value>The updater used to download the update for the application.</value>
@@ -214,7 +214,7 @@
     <value>Settings</value>
   </data>
   <data name="BackupSettingsView_ExportFailed" xml:space="preserve">
-    <value>The Export failed, because no file was selected or the settings could not be loaded</value>
+    <value>The export failed, because no file was selected or the settings could not be loaded</value>
   </data>
   <data name="BackupSettingsView_ImportedSettingNotLoaded" xml:space="preserve">
     <value>Could not load setting for import, please check the selected file</value>
@@ -239,5 +239,17 @@
   </data>
   <data name="AboutWindow_Tab_ThirdParty" xml:space="preserve">
     <value>Third Party</value>
+  </data>
+  <data name="Mode_Flat" xml:space="preserve">
+    <value>Flat</value>
+  </data>
+  <data name="Mode_Formatted" xml:space="preserve">
+    <value>Formatted</value>
+  </data>
+  <data name="Theme_Dark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="Theme_Light" xml:space="preserve">
+    <value>Light</value>
   </data>
 </root>
