@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Background="Transparent"  
+		TransparencyLevelHint="AcrylicBlur"
+		SystemDecorations="None"
         x:Class="XmlFormatterOsIndependent.Views.MainWindow"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
         Icon="/Assets/XmlFormatterIcon.ico"
@@ -33,48 +36,61 @@
       <NativeMenuItem Command="{Binding OpenUrlCommand}" CommandParameter="{x:Static p:Properties.GitHub_Issue}" Header="{x:Static p:Resources.MainWindow_Menu_ReportIssue}"></NativeMenuItem>
     </NativeMenu>
   </NativeMenu.Menu>
-  <StackPanel Spacing="5" Margin="0,0,0,5">
-    <DockPanel IsVisible="{Binding !UseNativeMenu}">
-      <Menu DockPanel.Dock="Top">
-        <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_File}">
-          <!--<MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>-->
-          <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_OpenSettings}" Command="{Binding OpenSettingsCommand}"></MenuItem>
-          <Separator></Separator>
-          <MenuItem Command="{Binding CloseApplicationCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Exit}"></MenuItem>
-        </MenuItem>
-        <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_Help}">
-          <MenuItem Command="{Binding SearchForUpdateCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Update}"></MenuItem>
-          <MenuItem Command="{Binding OpenPluginCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Plugins}"></MenuItem>
-          <Separator></Separator>
-          <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_About}" Command="{Binding OpenAboutCommand}"></MenuItem>
-        </MenuItem>
-        <MenuItem Command="{Binding OpenUrlCommand}" CommandParameter="{x:Static p:Properties.GitHub_Issue}" Header="{x:Static p:Resources.MainWindow_Menu_ReportIssue}"></MenuItem>
-      </Menu>
-    </DockPanel>
-	  <!--
-	  <TextBlock Text="{Binding TextBoxText}" Margin="5,0,0,0"></TextBlock>
-	  -->
-	<DockPanel Margin="5,0,5,0">
-      <Button DockPanel.Dock="Right" VerticalAlignment="Stretch" Margin="2,0,0,0" Command="{Binding OpenFileCommand}" Content="{x:Static p:Resources.MainWindow_Load}"/>
-      <TextBox Text="{Binding CurrentFile}" Width="800"  Watermark="{x:Static p:Resources.MainWindow_SelectFilePath}" UseFloatingWatermark="True"></TextBox>
-	</DockPanel>
-    <Grid ColumnDefinitions="4*, 2*, *, Auto" Margin="5,0,5,0">
-      <TextBlock Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" Text="{Binding StatusString}"></TextBlock>
-      <ComboBox Grid.Column="1" Margin="5,0,0,0" Items="{Binding AvailablePlugins}" IsVisible="{Binding FormatterSelectorVisible}" SelectedItem="{Binding CurrentPlugin}">
-        <ComboBox.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text="{Binding Information.Name}"></TextBlock>
-          </DataTemplate>
-        </ComboBox.ItemTemplate>
-      </ComboBox>
-      <DropDown Grid.Column="2" Margin="5,0,0,0" IsVisible="{Binding FormatterModeSelectionVisible}" Items="{Binding ConversionModes}" SelectedItem="{Binding SelectedMode}">
-        <DropDown.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text="{Binding DisplayName}"></TextBlock>
-          </DataTemplate>
-        </DropDown.ItemTemplate>
-      </DropDown>
-      <Button Grid.Column="3" Margin="5,0,0,0" Command="{Binding ConvertFileCommand}" Content="{x:Static p:Resources.MainWindow_Save}"/>
+  <Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="#FF000000"
+					TintOpacity="1"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+    <Grid RowDefinitions="Auto, Auto, *">
+		<ContentControl Grid.Row="0" HorizontalContentAlignment="Stretch"  Content="{Binding WindowBar}"></ContentControl>
+      <DockPanel Grid.Row="1" IsVisible="{Binding !UseNativeMenu}">
+        <Menu DockPanel.Dock="Top">
+          <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_File}">
+            <!--<MenuItem IsEnabled="False" Header="Hide to tray"></MenuItem>-->
+            <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_OpenSettings}" Command="{Binding OpenSettingsCommand}"></MenuItem>
+            <Separator></Separator>
+            <MenuItem Command="{Binding CloseApplicationCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Exit}"></MenuItem>
+          </MenuItem>
+          <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_Help}">
+            <MenuItem Command="{Binding SearchForUpdateCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Update}"></MenuItem>
+            <MenuItem Command="{Binding OpenPluginCommand}" Header="{x:Static p:Resources.MainWindow_Menu_Plugins}"></MenuItem>
+            <Separator></Separator>
+            <MenuItem Header="{x:Static p:Resources.MainWindow_Menu_About}" Command="{Binding OpenAboutCommand}"></MenuItem>
+          </MenuItem>
+          <MenuItem Command="{Binding OpenUrlCommand}" CommandParameter="{x:Static p:Properties.GitHub_Issue}" Header="{x:Static p:Resources.MainWindow_Menu_ReportIssue}"></MenuItem>
+        </Menu>
+      </DockPanel>
+        <Panel Grid.Row="2">
+		<StackPanel>
+            <DockPanel Margin="5,0,5,0">
+                <Button DockPanel.Dock="Right" VerticalAlignment="Stretch" Margin="2,0,0,0" Command="{Binding OpenFileCommand}" Content="{x:Static p:Resources.MainWindow_Load}"/>
+                <TextBox Text="{Binding CurrentFile}" Width="800"  Watermark="{x:Static p:Resources.MainWindow_SelectFilePath}" UseFloatingWatermark="True"></TextBox>
+            </DockPanel>
+              <Grid ColumnDefinitions="4*, 2*, *, Auto" Margin="5,0,5,0">
+                <TextBlock Grid.Column="0" Margin="0,0,5,0" VerticalAlignment="Center" Text="{Binding StatusString}"></TextBlock>
+                <ComboBox Grid.Column="1" Margin="5,0,0,0" ItemsSource="{Binding AvailablePlugins}" IsVisible="{Binding FormatterSelectorVisible}" SelectedItem="{Binding CurrentPlugin}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding Information.Name}"></TextBlock>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox Grid.Column="2" Margin="5,0,0,0" IsVisible="{Binding FormatterModeSelectionVisible}" ItemsSource="{Binding ConversionModes}" SelectedItem="{Binding SelectedMode}">
+                  <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                      <TextBlock Text="{Binding DisplayName}"></TextBlock>
+                    </DataTemplate>
+                  </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Column="3" Margin="5,0,0,0" Command="{Binding ConvertFileCommand}" Content="{x:Static p:Resources.MainWindow_Save}"/>
+              </Grid>
+		</StackPanel>
+      </Panel>
     </Grid>
-  </StackPanel>
+  </Panel>
 </Window>

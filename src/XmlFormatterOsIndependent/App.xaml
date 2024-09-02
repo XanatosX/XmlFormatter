@@ -1,12 +1,14 @@
 ﻿<Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:XmlFormatterOsIndependent"
-             x:Class="XmlFormatterOsIndependent.App">
+             x:Class="XmlFormatterOsIndependent.App"
+             RequestedThemeVariant="{Binding ThemeVariant}">
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
 
 	<Application.Styles>
-		<FluentTheme Mode="Light"/>
+		<FluentTheme/>
+		<StyleInclude Source="avares://XmlFormatter/Resources/Icons.axaml"/>
 	</Application.Styles>
 </Application>

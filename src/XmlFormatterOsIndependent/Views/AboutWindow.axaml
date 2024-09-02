@@ -38,7 +38,7 @@
         </Grid>
       </TabItem>
       <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_ThirdParty}">
-		  <ItemsControl Items="{Binding ThirdPartyApps}"/>
+		  <ItemsControl ItemsSource="{Binding ThirdPartyApps}"/>
       </TabItem>
     </TabControl>
 </Window>

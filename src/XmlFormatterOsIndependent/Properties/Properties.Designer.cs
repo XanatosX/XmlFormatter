@@ -79,6 +79,15 @@ namespace XmlFormatterOsIndependent.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Xml Formatter.
+        /// </summary>
+        public static string Application_Name {
+            get {
+                return ResourceManager.GetString("Application_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to LinuxAvalonia.
         /// </summary>
         public static string Asset_LinuxFilter {
@@ -102,6 +111,15 @@ namespace XmlFormatterOsIndependent.Properties {
         public static string Asset_WindowsFilter {
             get {
                 return ResourceManager.GetString("Asset_WindowsFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to XmlFormatter/Assets/XmlFormatterIcon.png.
+        /// </summary>
+        public static string Default_Window_Icon {
+            get {
+                return ResourceManager.GetString("Default_Window_Icon", resourceCulture);
             }
         }
         

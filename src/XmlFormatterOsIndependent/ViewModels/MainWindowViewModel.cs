@@ -2,10 +2,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.BaseWindows.Base;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Base;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using System;
@@ -73,6 +73,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private string? statusString;
 
+        [ObservableProperty]
+        private ObservableObject windowBar;
+
         /// <summary>
         /// Is the formatter selector visible at the moment
         /// </summary>
@@ -129,7 +132,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                      ApplicationUpdateService updateService,
                                      IUrlService urlService,
                                      IWindowApplicationService applicationService,
-                                     IThemeService themeService)
+                                     IThemeService themeService,
+                                     WindowBarViewModel viewModel)
         {
             this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
@@ -137,6 +141,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.updateService = updateService;
             this.urlService = urlService;
             this.applicationService = applicationService;
+            windowBar = viewModel;
 
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
                                   .Cast<ModesEnum>()
@@ -348,8 +353,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             parameter.ContentTitle = title;
             parameter.ContentMessage = content;
             parameter.ButtonDefinitions = buttons;
-            IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
-            var buttonResult = await window.ShowDialog(topWindow);
+            IMsBox<ButtonResult> window = MessageBoxManager.GetMessageBoxStandard(parameter);
+            var buttonResult = await window.ShowAsPopupAsync(topWindow);
             if (buttonResult == ButtonResult.Yes)
             {
                 bool update = updateService.UpdateApplication(compare);

@@ -20,7 +20,9 @@ internal static class DependencyInjection
                          .AddTransient<SettingsWindowViewModel>()
                          .AddTransient<ApplicationSettingsViewModel>()
                          .AddTransient<ApplicationSettingsBackupViewModel>()
-                         .AddTransient<ThirdPartyAppViewModel>();
+                         .AddTransient<ThirdPartyAppViewModel>()
+                         .AddTransient<AppViewModel>()
+                         .AddTransient<WindowBarViewModel>();
 
     }
 }

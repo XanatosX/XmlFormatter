@@ -123,6 +123,9 @@
   <data name="AboutWindow_Tab_General_ThirdPartyApps_File" xml:space="preserve">
     <value>XmlFormatterOsIndependent.Resources.ThirdPartyApps.json</value>
   </data>
+  <data name="Application_Name" xml:space="preserve">
+    <value>Xml Formatter</value>
+  </data>
   <data name="Asset_LinuxFilter" xml:space="preserve">
     <value>LinuxAvalonia</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Asset_WindowsFilter" xml:space="preserve">
     <value>WindowsAvalonia</value>
+  </data>
+  <data name="Default_Window_Icon" xml:space="preserve">
+    <value>XmlFormatter/Assets/XmlFormatterIcon.png</value>
   </data>
   <data name="GitHub_Discuss" xml:space="preserve">
     <value>https://github.com/XanatosX/XmlFormatter/discussions</value>

@@ -4,7 +4,7 @@ using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class SettingsWindow : Window
+    public partial class SettingsWindow : Window
     {
         public SettingsWindow() : this(null)
         {
@@ -15,11 +15,6 @@ namespace XmlFormatterOsIndependent.Views
         {
             this.InitializeComponent();
             DataContext = settingsWindowView;
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }

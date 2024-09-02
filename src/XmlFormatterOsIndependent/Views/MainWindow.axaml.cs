@@ -7,7 +7,7 @@ using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class MainWindow : Window
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {
@@ -67,11 +67,6 @@ namespace XmlFormatterOsIndependent.Views
             }
 
             return result;
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }

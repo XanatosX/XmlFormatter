@@ -19,7 +19,7 @@
         <ColumnDefinition Width="*"></ColumnDefinition>
         <ColumnDefinition Width="3*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
-      <TreeView Grid.Column="0" Items="{Binding PluginGroups}">
+      <TreeView Grid.Column="0" ItemsSource="{Binding PluginGroups}">
         <TreeView.DataTemplates>
           <TreeDataTemplate DataType="models:PluginTreeViewGroup" ItemsSource="{Binding Items}">
             <TextBlock Text="{Binding Name}"></TextBlock>

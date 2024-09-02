@@ -7,7 +7,7 @@ namespace XmlFormatterOsIndependent.Views
     /// <summary>
     /// Window class for the plugin manager
     /// </summary>
-    public class PluginManagerWindow : Window
+    public partial class PluginManagerWindow : Window
     {
         public PluginManagerWindow() : this(null)
         {
@@ -21,12 +21,6 @@ namespace XmlFormatterOsIndependent.Views
         {
             InitializeComponent();
             DataContext = viewModel;
-        }
-
-        /// <inheritdoc/>
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }
