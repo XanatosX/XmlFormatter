@@ -6,32 +6,47 @@
         x:Class="XmlFormatterOsIndependent.Views.SettingsWindow"
         Icon="/Assets/XmlFormatterSettingsIcon.ico"
         Title="{x:Static p:Resources.SettingsWindow_Title}"
+		Background="Transparent"  
+		TransparencyLevelHint="AcrylicBlur"
+		SystemDecorations="None"
 		MinHeight="200"
 		MinWidth="400"
         SizeToContent="WidthAndHeight"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
         CanResize="False">
-	<Grid RowDefinitions="Auto, *">
-      <StackPanel Margin="0,0,0,5">
-        <TabControl TabStripPlacement="Left">
-	     <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsVisible="{Binding SettingsBackupContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-		     <ContentControl Content="{Binding SettingsBackupContent}"/>
-	     </TabItem>
-          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}" IsSelected="True" IsVisible="{Binding ApplicationSettingsContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-		      <ContentControl Content="{Binding ApplicationSettingsContent}"/>
-          </TabItem>
-          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}" IsVisible="{Binding LoggingContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-		      <ContentControl Content="{Binding LoggingContent}"/>
-	      </TabItem>
-          <TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Hotfolder}" IsVisible="{Binding HotfolderContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
-		      <ContentControl Content="{Binding HotfolderContent}"/>
-	      </TabItem>
-        </TabControl>
-	  </StackPanel>
-	  <DockPanel VerticalAlignment="Bottom" Grid.Row="1" Margin="5,0,5,5">
-		  <Button DockPanel.Dock="Left" Command="{Binding SaveAndClose}" Content="{x:Static p:Resources.SettingsWindow_SaveAndClose}"/>
-		  <Button DockPanel.Dock="Right" Command="{Binding CloseWindowCommand}" Content="{x:Static p:Resources.SettingsWindow_Close}"/>
-		  <TextBlock DockPanel.Dock="Right"/>
-	  </DockPanel>
-	</Grid>
+	<Panel>			
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+				<ExperimentalAcrylicBorder.Material>
+					<ExperimentalAcrylicMaterial
+						BackgroundSource="Digger"
+						TintColor="{Binding ThemeColor}"
+						TintOpacity="1"
+						MaterialOpacity="0.65" />
+				</ExperimentalAcrylicBorder.Material>
+			</ExperimentalAcrylicBorder>
+		<Grid RowDefinitions="Auto, Auto, *">
+			<ContentControl Grid.Row="0" HorizontalContentAlignment="Stretch"  Content="{Binding WindowBar}" IsHitTestVisible="True"/>
+			<StackPanel Grid.Row="1" Margin="0,0,0,5">
+				<TabControl TabStripPlacement="Left">
+				<TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Backup}" IsVisible="{Binding SettingsBackupContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+					<ContentControl Content="{Binding SettingsBackupContent}"/>
+				</TabItem>
+				<TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Application}" IsSelected="True" IsVisible="{Binding ApplicationSettingsContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+					<ContentControl Content="{Binding ApplicationSettingsContent}"/>
+				</TabItem>
+				<TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Logging}" IsVisible="{Binding LoggingContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+					<ContentControl Content="{Binding LoggingContent}"/>
+				</TabItem>
+				<TabItem Header="{x:Static p:Resources.SettingsWindow_Tab_Hotfolder}" IsVisible="{Binding HotfolderContent, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+					<ContentControl Content="{Binding HotfolderContent}"/>
+				</TabItem>
+				</TabControl>
+			</StackPanel>
+			<DockPanel VerticalAlignment="Bottom" Grid.Row="2" Margin="5,0,5,5">
+				<Button DockPanel.Dock="Left" Command="{Binding SaveAndClose}" Content="{x:Static p:Resources.SettingsWindow_SaveAndClose}"/>
+				<Button DockPanel.Dock="Right" Command="{Binding CloseWindowCommand}" Content="{x:Static p:Resources.SettingsWindow_Close}"/>
+				<TextBlock DockPanel.Dock="Right"/>
+			</DockPanel>
+		</Grid>
+	</Panel>
 </Window>

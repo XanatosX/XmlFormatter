@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reactive;
 using System.Threading.Tasks;
+using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -73,4 +74,8 @@ public interface IWindowApplicationService
     /// <param name="fileFilters">The filters used to define which type of files will be saved</param>
     /// <returns>A single string for the path to the file where the data should be saved in</returns>
     Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters);
+    
+    WindowBarViewModel GetWindowBar();
+
+    WindowBarViewModel GetWindowBar(string windowIconPath, string windowName);
 }

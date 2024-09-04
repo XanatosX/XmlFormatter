@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
@@ -74,6 +75,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             {
                 ThemeEnum currentTheme = ThemeEnum.Light;
                 Enum.TryParse(SelectedTheme, out currentTheme);
+                WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(currentTheme == ThemeEnum.Light ? ThemeVariant.Light : ThemeVariant.Dark));
                 themeService.ChangeTheme(currentTheme);
             }
         };
@@ -121,6 +123,7 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             settings.Theme = currentTheme;
             settings.Updater = Updater?.MetaData;
         });
+
 
         ThemeEnum themeToUse = updatedSettings?.Theme ?? ThemeEnum.Light;
         themeService.ChangeTheme(themeToUse);

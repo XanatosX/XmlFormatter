@@ -3,16 +3,13 @@ using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XmlFormatterOsIndependent.DataSets;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;
-internal partial class WindowBarViewModel : ObservableObject
+public partial class WindowBarViewModel : ObservableObject, IWindowWithId
 {
+    public int WindowId {get; }
+
     /// <summary>
     /// Service used for the everything related to windows
     /// </summary>
@@ -24,16 +21,16 @@ internal partial class WindowBarViewModel : ObservableObject
     [ObservableProperty]
     private Bitmap? windowIcon;
 
-    public WindowBarViewModel(IWindowApplicationService applicationService)
+    public WindowBarViewModel(IWindowApplicationService applicationService, string windowIconPath, string windowName, int windowId)
     {
         this.applicationService = applicationService;
-        SetWindowIcon(Properties.Properties.Default_Window_Icon);
-        WindowName = Properties.Properties.Application_Name;
+        SetWindowIcon(windowIconPath);
+        WindowName = windowName;
+        this.WindowId = windowId;
     }
 
-    public void SetWindowIcon(string path)
+    private void SetWindowIcon(string path)
     {
-        //TODO: Create service
         WindowIcon = new Bitmap(AssetLoader.Open(new Uri($"avares://{path}")));
     }
 
@@ -49,10 +46,19 @@ internal partial class WindowBarViewModel : ObservableObject
     }
 
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanMinimizeWindow))]
     private void MinimizeWindow()
     {
-        applicationService.GetTopMostWindow()?.Hide();
+        if (applicationService.GetTopMostWindow() is null)
+        {
+            return;
+        }
+        applicationService!.GetTopMostWindow()!.WindowState = Avalonia.Controls.WindowState.Minimized;
+    }
+
+    private bool CanMinimizeWindow()
+    {
+        return applicationService is not null;
     }
 
 }

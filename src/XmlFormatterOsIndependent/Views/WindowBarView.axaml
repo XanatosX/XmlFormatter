@@ -3,22 +3,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="XmlFormatterOsIndependent.Views.WindowBarView">
-    <StackPanel Orientation="Vertical">
-        <DockPanel HorizontalAlignment="Stretch" Margin="5">
-			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right" >
-			<Button Command="{Binding MinimizeWindowCommand}">
-				<PathIcon Data="{StaticResource line_horizontal_1_regular} " Width="12" Height="12"/>
-			</Button>
-            <Button Command="{Binding CloseWindowCommand}">
-			    <PathIcon Data="{StaticResource dismiss_regular} " Width="12" Height="12"/>
-			</Button>
+             x:Class="XmlFormatterOsIndependent.Views.WindowBarView"
+             IsHitTestVisible="True">
+    <StackPanel Orientation="Vertical" IsHitTestVisible="True">
+        <DockPanel HorizontalAlignment="Stretch" Margin="5" IsHitTestVisible="True">
+			<StackPanel Orientation="Horizontal" DockPanel.Dock="Right" IsHitTestVisible="True">
+                <Button Command="{Binding MinimizeWindowCommand}">
+                    <PathIcon Data="{StaticResource line_horizontal_1_regular} " Width="12" Height="12"/>
+                </Button>
+                <Button Command="{Binding CloseWindowCommand}">
+                    <PathIcon Data="{StaticResource dismiss_regular} " Width="12" Height="12"/>
+                </Button>
 			</StackPanel>
-            <Grid DockPanel.Dock="Left" ColumnDefinitions="Auto, *">
-				<Image Source="{Binding WindowIcon}" Height="20" Width="20" />
-                <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding WindowName}"/>
-            </Grid>
+            <DockPanel DockPanel.Dock="Left" IsHitTestVisible="True">
+				<Image DockPanel.Dock="Left" Source="{Binding WindowIcon}" Height="20" Width="20" IsHitTestVisible="True"/>
+                <TextBlock DockPanel.Dock="Right" TextAlignment="Center" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding WindowName}" IsHitTestVisible="True"/>
+            </DockPanel>
         </DockPanel>
-        <Border BorderBrush="Black" BorderThickness="1"/>
     </StackPanel>
 </UserControl>

@@ -1,4 +1,6 @@
-﻿using Avalonia.Themes.Fluent;
+﻿using Avalonia.Media;
+using Avalonia.Styling;
+using Avalonia.Themes.Fluent;
 using XmlFormatterOsIndependent.Enums;
 
 namespace XmlFormatterOsIndependent.Services;
@@ -13,4 +15,6 @@ public interface IThemeService
     /// </summary>
     /// <param name="newTheme">The theme to use</param>
     void ChangeTheme(ThemeEnum newTheme);
+    
+    Color GetColorForTheme(ThemeVariant themeVariant);
 }

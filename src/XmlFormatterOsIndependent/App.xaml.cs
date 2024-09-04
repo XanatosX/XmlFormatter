@@ -68,6 +68,7 @@ namespace XmlFormatterOsIndependent
         public override void OnFrameworkInitializationCompleted()
         {
             var provider = CreateServiceCollection().BuildServiceProvider();
+            SetupApplicationContainer(provider);
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 var mainWindow = provider.GetRequiredService<MainWindow>();
@@ -76,6 +77,11 @@ namespace XmlFormatterOsIndependent
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private void SetupApplicationContainer(ServiceProvider provider)
+        {
+            DataContext = provider.GetRequiredService<AppViewModel>();
         }
     }
 }

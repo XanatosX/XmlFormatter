@@ -1,9 +1,11 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Linq;
 using XmlFormatterOsIndependent.Model.Messages;
+using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {
@@ -16,6 +18,19 @@ namespace XmlFormatterOsIndependent.Views
             WeakReferenceMessenger.Default.Register<CloseApplicationMessage>(this, (_, _) =>
             {
                 Close();
+            });
+
+            WeakReferenceMessenger.Default.Register<WindowDeltaDragEvent>(this, (_, e) =>
+            {
+                if (DataContext is IWindowWithId windowWithId)
+                {
+                    if (e.windowId == windowWithId.WindowId)
+                    {
+                        Position = new PixelPoint(Position.X + e.Value.X, Position.Y + e.Value.Y);
+                        return;
+                    }
+                }
+
             });
 
             WeakReferenceMessenger.Default.Register<RequestMainWindowMessage>(this, (_, e) =>

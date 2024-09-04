@@ -2,6 +2,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.VisualTree;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using XmlFormatter.Application.Services;
 using XmlFormatterOsIndependent.Model.Messages;
+using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -18,6 +20,8 @@ namespace XmlFormatterOsIndependent.Services;
 /// </summary>
 public class WindowApplicationService : IWindowApplicationService
 {
+    private int currentWindowId;
+
     /// <summary>
     /// The resolver service used to load the windows
     /// </summary>
@@ -30,6 +34,7 @@ public class WindowApplicationService : IWindowApplicationService
     public WindowApplicationService(IDependencyInjectionResolverService injectionResolverService)
     {
         this.injectionResolverService = injectionResolverService;
+        currentWindowId = 0;
     }
 
     /// <inheritdoc/>
@@ -140,5 +145,16 @@ public class WindowApplicationService : IWindowApplicationService
             return null;
         }
         return await saveFile.ShowAsync(mainWindow);
+    }
+
+    public WindowBarViewModel GetWindowBar()
+    {
+        return GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Properties.Application_Name);
+    }
+
+    
+    public WindowBarViewModel GetWindowBar(string windowIconPath, string windowName)
+    {
+        return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);
     }
 }

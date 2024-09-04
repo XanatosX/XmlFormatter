@@ -1,4 +1,6 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -30,12 +32,13 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    internal partial class MainWindowViewModel : ObservableObject
+    internal partial class MainWindowViewModel : ObservableObject, IWindowWithId
     {
         /// <summary>
         /// The modes you could convert to
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
+
 
 
         [ObservableProperty]
@@ -76,6 +79,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private ObservableObject windowBar;
 
+        [ObservableProperty]
+        private Color themeColor;
+
+        
+        public int WindowId { get => WindowBar is IWindowWithId bar ? bar.WindowId : -1; }
+
         /// <summary>
         /// Is the formatter selector visible at the moment
         /// </summary>
@@ -85,6 +94,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Is the mode of the formatter selector visible right now
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
+        
+
 
         /// <summary>
         /// The repository to use for loading application settings
@@ -115,6 +126,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Service used for the everything related to windows
         /// </summary>
         private readonly IWindowApplicationService applicationService;
+        private readonly IThemeService themeService;
+
 
         /// <summary>
         /// Create a new instance of this main window viewer
@@ -132,8 +145,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                                      ApplicationUpdateService updateService,
                                      IUrlService urlService,
                                      IWindowApplicationService applicationService,
-                                     IThemeService themeService,
-                                     WindowBarViewModel viewModel)
+                                     IThemeService themeService)
         {
             this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
@@ -141,7 +153,14 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.updateService = updateService;
             this.urlService = urlService;
             this.applicationService = applicationService;
-            windowBar = viewModel;
+            this.themeService = themeService;
+
+            var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
+            var theme = themeResponse.Response;
+            SetThemeColor(theme);
+
+            windowBar = applicationService.GetWindowBar();
+        
 
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
                                   .Cast<ModesEnum>()
@@ -150,7 +169,6 @@ namespace XmlFormatterOsIndependent.ViewModels
                                   .ToList();
 
             var settingFile = settingsRepository.CreateOrLoad();
-            themeService.ChangeTheme(settingFile?.Theme ?? ThemeEnum.Light);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
@@ -190,6 +208,15 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 CurrentFile = data.Value;
             });
+
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) => {
+                SetThemeColor(data.Value);
+            });
+        }
+
+        private void SetThemeColor(ThemeVariant theme)
+        {
+            ThemeColor = themeService.GetColorForTheme(theme);
         }
 
         /// <summary>
