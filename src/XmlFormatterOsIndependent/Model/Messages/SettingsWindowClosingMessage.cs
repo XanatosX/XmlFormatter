@@ -8,7 +8,11 @@ namespace XmlFormatterOsIndependent.Model.Messages;
 /// </summary>
 internal class SettingsWindowClosingMessage : ValueChangedMessage<bool>
 {
-    public SettingsWindowClosingMessage(bool value) : base(value)
+    /// <summary>
+    /// Create a new instance of this message
+    /// </summary>
+    /// <param name="shouldSaveSettings">Should all the settings been saved?</param>
+    public SettingsWindowClosingMessage(bool shouldSaveSettings) : base(shouldSaveSettings)
     {
     }
 }
