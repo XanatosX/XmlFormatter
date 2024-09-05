@@ -46,17 +46,28 @@ public abstract partial class CustomWindowBarWindow : Window, IDisposable
         });
     }
 
+    /// <summary>
+    /// Close this window
+    /// </summary>
     protected virtual void CloseWindow()
     {
         Dispose();
         Close();
     }
 
+    /// <summary>
+    /// Change the state of this window
+    /// </summary>
+    /// <param name="newState"></param>
     protected virtual void ChangeState(WindowState newState)
     {
         WindowState = newState;
     }
 
+    /// <summary>
+    /// Method to move the window position based on an delta 
+    /// </summary>
+    /// <param name="deltaPosition">The delta value to move the window</param>
     protected virtual void MoveWindowPosition(WindowDragEventMessage deltaPosition)
     {
         Position = new PixelPoint(Position.X + deltaPosition.Value.X, Position.Y + deltaPosition.Value.Y);
