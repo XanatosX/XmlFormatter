@@ -79,6 +79,10 @@ namespace XmlFormatterOsIndependent
             base.OnFrameworkInitializationCompleted();
         }
 
+        /// <summary>
+        /// Create the application container
+        /// </summary>
+        /// <param name="provider">The dependency injection provider</param>
         private void SetupApplicationContainer(ServiceProvider provider)
         {
             DataContext = provider.GetRequiredService<AppViewModel>();
