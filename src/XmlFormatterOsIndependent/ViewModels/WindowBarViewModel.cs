@@ -2,11 +2,13 @@
 using Avalonia.Platform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels;
-public partial class WindowBarViewModel : ObservableObject, IWindowWithId
+public partial class WindowBarViewModel : ObservableObject, IWindowBar
 {
     public int WindowId {get; }
 
@@ -34,26 +36,17 @@ public partial class WindowBarViewModel : ObservableObject, IWindowWithId
         WindowIcon = new Bitmap(AssetLoader.Open(new Uri($"avares://{path}")));
     }
 
-    public void ChangeWindowHeadline(string headline)
-    {
-        WindowName = headline;
-    }
-
     [RelayCommand]
     private void CloseWindow()
     {
-        applicationService.CloseActiveWindow();
+        WeakReferenceMessenger.Default.Send(new CloseWindowMessage(WindowId));
     }
 
 
     [RelayCommand(CanExecute = nameof(CanMinimizeWindow))]
     private void MinimizeWindow()
     {
-        if (applicationService.GetTopMostWindow() is null)
-        {
-            return;
-        }
-        applicationService!.GetTopMostWindow()!.WindowState = Avalonia.Controls.WindowState.Minimized;
+        WeakReferenceMessenger.Default.Send(new ChangeWindowState(WindowId, Avalonia.Controls.WindowState.Minimized));
     }
 
     private bool CanMinimizeWindow()

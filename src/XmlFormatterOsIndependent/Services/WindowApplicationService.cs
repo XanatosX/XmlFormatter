@@ -147,13 +147,13 @@ public class WindowApplicationService : IWindowApplicationService
         return await saveFile.ShowAsync(mainWindow);
     }
 
-    public WindowBarViewModel GetWindowBar()
+    public IWindowBar GetWindowBar()
     {
         return GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Properties.Application_Name);
     }
 
     
-    public WindowBarViewModel GetWindowBar(string windowIconPath, string windowName)
+    public IWindowBar GetWindowBar(string windowIconPath, string windowName)
     {
         return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);
     }

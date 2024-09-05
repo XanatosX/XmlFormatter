@@ -77,7 +77,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         private string? statusString;
 
         [ObservableProperty]
-        private ObservableObject windowBar;
+        private IWindowBar windowBar;
 
         [ObservableProperty]
         private Color themeColor;

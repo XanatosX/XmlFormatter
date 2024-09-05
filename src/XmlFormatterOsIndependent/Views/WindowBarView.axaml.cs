@@ -47,7 +47,7 @@ public partial class WindowBarView : UserControl
         var deltaPosition = new PixelPoint((int)(currentPoint.Position.X - originalPoint.Position.X), (int)(currentPoint.Position.Y - originalPoint.Position.Y));
         if (DataContext is WindowBarViewModel barViewModel)
         {
-            WeakReferenceMessenger.Default.Send(new WindowDeltaDragEvent(deltaPosition, barViewModel.WindowId));
+            WeakReferenceMessenger.Default.Send(new WindowDragEventMessage(deltaPosition, barViewModel.WindowId));
         }
     }
 }

@@ -75,7 +75,6 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             {
                 ThemeEnum currentTheme = ThemeEnum.Light;
                 Enum.TryParse(SelectedTheme, out currentTheme);
-                WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(currentTheme == ThemeEnum.Light ? ThemeVariant.Light : ThemeVariant.Dark));
                 themeService.ChangeTheme(currentTheme);
             }
         };

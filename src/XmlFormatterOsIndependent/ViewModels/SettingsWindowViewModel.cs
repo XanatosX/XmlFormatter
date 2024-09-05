@@ -26,7 +26,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         private ObservableObject? hotfolderContent;
 
         [ObservableProperty]
-        private ObservableObject? windowBar;
+        private IWindowBar windowBar;
 
         [ObservableProperty]
         private Color themeColor;
@@ -63,7 +63,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand]
         public void CloseWindow()
         {
-            applicationService.CloseActiveWindow();
+            WeakReferenceMessenger.Default.Send(new CloseWindowMessage(WindowId));
             WeakReferenceMessenger.Default.UnregisterAll(this);
         }
 

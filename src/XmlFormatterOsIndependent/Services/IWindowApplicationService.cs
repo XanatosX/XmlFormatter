@@ -75,7 +75,7 @@ public interface IWindowApplicationService
     /// <returns>A single string for the path to the file where the data should be saved in</returns>
     Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters);
     
-    WindowBarViewModel GetWindowBar();
+    IWindowBar GetWindowBar();
 
-    WindowBarViewModel GetWindowBar(string windowIconPath, string windowName);
+    IWindowBar GetWindowBar(string windowIconPath, string windowName);
 }
