@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using XmlFormatter.Application.Services;
 using XmlFormatter.Application.Services.UpdateFeature;
-using XmlFormatter.Infrastructure.Services.UpdaterFeature.Strategy;
-using XmlFormatterModel.Update;
 using XmlFormatterOsIndependent.Update;
 
 namespace XmlFormatterOsIndependent.Services;

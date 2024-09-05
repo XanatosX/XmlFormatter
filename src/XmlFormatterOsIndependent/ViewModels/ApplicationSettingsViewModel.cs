@@ -1,7 +1,6 @@
 ﻿using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using DynamicData.Kernel;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using System;

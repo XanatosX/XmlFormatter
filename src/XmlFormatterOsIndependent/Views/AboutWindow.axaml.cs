@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using XmlFormatterOsIndependent.ViewModels;
+﻿using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
 {

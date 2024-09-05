@@ -1,10 +1,6 @@
-﻿using Avalonia;
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using Avalonia.Styling;
-using Avalonia.Themes.Fluent;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Diagnostics;
-using System.Linq;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model.Messages;
 
