@@ -76,7 +76,17 @@ public interface IWindowApplicationService
     /// <returns>A single string for the path to the file where the data should be saved in</returns>
     Task<string?> SaveFileAsync(List<FilePickerFileType> fileFilters);
     
+    /// <summary>
+    /// Method to get the window bar of the application
+    /// </summary>
+    /// <returns>Returns the window bar of the application</returns>
     IWindowBar GetWindowBar();
 
+    /// <summary>
+    /// Get the window bar with some custom attributes
+    /// </summary>
+    /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
+    /// <param name="windowName">The name of the window</param>
+    /// <returns>A custom window bar</returns>
     IWindowBar GetWindowBar(string windowIconPath, string windowName);
 }

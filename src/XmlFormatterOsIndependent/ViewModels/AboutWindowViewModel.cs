@@ -41,17 +41,25 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         public IReadOnlyList<ThirdPartyAppViewModel> thirdPartyApps;
         
+        /// <summary>
+        /// The custom window bar to use
+        /// </summary>
         [ObservableProperty]
         private IWindowBar windowBar;
 
-        
+        /// <summary>
+        /// The theme color for this window
+        /// </summary>
         [ObservableProperty]
         private Color themeColor;
+        
+        /// <summary>
+        /// The theme service to use
+        /// </summary>
         private readonly IThemeService themeService;
 
-
+        /// <inheritdoc/>
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
-
 
         /// <summary>
         /// Create a new instance of this class
@@ -104,6 +112,10 @@ namespace XmlFormatterOsIndependent.ViewModels
             });
         }
 
+        /// <summary>
+        /// Method to load and set then description for the about window
+        /// </summary>
+        /// <param name="assembly">The assembly to request the data from</param>
         private void LoadAndSetDescription(Assembly assembly)
         {
             string? rawDescription = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
@@ -116,6 +128,10 @@ namespace XmlFormatterOsIndependent.ViewModels
                                         .Replace("%ISSUES_URL%", Properties.Properties.GitHub_Issue);
         }
 
+        /// <summary>
+        /// Set the theme color for this window based on the theme variant
+        /// </summary>
+        /// <param name="theme">The theme variant to get set color for</param>
         private void SetThemeColor(ThemeVariant theme)
         {
             ThemeColor = themeService.GetColorForTheme(theme);

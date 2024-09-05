@@ -145,12 +145,13 @@ public class WindowApplicationService : IWindowApplicationService
         return pickedFile?.Path.AbsolutePath ?? null;
     }
 
+    /// <inheritdoc/>
     public IWindowBar GetWindowBar()
     {
         return GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Properties.Application_Name);
     }
 
-    
+    /// <inheritdoc/>
     public IWindowBar GetWindowBar(string windowIconPath, string windowName)
     {
         return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);

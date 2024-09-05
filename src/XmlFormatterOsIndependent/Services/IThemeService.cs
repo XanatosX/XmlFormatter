@@ -16,9 +16,22 @@ public interface IThemeService
     /// <param name="newTheme">The theme to use</param>
     void ChangeTheme(ThemeEnum newTheme);
     
+    /// <summary>
+    /// Get the color for the provided theme variant
+    /// </summary>
+    /// <param name="themeVariant">The theme variant to get the color for</param>
+    /// <returns>The color of the given theme variant</returns>
     Color GetColorForTheme(ThemeVariant themeVariant);
 
+    /// <summary>
+    /// Get the current used theme variant of the application
+    /// </summary>
+    /// <returns>The currently used theme variant</returns>
     ThemeVariant GetCurrentThemeVariant();
 
+    /// <summary>
+    /// Get the currently used theme variant converted to the theme enum
+    /// </summary>
+    /// <returns>The currently used theme variant converted</returns>
     ThemeEnum GetCurrentAppTheme();
 }

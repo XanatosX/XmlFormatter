@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Messaging;
 using XmlFormatterOsIndependent.Model.Messages;
+using XmlFormatterOsIndependent.ViewModels;
 
 /// <summary>
 /// Abstract class for a window with a custom window bar

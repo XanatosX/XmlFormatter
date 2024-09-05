@@ -26,12 +26,14 @@ internal class ThemeService : IThemeService
         return themeVariant == ThemeVariant.Light ? Colors.White : Colors.Black;;
     }
 
+    /// <inheritdoc/>
     public ThemeEnum GetCurrentAppTheme()
     {
         var currentTheme = GetCurrentThemeVariant();
         return currentTheme is not null && currentTheme == ThemeVariant.Dark ? ThemeEnum.Dark : ThemeEnum.Light;
     }
 
+    /// <inheritdoc/>
     public ThemeVariant GetCurrentThemeVariant()
     {
         var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();

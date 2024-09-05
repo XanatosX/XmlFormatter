@@ -6,16 +6,21 @@ using XmlFormatter.Application;
 using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
-using XmlFormatterOsIndependent.Services;
+
+namespace XmlFormatterOsIndependent.ViewModels;
 
 internal partial class AppViewModel : ObservableObject
 {
-        /// <summary>
+    /// <summary>
     /// The theme variant to use
     /// </summary>
     [ObservableProperty]
     private ThemeVariant themeVariant;
 
+    /// <summary>
+    /// Create a new instance of this view model
+    /// </summary>
+    /// <param name="settingsRepository">The settings repository to use</param>
     public AppViewModel(ISettingsRepository<ApplicationSettings> settingsRepository)
     {
         var settings = settingsRepository.CreateOrLoad();
