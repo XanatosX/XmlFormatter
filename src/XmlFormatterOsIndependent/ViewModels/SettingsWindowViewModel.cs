@@ -48,6 +48,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             IThemeService themeService)
         {
             this.applicationService = applicationService;
+            //TODO: Fix Icon
             WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.SettingsWindow_Title);
             var themeResponse = WeakReferenceMessenger.Default.Send(new GetCurrentThemeMessage());
             ThemeColor = themeService.GetColorForTheme(themeResponse.Response);

@@ -7,38 +7,55 @@
 		xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
 		xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
-        Title="Version Information"
+        Title="{x:Static p:Resources.AboutWindow_Title}"
+		Background="Transparent"  
+		TransparencyLevelHint="AcrylicBlur"
+		SystemDecorations="None"
         CanResize="False"
 		SizeToContent="Height"
         MinHeight="120"
         MinWidth="670"
         Width="670"
         MaxWidth="670">
-    <TabControl Padding="10">
-      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_General}">
-        <Grid ColumnDefinitions="*, 3*" RowDefinitions="Auto">
-			<DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-				<Image Source="/Assets/XmlFormatterIcon.ico" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40"/>
-			</DockPanel>
-			<Grid Grid.Column="1" ColumnDefinitions="32, *" RowDefinitions="Auto, Auto">
-				<Panel Grid.Column="0" Grid.ColumnSpan="2">
-				    <TextBlock Text="{x:Static p:Resources.Application_Name}" FontSize="30"/>
-				</Panel>
-				<Panel Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
-					<StackPanel Spacing="5">
-					    <TextBlock Text="{Binding Version}"/>
-						<StackPanel Orientation="Horizontal" Spacing="5">
-							<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_Discuss}" Url="{x:Static p:Properties.GitHub_Discuss}"/>
-							<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_GetHelp}" Url="{x:Static p:Properties.GitHub_Issue}"/>
-						</StackPanel>
-						<md:MarkdownScrollViewer Markdown="{Binding Description}"/>
-					</StackPanel>
-				</Panel>
-			</Grid>
-        </Grid>
-      </TabItem>
-      <TabItem Header="{x:Static p:Resources.AboutWindow_Tab_ThirdParty}">
-		  <ItemsControl ItemsSource="{Binding ThirdPartyApps}"/>
-      </TabItem>
-    </TabControl>
+	<Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="{Binding ThemeColor}"
+					TintOpacity="1"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+		<Grid RowDefinitions="Auto, *">
+			<ContentControl Grid.Row="0" HorizontalContentAlignment="Stretch"  Content="{Binding WindowBar}" IsHitTestVisible="True"/>
+			<TabControl Grid.Row="1" Padding="10">
+			<TabItem Header="{x:Static p:Resources.AboutWindow_Tab_General}">
+				<Grid ColumnDefinitions="*, 3*" RowDefinitions="Auto">
+					<DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+						<Image Source="/Assets/XmlFormatterIcon.ico" VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40"/>
+					</DockPanel>
+					<Grid Grid.Column="1" ColumnDefinitions="32, *" RowDefinitions="Auto, Auto">
+						<Panel Grid.Column="0" Grid.ColumnSpan="2">
+							<TextBlock Text="{x:Static p:Resources.Application_Name}" FontSize="30"/>
+						</Panel>
+						<Panel Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
+							<StackPanel Spacing="5">
+								<TextBlock Text="{Binding Version}"/>
+								<StackPanel Orientation="Horizontal" Spacing="5">
+									<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_Discuss}" Url="{x:Static p:Properties.GitHub_Discuss}"/>
+									<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_GetHelp}" Url="{x:Static p:Properties.GitHub_Issue}"/>
+								</StackPanel>
+								<md:MarkdownScrollViewer Markdown="{Binding Description}"/>
+							</StackPanel>
+						</Panel>
+					</Grid>
+				</Grid>
+			</TabItem>
+			<TabItem Header="{x:Static p:Resources.AboutWindow_Tab_ThirdParty}">
+				<ItemsControl ItemsSource="{Binding ThirdPartyApps}"/>
+			</TabItem>
+			</TabControl>
+		</Grid>
+	</Panel>
 </Window>

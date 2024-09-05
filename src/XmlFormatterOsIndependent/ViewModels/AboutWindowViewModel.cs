@@ -10,13 +10,14 @@ using System.Threading.Tasks;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatterOsIndependent.Model;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
     /// <summary>
     /// Model view for the about window
     /// </summary>
-    internal partial class AboutWindowViewModel : ObservableObject
+    internal partial class AboutWindowViewModel : ObservableObject, IWindowWithId
     {
         /// <summary>
         /// The version to show on the screen
@@ -35,6 +36,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         [ObservableProperty]
         public IReadOnlyList<ThirdPartyAppViewModel> thirdPartyApps;
+        
+        [ObservableProperty]
+        private IWindowBar windowBar;
+
+        public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
+
 
         /// <summary>
         /// Create a new instance of this class
@@ -42,8 +49,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <inheritdoc>
         public AboutWindowViewModel(
             IEnumerable<IVersionReceiverStrategy> receiverStrategies,
-            IVersionConvertStrategy versionConvertStrategy)
+            IVersionConvertStrategy versionConvertStrategy,
+            IWindowApplicationService applicationService)
         {
+            WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title);
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();
