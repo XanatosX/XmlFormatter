@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views;
