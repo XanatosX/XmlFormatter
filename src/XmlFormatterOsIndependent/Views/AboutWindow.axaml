@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="XmlFormatterOsIndependent.Views.AboutWindow"
-		xmlns:controls="clr-namespace:HyperText.Avalonia.Controls;assembly=HyperText.Avalonia"
 		xmlns:md="clr-namespace:Markdown.Avalonia;assembly=Markdown.Avalonia"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
         Title="{x:Static p:Resources.AboutWindow_Title}"

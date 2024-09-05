@@ -1,5 +1,5 @@
-﻿using HyperText.Avalonia.Extensions;
-using System;
+﻿using System;
+using System.Diagnostics;
 using XmlFormatter.Application.Services;
 
 namespace XmlFormatterOsIndependent.Services;
@@ -26,7 +26,18 @@ internal class HyperlinkAdapterUrlService : IUrlService
         {
             return;
         }
-        //@Note Using HyperText Avalonia https://github.com/AvaloniaUtils/HyperText.Avalonia
-        url.OpenUrl();
+        try
+        {
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = url
+            };
+            _ = Process.Start(processStartInfo);
+        }
+        catch (Exception)
+        {
+        }
+        return;
     }
 }
