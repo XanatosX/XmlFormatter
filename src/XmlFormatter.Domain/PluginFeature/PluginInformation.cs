@@ -13,7 +13,7 @@ public class PluginInformation
     /// <summary>
     /// The url to the project
     /// </summary>
-    public string ProjectUrl { get; }
+    public string? ProjectUrl { get; }
 
     /// <summary>
     /// The description of the plugin
@@ -33,7 +33,7 @@ public class PluginInformation
     /// <summary>
     /// The url to the author
     /// </summary>
-    public string AuthorUrl { get; }
+    public string? AuthorUrl { get; }
 
     /// <summary>
     /// The version of the plugin
@@ -59,7 +59,7 @@ public class PluginInformation
     /// <param name="author">Author name of the plugin</param>
     /// <param name="version">The version of the plugin</param>
     /// <param name="authorUrl">The url with information about the author</param>
-    public PluginInformation(string name, string description, string author, Version version, string authorUrl) : this(name, description, author, version, authorUrl, null)
+    public PluginInformation(string name, string description, string author, Version version, string? authorUrl) : this(name, description, author, version, authorUrl, null)
     {
     }
 
@@ -72,7 +72,7 @@ public class PluginInformation
     /// <param name="version">The version of the plugin</param>
     /// <param name="authorUrl">The url with information about the author</param>
     /// <param name="projectUrl">The url to the project</param>
-    public PluginInformation(string name, string description, string author, Version version, string authorUrl, string projectUrl)
+    public PluginInformation(string name, string description, string author, Version version, string? authorUrl, string? projectUrl)
     {
         Name = name;
         Description = description;
@@ -80,6 +80,7 @@ public class PluginInformation
         Version = version;
         AuthorUrl = authorUrl;
         ProjectUrl = projectUrl;
+        MarkdownDescription = string.Empty;
         SetMarkdownDescription(description);
     }
 

@@ -66,7 +66,7 @@ namespace XmlFormatter.Domain.PluginFeature
         /// <typeparam name="T">The type of the setting to get</typeparam>
         /// <param name="key">The key to get</param>
         /// <returns>An instance of type T of the requested setting</returns>
-        public T GetValue<T>(string key)
+        public T? GetValue<T>(string key)
         {
             if (!Settings.ContainsKey(key))
             {

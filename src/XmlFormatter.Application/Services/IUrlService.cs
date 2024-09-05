@@ -10,11 +10,11 @@ public interface IUrlService
     /// </summary>
     /// <param name="url">The url which should be checked</param>
     /// <returns>True if the url is a valid one</returns>
-    bool IsValidUrl(string url);
+    bool IsValidUrl(string? url);
 
     /// <summary>
     /// Open the provided url in the default browser, this method will only open valid ones
     /// </summary>
     /// <param name="url">The url to open in the browser</param>
-    void OpenUrl(string url);
+    void OpenUrl(string? url);
 }

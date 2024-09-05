@@ -304,6 +304,10 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand(CanExecute = nameof(CanConvertFile))]
         public async void ConvertFile()
         {
+            if (CurrentFile is null)
+            {
+                return;
+            }
             var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
             if (plugin is null || SelectedMode is null)
             {

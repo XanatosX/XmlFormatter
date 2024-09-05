@@ -10,7 +10,7 @@ namespace XmlFormatterOsIndependent.Services;
 internal class HyperlinkAdapterUrlService : IUrlService
 {
     /// <inheritdoc>/>
-    public bool IsValidUrl(string url)
+    public bool IsValidUrl(string? url)
     {
         //@Note Copied from https://github.com/AvaloniaUtils/HyperText.Avalonia/blob/master/HyperText.Avalonia/Extensions/OpenUrl.cs#L9
         if (string.IsNullOrWhiteSpace(url)) return false;
@@ -20,8 +20,12 @@ internal class HyperlinkAdapterUrlService : IUrlService
     }
 
     /// <inheritdoc>/>
-    public void OpenUrl(string url)
+    public void OpenUrl(string? url)
     {
+        if (url is null)
+        {
+            return;
+        }
         //@Note Using HyperText Avalonia https://github.com/AvaloniaUtils/HyperText.Avalonia
         url.OpenUrl();
     }

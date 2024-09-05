@@ -53,13 +53,13 @@ namespace XmlFormatterOsIndependent.Views
                 {
                     return;
                 }
-                WeakReferenceMessenger.Default.Send(new DragDropFileChanged(data.Data.GetFileNames()?.FirstOrDefault()));
+                WeakReferenceMessenger.Default.Send(new DragDropFileChanged(data.Data.GetFiles().Select(file => file.Path.AbsolutePath)?.FirstOrDefault()));
             });
         }
 
         private static bool CheckIfDragAndDropIsValid(DragEventArgs data, bool result)
         {
-            string? file = data.Data.GetFileNames()?.OfType<string>()?.FirstOrDefault();
+            string? file = data.Data.GetFiles().Select(file => file.Path.AbsolutePath)?.OfType<string>()?.FirstOrDefault();
             if (file is not null)
             {
                 result = WeakReferenceMessenger.Default.Send(new IsDragDropFileValidMessage { FileName = file }) ?? false;

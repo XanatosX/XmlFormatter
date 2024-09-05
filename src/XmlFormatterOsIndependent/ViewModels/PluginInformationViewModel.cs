@@ -20,7 +20,7 @@ internal partial class PluginInformationViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ProjectUrlPresent))]
-    private string projectUrl;
+    private string? projectUrl;
 
     /// <summary>
     /// Is there an url present for the project, which is valid
@@ -38,7 +38,7 @@ internal partial class PluginInformationViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(AuthorLinkPresent))]
-    public string authorUrl;
+    public string? authorUrl;
 
     /// <summary>
     /// Is there an url for the author presend, which is valid
@@ -92,7 +92,7 @@ internal partial class PluginInformationViewModel : ObservableObject
     /// </summary>
     /// <param name="url">The url to check</param>
     /// <returns>True if the url is valid</returns>
-    private bool IsValidUrl(string url)
+    private bool IsValidUrl(string? url)
     {
         return urlService.IsValidUrl(url);
     }
