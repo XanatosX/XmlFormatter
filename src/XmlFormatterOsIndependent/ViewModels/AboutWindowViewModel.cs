@@ -73,7 +73,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             this.themeService = themeService;
             
-            WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title);
+            WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title, false);
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();

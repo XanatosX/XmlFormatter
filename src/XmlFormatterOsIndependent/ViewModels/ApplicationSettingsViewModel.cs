@@ -137,6 +137,9 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
         themeService.ChangeTheme(themeToUse);
     }
 
+    /// <summary>
+    /// Method to run if the settings are getting closed
+    /// </summary>
     private void ClosingSettings()
     {
         var settings = settingsRepository.CreateOrLoad();

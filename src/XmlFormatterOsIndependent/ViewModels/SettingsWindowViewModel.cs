@@ -13,26 +13,48 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// </summary>
     public partial class SettingsWindowViewModel : ObservableObject, IWindowWithId
     {
+        /// <summary>
+        /// The content of the backup tab for settings
+        /// </summary>
         [ObservableProperty]
         private ObservableObject? settingsBackupContent;
 
+        /// <summary>
+        /// The content of the application settings tab
+        /// </summary>
         [ObservableProperty]
         private ObservableObject? applicationSettingsContent;
 
-        [ObservableProperty]
-        private ObservableObject? loggingContent;
-
+        /// <summary>
+        /// The content of the hotfolder tab
+        /// </summary>
         [ObservableProperty]
         private ObservableObject? hotfolderContent;
 
+        /// <summary>
+        /// The content of the log file
+        /// </summary>
+        [ObservableProperty]
+        private ObservableObject? loggingContent;
+
+        /// <summary>
+        /// The custom window bar to use with this window
+        /// </summary>
         [ObservableProperty]
         private IWindowBar windowBar;
 
+        /// <summary>
+        /// The theme color to use in relation to the theme variant
+        /// </summary>
         [ObservableProperty]
         private Color themeColor;
 
+        /// <summary>
+        /// The application service to use
+        /// </summary>
         private readonly IWindowApplicationService applicationService;
 
+        /// <inheritdoc/>
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
 
 
@@ -49,7 +71,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         {
             this.applicationService = applicationService;
             //TODO: Fix Icon
-            WindowBar = applicationService.GetWindowBar(Properties.Properties.Settings_Icon, Properties.Resources.SettingsWindow_Title);
+            WindowBar = applicationService.GetWindowBar(Properties.Properties.Settings_Icon, Properties.Resources.SettingsWindow_Title, false);
             var themeResponse = WeakReferenceMessenger.Default.Send(new GetCurrentThemeMessage());
             ThemeColor = themeService.GetColorForTheme(themeResponse.Response);
 
@@ -61,6 +83,10 @@ namespace XmlFormatterOsIndependent.ViewModels
             });
         }
 
+        /// <summary>
+        /// Method to close the settings window without saving
+        /// This will send out messages to allow other modules to do some final cleanup
+        /// </summary>
         [RelayCommand]
         public void CloseWindow()
         {

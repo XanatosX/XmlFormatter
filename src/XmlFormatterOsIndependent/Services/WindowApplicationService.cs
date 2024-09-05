@@ -156,4 +156,10 @@ public class WindowApplicationService : IWindowApplicationService
     {
         return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);
     }
+
+    /// <inheritdoc/>
+    public IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize)
+    {
+        return new WindowBarViewModel(this, windowIconPath, windowName, allowMinimize, currentWindowId++);
+    }
 }

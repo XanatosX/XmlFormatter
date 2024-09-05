@@ -39,8 +39,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
 
-
-
+        /// <summary>
+        /// All list with all the available plugins
+        /// </summary>
         [ObservableProperty]
         private List<PluginMetaData> availablePlugins;
 
@@ -52,6 +53,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
         private PluginMetaData? currentPlugin;
 
+        /// <summary>
+        /// The selected mode of operation
+        /// </summary>
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
         [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
@@ -65,7 +69,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         private string? currentFile;
 
         /// <summary>
-        /// Use the native menur of the os
+        /// Use the native menu of the os
         /// </summary>
         [ObservableProperty]
         private bool useNativeMenu;
@@ -74,15 +78,21 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Private text of the status string
         /// </summary>
         [ObservableProperty]
-        private string? statusString;
+        private string? statusString;   
 
+        /// <summary>
+        /// The custom window bar to use
+        /// </summary>
         [ObservableProperty]
         private IWindowBar windowBar;
 
+        /// <summary>
+        /// The color to use related to the current theme
+        /// </summary>
         [ObservableProperty]
         private Color themeColor;
 
-        
+        /// <inheritdoc/>
         public int WindowId { get => WindowBar is IWindowWithId bar ? bar.WindowId : -1; }
 
         /// <summary>
@@ -95,8 +105,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
         
-
-
         /// <summary>
         /// The repository to use for loading application settings
         /// </summary>
@@ -214,6 +222,10 @@ namespace XmlFormatterOsIndependent.ViewModels
             });
         }
 
+        /// <summary>
+        /// Set the color of the theme related to the current theme variant
+        /// </summary>
+        /// <param name="theme">The theme variant to set the color for</param>
         private void SetThemeColor(ThemeVariant theme)
         {
             ThemeColor = themeService.GetColorForTheme(theme);

@@ -33,7 +33,15 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         [ObservableProperty]
         public ObservableObject? visibleView;
+
+        /// <summary>
+        /// The service to use for opening urls
+        /// </summary>
         private readonly IUrlService urlService;
+
+        /// <summary>
+        /// The service to use to change theme related information
+        /// </summary>
         private readonly IThemeService themeService;
 
 
@@ -45,12 +53,14 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private IWindowBar windowBar;
 
-        
+        /// <summary>
+        /// The color to use for the current theme
+        /// </summary>
         [ObservableProperty]
         private Color themeColor;
 
+        /// <inheritdoc/>
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
-
 
         /// <summary>
         /// Create a new instance of this class
@@ -62,7 +72,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                                       IWindowApplicationService windowApplicationService,
                                       IThemeService themeService) //ViewContainer viewContainer, 
         {
-            this.windowBar = windowApplicationService.GetWindowBar(Properties.Properties.PluginManager_Icon, Properties.Resources.PluginManagerWindow_Title);
+            this.windowBar = windowApplicationService.GetWindowBar(Properties.Properties.PluginManager_Icon, Properties.Resources.PluginManagerWindow_Title, false);
             this.urlService = urlService;
             this.themeService = themeService;
             
@@ -94,6 +104,10 @@ namespace XmlFormatterOsIndependent.ViewModels
             });
         }
 
+        /// <summary>
+        /// Set the current theme in relation to the given theme
+        /// </summary>
+        /// <param name="theme">The theme to set the color for</param>
         private void SetThemeColor(ThemeVariant theme)
         {
             ThemeColor = themeService.GetColorForTheme(theme);
