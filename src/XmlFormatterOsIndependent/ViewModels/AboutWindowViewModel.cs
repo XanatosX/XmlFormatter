@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media;
+using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,6 +13,7 @@ using System.Threading.Tasks;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatterOsIndependent.Model;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
@@ -40,6 +44,12 @@ namespace XmlFormatterOsIndependent.ViewModels
         [ObservableProperty]
         private IWindowBar windowBar;
 
+        
+        [ObservableProperty]
+        private Color themeColor;
+        private readonly IThemeService themeService;
+
+
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
 
 
@@ -50,12 +60,19 @@ namespace XmlFormatterOsIndependent.ViewModels
         public AboutWindowViewModel(
             IEnumerable<IVersionReceiverStrategy> receiverStrategies,
             IVersionConvertStrategy versionConvertStrategy,
-            IWindowApplicationService applicationService)
+            IWindowApplicationService applicationService,
+            IThemeService themeService)
         {
+            this.themeService = themeService;
+            
             WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title);
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();
+
+            var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
+            var theme = themeResponse.Response;
+            SetThemeColor(theme);
 
             Version version = versionTask?.Result ?? new Version(0, 0, 0, 0);
             Version = $"{version.Major}.{version.Minor}.{version.Build}";
@@ -81,6 +98,16 @@ namespace XmlFormatterOsIndependent.ViewModels
                                  .OrderBy(app => app.Name)
                                  .Select(app => new ThirdPartyAppViewModel(app))
                                  .ToList();
+
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) =>
+            {
+                SetThemeColor(data.Value);
+            });
+        }
+
+        private void SetThemeColor(ThemeVariant theme)
+        {
+            ThemeColor = themeService.GetColorForTheme(theme);
         }
 
         /// <summary>

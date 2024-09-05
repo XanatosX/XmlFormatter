@@ -64,6 +64,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand]
         public void CloseWindow()
         {
+            WeakReferenceMessenger.Default.Send(new SettingsWindowClosingMessage(false));
             WeakReferenceMessenger.Default.Send(new CloseWindowMessage(WindowId));
             WeakReferenceMessenger.Default.UnregisterAll(this);
         }
@@ -73,7 +74,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         public void SaveAndClose()
         {
-            WeakReferenceMessenger.Default.Send(new SaveSettingsWindowMessage(true));
+            WeakReferenceMessenger.Default.Send(new SettingsWindowClosingMessage(true));
             CloseWindowCommand.Execute(null);
         }
     }

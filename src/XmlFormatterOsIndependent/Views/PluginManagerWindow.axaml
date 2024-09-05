@@ -12,33 +12,51 @@
         Icon="/Assets/PluginIcon.ico"
         Name="Root"
 		xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
-        Title="{x:Static p:Resources.PluginManagerWindow_Title}">
-  <DockPanel>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*"></ColumnDefinition>
-        <ColumnDefinition Width="3*"></ColumnDefinition>
-      </Grid.ColumnDefinitions>
-      <TreeView Grid.Column="0" ItemsSource="{Binding PluginGroups}">
-        <TreeView.DataTemplates>
-          <TreeDataTemplate DataType="models:PluginTreeViewGroup" ItemsSource="{Binding Items}">
-            <TextBlock Text="{Binding Name}"></TextBlock>
-          </TreeDataTemplate>
-          <DataTemplate DataType="models:PluginTreeViewItem">
-            <Button Content="{Binding Information.Name}" Background="Transparent" BorderThickness="0"
-                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
-                    Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding Information}">
-              <Button.Styles>
-                <Style Selector="Button:pressed /template/ ContentPresenter">
-                  <Setter Property="Background" Value="Transparent">
-                  </Setter>
-                </Style>
-              </Button.Styles>
-            </Button>
-          </DataTemplate>
-        </TreeView.DataTemplates>
-      </TreeView>
-      <ContentControl Grid.Column="1" Content="{Binding VisibleView}" IsVisible="{Binding PanelVisible}"/>
-    </Grid>
-  </DockPanel>
+        Title="{x:Static p:Resources.PluginManagerWindow_Title}"
+		Background="Transparent"  
+		TransparencyLevelHint="AcrylicBlur"
+		SystemDecorations="None">
+    <Panel>
+      <ExperimentalAcrylicBorder IsHitTestVisible="False">
+          <ExperimentalAcrylicBorder.Material>
+            <ExperimentalAcrylicMaterial
+              BackgroundSource="Digger"
+              TintColor="{Binding ThemeColor}"
+              TintOpacity="1"
+              MaterialOpacity="0.65" />
+          </ExperimentalAcrylicBorder.Material>
+        </ExperimentalAcrylicBorder>
+		<Grid RowDefinitions="Auto, *">
+      <ContentControl Grid.Row="0" HorizontalContentAlignment="Stretch"  Content="{Binding WindowBar}" IsHitTestVisible="True"/>
+      <DockPanel Grid.Row="1">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <TreeView Grid.Column="0" ItemsSource="{Binding PluginGroups}">
+            <TreeView.DataTemplates>
+              <TreeDataTemplate DataType="models:PluginTreeViewGroup" ItemsSource="{Binding Items}">
+                <TextBlock Text="{Binding Name}"></TextBlock>
+              </TreeDataTemplate>
+              <DataTemplate DataType="models:PluginTreeViewItem">
+                <Button Content="{Binding Information.Name}" Background="Transparent" BorderThickness="0"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                        Command="{Binding ElementName=Root,Path=DataContext.OpenPluginCommand}" CommandParameter="{Binding Information}">
+                  <Button.Styles>
+                    <Style Selector="Button:pressed /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent">
+                      </Setter>
+                    </Style>
+                  </Button.Styles>
+                </Button>
+              </DataTemplate>
+            </TreeView.DataTemplates>
+          </TreeView>
+          <ContentControl Grid.Column="1" Content="{Binding VisibleView}" IsVisible="{Binding PanelVisible}"/>
+        </Grid>
+      </DockPanel>
+      </Grid>
+    </Panel>
+  
 </Window>

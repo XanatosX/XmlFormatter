@@ -7,7 +7,7 @@ namespace XmlFormatterOsIndependent.Views
     /// <summary>
     /// Window class for the plugin manager
     /// </summary>
-    public partial class PluginManagerWindow : Window
+    internal partial class PluginManagerWindow : CustomWindowBarWindow
     {
         public PluginManagerWindow() : this(null)
         {

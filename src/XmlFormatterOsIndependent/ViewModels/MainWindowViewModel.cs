@@ -209,7 +209,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                 CurrentFile = data.Value;
             });
 
-            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) => {
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) =>
+            {
                 SetThemeColor(data.Value);
             });
         }

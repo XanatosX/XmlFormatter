@@ -17,4 +17,8 @@ public interface IThemeService
     void ChangeTheme(ThemeEnum newTheme);
     
     Color GetColorForTheme(ThemeVariant themeVariant);
+
+    ThemeVariant GetCurrentThemeVariant();
+
+    ThemeEnum GetCurrentAppTheme();
 }
