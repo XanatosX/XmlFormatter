@@ -1,4 +1,3 @@
-using Avalonia;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -9,6 +8,9 @@ using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.ViewModels;
 
+/// <summary>
+/// The view model for the app main entry point
+/// </summary>
 internal partial class AppViewModel : ObservableObject
 {
     /// <summary>
