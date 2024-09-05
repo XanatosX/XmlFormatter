@@ -21,6 +21,7 @@ internal class ThemeService : IThemeService
         WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme == ThemeEnum.Light ? ThemeVariant.Light : ThemeVariant.Dark));
     }
 
+    /// <inheritdoc/>
     public Color GetColorForTheme(ThemeVariant themeVariant)
     {
         return themeVariant == ThemeVariant.Light ? Colors.White : Colors.Black;;
