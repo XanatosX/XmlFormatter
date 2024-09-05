@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 
 namespace XmlFormatterOsIndependent.DataSets.Files
@@ -16,7 +17,7 @@ namespace XmlFormatterOsIndependent.DataSets.Files
         /// <summary>
         /// The search filter to use
         /// </summary>
-        public List<FileDialogFilter> Filters { get; }
+        public List<FilePickerFileType> Filters { get; }
 
         /// <summary>
         /// The default name of the file to save to
@@ -28,7 +29,7 @@ namespace XmlFormatterOsIndependent.DataSets.Files
         /// </summary>
         /// <param name="view">The parent window of the new dialog</param>
         /// <param name="filter">The filter to use for the dialog</param>
-        public FileDialogData(Window view, List<FileDialogFilter> filter) : this(view, filter, string.Empty)
+        public FileDialogData(Window view, List<FilePickerFileType> filter) : this(view, filter, string.Empty)
         {
         }
 
@@ -38,7 +39,7 @@ namespace XmlFormatterOsIndependent.DataSets.Files
         /// <param name="view">The parent window of the new dialog</param>
         /// <param name="filter">The filter to use for the dialog</param>
         /// <param name="defaultFile">The default name of the file to save to</param>
-        public FileDialogData(Window view, List<FileDialogFilter> filter, string defaultFile)
+        public FileDialogData(Window view, List<FilePickerFileType> filter, string defaultFile)
         {
             View = view;
             Filters = filter;

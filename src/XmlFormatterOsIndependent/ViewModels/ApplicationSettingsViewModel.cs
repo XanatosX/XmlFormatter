@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
@@ -77,11 +78,19 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
                 themeService.ChangeTheme(currentTheme);
             }
         };
-        SelectedTheme = ThemeEnum.Light.ToString();
+        SelectedTheme = Themes.FirstOrDefault(theme => theme == themeService.GetCurrentAppTheme().ToString()) ?? ThemeEnum.Light.ToString();
         SetSettingsFromApplicationSetting(settingsRepository.CreateOrLoad() ?? new ApplicationSettings());
 
         WeakReferenceMessenger.Default.Register<SettingsImportedMessage>(this, (_, data) => SetSettingsFromApplicationSetting(data.Value));
-        WeakReferenceMessenger.Default.Register<SaveSettingsWindowMessage>(this, (_, _) => SaveSettings());
+        WeakReferenceMessenger.Default.Register<SettingsWindowClosingMessage>(this, (_, data) => 
+        {
+            if (data.Value)
+            {
+                SaveSettings();
+                return;
+            }
+            ClosingSettings();
+        });
     }
 
     /// <summary>
@@ -122,8 +131,22 @@ internal partial class ApplicationSettingsViewModel : ObservableObject
             settings.Updater = Updater?.MetaData;
         });
 
+
         ThemeEnum themeToUse = updatedSettings?.Theme ?? ThemeEnum.Light;
         themeService.ChangeTheme(themeToUse);
+    }
+
+    /// <summary>
+    /// Method to run if the settings are getting closed
+    /// </summary>
+    private void ClosingSettings()
+    {
+        var settings = settingsRepository.CreateOrLoad();
+        if (settings is null)
+        {
+            return;
+        }
+        themeService.ChangeTheme(settings.Theme);
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -58,19 +59,42 @@ public interface IWindowApplicationService
     /// </summary>
     /// <param name="fileFilters">The filters used to define which files can be opened</param>
     /// <returns>A awaitable task containing a string with the selected file</returns>
-    Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters);
+    Task<string?> OpenFileAsync(List<FilePickerFileType> fileFilters);
 
     /// <summary>
     /// Open a dialog to select multiple files for opening
     /// </summary>
     /// <param name="fileFilters">The filters used to define which files can be opened</param>
     /// <returns>A enumerable with all the files which where selected for opening</returns>
-    Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FileDialogFilter> fileFilters);
+    Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FilePickerFileType> fileFilters);
 
     /// <summary>
     /// Method to open a dialog to select a file for saving
     /// </summary>
     /// <param name="fileFilters">The filters used to define which type of files will be saved</param>
     /// <returns>A single string for the path to the file where the data should be saved in</returns>
-    Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters);
+    Task<string?> SaveFileAsync(List<FilePickerFileType> fileFilters);
+    
+    /// <summary>
+    /// Method to get the window bar of the application
+    /// </summary>
+    /// <returns>Returns the window bar of the application</returns>
+    IWindowBar GetWindowBar();
+
+    /// <summary>
+    /// Get the window bar with some custom attributes
+    /// </summary>
+    /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
+    /// <param name="windowName">The name of the window</param>
+    /// <returns>A custom window bar</returns>
+    IWindowBar GetWindowBar(string windowIconPath, string windowName);
+
+    /// <summary>
+    /// Get the window bar with some custom attributes
+    /// </summary>
+    /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
+    /// <param name="windowName">The name of the window</param>
+    /// <param name="allowMinimize">Is it allowed to minimize this window?</param>
+    /// <returns>A custom window bar</returns>
+    IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize);
 }

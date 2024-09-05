@@ -1,7 +1,8 @@
-﻿using Avalonia;
-using Avalonia.Themes.Fluent;
-using System.Linq;
+﻿using Avalonia.Media;
+using Avalonia.Styling;
+using CommunityToolkit.Mvvm.Messaging;
 using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -13,27 +14,27 @@ internal class ThemeService : IThemeService
     /// <inheritdoc/>
     public void ChangeTheme(ThemeEnum newTheme)
     {
-        FluentThemeMode theme = newTheme switch
-        {
-            ThemeEnum.Light => FluentThemeMode.Light,
-            ThemeEnum.Dark => FluentThemeMode.Dark,
-            _ => FluentThemeMode.Light
-        };
-
-        ChangeTheme(theme);
+        WeakReferenceMessenger.Default.Send(new ThemeChangedMessage(newTheme == ThemeEnum.Light ? ThemeVariant.Light : ThemeVariant.Dark));
     }
 
     /// <inheritdoc/>
-    public void ChangeTheme(FluentThemeMode fluentTheme)
+    public Color GetColorForTheme(ThemeVariant themeVariant)
     {
-        var app = Application.Current;
-        if (app is not null)
-        {
-            var loadedTheme = app.Styles.OfType<FluentTheme>().FirstOrDefault();
-            if (loadedTheme is not null)
-            {
-                loadedTheme.Mode = fluentTheme;
-            }
-        }
+        return themeVariant == ThemeVariant.Light ? Colors.White : Colors.Black;;
     }
+
+    /// <inheritdoc/>
+    public ThemeEnum GetCurrentAppTheme()
+    {
+        var currentTheme = GetCurrentThemeVariant();
+        return currentTheme is not null && currentTheme == ThemeVariant.Dark ? ThemeEnum.Dark : ThemeEnum.Light;
+    }
+
+    /// <inheritdoc/>
+    public ThemeVariant GetCurrentThemeVariant()
+    {
+        var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
+        return themeResponse.Response;
+    }
+
 }

@@ -1,11 +1,13 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Media;
+using Avalonia.Platform.Storage;
+using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using MessageBox.Avalonia;
-using MessageBox.Avalonia.BaseWindows.Base;
-using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
+using MsBox.Avalonia;
+using MsBox.Avalonia.Base;
+using MsBox.Avalonia.Dto;
+using MsBox.Avalonia.Enums;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using System;
@@ -18,7 +20,6 @@ using XmlFormatter.Application.Services;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature.FormatterFeature;
-using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
@@ -30,14 +31,16 @@ namespace XmlFormatterOsIndependent.ViewModels
     /// <summary>
     /// View model for the main window
     /// </summary>
-    internal partial class MainWindowViewModel : ObservableObject
+    internal partial class MainWindowViewModel : ObservableObject, IWindowWithId
     {
         /// <summary>
         /// The modes you could convert to
         /// </summary>
         public List<ModeSelection> ConversionModes { get; }
 
-
+        /// <summary>
+        /// All list with all the available plugins
+        /// </summary>
         [ObservableProperty]
         private List<PluginMetaData> availablePlugins;
 
@@ -49,6 +52,9 @@ namespace XmlFormatterOsIndependent.ViewModels
         [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
         private PluginMetaData? currentPlugin;
 
+        /// <summary>
+        /// The selected mode of operation
+        /// </summary>
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(ConvertFileCommand))]
         [NotifyCanExecuteChangedFor(nameof(OpenFileCommand))]
@@ -62,7 +68,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         private string? currentFile;
 
         /// <summary>
-        /// Use the native menur of the os
+        /// Use the native menu of the os
         /// </summary>
         [ObservableProperty]
         private bool useNativeMenu;
@@ -71,7 +77,22 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Private text of the status string
         /// </summary>
         [ObservableProperty]
-        private string? statusString;
+        private string? statusString;   
+
+        /// <summary>
+        /// The custom window bar to use
+        /// </summary>
+        [ObservableProperty]
+        private IWindowBar windowBar;
+
+        /// <summary>
+        /// The color to use related to the current theme
+        /// </summary>
+        [ObservableProperty]
+        private Color themeColor;
+
+        /// <inheritdoc/>
+        public int WindowId { get => WindowBar is IWindowWithId bar ? bar.WindowId : -1; }
 
         /// <summary>
         /// Is the formatter selector visible at the moment
@@ -82,7 +103,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Is the mode of the formatter selector visible right now
         /// </summary>
         public bool FormatterModeSelectionVisible { get; }
-
+        
         /// <summary>
         /// The repository to use for loading application settings
         /// </summary>
@@ -112,6 +133,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Service used for the everything related to windows
         /// </summary>
         private readonly IWindowApplicationService applicationService;
+        private readonly IThemeService themeService;
+
 
         /// <summary>
         /// Create a new instance of this main window viewer
@@ -137,6 +160,13 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.updateService = updateService;
             this.urlService = urlService;
             this.applicationService = applicationService;
+            this.themeService = themeService;
+
+            var theme = themeService.GetCurrentThemeVariant();
+            SetThemeColor(theme);
+
+            windowBar = applicationService.GetWindowBar();
+        
 
             ConversionModes = Enum.GetValues(typeof(ModesEnum))
                                   .Cast<ModesEnum>()
@@ -145,7 +175,6 @@ namespace XmlFormatterOsIndependent.ViewModels
                                   .ToList();
 
             var settingFile = settingsRepository.CreateOrLoad();
-            themeService.ChangeTheme(settingFile?.Theme ?? ThemeEnum.Light);
             StatusString = string.Format(Properties.Resources.MainWindow_Status_Template, string.Empty);
 
             AvailablePlugins = pluginManager.ListPlugins<IFormatter>().ToList();
@@ -185,6 +214,20 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 CurrentFile = data.Value;
             });
+
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) =>
+            {
+                SetThemeColor(data.Value);
+            });
+        }
+
+        /// <summary>
+        /// Set the color of the theme related to the current theme variant
+        /// </summary>
+        /// <param name="theme">The theme variant to set the color for</param>
+        private void SetThemeColor(ThemeVariant theme)
+        {
+            ThemeColor = themeService.GetColorForTheme(theme);
         }
 
         /// <summary>
@@ -202,9 +245,9 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFile = data ?? CurrentFile;
         }
 
-        private static FileDialogFilter CreatePluginFileFilter(IFormatter plugin)
+        private static FilePickerFileType CreatePluginFileFilter(IFormatter plugin)
         {
-            return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
+            return new FilePickerFileType($"*.{plugin.Extension}-file") { Patterns = new List<string>{ $"*.{plugin.Extension}"  }};
         }
 
         /// <summary>
@@ -272,13 +315,17 @@ namespace XmlFormatterOsIndependent.ViewModels
         [RelayCommand(CanExecute = nameof(CanConvertFile))]
         public async void ConvertFile()
         {
+            if (CurrentFile is null)
+            {
+                return;
+            }
             var plugin = pluginManager.LoadPlugin<IFormatter>(CurrentPlugin);
             if (plugin is null || SelectedMode is null)
             {
                 return;
             }
-            List<FileDialogFilter> fitlers = new() { CreatePluginFileFilter(plugin) };
-            var saveFile = await applicationService.SaveFileAsync(fitlers);
+            List<FilePickerFileType> filters = new() { CreatePluginFileFilter(plugin) };
+            var saveFile = await applicationService.SaveFileAsync(filters);
             if (saveFile is null)
             {
                 return;
@@ -348,8 +395,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             parameter.ContentTitle = title;
             parameter.ContentMessage = content;
             parameter.ButtonDefinitions = buttons;
-            IMsBoxWindow<ButtonResult> window = MessageBoxManager.GetMessageBoxStandardWindow(parameter);
-            var buttonResult = await window.ShowDialog(topWindow);
+            IMsBox<ButtonResult> window = MessageBoxManager.GetMessageBoxStandard(parameter);
+            var buttonResult = await window.ShowAsPopupAsync(topWindow);
             if (buttonResult == ButtonResult.Yes)
             {
                 bool update = updateService.UpdateApplication(compare);

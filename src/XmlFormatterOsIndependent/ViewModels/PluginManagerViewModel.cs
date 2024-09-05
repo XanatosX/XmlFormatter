@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media;
+using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using PluginFramework.DataContainer;
 using PluginFramework.Interfaces.Manager;
 using System.Collections.Generic;
@@ -8,14 +11,16 @@ using XmlFormatter.Application.Services;
 using XmlFormatter.Domain.PluginFeature;
 using XmlFormatter.Domain.PluginFeature.FormatterFeature;
 using XmlFormatter.Domain.PluginFeature.UpdateStrategyFeature;
+using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
     /// <summary>
     /// Window to list all the plugin data
     /// </summary>
-    public partial class PluginManagerViewModel : ObservableObject
+    internal partial class PluginManagerViewModel : ObservableObject, IWindowBar
     {
         /// <summary>
         /// Is the information panel to the right visible
@@ -28,21 +33,51 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         [ObservableProperty]
         public ObservableObject? visibleView;
+
+        /// <summary>
+        /// The service to use for opening urls
+        /// </summary>
         private readonly IUrlService urlService;
+
+        /// <summary>
+        /// The service to use to change theme related information
+        /// </summary>
+        private readonly IThemeService themeService;
+
 
         /// <summary>
         /// The groups for the plugins to be shown in the tree view
         /// </summary>
         public List<PluginTreeViewGroup> PluginGroups { get; }
 
+        [ObservableProperty]
+        private IWindowBar windowBar;
+
+        /// <summary>
+        /// The color to use for the current theme
+        /// </summary>
+        [ObservableProperty]
+        private Color themeColor;
+
+        /// <inheritdoc/>
+        public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
+
         /// <summary>
         /// Create a new instance of this class
         /// </summary>
         /// <param name="viewContainer">The container for the parent window and the current window</param>
         /// <param name="managerFactory">The factory to create the plugin manager</param>
-        public PluginManagerViewModel(IPluginManager pluginManager, IUrlService urlService) //ViewContainer viewContainer, 
+        public PluginManagerViewModel(IPluginManager pluginManager,
+                                      IUrlService urlService,
+                                      IWindowApplicationService windowApplicationService,
+                                      IThemeService themeService) //ViewContainer viewContainer, 
         {
+            this.windowBar = windowApplicationService.GetWindowBar(Properties.Properties.PluginManager_Icon, Properties.Resources.PluginManagerWindow_Title, false);
             this.urlService = urlService;
+            this.themeService = themeService;
+            
+            var theme = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
+            SetThemeColor(theme);
 
             PanelVisible = false;
             PluginGroups = new List<PluginTreeViewGroup>();
@@ -61,7 +96,21 @@ namespace XmlFormatterOsIndependent.ViewModels
             }
 
             PluginGroups.Add(formatterGroup);
-            PluginGroups.Add(updaterGroup);
+            PluginGroups.Add(updaterGroup);            
+
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) =>
+            {
+                SetThemeColor(data.Value);
+            });
+        }
+
+        /// <summary>
+        /// Set the current theme in relation to the given theme
+        /// </summary>
+        /// <param name="theme">The theme to set the color for</param>
+        private void SetThemeColor(ThemeVariant theme)
+        {
+            ThemeColor = themeService.GetColorForTheme(theme);
         }
 
         /// <summary>

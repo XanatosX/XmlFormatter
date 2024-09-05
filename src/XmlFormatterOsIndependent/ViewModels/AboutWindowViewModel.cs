@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media;
+using Avalonia.Styling;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,13 +13,15 @@ using System.Threading.Tasks;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatterOsIndependent.Model;
+using XmlFormatterOsIndependent.Model.Messages;
+using XmlFormatterOsIndependent.Services;
 
 namespace XmlFormatterOsIndependent.ViewModels
 {
     /// <summary>
     /// Model view for the about window
     /// </summary>
-    internal partial class AboutWindowViewModel : ObservableObject
+    internal partial class AboutWindowViewModel : ObservableObject, IWindowWithId
     {
         /// <summary>
         /// The version to show on the screen
@@ -35,6 +40,26 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         [ObservableProperty]
         public IReadOnlyList<ThirdPartyAppViewModel> thirdPartyApps;
+        
+        /// <summary>
+        /// The custom window bar to use
+        /// </summary>
+        [ObservableProperty]
+        private IWindowBar windowBar;
+
+        /// <summary>
+        /// The theme color for this window
+        /// </summary>
+        [ObservableProperty]
+        private Color themeColor;
+        
+        /// <summary>
+        /// The theme service to use
+        /// </summary>
+        private readonly IThemeService themeService;
+
+        /// <inheritdoc/>
+        public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
 
         /// <summary>
         /// Create a new instance of this class
@@ -42,17 +67,25 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <inheritdoc>
         public AboutWindowViewModel(
             IEnumerable<IVersionReceiverStrategy> receiverStrategies,
-            IVersionConvertStrategy versionConvertStrategy)
+            IVersionConvertStrategy versionConvertStrategy,
+            IWindowApplicationService applicationService,
+            IThemeService themeService)
         {
+            this.themeService = themeService;
+            
+            WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title, false);
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();
+
+            var theme = themeService.GetCurrentThemeVariant();
+            SetThemeColor(theme);
 
             Version version = versionTask?.Result ?? new Version(0, 0, 0, 0);
             Version = $"{version.Major}.{version.Minor}.{version.Build}";
 
             var assembly = Assembly.GetExecutingAssembly();
-            Description = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
+            LoadAndSetDescription(assembly);
 
             string? thirdPartyAppData = GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_ThirdPartyApps_File, assembly);
             if (thirdPartyAppData is null)
@@ -72,6 +105,36 @@ namespace XmlFormatterOsIndependent.ViewModels
                                  .OrderBy(app => app.Name)
                                  .Select(app => new ThirdPartyAppViewModel(app))
                                  .ToList();
+
+            WeakReferenceMessenger.Default.Register<ThemeChangedMessage>(this, (_, data) =>
+            {
+                SetThemeColor(data.Value);
+            });
+        }
+
+        /// <summary>
+        /// Method to load and set then description for the about window
+        /// </summary>
+        /// <param name="assembly">The assembly to request the data from</param>
+        private void LoadAndSetDescription(Assembly assembly)
+        {
+            string? rawDescription = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
+            if (rawDescription is null)
+            {
+                return;
+            }
+
+            Description = rawDescription.Replace("%DISCUSSION_URL%", Properties.Properties.GitHub_Discuss)
+                                        .Replace("%ISSUES_URL%", Properties.Properties.GitHub_Issue);
+        }
+
+        /// <summary>
+        /// Set the theme color for this window based on the theme variant
+        /// </summary>
+        /// <param name="theme">The theme variant to get set color for</param>
+        private void SetThemeColor(ThemeVariant theme)
+        {
+            ThemeColor = themeService.GetColorForTheme(theme);
         }
 
         /// <summary>

@@ -8,11 +8,11 @@
 	<StackPanel>
 			<StackPanel Margin="5,0,0,0">
 				<CheckBox Margin="0,5,0,5" Content="{x:Static p:Resources.ApplicationSettingsView_AskBeforeClosing}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_AskBeforeClosing_Tip}" IsChecked="{Binding AskBeforeClosing}"></CheckBox>
-				<ComboBox Margin="0,0,5,5" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Theme_Tip}" Items="{Binding Themes}" SelectedItem="{Binding SelectedTheme}"/>
+				<ComboBox Margin="0,0,5,5" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Theme_Tip}" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}"/>
 			</StackPanel>
 			<StackPanel Margin="5,0,5,0">
 				<CheckBox Margin="0,5,0,5" Content="{x:Static p:Resources.ApplicationSettingsView_CheckForUpdateOnStartup}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_CheckForUpdateOnStartup_Tip}" IsChecked="{Binding CheckUpdateOnStart}"></CheckBox>
-				<ComboBox Margin="0,0,0,5" Items="{Binding AvailableUpdaters}" SelectedItem="{Binding Updater}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Updater_Tip}"/>
+				<ComboBox Margin="0,0,0,5" ItemsSource="{Binding AvailableUpdaters}" SelectedItem="{Binding Updater}" ToolTip.Tip="{x:Static p:Resources.ApplicationSettingsView_Updater_Tip}"/>
 			</StackPanel>
 	</StackPanel>
 </UserControl>

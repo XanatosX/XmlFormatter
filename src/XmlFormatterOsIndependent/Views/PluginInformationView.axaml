@@ -10,7 +10,6 @@
 	<Grid Margin="5" RowDefinitions="Auto, Auto, *">
 		<Grid RowDefinitions="Auto, Auto">
 			<TextBlock Text="{Binding Name}" FontSize="30" IsVisible="{Binding !ProjectLinkPresent}"/>
-			<controls:Hyperlink Alias="{Binding Name}" Url="{Binding ProjectUrl}" ToolTip.Tip="{Binding ProjectUrl}" IsVisible="{Binding ProjectLinkPresent}" FontSize="30"/>
 			<StackPanel Grid.Row="1" Spacing="10" Orientation="Horizontal">
 				<TextBlock Text="{Binding Version}"/>
 				<TextBlock Text="{Binding Author}"  IsVisible="{Binding !AuthorLinkPresent}"/>

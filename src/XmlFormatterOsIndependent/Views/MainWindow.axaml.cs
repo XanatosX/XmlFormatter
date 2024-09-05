@@ -1,13 +1,11 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Markup.Xaml;
+﻿using Avalonia.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Linq;
 using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Views
 {
-    public class MainWindow : Window
+    public partial class MainWindow : CustomWindowBarWindow
     {
         public MainWindow()
         {
@@ -54,24 +52,19 @@ namespace XmlFormatterOsIndependent.Views
                 {
                     return;
                 }
-                WeakReferenceMessenger.Default.Send(new DragDropFileChanged(data.Data.GetFileNames()?.FirstOrDefault()));
+                WeakReferenceMessenger.Default.Send(new DragDropFileChanged(data.Data.GetFiles().Select(file => file.Path.AbsolutePath)?.FirstOrDefault()));
             });
         }
 
         private static bool CheckIfDragAndDropIsValid(DragEventArgs data, bool result)
         {
-            string? file = data.Data.GetFileNames()?.OfType<string>()?.FirstOrDefault();
+            string? file = data.Data.GetFiles().Select(file => file.Path.AbsolutePath)?.OfType<string>()?.FirstOrDefault();
             if (file is not null)
             {
                 result = WeakReferenceMessenger.Default.Send(new IsDragDropFileValidMessage { FileName = file }) ?? false;
             }
 
             return result;
-        }
-
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }

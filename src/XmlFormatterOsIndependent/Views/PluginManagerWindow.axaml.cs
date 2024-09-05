@@ -1,5 +1,3 @@
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Views
@@ -7,7 +5,7 @@ namespace XmlFormatterOsIndependent.Views
     /// <summary>
     /// Window class for the plugin manager
     /// </summary>
-    public class PluginManagerWindow : Window
+    internal partial class PluginManagerWindow : CustomWindowBarWindow
     {
         public PluginManagerWindow() : this(null)
         {
@@ -21,12 +19,6 @@ namespace XmlFormatterOsIndependent.Views
         {
             InitializeComponent();
             DataContext = viewModel;
-        }
-
-        /// <inheritdoc/>
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
         }
     }
 }
