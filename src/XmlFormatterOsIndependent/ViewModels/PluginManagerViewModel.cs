@@ -62,7 +62,7 @@ namespace XmlFormatterOsIndependent.ViewModels
                                       IWindowApplicationService windowApplicationService,
                                       IThemeService themeService) //ViewContainer viewContainer, 
         {
-            this.windowBar = windowApplicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.PluginManagerWindow_Title);
+            this.windowBar = windowApplicationService.GetWindowBar(Properties.Properties.PluginManager_Icon, Properties.Resources.PluginManagerWindow_Title);
             this.urlService = urlService;
             this.themeService = themeService;
             
