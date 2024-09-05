@@ -1,9 +1,14 @@
+using Avalonia;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using XmlFormatter.Application;
+using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
+using XmlFormatterOsIndependent.Services;
 
-public partial class AppViewModel : ObservableObject
+internal partial class AppViewModel : ObservableObject
 {
         /// <summary>
     /// The theme variant to use
@@ -11,9 +16,12 @@ public partial class AppViewModel : ObservableObject
     [ObservableProperty]
     private ThemeVariant themeVariant;
 
-    public AppViewModel()
+    public AppViewModel(ISettingsRepository<ApplicationSettings> settingsRepository)
     {
-        themeVariant = ThemeVariant.Light;
+        var settings = settingsRepository.CreateOrLoad();
+        var settingTheme = settings?.Theme;
+
+        themeVariant = settingTheme == ThemeEnum.Light ? ThemeVariant.Light : ThemeVariant.Dark;
 
         WeakReferenceMessenger.Default.Register<GetCurrentThemeMessage>(this, (_, e) => {
             if (e.HasReceivedResponse)

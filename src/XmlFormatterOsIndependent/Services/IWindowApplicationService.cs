@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -59,21 +60,21 @@ public interface IWindowApplicationService
     /// </summary>
     /// <param name="fileFilters">The filters used to define which files can be opened</param>
     /// <returns>A awaitable task containing a string with the selected file</returns>
-    Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters);
+    Task<string?> OpenFileAsync(List<FilePickerFileType> fileFilters);
 
     /// <summary>
     /// Open a dialog to select multiple files for opening
     /// </summary>
     /// <param name="fileFilters">The filters used to define which files can be opened</param>
     /// <returns>A enumerable with all the files which where selected for opening</returns>
-    Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FileDialogFilter> fileFilters);
+    Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FilePickerFileType> fileFilters);
 
     /// <summary>
     /// Method to open a dialog to select a file for saving
     /// </summary>
     /// <param name="fileFilters">The filters used to define which type of files will be saved</param>
     /// <returns>A single string for the path to the file where the data should be saved in</returns>
-    Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters);
+    Task<string?> SaveFileAsync(List<FilePickerFileType> fileFilters);
     
     IWindowBar GetWindowBar();
 

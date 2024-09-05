@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -43,8 +44,10 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     [RelayCommand]
     public async void ExportSettings()
     {
-        var file = await windowService.SaveFileAsync(new List<FileDialogFilter>{
-            new() { Name = "Json", Extensions = new List<string>{ "json" } }
+        var file = await windowService.SaveFileAsync(new List<FilePickerFileType>{
+            new FilePickerFileType("Json") {
+                Patterns = new List<string>{ "*.json" }
+            },
         });
         var settings = settingsRepository.CreateOrLoad();
         if (string.IsNullOrEmpty(file) || settings is null)
@@ -78,8 +81,8 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     [RelayCommand]
     public async void ImportSettings()
     {
-        var file = await windowService.OpenFileAsync(new List<FileDialogFilter>{
-            new() { Name = "Json", Extensions = new List<string>{ "json" } }
+        var file = await windowService.OpenFileAsync(new List<FilePickerFileType>{
+            new("Json") { Patterns = new List<string>{ "json" } }
         });
         if (file is null)
         {

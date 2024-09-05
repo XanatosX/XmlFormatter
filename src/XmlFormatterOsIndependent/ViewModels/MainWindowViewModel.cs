@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,7 +21,6 @@ using XmlFormatter.Application.Services;
 using XmlFormatter.Application.Services.UpdateFeature;
 using XmlFormatter.Domain.Enums;
 using XmlFormatter.Domain.PluginFeature.FormatterFeature;
-using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.Models;
@@ -234,9 +234,9 @@ namespace XmlFormatterOsIndependent.ViewModels
             CurrentFile = data ?? CurrentFile;
         }
 
-        private static FileDialogFilter CreatePluginFileFilter(IFormatter plugin)
+        private static FilePickerFileType CreatePluginFileFilter(IFormatter plugin)
         {
-            return new FileDialogFilter { Extensions = new() { plugin.Extension }, Name = $"{plugin.Extension}-file" };
+            return new FilePickerFileType($"*.{plugin.Extension}-file") { Patterns = new List<string>{ $"*.{plugin.Extension}"  }};
         }
 
         /// <summary>
@@ -309,8 +309,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 return;
             }
-            List<FileDialogFilter> fitlers = new() { CreatePluginFileFilter(plugin) };
-            var saveFile = await applicationService.SaveFileAsync(fitlers);
+            List<FilePickerFileType> filters = new() { CreatePluginFileFilter(plugin) };
+            var saveFile = await applicationService.SaveFileAsync(filters);
             if (saveFile is null)
             {
                 return;

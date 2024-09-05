@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -80,7 +81,7 @@ public class WindowApplicationService : IWindowApplicationService
     }
 
     /// <inheritdoc/>
-    public Task<string?> OpenFileAsync(List<FileDialogFilter> fileFilters)
+    public Task<string?> OpenFileAsync(List<FilePickerFileType> fileFilters)
     {
         return Task.Run(async () =>
         {
@@ -90,21 +91,18 @@ public class WindowApplicationService : IWindowApplicationService
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FileDialogFilter> fileFilters)
+    public async Task<IEnumerable<string>> OpenMultipleFilesAsync(List<FilePickerFileType> fileFilters)
     {
-        OpenFileDialog openFile = new OpenFileDialog()
-        {
-            AllowMultiple = true,
-            Filters = fileFilters
-        };
-
         var mainWindow = await WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage());
         if (mainWindow is null)
         {
             return Enumerable.Empty<string>();
         }
-        string[] data = await openFile.ShowAsync(mainWindow) ?? Array.Empty<string>();
-        return data;
+        var selectedFiles = await mainWindow.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {
+            FileTypeFilter = fileFilters,
+        });
+
+        return selectedFiles.Select(file => file.Path.AbsolutePath);
     }
 
     /// <inheritdoc/>
@@ -132,19 +130,19 @@ public class WindowApplicationService : IWindowApplicationService
     }
 
     /// <inheritdoc/>
-    public async Task<string?> SaveFileAsync(List<FileDialogFilter> fileFilters)
+    public async Task<string?> SaveFileAsync(List<FilePickerFileType> fileFilters)
     {
-        SaveFileDialog saveFile = new SaveFileDialog()
-        {
-            Filters = fileFilters
-        };
-
         var mainWindow = await WeakReferenceMessenger.Default.Send(new RequestMainWindowMessage());
         if (mainWindow is null)
         {
             return null;
         }
-        return await saveFile.ShowAsync(mainWindow);
+        var pickedFile = await mainWindow.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions 
+        {
+            FileTypeChoices = fileFilters
+        });
+
+        return pickedFile?.Path.AbsolutePath ?? null;
     }
 
     public IWindowBar GetWindowBar()
