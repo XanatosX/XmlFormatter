@@ -155,8 +155,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.applicationService = applicationService;
             this.themeService = themeService;
 
-            var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
-            var theme = themeResponse.Response;
+            var theme = themeService.GetCurrentThemeVariant();
             SetThemeColor(theme);
 
             windowBar = applicationService.GetWindowBar();

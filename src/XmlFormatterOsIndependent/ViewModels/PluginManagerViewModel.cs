@@ -66,8 +66,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.urlService = urlService;
             this.themeService = themeService;
             
-            var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
-            var theme = themeResponse.Response;
+            var theme = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
             SetThemeColor(theme);
 
             PanelVisible = false;

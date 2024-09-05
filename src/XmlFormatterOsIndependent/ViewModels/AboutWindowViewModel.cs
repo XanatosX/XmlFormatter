@@ -70,15 +70,14 @@ namespace XmlFormatterOsIndependent.ViewModels
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
             versionTask?.Wait();
 
-            var themeResponse = WeakReferenceMessenger.Default.Send<GetCurrentThemeMessage>();
-            var theme = themeResponse.Response;
+            var theme = themeService.GetCurrentThemeVariant();
             SetThemeColor(theme);
 
             Version version = versionTask?.Result ?? new Version(0, 0, 0, 0);
             Version = $"{version.Major}.{version.Minor}.{version.Build}";
 
             var assembly = Assembly.GetExecutingAssembly();
-            Description = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
+            LoadAndSetDescription(assembly);
 
             string? thirdPartyAppData = GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_ThirdPartyApps_File, assembly);
             if (thirdPartyAppData is null)
@@ -103,6 +102,18 @@ namespace XmlFormatterOsIndependent.ViewModels
             {
                 SetThemeColor(data.Value);
             });
+        }
+
+        private void LoadAndSetDescription(Assembly assembly)
+        {
+            string? rawDescription = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
+            if (rawDescription is null)
+            {
+                return;
+            }
+
+            Description = rawDescription.Replace("%DISCUSSION_URL%", Properties.Properties.GitHub_Discuss)
+                                        .Replace("%ISSUES_URL%", Properties.Properties.GitHub_Issue);
         }
 
         private void SetThemeColor(ThemeVariant theme)

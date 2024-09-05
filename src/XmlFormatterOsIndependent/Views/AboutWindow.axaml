@@ -42,10 +42,6 @@
 						<Panel Grid.Column="1" Grid.Row="1" Margin="0,10,0,0">
 							<StackPanel Spacing="5">
 								<TextBlock Text="{Binding Version}"/>
-								<StackPanel Orientation="Horizontal" Spacing="5">
-									<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_Discuss}" Url="{x:Static p:Properties.GitHub_Discuss}"/>
-									<controls:Hyperlink Alias="{x:Static p:Resources.AboutWindow_Tab_General_GetHelp}" Url="{x:Static p:Properties.GitHub_Issue}"/>
-								</StackPanel>
 								<md:MarkdownScrollViewer Markdown="{Binding Description}"/>
 							</StackPanel>
 						</Panel>
