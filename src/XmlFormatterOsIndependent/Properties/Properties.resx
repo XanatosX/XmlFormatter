@@ -169,4 +169,12 @@
     <value>XmlFormatter/Assets/XmlFormatterSettingsIcon.png</value>
     <comment/>
   </data>
+  <data name="Update_New_Version_Available_File" xml:space="preserve">
+    <value>XmlFormatterOsIndependent.Resources.NewVersionAvailable.md</value>
+    <comment/>
+  </data>
+  <data name="Update_App_Is_Up_To_Date_File" xml:space="preserve">
+    <value>XmlFormatterOsIndependent.Resources.VersionIsUpToDate.md</value>
+    <comment/>
+  </data>
 </root>

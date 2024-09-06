@@ -3,6 +3,8 @@ using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Threading.Tasks;
+using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -25,13 +27,13 @@ public interface IWindowApplicationService
     /// <summary>
     /// Close the currently active window
     /// </summary>
-    /// <returns>True if closing was succesful</returns>
+    /// <returns>True if closing was successful</returns>
     bool CloseActiveWindow();
 
     /// <summary>
     /// Get all windows of the application
     /// </summary>
-    /// <returns>A enumerable with all the windows which are currenty open</returns>
+    /// <returns>A enumerable with all the windows which are currently open</returns>
     IEnumerable<Window> GetAllWindows();
 
     /// <summary>
@@ -99,4 +101,6 @@ public interface IWindowApplicationService
     IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize);
 
     IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle);
-}1
+
+    Task<DialogButtonResponses> OpenDialogBoxAsync(string? windowIconPath, string? windowTitle, IDialogWindow content);
+}

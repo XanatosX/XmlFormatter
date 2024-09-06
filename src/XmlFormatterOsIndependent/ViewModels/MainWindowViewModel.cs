@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using XmlFormatter.Application;
 using XmlFormatter.Application.Services;
 using XmlFormatter.Application.Services.UpdateFeature;
@@ -134,6 +135,8 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private readonly IWindowApplicationService applicationService;
         private readonly IThemeService themeService;
+        private readonly ResourceLoaderService resourceLoaderService;
+
 
 
         /// <summary>
@@ -152,7 +155,8 @@ namespace XmlFormatterOsIndependent.ViewModels
                                      ApplicationUpdateService updateService,
                                      IUrlService urlService,
                                      IWindowApplicationService applicationService,
-                                     IThemeService themeService)
+                                     IThemeService themeService,
+                                     ResourceLoaderService resourceLoaderService)
         {
             this.settingsRepository = settingsRepository;
             this.pluginManager = pluginManager;
@@ -161,7 +165,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.urlService = urlService;
             this.applicationService = applicationService;
             this.themeService = themeService;
-
+            this.resourceLoaderService = resourceLoaderService;
             var theme = themeService.GetCurrentThemeVariant();
             SetThemeColor(theme);
 
@@ -365,7 +369,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// Search if there is an update
         /// </summary>
         [RelayCommand]
-        public async void SearchForUpdate()
+        public async Task SearchForUpdate()
         {
             var compare = await versionManager.RemoteVersionIsNewerAsync();
             var topWindow = applicationService.GetTopMostWindow();
@@ -374,33 +378,30 @@ namespace XmlFormatterOsIndependent.ViewModels
                 return;
             }
 
-            string title = "Version is up to date";
-            string content = "You version is up to date";
+            string title = Properties.Resources.UpdateDialog_UpToDate_Title;
+            string content = resourceLoaderService.GetLocalizedString(Properties.Properties.Update_App_Is_Up_To_Date_File);
             ButtonEnum buttons = ButtonEnum.Ok;
 
             MessageBoxStandardParams parameter = new MessageBoxStandardParams();
             if (compare.GitHubIsNewer)
             {
-                title = "Update Available";
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendFormat(
-                    "There is a new version available{0}{0}Your version: {1}{0}Remote version: {2}{0}{0}Do you want to update?",
-                    Environment.NewLine,
-                    compare.LocalVersion,
-                    compare.GitHubVersion
-                    );
-                content = stringBuilder.ToString();
+                title = Properties.Resources.UpdateDialog_NewVersion_Title;
+                content = resourceLoaderService.GetLocalizedString(Properties.Properties.Update_New_Version_Available_File);
                 buttons = ButtonEnum.YesNo;
             }
             parameter.ContentTitle = title;
             parameter.ContentMessage = content;
             parameter.ButtonDefinitions = buttons;
-            IMsBox<ButtonResult> window = MessageBoxManager.GetMessageBoxStandard(parameter);
-            var buttonResult = await window.ShowAsPopupAsync(topWindow);
-            if (buttonResult == ButtonResult.Yes)
+
+            content = content.Replace("%local_version%", compare.LocalVersion.ToString())
+                             .Replace("%remote_version%", compare.GitHubVersion.ToString());
+
+            var result = await applicationService.OpenDialogBoxAsync(null, title, new YesNoDialogViewModel(content));
+            if (result == Enums.DialogButtonResponses.Yes)
             {
-                bool update = updateService.UpdateApplication(compare);
+                updateService.UpdateApplication(compare);
             }
+
         }
     }
 }

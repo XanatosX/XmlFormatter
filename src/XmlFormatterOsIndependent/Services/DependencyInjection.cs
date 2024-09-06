@@ -23,6 +23,7 @@ internal static class DependencyInjection
                          .AddSingleton<IDependencyInjectionResolverService, DependencyInjectionResolverService>(provider => new DependencyInjectionResolverService(provider))
                          .AddSingleton<IUrlService, HyperlinkAdapterUrlService>()
                          .AddSingleton<IThemeService, ThemeService>()
-                         .AddSingleton<ApplicationUpdateService>();
+                         .AddSingleton<ApplicationUpdateService>()
+                         .AddSingleton<ResourceLoaderService>();
     }
 }
