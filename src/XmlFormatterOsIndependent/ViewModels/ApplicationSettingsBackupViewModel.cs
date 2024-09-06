@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using XmlFormatter.Application;
 using XmlFormatterOsIndependent.Model;
 using XmlFormatterOsIndependent.Model.Messages;
@@ -41,7 +42,7 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     /// </summary>
     /// <returns>Nothing</returns>
     [RelayCommand]
-    public async void ExportSettings()
+    public async Task ExportSettings()
     {
         var file = await windowService.SaveFileAsync(new List<FilePickerFileType>{
             new FilePickerFileType("Json") {
@@ -78,7 +79,7 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     /// </summary>
     /// <returns>Nothing</returns>
     [RelayCommand]
-    public async void ImportSettings()
+    public async Task ImportSettings()
     {
         var file = await windowService.OpenFileAsync(new List<FilePickerFileType>{
             new("Json") { Patterns = new List<string>{ "json" } }
