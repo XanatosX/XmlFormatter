@@ -22,15 +22,20 @@ namespace XmlFormatterOsIndependent.Services;
 /// </summary>
 public class WindowApplicationService : IWindowApplicationService
 {
+    /// <summary>
+    /// The current window to use for the next window with an id
+    /// </summary>
     private int currentWindowId;
 
     /// <summary>
     /// The resolver service used to load the windows
     /// </summary>
     private readonly IDependencyInjectionResolverService injectionResolverService;
+
+    /// <summary>
+    /// The theme service to use
+    /// </summary>
     private readonly IThemeService themeService;
-
-
 
     /// <summary>
     /// Create a new instance of the service
@@ -175,6 +180,7 @@ public class WindowApplicationService : IWindowApplicationService
         return new DialogWindowBarViewModel(windowIconPath, windowTitle, currentWindowId++);
     }
 
+    /// <inheritdoc/>
     public async Task<DialogButtonResponses> OpenDialogBoxAsync(string? windowIconPath, string? windowTitle, IDialogWindow content)
     {
         var mainWindow = GetMainWindow();

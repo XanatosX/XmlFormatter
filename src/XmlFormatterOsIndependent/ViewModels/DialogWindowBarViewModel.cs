@@ -8,6 +8,9 @@ using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.ViewModels;
 
+/// <summary>
+/// Window bar for a dialog window
+/// </summary>
 internal partial class DialogWindowBarViewModel : ObservableObject, IWindowBar
 {
     /// <inheritdoc/>
@@ -43,7 +46,6 @@ internal partial class DialogWindowBarViewModel : ObservableObject, IWindowBar
     {
         WindowIcon = new Bitmap(AssetLoader.Open(new Uri($"avares://{path}")));
     }
-
     
     /// <summary>
     /// Send a close command to the host window

@@ -6,6 +6,9 @@ using XmlFormatterOsIndependent.Model.Messages;
 
 namespace XmlFormatterOsIndependent.Views;
 
+/// <summary>
+/// Class for a custom window bar
+/// </summary>
 public abstract partial class WindowBar : UserControl
 {
     /// <summary>
@@ -18,6 +21,9 @@ public abstract partial class WindowBar : UserControl
     /// </summary>
     private PointerPoint originalPoint;
 
+    /// <summary>
+    /// Create a new instance of the window bar
+    /// </summary>
     public WindowBar()
     {
         mouseDownForWindow = false;

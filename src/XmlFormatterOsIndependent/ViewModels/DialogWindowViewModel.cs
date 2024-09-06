@@ -13,29 +13,51 @@ namespace XmlFormatterOsIndependent.ViewModels;
 /// </summary>
 internal partial class DialogWindowViewModel : ObservableObject, IWindowWithId, IDialogWindow, IDisposable
 {
+    /// <inheritdoc/>
     public int WindowId => WindowBar?.WindowId ?? -1;
 
-    public DialogButtonResponses DialogButtonResponses => windowContent?.DialogButtonResponses ?? DialogButtonResponses.None;
+    /// <inheritdoc/>
+    public DialogButtonResponses DialogButtonResponses => WindowContent?.DialogButtonResponses ?? DialogButtonResponses.None;
 
-    public string Identifier => windowContent?.Identifier ?? string.Empty;
 
+    /// <inheritdoc/>
+    public string Identifier => WindowContent?.Identifier ?? string.Empty;
+
+    /// <summary>
+    /// Is this dialog window already disposed?
+    /// </summary>
     private bool isDisposed;
 
-
+    /// <summary>
+    /// The window bar to use 
+    /// </summary>
     [ObservableProperty]
     private IWindowBar? windowBar;
 
+    /// <summary>
+    /// The content of the dialog window
+    /// </summary>
     [ObservableProperty]
     private IDialogWindow windowContent;
 
+    /// <summary>
+    /// The theme color to use based on the theme variant
+    /// </summary>
     [ObservableProperty]
     private Color themeColor;
 
-    private string? contentIdentifier;
-
+    
+    /// <summary>
+    /// Create a new instance of the dialog window class
+    /// </summary>
+    /// <param name="applicationService">The application service to use</param>
+    /// <param name="dialogWindowContent">The current dialog window content</param>
+    /// <param name="themeService">The theme service to use</param>
+    /// <param name="imagePath">The image path for the dialog window</param>
+    /// <param name="dialogTitle">The dialog title for the window</param>
     public DialogWindowViewModel(
             IWindowApplicationService applicationService,
-            IDialogWindow dialogWindow,
+            IDialogWindow dialogWindowContent,
             IThemeService themeService,
             string? imagePath,
             string? dialogTitle
@@ -43,13 +65,12 @@ internal partial class DialogWindowViewModel : ObservableObject, IWindowWithId, 
     {
         isDisposed = false;
         windowBar = applicationService.GetDialogWindowBar(imagePath, dialogTitle);
-        WindowContent = dialogWindow;
-        contentIdentifier = dialogWindow.Identifier;
+        WindowContent = dialogWindowContent;
 
         var themeVariant = themeService.GetCurrentThemeVariant();
         ThemeColor = themeService.GetColorForTheme(themeVariant);
 
-        if (contentIdentifier is null)
+        if (dialogWindowContent.Identifier is null)
         { 
             CloseDialog();
         }
@@ -63,12 +84,16 @@ internal partial class DialogWindowViewModel : ObservableObject, IWindowWithId, 
         });
     }
 
+    /// <summary>
+    /// Method to close the dialog window
+    /// </summary>
     private void CloseDialog()
     {
         WeakReferenceMessenger.Default.Send(new CloseWindowMessage(WindowId));
         Dispose();
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         if (isDisposed)
@@ -79,6 +104,10 @@ internal partial class DialogWindowViewModel : ObservableObject, IWindowWithId, 
         WeakReferenceMessenger.Default.UnregisterAll(this);
     }
 
+    /// <summary>
+    /// Deconstructor to ensure the object is disposed
+    /// This is required to clear all the registered message subjects
+    /// </summary>
     ~DialogWindowViewModel()
     {
         Dispose();

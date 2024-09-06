@@ -100,7 +100,20 @@ public interface IWindowApplicationService
     /// <returns>A custom window bar</returns>
     IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize);
 
+    /// <summary>
+    /// Get the window bar for a dialog window
+    /// </summary>
+    /// <param name="windowIconPath">The icon path to use for the dialog window</param>
+    /// <param name="windowTitle">The title of the window of the dialog</param>
+    /// <returns>The window bar for a dialog window</returns>
     IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle);
 
+    /// <summary>
+    /// Open a dialog window box
+    /// </summary>
+    /// <param name="windowIconPath">The icon path to use for the dialog window</param>
+    /// <param name="windowTitle">The title of the window of the dialog</param>
+    /// <param name="content">The content to show inside of the dialog window</param>
+    /// <returns>The response of the dialog window</returns>
     Task<DialogButtonResponses> OpenDialogBoxAsync(string? windowIconPath, string? windowTitle, IDialogWindow content);
 }

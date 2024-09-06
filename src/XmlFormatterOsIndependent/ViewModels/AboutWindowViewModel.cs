@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
@@ -57,8 +55,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// The theme service to use
         /// </summary>
         private readonly IThemeService themeService;
-        private readonly ResourceLoaderService resourceLoaderService;
 
+        /// <summary>
+        /// Service to use for getting application resources
+        /// </summary>
+        private readonly ResourceLoaderService resourceLoaderService;
 
         /// <inheritdoc/>
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
