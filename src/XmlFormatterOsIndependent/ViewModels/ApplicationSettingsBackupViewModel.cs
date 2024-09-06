@@ -23,16 +23,25 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
     private readonly ISettingsRepository<ApplicationSettings> settingsRepository;
 
     /// <summary>
+    /// The json settings to use
+    /// </summary>
+    private readonly JsonSerializerOptions options;
+
+
+    /// <summary>
     /// Service used to open save file or open file dialogs
     /// </summary>
     private readonly IWindowApplicationService windowService;
 
     public ApplicationSettingsBackupViewModel(
         ISettingsRepository<ApplicationSettings> settingsRepository,
+        JsonSerializerOptions options,
         IWindowApplicationService windowService)
     {
         CurrentMessage = string.Empty;
         this.settingsRepository = settingsRepository;
+        this.options = options;
+
         this.windowService = windowService;
     }
 
@@ -59,10 +68,10 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
         {
             using (FileStream fileStream = new(file, FileMode.Create, FileAccess.Write))
             {
-                JsonSerializer.Serialize(fileStream, settings);
+                JsonSerializer.Serialize(fileStream, settings, options);
             }
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
             savingSuccessful = false;
         }
@@ -93,7 +102,7 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
         {
             using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read))
             {
-                loadedSettings = JsonSerializer.Deserialize<ApplicationSettings>(fileStream);
+                loadedSettings = JsonSerializer.Deserialize<ApplicationSettings>(fileStream, options);
             }
         }
         catch (System.Exception)
