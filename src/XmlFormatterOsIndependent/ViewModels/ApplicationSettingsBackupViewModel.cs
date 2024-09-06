@@ -71,7 +71,7 @@ internal partial class ApplicationSettingsBackupViewModel : ObservableObject
                 JsonSerializer.Serialize(fileStream, settings, options);
             }
         }
-        catch (System.Exception e)
+        catch (System.Exception)
         {
             savingSuccessful = false;
         }
