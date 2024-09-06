@@ -18,11 +18,6 @@ public partial class WindowBarViewModel : ObservableObject, IWindowBar
     public int WindowId {get; }
 
     /// <summary>
-    /// Service used for the everything related to windows
-    /// </summary>
-    private readonly IWindowApplicationService applicationService;
-
-    /// <summary>
     /// The display name of the window
     /// </summary>
     [ObservableProperty]
@@ -34,6 +29,9 @@ public partial class WindowBarViewModel : ObservableObject, IWindowBar
     [ObservableProperty]
     private Bitmap? windowIcon;
 
+    /// <summary>
+    /// Can you minimize this window
+    /// </summary>
     private bool allowMinimize;
 
     /// <summary>
@@ -43,7 +41,7 @@ public partial class WindowBarViewModel : ObservableObject, IWindowBar
     /// <param name="windowIconPath">The window icon path to use</param>
     /// <param name="windowTitle">The title of the window</param>
     /// <param name="windowId">The id of this window</param>
-    public WindowBarViewModel(IWindowApplicationService applicationService, string windowIconPath, string windowTitle, int windowId) : this(applicationService, windowIconPath, windowTitle, true, windowId)
+    public WindowBarViewModel(string windowIconPath, string windowTitle, int windowId) : this(windowIconPath, windowTitle, true, windowId)
     {
     }
 
@@ -55,9 +53,8 @@ public partial class WindowBarViewModel : ObservableObject, IWindowBar
     /// <param name="windowIconPath">The window icon path to use</param>
     /// <param name="windowTitle">The title of the window</param>
     /// <param name="windowId">The id of this window</param>
-    public WindowBarViewModel(IWindowApplicationService applicationService, string windowIconPath, string windowTitle, bool allowMinimize, int windowId)
+    public WindowBarViewModel(string windowIconPath, string windowTitle, bool allowMinimize, int windowId)
     {
-        this.applicationService = applicationService;
         SetWindowIcon(windowIconPath);
         WindowName = windowTitle;
         this.WindowId = windowId;
@@ -98,7 +95,7 @@ public partial class WindowBarViewModel : ObservableObject, IWindowBar
     /// <returns>True if minimize is allowed</returns>
     private bool CanMinimizeWindow()
     {
-        return applicationService is not null && allowMinimize;
+        return allowMinimize;
     }
 
 }

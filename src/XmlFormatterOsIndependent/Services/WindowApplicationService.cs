@@ -151,14 +151,21 @@ public class WindowApplicationService : IWindowApplicationService
     }
 
     /// <inheritdoc/>
-    public IWindowBar GetWindowBar(string windowIconPath, string windowName)
+    public IWindowBar GetWindowBar(string windowIconPath, string windowTitle)
     {
-        return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);
+        return new WindowBarViewModel(windowIconPath, windowTitle, currentWindowId++);
     }
 
     /// <inheritdoc/>
-    public IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize)
+    public IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize)
     {
-        return new WindowBarViewModel(this, windowIconPath, windowName, allowMinimize, currentWindowId++);
+        return new WindowBarViewModel(windowIconPath, windowTitle, allowMinimize, currentWindowId++);
     }
+
+    /// <inheritdoc/>
+    public IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle)
+    {
+        return new DialogWindowBarViewModel(windowIconPath, windowTitle, currentWindowId++);
+    }
+
 }

@@ -85,16 +85,18 @@ public interface IWindowApplicationService
     /// Get the window bar with some custom attributes
     /// </summary>
     /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
-    /// <param name="windowName">The name of the window</param>
+    /// <param name="windowTitle">The name of the window</param>
     /// <returns>A custom window bar</returns>
-    IWindowBar GetWindowBar(string windowIconPath, string windowName);
+    IWindowBar GetWindowBar(string windowIconPath, string windowTitle);
 
     /// <summary>
     /// Get the window bar with some custom attributes
     /// </summary>
     /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
-    /// <param name="windowName">The name of the window</param>
+    /// <param name="windowTitle">The name of the window</param>
     /// <param name="allowMinimize">Is it allowed to minimize this window?</param>
     /// <returns>A custom window bar</returns>
-    IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize);
-}
+    IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize);
+
+    IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle);
+}1
