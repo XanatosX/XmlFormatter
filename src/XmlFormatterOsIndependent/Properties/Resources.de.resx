@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -119,125 +119,186 @@
   </resheader>
   <data name="ApplicationSettingsView_AskBeforeClosing" xml:space="preserve">
     <value>Vor dem Beenden fragen</value>
+    <comment/>
   </data>
   <data name="ApplicationSettingsView_AskBeforeClosing_Tip" xml:space="preserve">
     <value>Zeigt, wenn aktiviert, ein Dialog zur Bestätigung an, ob die Anwendung geschlossen werden soll</value>
+    <comment/>
   </data>
   <data name="ApplicationSettingsView_CheckForUpdateOnStartup" xml:space="preserve">
     <value>Beim Start nach Updates suchen</value>
+    <comment/>
   </data>
   <data name="ApplicationSettingsView_CheckForUpdateOnStartup_Tip" xml:space="preserve">
     <value>Prüft, ob es eine neue Version der Anwendung gibt, sobald die Anwendung startet.</value>
+    <comment/>
   </data>
   <data name="ApplicationSettingsView_Theme_Tip" xml:space="preserve">
     <value>Das Thema, mit dem die Anwendung angezeigt werden soll</value>
+    <comment/>
   </data>
   <data name="ApplicationSettingsView_Updater_Tip" xml:space="preserve">
     <value>Der Updater, mit dem das Update für die Anwendung heruntergeladen wurde.</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_Export" xml:space="preserve">
     <value>Einstellungen exportieren</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_Import" xml:space="preserve">
     <value>Einstellungen importieren</value>
+    <comment/>
   </data>
   <data name="MainWindow_Load" xml:space="preserve">
     <value>Laden</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_About" xml:space="preserve">
     <value>Über</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_Exit" xml:space="preserve">
     <value>Beenden</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_File" xml:space="preserve">
     <value>Datei</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_Help" xml:space="preserve">
     <value>Hilfe</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_OpenSettings" xml:space="preserve">
     <value>Einstellungen</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_Plugins" xml:space="preserve">
     <value>Plugins</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_ReportIssue" xml:space="preserve">
     <value>Fehler melden</value>
+    <comment/>
   </data>
   <data name="MainWindow_Menu_Update" xml:space="preserve">
     <value>Nach Updates suchen</value>
+    <comment/>
   </data>
   <data name="MainWindow_Save" xml:space="preserve">
     <value>Speichern</value>
+    <comment/>
   </data>
   <data name="MainWindow_SelectFilePath" xml:space="preserve">
     <value>Dateipfad für die Formatierung auswählen</value>
+    <comment/>
   </data>
   <data name="MainWindow_Status_Template" xml:space="preserve">
     <value>Status: {0}</value>
+    <comment/>
   </data>
   <data name="PluginInformationView_Author_Colon" xml:space="preserve">
     <value>Autor:</value>
+    <comment/>
   </data>
   <data name="PluginInformationView_Description" xml:space="preserve">
     <value>Beschreibung</value>
+    <comment/>
   </data>
   <data name="PluginInformationView_Name_Colon" xml:space="preserve">
     <value>Name:</value>
+    <comment/>
   </data>
   <data name="PluginInformationView_Version_Colon" xml:space="preserve">
     <value>Version:</value>
+    <comment/>
   </data>
   <data name="PluginManagerWindow_Title" xml:space="preserve">
     <value>Plugin-Manager</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Close" xml:space="preserve">
     <value>Schließen</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_SaveAndClose" xml:space="preserve">
     <value>Speichern und schließen</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Tab_Application" xml:space="preserve">
     <value>Anwendung</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Tab_Backup" xml:space="preserve">
     <value>Backup</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Tab_Hotfolder" xml:space="preserve">
     <value>Hotfolder</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Tab_Logging" xml:space="preserve">
     <value>Logging</value>
+    <comment/>
   </data>
   <data name="SettingsWindow_Title" xml:space="preserve">
     <value>Einstellungen</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_ExportFailed" xml:space="preserve">
     <value>Export fehlgeschlagen, da keine Datei ausgewählt wurde oder die Einstellungen nicht geladen werden konnten</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_ImportedSettingNotLoaded" xml:space="preserve">
     <value>Konnte die Einstellung für den Import nicht laden, bitte überprüfen Sie die ausgewählte Datei</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_ExportingSettingWasSuccessful" xml:space="preserve">
     <value>Export der Einstellungen war erfolgreich</value>
+    <comment/>
   </data>
   <data name="BackupSettingsView_ImportingSettingWasSuccessful" xml:space="preserve">
     <value>Import der Einstellung war erfolgreich</value>
+    <comment/>
   </data>
   <data name="Application_Name" xml:space="preserve">
     <value>Xml Formatter</value>
+    <comment/>
   </data>
   <data name="AboutWindow_Tab_General" xml:space="preserve">
     <value>Allgemein</value>
+    <comment/>
   </data>
   <data name="AboutWindow_Tab_General_Discuss" xml:space="preserve">
     <value>Diskutieren</value>
+    <comment/>
   </data>
   <data name="AboutWindow_Tab_General_GetHelp" xml:space="preserve">
     <value>Hilfe erhalten</value>
+    <comment/>
   </data>
   <data name="AboutWindow_Tab_ThirdParty" xml:space="preserve">
     <value>Drittanbieter</value>
+    <comment/>
+  </data>
+  <data name="AboutWindow_Title" xml:space="preserve">
+    <value>Über</value>
+    <comment/>
+  </data>
+  <data name="UpdateDialog_UpToDate_Title" xml:space="preserve">
+    <value>Version is up to date</value>
+    <comment/>
+  </data>
+  <data name="UpdateDialog_NewVersion_Title" xml:space="preserve">
+    <value>Update Available</value>
+    <comment/>
+  </data>
+  <data name="Button_Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment/>
+  </data>
+  <data name="Button_No" xml:space="preserve">
+    <value>No</value>
+    <comment/>
   </data>
 </root>
