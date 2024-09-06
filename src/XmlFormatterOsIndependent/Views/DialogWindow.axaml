@@ -1,0 +1,34 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:XmlFormatterOsIndependent.ViewModels;assembly=XmlFormatterOsIndependent"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Background="Transparent"  
+		    TransparencyLevelHint="AcrylicBlur"
+		    SystemDecorations="None"
+        x:Class="XmlFormatterOsIndependent.Views.DialogWindow"
+		    xmlns:p="clr-namespace:XmlFormatterOsIndependent.Properties"
+        Icon="/Assets/XmlFormatterIcon.ico"
+        Title="{x:Static p:Resources.Application_Name}"
+        SizeToContent="WidthAndHeight"
+        CanResize="False"
+        DragDrop.AllowDrop="True">
+  <Panel>
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+					BackgroundSource="Digger"
+					TintColor="{Binding ThemeColor}"
+					TintOpacity="1"
+					MaterialOpacity="0.65" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+    <Grid RowDefinitions="Auto, *">
+		  <ContentControl Grid.Row="0" HorizontalContentAlignment="Stretch"  Content="{Binding WindowBar}" IsHitTestVisible="True"/>
+      <Panel Grid.Row="1" Margin="5,0,5,5">
+        <ContentControl HorizontalContentAlignment="Stretch"  Content="{Binding WindowContent}"/>
+      </Panel>
+    </Grid>
+  </Panel>
+</Window>

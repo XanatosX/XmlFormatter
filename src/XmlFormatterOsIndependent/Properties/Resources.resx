@@ -285,4 +285,20 @@
     <value>About</value>
     <comment/>
   </data>
+  <data name="UpdateDialog_UpToDate_Title" xml:space="preserve">
+    <value>Version is up to date</value>
+    <comment/>
+  </data>
+  <data name="UpdateDialog_NewVersion_Title" xml:space="preserve">
+    <value>Update Available</value>
+    <comment/>
+  </data>
+  <data name="Button_Yes" xml:space="preserve">
+    <value>Yes</value>
+    <comment/>
+  </data>
+  <data name="Button_No" xml:space="preserve">
+    <value>No</value>
+    <comment/>
+  </data>
 </root>

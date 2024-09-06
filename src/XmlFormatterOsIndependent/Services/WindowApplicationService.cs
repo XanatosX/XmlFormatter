@@ -10,8 +10,10 @@ using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using XmlFormatter.Application.Services;
+using XmlFormatterOsIndependent.Enums;
 using XmlFormatterOsIndependent.Model.Messages;
 using XmlFormatterOsIndependent.ViewModels;
+using XmlFormatterOsIndependent.Views;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -20,6 +22,9 @@ namespace XmlFormatterOsIndependent.Services;
 /// </summary>
 public class WindowApplicationService : IWindowApplicationService
 {
+    /// <summary>
+    /// The current window to use for the next window with an id
+    /// </summary>
     private int currentWindowId;
 
     /// <summary>
@@ -28,12 +33,19 @@ public class WindowApplicationService : IWindowApplicationService
     private readonly IDependencyInjectionResolverService injectionResolverService;
 
     /// <summary>
+    /// The theme service to use
+    /// </summary>
+    private readonly IThemeService themeService;
+
+    /// <summary>
     /// Create a new instance of the service
     /// </summary>
     /// <param name="injectionResolverService">The resolver service used to load the windows</param>
-    public WindowApplicationService(IDependencyInjectionResolverService injectionResolverService)
+    public WindowApplicationService(IDependencyInjectionResolverService injectionResolverService,
+                                    IThemeService themeService)
     {
         this.injectionResolverService = injectionResolverService;
+        this.themeService = themeService;
         currentWindowId = 0;
     }
 
@@ -151,14 +163,39 @@ public class WindowApplicationService : IWindowApplicationService
     }
 
     /// <inheritdoc/>
-    public IWindowBar GetWindowBar(string windowIconPath, string windowName)
+    public IWindowBar GetWindowBar(string windowIconPath, string windowTitle)
     {
-        return new WindowBarViewModel(this, windowIconPath, windowName, currentWindowId++);
+        return new WindowBarViewModel(windowIconPath, windowTitle, currentWindowId++);
     }
 
     /// <inheritdoc/>
-    public IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize)
+    public IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize)
     {
-        return new WindowBarViewModel(this, windowIconPath, windowName, allowMinimize, currentWindowId++);
+        return new WindowBarViewModel(windowIconPath, windowTitle, allowMinimize, currentWindowId++);
     }
+
+    /// <inheritdoc/>
+    public IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle)
+    {
+        return new DialogWindowBarViewModel(windowIconPath, windowTitle, currentWindowId++);
+    }
+
+    /// <inheritdoc/>
+    public async Task<DialogButtonResponses> OpenDialogBoxAsync(string? windowIconPath, string? windowTitle, IDialogWindow content)
+    {
+        var mainWindow = GetMainWindow();
+        if (mainWindow is null)
+        {
+            return DialogButtonResponses.None;
+        }
+
+        var dialogWindow = new DialogWindow();
+        var dialogWindowViewModel = new DialogWindowViewModel(this, content, themeService, windowIconPath, windowTitle);
+        dialogWindow.DataContext = dialogWindowViewModel;
+
+        await dialogWindow.ShowDialog(mainWindow);
+
+        return dialogWindowViewModel.DialogButtonResponses;
+    }
+
 }

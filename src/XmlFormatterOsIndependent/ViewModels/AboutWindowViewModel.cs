@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
@@ -58,6 +56,11 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// </summary>
         private readonly IThemeService themeService;
 
+        /// <summary>
+        /// Service to use for getting application resources
+        /// </summary>
+        private readonly ResourceLoaderService resourceLoaderService;
+
         /// <inheritdoc/>
         public int WindowId => WindowBar is IWindowWithId bar ? bar.WindowId : -1;
 
@@ -69,10 +72,12 @@ namespace XmlFormatterOsIndependent.ViewModels
             IEnumerable<IVersionReceiverStrategy> receiverStrategies,
             IVersionConvertStrategy versionConvertStrategy,
             IWindowApplicationService applicationService,
-            IThemeService themeService)
+            IThemeService themeService,
+            ResourceLoaderService resourceLoaderService)
         {
             this.themeService = themeService;
-            
+            this.resourceLoaderService = resourceLoaderService;
+
             WindowBar = applicationService.GetWindowBar(Properties.Properties.Default_Window_Icon, Properties.Resources.AboutWindow_Title, false);
             IVersionReceiverStrategy? localVersionReceiverStrategy = receiverStrategies.FirstOrDefault(strategy => strategy.Scope == ScopeEnum.Local);
             Task<Version>? versionTask = localVersionReceiverStrategy?.GetVersionAsync(versionConvertStrategy);
@@ -87,7 +92,7 @@ namespace XmlFormatterOsIndependent.ViewModels
             var assembly = Assembly.GetExecutingAssembly();
             LoadAndSetDescription(assembly);
 
-            string? thirdPartyAppData = GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_ThirdPartyApps_File, assembly);
+            string? thirdPartyAppData = resourceLoaderService.GetResource(Properties.Properties.AboutWindow_Tab_General_ThirdPartyApps_File);
             if (thirdPartyAppData is null)
             {
                 return;
@@ -118,12 +123,7 @@ namespace XmlFormatterOsIndependent.ViewModels
         /// <param name="assembly">The assembly to request the data from</param>
         private void LoadAndSetDescription(Assembly assembly)
         {
-            string? rawDescription = GetLanguageDependedDescription(assembly) ?? GetBackupDependedDescription(assembly);
-            if (rawDescription is null)
-            {
-                return;
-            }
-
+            string rawDescription = resourceLoaderService.GetLocalizedString(Properties.Properties.AboutWindow_Tab_General_Description_File);
             Description = rawDescription.Replace("%DISCUSSION_URL%", Properties.Properties.GitHub_Discuss)
                                         .Replace("%ISSUES_URL%", Properties.Properties.GitHub_Issue);
         }
@@ -135,58 +135,6 @@ namespace XmlFormatterOsIndependent.ViewModels
         private void SetThemeColor(ThemeVariant theme)
         {
             ThemeColor = themeService.GetColorForTheme(theme);
-        }
-
-        /// <summary>
-        /// Get the description based on the current culture
-        /// </summary>
-        /// <param name="assembly">The assembly to load the file from</param>
-        /// <returns>The description string or null if nothing was found</returns>
-        private string? GetLanguageDependedDescription(Assembly assembly)
-        {
-            var name = CultureInfo.CurrentCulture.ThreeLetterISOLanguageName;
-            string fileName = Properties.Properties.AboutWindow_Tab_General_Description_File.Replace(".md", $".{name}.md");
-            return GetDataFromResourceFile(fileName, assembly);
-        }
-
-        /// <summary>
-        /// Get the fallback description
-        /// </summary>
-        /// <param name="assembly">The assembly to load the file from</param>
-        /// <returns>The description string or null if nothing was found</returns>
-        private string? GetBackupDependedDescription(Assembly assembly)
-        {
-            return GetDataFromResourceFile(Properties.Properties.AboutWindow_Tab_General_Description_File, assembly);
-        }
-
-        /// <summary>
-        /// Load a resource file from the given resource
-        /// </summary>
-        /// <param name="filename">The path to the resoruce file</param>
-        /// <param name="assembly">The assembly to load the file from</param>
-        /// <returns>The file content or an null string if nothing was found</returns>
-        private string? GetDataFromResourceFile(string filename, Assembly assembly)
-        {
-            string? returnString = null;
-            try
-            {
-                using (Stream? stream = assembly.GetManifestResourceStream(filename))
-                {
-                    if (stream is not null)
-                    {
-                        using (StreamReader reader = new StreamReader(stream))
-                        {
-                            returnString = reader.ReadToEnd();
-                        }
-                    }
-                }
-            }
-            catch (System.Exception)
-            {
-                // The request failed but this is properly okay, I guess
-            }
-
-            return returnString;
         }
 
     }

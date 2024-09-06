@@ -72,8 +72,8 @@ namespace XmlFormatterOsIndependent.ViewModels
             this.applicationService = applicationService;
             //TODO: Fix Icon
             WindowBar = applicationService.GetWindowBar(Properties.Properties.Settings_Icon, Properties.Resources.SettingsWindow_Title, false);
-            var themeResponse = WeakReferenceMessenger.Default.Send(new GetCurrentThemeMessage());
-            ThemeColor = themeService.GetColorForTheme(themeResponse.Response);
+            var themeVariant = themeService.GetCurrentThemeVariant();
+            ThemeColor = themeService.GetColorForTheme(themeVariant);
 
             settingsBackupContent = resolverService.GetService<ApplicationSettingsBackupViewModel>();
             applicationSettingsContent = resolverService.GetService<ApplicationSettingsViewModel>();

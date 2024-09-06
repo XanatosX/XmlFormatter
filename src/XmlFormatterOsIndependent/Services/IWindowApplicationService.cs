@@ -3,6 +3,8 @@ using Avalonia.Platform.Storage;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Threading.Tasks;
+using XmlFormatterOsIndependent.Enums;
+using XmlFormatterOsIndependent.ViewModels;
 
 namespace XmlFormatterOsIndependent.Services;
 
@@ -25,13 +27,13 @@ public interface IWindowApplicationService
     /// <summary>
     /// Close the currently active window
     /// </summary>
-    /// <returns>True if closing was succesful</returns>
+    /// <returns>True if closing was successful</returns>
     bool CloseActiveWindow();
 
     /// <summary>
     /// Get all windows of the application
     /// </summary>
-    /// <returns>A enumerable with all the windows which are currenty open</returns>
+    /// <returns>A enumerable with all the windows which are currently open</returns>
     IEnumerable<Window> GetAllWindows();
 
     /// <summary>
@@ -85,16 +87,33 @@ public interface IWindowApplicationService
     /// Get the window bar with some custom attributes
     /// </summary>
     /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
-    /// <param name="windowName">The name of the window</param>
+    /// <param name="windowTitle">The name of the window</param>
     /// <returns>A custom window bar</returns>
-    IWindowBar GetWindowBar(string windowIconPath, string windowName);
+    IWindowBar GetWindowBar(string windowIconPath, string windowTitle);
 
     /// <summary>
     /// Get the window bar with some custom attributes
     /// </summary>
     /// <param name="windowIconPath">The path to a png resource icon to use as a window icon</param>
-    /// <param name="windowName">The name of the window</param>
+    /// <param name="windowTitle">The name of the window</param>
     /// <param name="allowMinimize">Is it allowed to minimize this window?</param>
     /// <returns>A custom window bar</returns>
-    IWindowBar GetWindowBar(string windowIconPath, string windowName, bool allowMinimize);
+    IWindowBar GetWindowBar(string windowIconPath, string windowTitle, bool allowMinimize);
+
+    /// <summary>
+    /// Get the window bar for a dialog window
+    /// </summary>
+    /// <param name="windowIconPath">The icon path to use for the dialog window</param>
+    /// <param name="windowTitle">The title of the window of the dialog</param>
+    /// <returns>The window bar for a dialog window</returns>
+    IWindowBar GetDialogWindowBar(string? windowIconPath, string? windowTitle);
+
+    /// <summary>
+    /// Open a dialog window box
+    /// </summary>
+    /// <param name="windowIconPath">The icon path to use for the dialog window</param>
+    /// <param name="windowTitle">The title of the window of the dialog</param>
+    /// <param name="content">The content to show inside of the dialog window</param>
+    /// <returns>The response of the dialog window</returns>
+    Task<DialogButtonResponses> OpenDialogBoxAsync(string? windowIconPath, string? windowTitle, IDialogWindow content);
 }
